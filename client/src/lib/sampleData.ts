@@ -36,7 +36,7 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     siteBuiltTotalCost: "10960303",
     siteBuiltCostPerSf: "422",
     siteBuiltCostPerUnit: "456679",
-    costSavingsPercent: "1.2",
+    costSavingsPercent: "1",
     
     // Timeline analysis
     modularTimelineMonths: 9,
@@ -73,14 +73,14 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "4.8",
     massingJustification: "Excellent unit configuration for modular construction with efficient repetitive layouts.",
     costScore: "4.5",
-    costJustification: "3.2% cost savings over site-built construction due to factory efficiencies and reduced labor costs.",
+    costJustification: "3% cost savings over site-built construction due to factory efficiencies and reduced labor costs.",
     sustainabilityScore: "4.5",
     sustainabilityJustification: "Good sustainability potential with modular design supporting energy efficiency goals.",
     logisticsScore: "4.0",
     logisticsJustification: "Urban location with some transportation constraints but adequate staging area.",
     buildTimeScore: "4.8",
     buildTimeJustification: "5 months time savings through parallel construction and factory efficiency.",
-    overallScore: "4.1",
+    overallScore: "4.6",
     
     // Cost analysis
     modularTotalCost: "18540000",
@@ -89,12 +89,12 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     siteBuiltTotalCost: "19158000",
     siteBuiltCostPerSf: "501",
     siteBuiltCostPerUnit: "532167",
-    costSavingsPercent: "3.2",
+    costSavingsPercent: "3",
     
     // Timeline analysis
-    modularTimelineMonths: 10,
-    siteBuiltTimelineMonths: 15,
-    timeSavingsMonths: 5,
+    modularTimelineMonths: 8,
+    siteBuiltTimelineMonths: 14,
+    timeSavingsMonths: 6,
     
     // Zoning details
     zoningDistrict: "R4",
@@ -126,14 +126,14 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "4.2",
     massingJustification: "Good modular efficiency with repetitive unit layouts, though 5-story construction adds complexity.",
     costScore: "3.8",
-    costJustification: "1.8% cost savings over site-built. Higher construction costs due to 5-story height and Colorado labor rates.",
+    costJustification: "2% cost savings over site-built. Higher construction costs due to 5-story height and Colorado labor rates.",
     sustainabilityScore: "4.0",
     sustainabilityJustification: "Moderate sustainability benefits with modular construction supporting campus sustainability goals.",
     logisticsScore: "3.5",
     logisticsJustification: "Mountain location creates transportation challenges. Limited factory options in region.",
     buildTimeScore: "4.5",
     buildTimeJustification: "3 months time savings important for academic calendar timing.",
-    overallScore: "3.8",
+    overallScore: "4.0",
     
     // Cost analysis
     modularTotalCost: "24576000",
@@ -142,7 +142,7 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     siteBuiltTotalCost: "25024000",
     siteBuiltCostPerSf: "521",
     siteBuiltCostPerUnit: "521333",
-    costSavingsPercent: "1.8",
+    costSavingsPercent: "2",
     
     // Timeline analysis
     modularTimelineMonths: 11,
@@ -179,28 +179,28 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "4.5",
     massingJustification: "Very good modular fit with efficient unit layouts and optimal building configuration.",
     costScore: "4.8",
-    costJustification: "4.5% cost savings over site-built construction. Strong modular economics for this project scale.",
+    costJustification: "5% cost savings over site-built construction. Strong modular economics for this project scale.",
     sustainabilityScore: "4.7",
     sustainabilityJustification: "Excellent sustainability alignment with city green building requirements and modular efficiency.",
     logisticsScore: "4.8",
     logisticsJustification: "Optimal logistics with nearby factory, excellent highway access, and ample staging space.",
     buildTimeScore: "5.0",
-    buildTimeJustification: "6 months time savings crucial for workforce housing delivery timeline.",
-    overallScore: "4.6",
+    buildTimeJustification: "8 months time savings crucial for workforce housing delivery timeline.",
+    overallScore: "4.8",
     
     // Cost analysis
     modularTotalCost: "15360000",
     modularCostPerSf: "448",
     modularCostPerUnit: "480000",
     siteBuiltTotalCost: "16080000",
-    modularCostPerSf: "469",
+    siteBuiltCostPerSf: "469",
     siteBuiltCostPerUnit: "502500",
-    costSavingsPercent: "4.5",
+    costSavingsPercent: "5",
     
     // Timeline analysis
-    modularTimelineMonths: 8,
-    siteBuiltTimelineMonths: 14,
-    timeSavingsMonths: 6,
+    modularTimelineMonths: 7,
+    siteBuiltTimelineMonths: 15,
+    timeSavingsMonths: 8,
     
     // Zoning details
     zoningDistrict: "MX-3",
