@@ -548,29 +548,20 @@ export default function ProjectDetail() {
                   {/* Sub-tabs for Massing */}
                   <Tabs defaultValue="specifications" className="w-full">
                     <TabsList className="grid w-full grid-cols-5">
-                      <TabsTrigger value="specifications" className="flex items-center space-x-1">
-                        <Building className="h-4 w-4" />
-                        <span className="hidden sm:inline">Specifications</span>
-                        <span className="sm:hidden">Specs</span>
+                      <TabsTrigger value="specifications">
+                        Specifications
                       </TabsTrigger>
-                      <TabsTrigger value="units" className="flex items-center space-x-1">
-                        <Home className="h-4 w-4" />
-                        <span className="hidden sm:inline">Units</span>
+                      <TabsTrigger value="units">
+                        Unit Plans
                       </TabsTrigger>
-                      <TabsTrigger value="floorplan" className="flex items-center space-x-1">
-                        <Layout className="h-4 w-4" />
-                        <span className="hidden sm:inline">Floor Plan</span>
-                        <span className="sm:hidden">Plans</span>
+                      <TabsTrigger value="floorplan">
+                        Floor Plan
                       </TabsTrigger>
-                      <TabsTrigger value="3dview" className="flex items-center space-x-1">
-                        <Layers className="h-4 w-4" />
-                        <span className="hidden sm:inline">3D View</span>
-                        <span className="sm:hidden">3D</span>
+                      <TabsTrigger value="3dview">
+                        3D View
                       </TabsTrigger>
-                      <TabsTrigger value="siteplan" className="flex items-center space-x-1">
-                        <Map className="h-4 w-4" />
-                        <span className="hidden sm:inline">Site Plan</span>
-                        <span className="sm:hidden">Site</span>
+                      <TabsTrigger value="siteplan">
+                        Site Plan
                       </TabsTrigger>
                     </TabsList>
 
