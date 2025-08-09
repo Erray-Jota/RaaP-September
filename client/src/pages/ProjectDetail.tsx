@@ -348,71 +348,156 @@ export default function ProjectDetail() {
                   <div>
                     <h4 className="font-semibold text-raap-dark mb-4">Zoning Compliance Analysis</h4>
                     <div className="overflow-x-auto">
-                      <table className="w-full border-collapse border border-gray-300">
+                      <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden">
                         <thead>
-                          <tr className="bg-gray-50">
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Criteria</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">What's Allowed</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Required Waivers & Concessions</th>
+                          <tr className="bg-gradient-to-r from-raap-dark to-gray-700 text-white">
+                            <th className="px-4 py-4 text-left font-bold">Zoning Criteria</th>
+                            <th className="px-4 py-4 text-left font-bold">Requirements & Allowances</th>
+                            <th className="px-4 py-4 text-left font-bold">Waivers & Concessions</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Allowed Use</td>
-                            <td className="border border-gray-300 px-4 py-2">Multi-unit Development Permitted</td>
-                            <td className="border border-gray-300 px-4 py-2">-</td>
-                          </tr>
-                          <tr className="bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Density</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                              • With AB 1287, affordability unit mix qualifies for 100% density increase<br/>
-                              • Base density: 17 DU/Acre Max
+                        <tbody className="bg-white">
+                          <tr className="hover:bg-gray-50 transition-colors">
+                            <td className="px-4 py-4 font-bold text-blue-800 bg-blue-50 border-r border-blue-200">Allowed Use</td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center">
+                                <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                                <span>Multi-unit Development Permitted</span>
+                              </div>
                             </td>
-                            <td className="border border-gray-300 px-4 py-2">-</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Setbacks</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                              • 15' Front or Street Side<br/>
-                              • 5' Interior Side setback<br/>
-                              • 10' Rear for Primary Structure<br/>
-                              • 5' Rear for Accessory Structure
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">-</td>
-                          </tr>
-                          <tr className="bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Height</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                              • 35' max Building Height for Primary<br/>
-                              • 15' max for Accessory Structure
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">-</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Open Space</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                              • 200 SF per unit Private or Common<br/>
-                              • Common: 25' min dimension<br/>
-                              • Private: 8' min dimension
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2 text-orange-600">
-                              <strong>Concession for Open Space Reduction</strong>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Compliant
+                              </span>
                             </td>
                           </tr>
-                          <tr className="bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-medium">FAR</td>
-                            <td className="border border-gray-300 px-4 py-2">No FAR Requirement</td>
-                            <td className="border border-gray-300 px-4 py-2">-</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Parking</td>
-                            <td className="border border-gray-300 px-4 py-2">
-                              • State Density Bonus Requirements:<br/>
-                              • 1 Bed: 1 Stall<br/>
-                              • 2-3 Beds: 1.5 Stalls
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-purple-800 bg-purple-50 border-r border-purple-200">Density</td>
+                            <td className="px-4 py-4">
+                              <div className="space-y-2">
+                                <div className="flex items-start">
+                                  <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                                  <div>
+                                    <p className="font-medium">Base: 17 DU/Acre Maximum</p>
+                                    <p className="text-sm text-gray-600">With AB 1287 bonus: 34 DU/Acre</p>
+                                    <p className="text-sm font-semibold text-raap-green">Current: ~30.0 DU/Acre</p>
+                                  </div>
+                                </div>
+                              </div>
                             </td>
-                            <td className="border border-gray-300 px-4 py-2 text-orange-600">
-                              <strong>Concessions can lower parking requirement</strong>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Compliant
+                              </span>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-orange-800 bg-orange-50 border-r border-orange-200">Setbacks</td>
+                            <td className="px-4 py-4">
+                              <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                                  <span><strong>Front:</strong> 15'</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                                  <span><strong>Side:</strong> 5'</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                                  <span><strong>Rear Primary:</strong> 10'</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+                                  <span><strong>Rear Accessory:</strong> 5'</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Compliant
+                              </span>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-emerald-800 bg-emerald-50 border-r border-emerald-200">Height</td>
+                            <td className="px-4 py-4">
+                              <div className="space-y-1">
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></span>
+                                  <span><strong>Primary Building:</strong> 35' maximum</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></span>
+                                  <span><strong>Accessory Structure:</strong> 15' maximum</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Compliant
+                              </span>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-red-800 bg-red-50 border-r border-red-200">Open Space</td>
+                            <td className="px-4 py-4">
+                              <div className="space-y-1">
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                                  <span><strong>Required:</strong> 200 SF per unit</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                                  <span><strong>Common:</strong> 25' min dimension</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                                  <span><strong>Private:</strong> 8' min dimension</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                ⚠ Concession Required
+                              </span>
+                              <p className="text-xs text-gray-600 mt-1">Open Space Reduction</p>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-indigo-800 bg-indigo-50 border-r border-indigo-200">Floor Area Ratio</td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center">
+                                <span className="w-3 h-3 bg-indigo-500 rounded-full mr-3"></span>
+                                <span className="font-medium">No FAR Requirement</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Compliant
+                              </span>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-gray-50 transition-colors border-t border-gray-100">
+                            <td className="px-4 py-4 font-bold text-yellow-800 bg-yellow-50 border-r border-yellow-200">Parking</td>
+                            <td className="px-4 py-4">
+                              <div className="space-y-1">
+                                <p className="font-semibold text-yellow-800">State Density Bonus Requirements:</p>
+                                <div className="flex items-center mt-2">
+                                  <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                  <span><strong>1 Bedroom:</strong> 1 Stall</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                  <span><strong>2-3 Bedrooms:</strong> 1.5 Stalls</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                ⚠ Concession Available
+                              </span>
+                              <p className="text-xs text-gray-600 mt-1">Can reduce requirement</p>
                             </td>
                           </tr>
                         </tbody>
