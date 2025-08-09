@@ -36,59 +36,62 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <CardContent className="p-6">
       <div 
-        className="flex items-center justify-between cursor-pointer hover:bg-gray-50 -m-6 p-6 rounded-lg transition-colors"
+        className="cursor-pointer hover:bg-gray-50 -m-6 p-6 rounded-lg transition-colors"
         onClick={() => navigate(`/projects/${project.id}`)}
       >
-        <div className="flex items-center space-x-4">
-          <img 
-            src={getProjectTypeImage(project.projectType)} 
-            alt={`${project.name} project`} 
-            className="w-20 h-12 rounded-lg object-cover"
-          />
-          <div>
-            <h4 className="text-lg font-semibold text-raap-dark">{project.name}</h4>
-            <div className="flex items-center text-sm text-gray-600 mb-1">
-              <MapPin className="h-3 w-3 mr-1" />
-              {project.address}
-            </div>
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="text-xs">
-                {project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing
-              </Badge>
-              <span className="text-xs text-gray-500">
-                {totalUnits} Units • {project.targetFloors} Stories
-              </span>
+        {/* Mobile-first responsive layout */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <img 
+              src={getProjectTypeImage(project.projectType)} 
+              alt={`${project.name} project`} 
+              className="w-16 h-10 sm:w-20 sm:h-12 rounded-lg object-cover flex-shrink-0"
+            />
+            <div className="min-w-0 flex-1">
+              <h4 className="text-base sm:text-lg font-semibold text-raap-dark truncate">{project.name}</h4>
+              <div className="flex items-center text-xs sm:text-sm text-gray-600 mb-1">
+                <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                <span className="truncate">{project.address}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Badge variant="secondary" className="text-xs">
+                  {project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)}
+                </Badge>
+                <span className="text-xs text-gray-500">
+                  {totalUnits} Units • {project.targetFloors} Stories
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div className="flex items-center space-x-6">
-          <div className="text-center">
-            <div className={`text-2xl font-bold ${getScoreColor(project.overallScore || "0")}`}>
-              {project.overallScore || "0.0"}
+          
+          <div className="flex items-center justify-between sm:space-x-4">
+            <div className="text-center">
+              <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(project.overallScore || "0")}`}>
+                {project.overallScore || "0.0"}
+              </div>
+              <div className="text-xs text-gray-500">Score</div>
             </div>
-            <div className="text-xs text-gray-500">Overall Score</div>
+            
+            {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
+              <div className="text-center">
+                <div className="text-sm sm:text-lg font-semibold text-green-600">
+                  {project.costSavingsPercent}%
+                </div>
+                <div className="text-xs text-gray-500">Savings</div>
+              </div>
+            )}
+            
+            {project.timeSavingsMonths && (
+              <div className="text-center">
+                <div className="text-sm sm:text-lg font-semibold text-blue-600">
+                  {project.timeSavingsMonths} mo
+                </div>
+                <div className="text-xs text-gray-500">Time</div>
+              </div>
+            )}
+            
+            <ChevronRight className="h-5 w-5 text-gray-400 flex-shrink-0" />
           </div>
-          
-          {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
-            <div className="text-center">
-              <div className="text-lg font-semibold text-green-600">
-                {project.costSavingsPercent}%
-              </div>
-              <div className="text-xs text-gray-500">Cost Savings</div>
-            </div>
-          )}
-          
-          {project.timeSavingsMonths && (
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-600">
-                {project.timeSavingsMonths} mo
-              </div>
-              <div className="text-xs text-gray-500">Time Saved</div>
-            </div>
-          )}
-          
-          <ChevronRight className="h-5 w-5 text-gray-400" />
         </div>
       </div>
     </CardContent>

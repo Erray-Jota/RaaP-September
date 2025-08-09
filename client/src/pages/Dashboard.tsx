@@ -8,7 +8,7 @@ import Header from "@/components/Header";
 import ProjectCard from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, Star, DollarSign, Clock, Plus } from "lucide-react";
+import { Building, Plus } from "lucide-react";
 import type { Project } from "@shared/schema";
 
 export default function Dashboard() {
@@ -82,18 +82,6 @@ export default function Dashboard() {
   }
 
   const projectsData = projects || [];
-  
-  // Calculate dashboard stats
-  const totalProjects = projectsData.length;
-  const avgScore = projectsData.length > 0 
-    ? (projectsData.reduce((sum, p) => sum + parseFloat(p.overallScore || "0"), 0) / projectsData.length).toFixed(1)
-    : "0.0";
-  const avgSavings = projectsData.length > 0 
-    ? (projectsData.reduce((sum, p) => sum + parseFloat(p.costSavingsPercent || "0"), 0) / projectsData.length).toFixed(1)
-    : "0.0";
-  const avgTimeSaved = projectsData.length > 0 
-    ? Math.round(projectsData.reduce((sum, p) => sum + (p.timeSavingsMonths || 0), 0) / projectsData.length)
-    : 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,64 +93,7 @@ export default function Dashboard() {
           <p className="text-gray-600">Assess modular construction feasibility for multifamily developments</p>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <div className="p-3 bg-raap-green/10 rounded-lg">
-                  <Building className="h-6 w-6 text-raap-green" />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Total Projects</p>
-                  <p className="text-2xl font-bold text-raap-dark">{totalProjects}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <div className="p-3 bg-raap-green/10 rounded-lg">
-                  <Star className="h-6 w-6 text-raap-green" />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Avg. Score</p>
-                  <p className="text-2xl font-bold text-raap-dark">{avgScore}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <div className="p-3 bg-raap-mustard/10 rounded-lg">
-                  <DollarSign className="h-6 w-6 text-raap-mustard" />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Avg. Savings</p>
-                  <p className="text-2xl font-bold text-raap-dark">{avgSavings}%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <Clock className="h-6 w-6 text-blue-600" />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Time Saved</p>
-                  <p className="text-2xl font-bold text-raap-dark">{avgTimeSaved} mo</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Projects List */}
         <Card>
