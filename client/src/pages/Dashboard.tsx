@@ -15,21 +15,21 @@ export default function Dashboard() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
-  const { data: projects, isLoading } = useQuery<Project[]>({
+  const { data: projects, isLoading, error } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
-    onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-      }
-    },
   });
+
+  // Handle authentication errors
+  if (error && isUnauthorizedError(error)) {
+    toast({
+      title: "Unauthorized", 
+      description: "You are logged out. Logging in again...",
+      variant: "destructive",
+    });
+    setTimeout(() => {
+      window.location.href = "/api/login";
+    }, 500);
+  }
 
   const initializeSampleProjects = useMutation({
     mutationFn: async () => {
@@ -58,7 +58,7 @@ export default function Dashboard() {
 
   // Initialize sample projects for new users
   useEffect(() => {
-    if (projects && projects.length === 0) {
+    if (projects && (projects as Project[]).length === 0) {
       initializeSampleProjects.mutate();
     }
   }, [projects]);
@@ -81,7 +81,7 @@ export default function Dashboard() {
     );
   }
 
-  const projectsData = projects || [];
+  const projectsData = (projects as Project[]) || [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -117,7 +117,7 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="divide-y divide-gray-200">
-                {projectsData.map((project) => (
+                {projectsData.map((project: Project) => (
                   <ProjectCard key={project.id} project={project} />
                 ))}
               </div>

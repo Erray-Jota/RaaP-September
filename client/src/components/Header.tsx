@@ -56,9 +56,9 @@ export default function Header() {
           </nav>
           
           <div className="flex items-center space-x-4">
-            {user && (
+            {user ? (
               <div className="hidden md:flex items-center space-x-2">
-                {(user as any).profileImageUrl && (
+                {(user as any)?.profileImageUrl && (
                   <img 
                     src={(user as any).profileImageUrl} 
                     alt="Profile" 
@@ -66,10 +66,10 @@ export default function Header() {
                   />
                 )}
                 <span className="text-sm text-gray-600">
-                  {(user as any).firstName || (user as any).email}
+                  {(user as any)?.firstName || (user as any)?.email || 'User'}
                 </span>
               </div>
-            )}
+            ) : null}
             <Button 
               onClick={handleLogout}
               variant="outline"
