@@ -1,0 +1,114 @@
+The application will have the following core functionality
+User & project setup
+•	User account setup, login & user management.
+•	Create new project/select saved project tiles
+•	Create new project by entering site address, project type (affordable multifamily, senior living, workforce housing, student housing, hostel, hotel), Target # floors, Target mix ( # studio, 1 Bedroom, 2 bedroom, 3 bedroom), target # parking spaces)
+•	Sample project
+o	Name: Serinity Village
+o	Location: 5524 Chestnut Road, Olivehurst CA
+o	Project Type: Affordable Housing
+o	Target # Floors: 3
+o	Target Unit Mix: One Bed: 6, Two Bed 12, 3 Bed: 6 
+o	Target Parking: 24
+•	Create 3 other projects in CA & CO with different names & inputs.
+Project Feasibility
+ Score each on a scale of 0-5 with an overall score for the project based on the weighting below)
+1.	Project Summary
+2.	Site & Zoning (20%)
+3.	Massing (15%)
+4.	Sustainability (20%)
+5.	Cost (20%)
+6.	Logistics (15%)
+7.	Build time (10%)
+Project Summary
+Provide a summary ModularFeasibility page showing a google maps image of the site & summary information as per the below.
+
+
+Attribute	Findings & Recommendations
+Recommendations	•	Total 24 units (6 x 1BR and 12 x 2BR and 6 x 3BR units)
+o	Dimensions: 146’ X 66’ 
+o	# Floors: 3
+o	Construction Type: V-A
+o	Total # units: 24 units
+o	Total Parking Spaces: 24
+
+Good fit for modular construction with a high Modular Feasibility score of 4.4/5 based on the six criteria below, with no additional restrictions introduced by modular construction.
+Criteria: Score each using a scale of 0-5	Weight	Score	Score Justification
+Zoning: 5 = allows target units without any waivers. 0 = not allowed to build fully compliant for state bonus density & other factors.  	20%	4	Score of 4/5 as concessions are required to reduce open space and parking requirements. Modular construction does not introduce any additional waivers or restrictions for this site.
+Massing: 5 = No additional constraints caused by modular structure; 0 = Modular does not work for the site.	15%	5	 Score of 5/5 since we can achieve the goal of 124 units and unit mix as the traditional original design. 
+Cost: 5 = Modular is 10%+ cheaper than site-built; 0 = Modular is 5%+ more expensive than site-built.	20%	4	$62.7M ($404/sf; $506K/unit.  Prevailing Wage: 1.2% savings over site-built 
+Score of 4/5 since modular is cheaper than site-built.  Cost for sustainability enhancements have not been considered at this stage. 
+Sustainability: 5 = Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. 0 = Project not viable for high-performance design or renewable energy integration.	20%	5	Score of 5/5 due to strong alignment with PHIUS and Net Zero Energy goals through modular design. Will require enhancements to foundation, walls, roof, windows, HVAC & lighting in addition to the investment in batteries & solar power.  Although these enhancements are likely to be the same for modular or site built, modular construction can reduce the waste generated & increase installation quality. 
+Logistics: 5 =No transportation or setting constraints.  0 = Not possible to reach or set the site.	15%	5	Score of 5/5 due to easy access from the highway and available open space for the staging site. 
+Time: 5 = Modular saves over 6 months of construction time.  0 = Modular is the same time as site built.	10%	4	9 months design + construction using modular approach vs 13 months for site built.
+Score of 4/5 due to savings of 4 months.
+Final Score: Go on Modular if none of the criteria = 0 & weighted average >2.5.	 	4.4	 
+
+Site & Zoning: 
+This is a preliminary zoning & code review.  A more complete analysis will be completed during the SmartStart & Entitlement phases. 
+Zoning district: Residential Medium Density (RM)
+•	Image of property map as per below
+
+•	Link to zoning map based on address
+•	Link to zoning code based on the address
+
+
+Zoning Criteria	What’s Allowed	Required Waivers & Concessions
+Allowed Use	•	Multi-unit Development Permitted	
+Density	•	With AB 1287, Affordability unit mix input provided by Mutual Housing qualifies project for additional 100% density increase (34 DU / Acre Max)
+•	Base density: 17 DU / Acre Max	
+Setback	•	15’ Front or Street Side from edge of sidewalk for Attached sidewalk
+•	15’ Front or Street Side from edge of ultimate Right-of-Way and 10’ from edge of drainage ditch if present
+•	5’ Interior Side setback
+•	10’ Rear for Primary Structure
+•	5’ Rear for Accessory Structure	
+Height	•	35’ max Building Height for Primary Structure
+•	15’ max Building Height for Accessory Structure	
+Stepback / Transitional Height	•	RM zone: None
+•	RH Zone
+o	30’ max height within 40 feet of an RS District
+o	40’ max height within 50 feet of an RS District
+Note: Entitlement package provided shows RH zone, but County GIS data shows RM zone for site	
+Open Space	•	Assume Open space provided within Entitlement set meets requirements.
+•	200 SF per unit per zoning Private or Common Open Space
+•	Common Open Space: 25’ min dimension
+•	Private Open Space: 8’ min dimension	•	Concession for Open Space Reduction.
+FAR	•	No FAR Requirement	
+Parking	•	Assume Parking ratio of 1 stall per unit shown in Entitlement satisfies requirements.
+•	State Density Bonus Law Parking Requirements
+o	1 Bed: 1 Stall
+o	2-3 Beds: 1.5 Stalls	•	Concessions can be used to lower parking requirement
+
+Massing 
+•	Unit types & layout as per pages 4,5 & 6 of the enclosed & the unit schedules shown on page 1 of the enclosed,
+•	Proposed site plan for one Building A as per page 1 of the enclosed
+•	Proposed floor plan for one Building A as per page 2 of the enclosed
+•	Proposed 3D massing for one Building A as per page 3 of the enclosed
+Sustainability
+Summary info for Net Zero (battery + solar panels) & PHIUS along with the building attributes to comply & a likely score.
+The project presents a strong foundation for achieving Net Zero Energy (NZE) and PHIUS certification through modular construction. Modular design can support energy efficiency goals by integrating passive design principles, efficient HVAC systems, and photovoltaic-ready roof structures. While some PHIUS-specific components—like under-slab insulation and enhanced air barriers—require site-built execution, the majority of the envelope and systems are compatible with factory-built methods. RaaP/HED’s commitment to sustainable, people-centric design and experience in delivering PHIUS-certified multifamily housing provides confidence that the project can pursue NZE targets with minimal cost and design impact.
+Cost
+Table showing info from the enclosed along with cost summaries.
+Logistics
+Relevant modular logistics info.
+•	Likely factory location: Tracy CA
+•	Map showing route from factory to site
+•	Transportation: Within 1/2 mile of highway 70 and exit 18A to Olivehurst Ave and Chestnut Rd with no bridge or access issues observed for factory delivery.
+•	Setting: Overhead powerline on Chestnut Rd could cause some crane logistics concerns.
+•	Staging: Large open site, with no visible restrictions for staging.
+•	Other relevant information
+
+Build time
+•	9 months design + construction for modular 
+•	13 months design + construction for site built (4 months saving)
+•	Sample design & construction schedule showing T0 as kick off
+o	Milestone: Project Kick Off: Day 0
+o	RaaP SmartStart (SS): 6 weeks
+o	Entitlement: 4 weeks
+o	Design Development (DD): 8 weeks
+o	Milestones: Factory Permit set (1 month after DD end), AHJ permit set (4 months after DD end)
+o	Milestones: Start Construction, Start Fabrication (8 months after start construction)
+o	Fabrication ( 1 month)
+o	Construction (12 months)
+o	Milestone: Modules delivers & installed (1 month before end construction)
+o	Project completion
