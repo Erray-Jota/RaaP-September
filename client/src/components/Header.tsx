@@ -21,10 +21,10 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-8 w-auto" />
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto bg-white" />
               <div className="text-gray-400">|</div>
               <h1 
-                className="text-xl font-semibold text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
+                className="text-lg font-medium text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
                 onClick={() => navigate("/")}
               >
                 ModularFeasibility
@@ -58,15 +58,15 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             {user && (
               <div className="hidden md:flex items-center space-x-2">
-                {user.profileImageUrl && (
+                {(user as any).profileImageUrl && (
                   <img 
-                    src={user.profileImageUrl} 
+                    src={(user as any).profileImageUrl} 
                     alt="Profile" 
                     className="h-8 w-8 rounded-full object-cover"
                   />
                 )}
                 <span className="text-sm text-gray-600">
-                  {user.firstName || user.email}
+                  {(user as any).firstName || (user as any).email}
                 </span>
               </div>
             )}

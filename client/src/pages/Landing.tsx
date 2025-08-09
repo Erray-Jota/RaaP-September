@@ -14,13 +14,13 @@ export default function Landing() {
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-8 w-auto" />
+            <div className="flex items-center space-x-3">
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto bg-white" />
               <div className="text-gray-400">|</div>
-              <h1 className="text-xl font-semibold text-raap-dark">ModularFeasibility</h1>
+              <h1 className="text-lg font-medium text-raap-dark">ModularFeasibility</h1>
             </div>
             
-            <Button onClick={handleLogin} className="bg-raap-green hover:bg-green-700">
+            <Button onClick={handleLogin} size="sm" className="bg-raap-green hover:bg-green-700 text-sm px-4 py-2">
               Sign In
             </Button>
           </div>
@@ -174,7 +174,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto" />
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-5 w-auto bg-white" />
               <div className="text-sm text-gray-500">
                 © 2025 RaaP. Professional modular construction assessment platform.
               </div>
