@@ -27,6 +27,12 @@ import {
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
 
+// Import generated images for Massing tab
+import floorPlanImage from "@assets/generated_images/architectural_floor_plan_drawing_4bbc5fb5.png";
+import buildingRenderingImage from "@assets/generated_images/building_3d_exterior_rendering_5dafe6bf.png";
+import sitePlanImage from "@assets/generated_images/architectural_site_plan_drawing_b5a890e0.png";
+import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
+
 export default function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
   const [, navigate] = useLocation();
@@ -651,7 +657,7 @@ export default function ProjectDetail() {
                       <div className="space-y-6">
                         <div className="text-center">
                           <img 
-                            src={`/attached_assets/generated_images/apartment_unit_floor_plans_5298881c.png`} 
+                            src={unitPlansImage} 
                             alt="Unit Floor Plans - 1BD, 2BD, and 3BD layouts"
                             className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
                           />
@@ -699,7 +705,7 @@ export default function ProjectDetail() {
                       <div className="space-y-6">
                         <div className="text-center">
                           <img 
-                            src={`/attached_assets/generated_images/architectural_floor_plan_drawing_4bbc5fb5.png`} 
+                            src={floorPlanImage} 
                             alt="Building Floor Plan - Complete layout showing all units, corridors, and stairs"
                             className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
                           />
@@ -739,7 +745,7 @@ export default function ProjectDetail() {
                       <div className="space-y-6">
                         <div className="text-center">
                           <img 
-                            src={`/attached_assets/generated_images/building_3d_exterior_rendering_5dafe6bf.png`} 
+                            src={buildingRenderingImage} 
                             alt="3D Building Rendering - Exterior view of the completed multifamily development"
                             className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
                           />
@@ -779,7 +785,7 @@ export default function ProjectDetail() {
                       <div className="space-y-6">
                         <div className="text-center">
                           <img 
-                            src={`/attached_assets/generated_images/architectural_site_plan_drawing_b5a890e0.png`} 
+                            src={sitePlanImage} 
                             alt="Site Plan - Property layout showing building placement, parking, and landscaping"
                             className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
                           />
