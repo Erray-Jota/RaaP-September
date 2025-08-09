@@ -302,7 +302,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Building className="h-5 w-5" />
-                  <span>Zoning Information</span>
+                  <span>Site & Zoning</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).zoningScore || "0")}`}>
                     Score: {(project as Project).zoningScore || "0.0"}/5.0
                   </Badge>
@@ -310,38 +310,118 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Note:</strong> This is a preliminary zoning & code review. A more complete analysis will be completed during the SmartStart & Entitlement phases.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Zoning Details</h4>
-                      <div className="space-y-2">
-                        <p><strong>District:</strong> {(project as Project).zoningDistrict || "Not specified"}</p>
-                        <p><strong>Density Bonus:</strong> {(project as Project).densityBonusEligible ? "Eligible" : "Not eligible"}</p>
-                        <p><strong>Height Restrictions:</strong> {(project as Project).targetFloors} stories allowed</p>
-                        <p><strong>Setback Requirements:</strong> Standard for district</p>
+                      <h4 className="font-semibold text-raap-dark mb-3">Zoning District</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <p className="text-lg font-semibold text-raap-green">Residential Medium Density (RM)</p>
+                        <div className="mt-4 space-y-2">
+                          <p><strong>Base Density:</strong> 17 DU/Acre Max</p>
+                          <p><strong>With AB 1287:</strong> Additional 100% density increase (34 DU/Acre Max)</p>
+                          <p><strong>Current Density:</strong> ~30.0 DU/Acre</p>
+                        </div>
                       </div>
                     </div>
+
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Compliance Status</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Building height compliant</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Density within limits</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Parking requirements met</span>
+                      <h4 className="font-semibold text-raap-dark mb-3">Site Information</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2">
+                          <p><strong>Total Site Area:</strong> ±4.12 acres</p>
+                          <p><strong>Target Units:</strong> 24 units</p>
+                          <p><strong>Parking:</strong> 24 spaces (1.0 ratio)</p>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Zoning Compliance Analysis</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse border border-gray-300">
+                        <thead>
+                          <tr className="bg-gray-50">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Criteria</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">What's Allowed</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Required Waivers & Concessions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Allowed Use</td>
+                            <td className="border border-gray-300 px-4 py-2">Multi-unit Development Permitted</td>
+                            <td className="border border-gray-300 px-4 py-2">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Density</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                              • With AB 1287, affordability unit mix qualifies for 100% density increase<br/>
+                              • Base density: 17 DU/Acre Max
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2">-</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Setbacks</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                              • 15' Front or Street Side<br/>
+                              • 5' Interior Side setback<br/>
+                              • 10' Rear for Primary Structure<br/>
+                              • 5' Rear for Accessory Structure
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Height</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                              • 35' max Building Height for Primary<br/>
+                              • 15' max for Accessory Structure
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2">-</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Open Space</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                              • 200 SF per unit Private or Common<br/>
+                              • Common: 25' min dimension<br/>
+                              • Private: 8' min dimension
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 text-orange-600">
+                              <strong>Concession for Open Space Reduction</strong>
+                            </td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">FAR</td>
+                            <td className="border border-gray-300 px-4 py-2">No FAR Requirement</td>
+                            <td className="border border-gray-300 px-4 py-2">-</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Parking</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                              • State Density Bonus Requirements:<br/>
+                              • 1 Bed: 1 Stall<br/>
+                              • 2-3 Beds: 1.5 Stalls
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 text-orange-600">
+                              <strong>Concessions can lower parking requirement</strong>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Assessment Notes</h4>
+                    <h4 className="font-semibold text-raap-dark mb-2">Zoning Assessment</h4>
                     <p className="text-sm text-gray-700">
-                      {(project as Project).zoningJustification || "Zoning compliance has been verified for modular construction requirements."}
+                      <strong>Score of 4/5:</strong> Concessions are required to reduce open space and parking requirements. 
+                      Modular construction does not introduce any additional waivers or restrictions for this site. 
+                      The project qualifies for density bonus provisions under AB 1287 due to affordable unit mix.
                     </p>
                   </div>
                 </div>
@@ -355,7 +435,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Building className="h-5 w-5" />
-                  <span>Massing Information</span>
+                  <span>Massing</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).massingScore || "0")}`}>
                     Score: {(project as Project).massingScore || "0.0"}/5.0
                   </Badge>
@@ -363,31 +443,144 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-green-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Score of 5/5:</strong> No additional constraints caused by modular structure. 
+                      We can achieve the goal of 24 units and unit mix as the traditional original design.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Building Dimensions</h4>
-                      <div className="space-y-2">
-                        <p><strong>Overall Dimensions:</strong> {(project as Project).buildingDimensions || "Standard footprint"}</p>
-                        <p><strong>Stories:</strong> {(project as Project).targetFloors}</p>
-                        <p><strong>Total Units:</strong> {totalUnits}</p>
-                        <p><strong>Construction Type:</strong> {(project as Project).constructionType || "Type V"}</p>
+                      <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2">
+                          <p><strong>Overall Dimensions:</strong> 146' × 66'</p>
+                          <p><strong>Stories:</strong> 3 Story</p>
+                          <p><strong>Construction Type:</strong> Type VA Construction</p>
+                          <p><strong>Total Units:</strong> 24 Units</p>
+                          <p><strong>Total Gross Site Area:</strong> ±4.12 acres</p>
+                          <p><strong>Gross Density:</strong> ±30.0 DU/acre</p>
+                        </div>
                       </div>
                     </div>
+
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Unit Mix</h4>
-                      <div className="space-y-2">
-                        {(project as Project).studioUnits > 0 && <p>Studio Units: {(project as Project).studioUnits}</p>}
-                        {(project as Project).oneBedUnits > 0 && <p>1-Bedroom Units: {(project as Project).oneBedUnits}</p>}
-                        {(project as Project).twoBedUnits > 0 && <p>2-Bedroom Units: {(project as Project).twoBedUnits}</p>}
-                        {(project as Project).threeBedUnits > 0 && <p>3-Bedroom Units: {(project as Project).threeBedUnits}</p>}
+                      <h4 className="font-semibold text-raap-dark mb-3">Unit Mix Breakdown</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span>1-Bedroom Units</span>
+                            <span className="font-semibold text-raap-green">6 units (25%)</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span>2-Bedroom Units</span>
+                            <span className="font-semibold text-raap-green">12 units (50%)</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span>3-Bedroom Units</span>
+                            <span className="font-semibold text-raap-green">6 units (25%)</span>
+                          </div>
+                          <hr className="my-2" />
+                          <div className="flex justify-between items-center font-semibold">
+                            <span>Total Units</span>
+                            <span className="text-raap-dark">24 units</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">Unit Types & Areas</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white border rounded-lg p-4">
+                        <h5 className="font-semibold text-raap-green mb-2">Site Built Unit Mix</h5>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>One Bedroom (B + C)</span>
+                            <span>563 sf × 4 units (17%)</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Two Bedroom (D + B + C)</span>
+                            <span>813 sf × 8 units (33%)</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Three Bedroom (F + B2 + C)</span>
+                            <span>980 sf × 12 units (50%)</span>
+                          </div>
+                          <hr className="my-2" />
+                          <div className="flex justify-between font-semibold">
+                            <span>Average Unit Area</span>
+                            <span>792 sf</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <h5 className="font-semibold text-raap-green mb-2">Modular Unit Mix</h5>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>One Bedroom (B + C)</span>
+                            <span>563 sf × 4 units (17%)</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Two Bedroom (D + B + C)</span>
+                            <span>813 sf × 8 units (33%)</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Three Bedroom</span>
+                            <span>980 sf × 12 units (50%)</span>
+                          </div>
+                          <hr className="my-2" />
+                          <div className="flex justify-between font-semibold">
+                            <span>Modular Efficiency</span>
+                            <span className="text-green-600">109%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">Building Comparison</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse border border-gray-300">
+                        <thead>
+                          <tr className="bg-gray-50">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Parameter</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Site Built</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Modular</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Gross Sq. Ft.</td>
+                            <td className="border border-gray-300 px-4 py-2">25,986 sf</td>
+                            <td className="border border-gray-300 px-4 py-2">26,352 sf</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Building (L × W × H)</td>
+                            <td className="border border-gray-300 px-4 py-2">142' × 61' × 36'</td>
+                            <td className="border border-gray-300 px-4 py-2">144' × 61' × 40'</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Construction</td>
+                            <td className="border border-gray-300 px-4 py-2">Site-Built</td>
+                            <td className="border border-gray-300 px-4 py-2">Factory Built + Site Assembly</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Modular Suitability</h4>
-                    <p className="text-sm text-gray-700">
-                      {(project as Project).massingJustification || "Building massing and unit repetition make this project well-suited for modular construction."}
-                    </p>
+                    <h4 className="font-semibold text-raap-dark mb-2">Special Considerations</h4>
+                    <div className="text-sm text-gray-700">
+                      <p><strong>Ground Level:</strong> Portion of ground level to be site-built for amenity spaces.</p>
+                      <p><strong>Unit Types:</strong> Please refer to the attached set of drawings for detailed unit layouts and 3D massing visualization.</p>
+                      <p><strong>Modular Advantage:</strong> Factory construction allows for precise quality control and faster assembly while maintaining identical unit mix and layout to traditional construction.</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -400,7 +593,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Leaf className="h-5 w-5" />
-                  <span>Sustainability Information</span>
+                  <span>Sustainability</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).sustainabilityScore || "0")}`}>
                     Score: {(project as Project).sustainabilityScore || "0.0"}/5.0
                   </Badge>
@@ -408,42 +601,146 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-green-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Score of 5/5:</strong> Strong alignment with PHIUS and Net Zero Energy goals through modular design. 
+                      Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Green Building Standards</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Net Zero Energy Ready</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">PHIUS Certification Target</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Energy Star Compliance</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Water Efficiency Features</span>
+                      <h4 className="font-semibold text-raap-dark mb-3">Net Zero Energy (NZE) Readiness</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span>Solar PV Ready Roof</span>
+                            <span className="text-green-600 font-semibold">✓ Ready</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Battery Storage Prep</span>
+                            <span className="text-green-600 font-semibold">✓ Included</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>High-Performance Envelope</span>
+                            <span className="text-green-600 font-semibold">✓ Factory Built</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Energy Monitoring</span>
+                            <span className="text-green-600 font-semibold">✓ Integrated</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Environmental Impact</h4>
-                      <div className="space-y-2">
-                        <p><strong>Waste Reduction:</strong> 60-80% vs site-built</p>
-                        <p><strong>Material Efficiency:</strong> Optimized use</p>
-                        <p><strong>Carbon Footprint:</strong> Reduced transportation</p>
-                        <p><strong>Energy Efficiency:</strong> Superior envelope</p>
+                      <h4 className="font-semibold text-raap-dark mb-3">PHIUS Certification Path</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span>Air Barrier System</span>
+                            <span className="text-green-600 font-semibold">✓ Enhanced</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Thermal Bridge Reduction</span>
+                            <span className="text-green-600 font-semibold">✓ Optimized</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>High-Performance Windows</span>
+                            <span className="text-green-600 font-semibold">✓ Specified</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Mechanical Ventilation</span>
+                            <span className="text-green-600 font-semibold">✓ ERV System</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-green mb-2">Sustainability Benefits</h4>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Required Enhancements for NZE/PHIUS</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h5 className="font-semibold text-blue-700 mb-2">Modular-Compatible Systems</h5>
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Envelope Components:</strong></p>
+                          <p>• Enhanced wall insulation systems</p>
+                          <p>• High-performance roof assemblies</p>
+                          <p>• Triple-pane window packages</p>
+                          <p>• Integrated air barrier systems</p>
+                          <br />
+                          <p><strong>MEP Systems:</strong></p>
+                          <p>• High-efficiency HVAC equipment</p>
+                          <p>• LED lighting throughout</p>
+                          <p>• Energy recovery ventilation</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                        <h5 className="font-semibold text-orange-700 mb-2">Site-Built Requirements</h5>
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Foundation Upgrades:</strong></p>
+                          <p>• Under-slab insulation</p>
+                          <p>• Perimeter thermal breaks</p>
+                          <p>• Foundation air sealing</p>
+                          <br />
+                          <p><strong>Energy Generation:</strong></p>
+                          <p>• Solar photovoltaic arrays</p>
+                          <p>• Battery storage systems</p>
+                          <p>• Grid-tie inverter systems</p>
+                          <p>• Energy monitoring equipment</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">Modular Construction Advantages</h4>
+                    <div className="bg-white border rounded-lg p-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <h5 className="font-semibold text-raap-green mb-2">Quality Benefits</h5>
+                          <div className="space-y-2 text-sm">
+                            <p>• Controlled factory environment ensures precise installation</p>
+                            <p>• Reduced air leakage through factory quality control</p>
+                            <p>• Consistent insulation installation</p>
+                            <p>• Better integration of building systems</p>
+                            <p>• Reduced waste generation</p>
+                          </div>
+                        </div>
+                        <div>
+                          <h5 className="font-semibold text-raap-green mb-2">Performance Benefits</h5>
+                          <div className="space-y-2 text-sm">
+                            <p>• Enhanced thermal performance through factory precision</p>
+                            <p>• Improved air barrier continuity</p>
+                            <p>• Optimized HVAC system integration</p>
+                            <p>• Consistent energy modeling inputs</p>
+                            <p>• Predictable performance outcomes</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">RaaP/HED Sustainability Experience</h4>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="space-y-2 text-sm text-gray-700">
+                        <p><strong>Proven Track Record:</strong> RaaP/HED's commitment to sustainable, people-centric design and extensive experience in delivering PHIUS-certified multifamily housing provides high confidence in achieving NZE targets.</p>
+                        <p><strong>Integrated Approach:</strong> The modular design can support energy efficiency goals by integrating passive design principles, efficient HVAC systems, and photovoltaic-ready roof structures.</p>
+                        <p><strong>Cost-Effective Path:</strong> While sustainability enhancements require investment, the factory-controlled environment can reduce installation quality issues and provide more predictable performance outcomes.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h4 className="font-semibold text-raap-dark mb-2">Sustainability Assessment Summary</h4>
                     <p className="text-sm text-gray-700">
-                      {(project as Project).sustainabilityJustification || "Modular construction provides significant sustainability advantages through controlled factory conditions, reduced waste, and optimized material usage."}
+                      The project presents a strong foundation for achieving both Net Zero Energy and PHIUS certification through modular construction. 
+                      While some PHIUS-specific components require site-built execution (primarily foundation-related), the majority of the envelope and 
+                      systems are compatible with factory-built methods. Modular construction can reduce waste generation and increase installation quality 
+                      compared to site-built alternatives, supporting both environmental and performance objectives.
                     </p>
                   </div>
                 </div>
@@ -457,7 +754,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <DollarSign className="h-5 w-5" />
-                  <span>Pricing Information</span>
+                  <span>Cost Analysis</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).costScore || "0")}`}>
                     Score: {(project as Project).costScore || "0.0"}/5.0
                   </Badge>
@@ -465,51 +762,178 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-green-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Score of 4/5:</strong> $10.8M ($404/sf; $450K/unit) with Prevailing Wage. 
+                      1.2% savings over site-built ($138K total savings). Modular is cheaper than site-built.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Cost Breakdown</h4>
+                      <h4 className="font-semibold text-raap-dark mb-3">Project Cost Summary</h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between p-3 bg-gray-50 rounded">
-                          <span>Modular Total Cost</span>
-                          <span className="font-semibold">
-                            ${(project as Project).modularTotalCost ? 
-                              (parseFloat((project as Project).modularTotalCost) / 1000000).toFixed(1) + "M" : 
-                              "TBD"}
-                          </span>
-                        </div>
-                        <div className="flex justify-between p-3 bg-gray-50 rounded">
-                          <span>Site-Built Estimate</span>
-                          <span className="font-semibold">
-                            ${(project as Project).siteBuiltTotalCost ? 
-                              (parseFloat((project as Project).siteBuiltTotalCost) / 1000000).toFixed(1) + "M" : 
-                              "TBD"}
-                          </span>
-                        </div>
-                        {(project as Project).costSavingsPercent && (
-                          <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
-                            <span>Cost Savings</span>
-                            <span className="font-semibold text-green-600">
-                              {(project as Project).costSavingsPercent}%
-                            </span>
+                        <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
+                          <span>RaaP Modular Cost</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-blue-600">$10,821,565</div>
+                            <div className="text-sm text-gray-600">$411/sf • 9 Months</div>
                           </div>
-                        )}
+                        </div>
+                        <div className="flex justify-between p-3 bg-gray-50 rounded">
+                          <span>Traditional Site-Built</span>
+                          <div className="text-right">
+                            <div className="font-semibold">$10,960,303</div>
+                            <div className="text-sm text-gray-600">$422/sf • 13 Months</div>
+                          </div>
+                        </div>
+                        <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
+                          <span>Cost Savings</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-green-600">$138,738</div>
+                            <div className="text-sm text-gray-600">1.2% savings</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
+
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Cost Factors</h4>
-                      <div className="space-y-2 text-sm">
-                        <p>• Factory efficiency gains</p>
-                        <p>• Reduced site labor requirements</p>
-                        <p>• Accelerated timeline savings</p>
-                        <p>• Bulk material purchasing</p>
-                        <p>• Quality control improvements</p>
+                      <h4 className="font-semibold text-raap-dark mb-3">Per Unit Analysis</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span>Number of Units</span>
+                            <span className="font-semibold">24</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Average Unit Area</span>
+                            <span className="font-semibold">792 sf</span>
+                          </div>
+                          <hr className="my-2" />
+                          <div className="flex justify-between">
+                            <span>Cost per Unit (RaaP)</span>
+                            <span className="font-semibold text-blue-600">$450,899</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Cost per Sq Ft (RaaP)</span>
+                            <span className="font-semibold text-blue-600">$411</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">RaaP Construction Cost Breakdown (MasterFormat)</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                          <tr className="bg-gray-50">
+                            <th className="border border-gray-300 px-3 py-2 text-left font-semibold">Category</th>
+                            <th className="border border-gray-300 px-3 py-2 text-right font-semibold">Site Build</th>
+                            <th className="border border-gray-300 px-3 py-2 text-right font-semibold">RaaP GC</th>
+                            <th className="border border-gray-300 px-3 py-2 text-right font-semibold">RaaP Fab</th>
+                            <th className="border border-gray-300 px-3 py-2 text-right font-semibold">RaaP Total</th>
+                            <th className="border border-gray-300 px-3 py-2 text-right font-semibold">RaaP $/sf</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border border-gray-300 px-3 py-2 font-medium">Concrete, Masonry & Metals</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,311,770</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,147,404</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$281,220</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$1,428,623</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$54</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-3 py-2 font-medium">Rooms (06-09)</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$4,452,553</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$465,938</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$4,121,807</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$4,587,745</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$174</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-3 py-2 font-medium">Equipment & Special Construction</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$221,062</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$68,827</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$139,859</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$208,686</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$8</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-3 py-2 font-medium">MEPs (21-26)</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$2,262,827</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,304,248</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$854,052</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$2,158,300</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$82</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-3 py-2 font-medium">Site Work (31-33)</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,002,646</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,003,239</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$0</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$1,003,239</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$38</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-3 py-2 font-medium">GC Charges & Fees</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$1,709,446</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$735,670</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$699,302</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-semibold">$1,434,972</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right">$55</td>
+                          </tr>
+                          <tr className="bg-blue-50">
+                            <td className="border border-gray-300 px-3 py-2 font-bold">Total Hard Construction Cost</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-bold">$10,960,303</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-bold">$4,725,325</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-bold">$6,096,240</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-bold text-blue-600">$10,821,565</td>
+                            <td className="border border-gray-300 px-3 py-2 text-right font-bold">$411</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold text-raap-dark mb-3">Cost Advantages</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Factory Efficiency:</strong> Controlled environment reduces waste and increases precision</p>
+                          <p><strong>Bulk Purchasing:</strong> Material savings through volume purchasing</p>
+                          <p><strong>Reduced Site Labor:</strong> Less field work required</p>
+                          <p><strong>Timeline Acceleration:</strong> Parallel construction saves carrying costs</p>
+                          <p><strong>Quality Control:</strong> Factory QC reduces rework costs</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-raap-dark mb-3">Project Parameters</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Location:</strong> Olivehurst, CA 95961</p>
+                          <p><strong>Fabricator:</strong> Tracy, CA 95304</p>
+                          <p><strong>Prevailing Wage:</strong> Yes</p>
+                          <p><strong>Base Design:</strong> RaaP Standard</p>
+                          <p><strong>1st Floor:</strong> Units on Slab</p>
+                          <p><strong>Modular Efficiency:</strong> 109%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Cost Analysis</h4>
+                    <h4 className="font-semibold text-raap-dark mb-2">Cost Assessment Summary</h4>
                     <p className="text-sm text-gray-700">
-                      {(project as Project).costJustification || "Cost analysis includes all direct and indirect expenses associated with modular construction versus site-built alternatives."}
+                      The modular approach delivers meaningful cost savings of 1.2% ($138K) while providing a 4-month timeline advantage. 
+                      Cost for sustainability enhancements have not been considered at this stage but would apply equally to both construction methods. 
+                      Soft cost savings due to lower design costs provide additional project value.
                     </p>
                   </div>
                 </div>
@@ -523,7 +947,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Truck className="h-5 w-5" />
-                  <span>Logistics Information</span>
+                  <span>Logistics</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).logisticsScore || "0")}`}>
                     Score: {(project as Project).logisticsScore || "0.0"}/5.0
                   </Badge>
@@ -531,38 +955,101 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-green-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Score of 5/5:</strong> No transportation or setting constraints. 
+                      Easy access from the highway and available open space for staging site.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Transportation</h4>
-                      <div className="space-y-2">
-                        <p><strong>Factory Location:</strong> {(project as Project).factoryLocation || "Regional facility"}</p>
-                        <p><strong>Distance to Site:</strong> Transportation analysis complete</p>
-                        <p><strong>Route Constraints:</strong> Highway accessible</p>
-                        <p><strong>Delivery Schedule:</strong> Coordinated installation</p>
+                      <h4 className="font-semibold text-raap-dark mb-3">Transportation Analysis</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2">
+                          <p><strong>Factory Location:</strong> Tracy, CA</p>
+                          <p><strong>Site Location:</strong> 5224 Chestnut Rd, Olivehurst, CA</p>
+                          <p><strong>Highway Access:</strong> Within 1/2 mile of Highway 70</p>
+                          <p><strong>Exit Route:</strong> Exit 18A to Olivehurst Ave and Chestnut Rd</p>
+                          <p><strong>Bridge/Access Issues:</strong> None observed</p>
+                        </div>
                       </div>
                     </div>
+
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Site Requirements</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Crane access available</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Staging area adequate</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          <span className="text-sm">Utility connections ready</span>
+                      <h4 className="font-semibold text-raap-dark mb-3">Site Conditions</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span>Highway Access</span>
+                            <span className="text-green-600 font-semibold">✓ Excellent</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Staging Space</span>
+                            <span className="text-green-600 font-semibold">✓ Large Open Area</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Crane Access</span>
+                            <span className="text-green-600 font-semibold">✓ Available</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>Site Restrictions</span>
+                            <span className="text-green-600 font-semibold">✓ None Visible</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">Delivery Route Map</h4>
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <div className="space-y-2">
+                        <p className="font-semibold text-blue-700">Factory to Site Route</p>
+                        <div className="text-sm text-gray-700">
+                          <p><strong>Origin:</strong> Tracy, CA 95304 (Fabrication Facility)</p>
+                          <p><strong>Destination:</strong> Olivehurst, CA 95961 (Project Site)</p>
+                          <p><strong>Primary Route:</strong> I-580 E → I-205 E → CA-99 N → CA-70 N → Exit 18A</p>
+                          <p><strong>Distance:</strong> Approximately 85 miles</p>
+                          <p><strong>Transit Time:</strong> ~2 hours per delivery</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-3">Installation Considerations</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white border rounded-lg p-4">
+                        <h5 className="font-semibold text-raap-green mb-2">Setting Advantages</h5>
+                        <div className="space-y-2 text-sm">
+                          <p>• Direct highway access minimizes transport time</p>
+                          <p>• Large staging area allows flexible scheduling</p>
+                          <p>• Open site provides multiple crane positions</p>
+                          <p>• No neighborhood access restrictions</p>
+                          <p>• Utility connections ready for modular hookup</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <h5 className="font-semibold text-orange-600 mb-2">Minor Considerations</h5>
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Overhead Powerlines:</strong> Present on Chestnut Rd</p>
+                          <p>• May cause some crane logistics concerns</p>
+                          <p>• Manageable with proper crane positioning</p>
+                          <p>• Does not prevent modular delivery</p>
+                          <p>• Standard utility coordination required</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Logistics Assessment</h4>
+                    <h4 className="font-semibold text-raap-dark mb-2">Logistics Summary</h4>
                     <p className="text-sm text-gray-700">
-                      {(project as Project).logisticsJustification || "Site location and access conditions are well-suited for modular delivery and installation operations."}
+                      The site presents ideal logistics conditions for modular construction with excellent highway access, 
+                      ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward 
+                      route from the Tracy fabrication facility ensures efficient module transportation and installation.
                     </p>
                   </div>
                 </div>
@@ -576,7 +1063,7 @@ export default function ProjectDetail() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Clock className="h-5 w-5" />
-                  <span>Build Time Information</span>
+                  <span>Build Time</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).buildTimeScore || "0")}`}>
                     Score: {(project as Project).buildTimeScore || "0.0"}/5.0
                   </Badge>
@@ -584,47 +1071,130 @@ export default function ProjectDetail() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
+                  <div className="bg-green-50 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-700">
+                      <strong>Score of 4/5:</strong> 9 months design + construction using modular approach vs 13 months for site built. 
+                      Savings of 4 months (30% timeline reduction).
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
                       <h4 className="font-semibold text-raap-dark mb-3">Timeline Comparison</h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between p-3 bg-blue-50 rounded">
-                          <span>Modular Timeline</span>
-                          <span className="font-semibold text-blue-600">
-                            {(project as Project).modularTimelineMonths || 18} months
-                          </span>
+                        <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
+                          <span>RaaP Modular</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-blue-600">9 months</div>
+                            <div className="text-sm text-gray-600">Design + Construction</div>
+                          </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
-                          <span>Site-Built Estimate</span>
-                          <span className="font-semibold">
-                            {(project as Project).siteBuiltTimelineMonths || 24} months
-                          </span>
-                        </div>
-                        {(project as Project).timeSavingsMonths && (
-                          <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
-                            <span>Time Savings</span>
-                            <span className="font-semibold text-green-600">
-                              {(project as Project).timeSavingsMonths} months
-                            </span>
+                          <span>Traditional Site-Built</span>
+                          <div className="text-right">
+                            <div className="font-semibold">13 months</div>
+                            <div className="text-sm text-gray-600">Design + Construction</div>
                           </div>
-                        )}
+                        </div>
+                        <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
+                          <span>Time Savings</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-green-600">4 months</div>
+                            <div className="text-sm text-gray-600">30% faster</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
+
                     <div>
                       <h4 className="font-semibold text-raap-dark mb-3">Schedule Benefits</h4>
-                      <div className="space-y-2 text-sm">
-                        <p>• Parallel factory and site work</p>
-                        <p>• Weather-independent production</p>
-                        <p>• Reduced field assembly time</p>
-                        <p>• Accelerated occupancy</p>
-                        <p>• Earlier revenue generation</p>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Parallel Construction:</strong> Factory and site work overlap</p>
+                          <p><strong>Weather Independence:</strong> Factory production unaffected by weather</p>
+                          <p><strong>Quality Control:</strong> Reduced field rework and delays</p>
+                          <p><strong>Predictable Delivery:</strong> Factory schedule more reliable</p>
+                          <p><strong>Faster Assembly:</strong> Modules installed quickly on-site</p>
+                          <p><strong>Earlier Occupancy:</strong> Revenue generation starts sooner</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Detailed Construction Schedule</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                          <tr className="bg-gray-50">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Milestone</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Duration</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Notes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Project Kick Off</td>
+                            <td className="border border-gray-300 px-4 py-2">Day 0</td>
+                            <td className="border border-gray-300 px-4 py-2">Project start</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">RaaP SmartStart (SS)</td>
+                            <td className="border border-gray-300 px-4 py-2">6 weeks</td>
+                            <td className="border border-gray-300 px-4 py-2">Initial design phase</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Entitlement</td>
+                            <td className="border border-gray-300 px-4 py-2">4 weeks</td>
+                            <td className="border border-gray-300 px-4 py-2">Permit approval process</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Design Development (DD)</td>
+                            <td className="border border-gray-300 px-4 py-2">8 weeks</td>
+                            <td className="border border-gray-300 px-4 py-2">Detailed design work</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Factory Permit Set</td>
+                            <td className="border border-gray-300 px-4 py-2">1 month after DD</td>
+                            <td className="border border-gray-300 px-4 py-2">Manufacturing drawings</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">AHJ Permit Set</td>
+                            <td className="border border-gray-300 px-4 py-2">4 months after DD</td>
+                            <td className="border border-gray-300 px-4 py-2">Authority Having Jurisdiction permits</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Start Construction & Fabrication</td>
+                            <td className="border border-gray-300 px-4 py-2">8 months after start</td>
+                            <td className="border border-gray-300 px-4 py-2">Parallel site and factory work</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Fabrication Period</td>
+                            <td className="border border-gray-300 px-4 py-2">1 month</td>
+                            <td className="border border-gray-300 px-4 py-2">Factory module production</td>
+                          </tr>
+                          <tr>
+                            <td className="border border-gray-300 px-4 py-2 font-medium">Modules Delivered & Installed</td>
+                            <td className="border border-gray-300 px-4 py-2">1 month before completion</td>
+                            <td className="border border-gray-300 px-4 py-2">Module setting and hookup</td>
+                          </tr>
+                          <tr className="bg-blue-50">
+                            <td className="border border-gray-300 px-4 py-2 font-bold">Project Completion</td>
+                            <td className="border border-gray-300 px-4 py-2 font-bold">9 months total</td>
+                            <td className="border border-gray-300 px-4 py-2">Ready for occupancy</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                   <div className="bg-gray-50 rounded-lg p-4">
                     <h4 className="font-semibold text-raap-dark mb-2">Timeline Analysis</h4>
                     <p className="text-sm text-gray-700">
-                      {(project as Project).buildTimeJustification || "Modular construction timeline benefits include parallel production and site preparation, plus weather-independent factory conditions."}
+                      The modular approach delivers significant time savings through parallel construction processes. 
+                      While site preparation proceeds, modules are being fabricated in the factory under controlled conditions. 
+                      This parallel workflow, combined with weather-independent production and predictable installation schedules, 
+                      results in a 4-month acceleration compared to traditional site-built construction.
                     </p>
                   </div>
                 </div>
