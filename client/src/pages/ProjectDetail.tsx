@@ -18,7 +18,11 @@ import {
   DollarSign, 
   Truck, 
   Clock,
-  Star
+  Star,
+  Home,
+  Layout,
+  Layers,
+  Map
 } from "lucide-react";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
@@ -208,10 +212,10 @@ export default function ProjectDetail() {
                       <h4 className="font-semibold text-raap-green mb-2">Project Specifications</h4>
                       <ul className="text-sm text-gray-700 space-y-1">
                         <li>• Total Units: {totalUnits}</li>
-                        {(project as Project).studioUnits > 0 && <li>• Studio: {(project as Project).studioUnits} units</li>}
-                        {(project as Project).oneBedUnits > 0 && <li>• 1 Bedroom: {(project as Project).oneBedUnits} units</li>}
-                        {(project as Project).twoBedUnits > 0 && <li>• 2 Bedroom: {(project as Project).twoBedUnits} units</li>}
-                        {(project as Project).threeBedUnits > 0 && <li>• 3 Bedroom: {(project as Project).threeBedUnits} units</li>}
+                        {((project as Project).studioUnits || 0) > 0 && <li>• Studio: {(project as Project).studioUnits} units</li>}
+                        {((project as Project).oneBedUnits || 0) > 0 && <li>• 1 Bedroom: {(project as Project).oneBedUnits} units</li>}
+                        {((project as Project).twoBedUnits || 0) > 0 && <li>• 2 Bedroom: {(project as Project).twoBedUnits} units</li>}
+                        {((project as Project).threeBedUnits || 0) > 0 && <li>• 3 Bedroom: {(project as Project).threeBedUnits} units</li>}
                         <li>• Floors: {(project as Project).targetFloors}</li>
                         {(project as Project).buildingDimensions && <li>• Dimensions: {(project as Project).buildingDimensions}</li>}
                         {(project as Project).constructionType && <li>• Construction Type: {(project as Project).constructionType}</li>}
@@ -230,7 +234,7 @@ export default function ProjectDetail() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-4 bg-green-50 rounded-lg">
                         <div className="text-2xl font-bold text-green-600">
-                          ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost) / 1000000).toFixed(1) : "0.0"}M
+                          ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost!) / 1000000).toFixed(1) : "0.0"}M
                         </div>
                         <div className="text-xs text-gray-500">Modular Cost</div>
                       </div>
@@ -242,7 +246,7 @@ export default function ProjectDetail() {
                       </div>
                     </div>
 
-                    {((project as Project).costSavingsPercent && parseFloat((project as Project).costSavingsPercent) > 0) && (
+                    {((project as Project).costSavingsPercent && parseFloat((project as Project).costSavingsPercent!) > 0) && (
                       <div className="mt-4 text-center p-3 bg-green-100 rounded-lg">
                         <div className="text-lg font-bold text-green-600">
                           {(project as Project).costSavingsPercent}% Cost Savings
@@ -450,136 +454,286 @@ export default function ProjectDetail() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
-                      <div className="bg-white border rounded-lg p-4">
-                        <div className="space-y-2">
-                          <p><strong>Overall Dimensions:</strong> 146' × 66'</p>
-                          <p><strong>Stories:</strong> 3 Story</p>
-                          <p><strong>Construction Type:</strong> Type VA Construction</p>
-                          <p><strong>Total Units:</strong> 24 Units</p>
-                          <p><strong>Total Gross Site Area:</strong> ±4.12 acres</p>
-                          <p><strong>Gross Density:</strong> ±30.0 DU/acre</p>
-                        </div>
-                      </div>
-                    </div>
+                  {/* Sub-tabs for Massing */}
+                  <Tabs defaultValue="specifications" className="w-full">
+                    <TabsList className="grid w-full grid-cols-5">
+                      <TabsTrigger value="specifications" className="flex items-center space-x-1">
+                        <Building className="h-4 w-4" />
+                        <span className="hidden sm:inline">Specifications</span>
+                        <span className="sm:hidden">Specs</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="units" className="flex items-center space-x-1">
+                        <Home className="h-4 w-4" />
+                        <span className="hidden sm:inline">Units</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="floorplan" className="flex items-center space-x-1">
+                        <Layout className="h-4 w-4" />
+                        <span className="hidden sm:inline">Floor Plan</span>
+                        <span className="sm:hidden">Plans</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="3dview" className="flex items-center space-x-1">
+                        <Layers className="h-4 w-4" />
+                        <span className="hidden sm:inline">3D View</span>
+                        <span className="sm:hidden">3D</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="siteplan" className="flex items-center space-x-1">
+                        <Map className="h-4 w-4" />
+                        <span className="hidden sm:inline">Site Plan</span>
+                        <span className="sm:hidden">Site</span>
+                      </TabsTrigger>
+                    </TabsList>
 
-                    <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Unit Mix Breakdown</h4>
-                      <div className="bg-white border rounded-lg p-4">
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span>1-Bedroom Units</span>
-                            <span className="font-semibold text-raap-green">6 units (25%)</span>
+                    {/* Specifications Tab */}
+                    <TabsContent value="specifications" className="mt-6">
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <div>
+                            <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
+                            <div className="bg-white border rounded-lg p-4">
+                              <div className="space-y-2">
+                                <p><strong>Overall Dimensions:</strong> 146' × 66'</p>
+                                <p><strong>Stories:</strong> 3 Story</p>
+                                <p><strong>Construction Type:</strong> Type VA Construction</p>
+                                <p><strong>Total Units:</strong> 24 Units</p>
+                                <p><strong>Total Gross Site Area:</strong> ±4.12 acres</p>
+                                <p><strong>Gross Density:</strong> ±30.0 DU/acre</p>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <span>2-Bedroom Units</span>
-                            <span className="font-semibold text-raap-green">12 units (50%)</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span>3-Bedroom Units</span>
-                            <span className="font-semibold text-raap-green">6 units (25%)</span>
-                          </div>
-                          <hr className="my-2" />
-                          <div className="flex justify-between items-center font-semibold">
-                            <span>Total Units</span>
-                            <span className="text-raap-dark">24 units</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <h4 className="font-semibold text-raap-dark mb-3">Unit Types & Areas</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-white border rounded-lg p-4">
-                        <h5 className="font-semibold text-raap-green mb-2">Site Built Unit Mix</h5>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span>One Bedroom (B + C)</span>
-                            <span>563 sf × 4 units (17%)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Two Bedroom (D + B + C)</span>
-                            <span>813 sf × 8 units (33%)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Three Bedroom (F + B2 + C)</span>
-                            <span>980 sf × 12 units (50%)</span>
-                          </div>
-                          <hr className="my-2" />
-                          <div className="flex justify-between font-semibold">
-                            <span>Average Unit Area</span>
-                            <span>792 sf</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-white border rounded-lg p-4">
-                        <h5 className="font-semibold text-raap-green mb-2">Modular Unit Mix</h5>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span>One Bedroom (B + C)</span>
-                            <span>563 sf × 4 units (17%)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Two Bedroom (D + B + C)</span>
-                            <span>813 sf × 8 units (33%)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Three Bedroom</span>
-                            <span>980 sf × 12 units (50%)</span>
-                          </div>
-                          <hr className="my-2" />
-                          <div className="flex justify-between font-semibold">
-                            <span>Modular Efficiency</span>
-                            <span className="text-green-600">109%</span>
+                          <div>
+                            <h4 className="font-semibold text-raap-dark mb-3">Unit Mix Breakdown</h4>
+                            <div className="bg-white border rounded-lg p-4">
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                  <span>1-Bedroom Units</span>
+                                  <span className="font-semibold text-raap-green">6 units (25%)</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span>2-Bedroom Units</span>
+                                  <span className="font-semibold text-raap-green">12 units (50%)</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span>3-Bedroom Units</span>
+                                  <span className="font-semibold text-raap-green">6 units (25%)</span>
+                                </div>
+                                <hr className="my-2" />
+                                <div className="flex justify-between items-center font-semibold">
+                                  <span>Total Units</span>
+                                  <span className="text-raap-dark">24 units</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div>
-                    <h4 className="font-semibold text-raap-dark mb-3">Building Comparison</h4>
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse border border-gray-300">
-                        <thead>
-                          <tr className="bg-gray-50">
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Parameter</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Site Built</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Modular</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Gross Sq. Ft.</td>
-                            <td className="border border-gray-300 px-4 py-2">25,986 sf</td>
-                            <td className="border border-gray-300 px-4 py-2">26,352 sf</td>
-                          </tr>
-                          <tr className="bg-gray-50">
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Building (L × W × H)</td>
-                            <td className="border border-gray-300 px-4 py-2">142' × 61' × 36'</td>
-                            <td className="border border-gray-300 px-4 py-2">144' × 61' × 40'</td>
-                          </tr>
-                          <tr>
-                            <td className="border border-gray-300 px-4 py-2 font-medium">Construction</td>
-                            <td className="border border-gray-300 px-4 py-2">Site-Built</td>
-                            <td className="border border-gray-300 px-4 py-2">Factory Built + Site Assembly</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                        <div>
+                          <h4 className="font-semibold text-raap-dark mb-3">Building Comparison</h4>
+                          <div className="overflow-x-auto">
+                            <table className="w-full border-collapse border border-gray-300">
+                              <thead>
+                                <tr className="bg-gray-50">
+                                  <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Parameter</th>
+                                  <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Site Built</th>
+                                  <th className="border border-gray-300 px-4 py-2 text-left font-semibold">Modular</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td className="border border-gray-300 px-4 py-2 font-medium">Gross Sq. Ft.</td>
+                                  <td className="border border-gray-300 px-4 py-2">25,986 sf</td>
+                                  <td className="border border-gray-300 px-4 py-2">26,352 sf</td>
+                                </tr>
+                                <tr className="bg-gray-50">
+                                  <td className="border border-gray-300 px-4 py-2 font-medium">Building (L × W × H)</td>
+                                  <td className="border border-gray-300 px-4 py-2">142' × 61' × 36'</td>
+                                  <td className="border border-gray-300 px-4 py-2">144' × 61' × 40'</td>
+                                </tr>
+                                <tr>
+                                  <td className="border border-gray-300 px-4 py-2 font-medium">Construction</td>
+                                  <td className="border border-gray-300 px-4 py-2">Site-Built</td>
+                                  <td className="border border-gray-300 px-4 py-2">Factory Built + Site Assembly</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Units Tab */}
+                    <TabsContent value="units" className="mt-6">
+                      <div className="space-y-6">
+                        <div className="text-center">
+                          <img 
+                            src={`/attached_assets/generated_images/apartment_unit_floor_plans_5298881c.png`} 
+                            alt="Unit Floor Plans - 1BD, 2BD, and 3BD layouts"
+                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
+                          />
+                          <p className="mt-4 text-sm text-gray-600">
+                            Individual unit layouts showing 1-bedroom, 2-bedroom, and 3-bedroom configurations with detailed room arrangements and dimensions.
+                          </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">1-Bedroom Units (Type B+C)</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Area:</strong> 563 sf</p>
+                              <p><strong>Count:</strong> 6 units</p>
+                              <p><strong>Percentage:</strong> 25%</p>
+                              <p><strong>Features:</strong> Open living/kitchen, bedroom, full bath, closet storage</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">2-Bedroom Units (Type D+B+C)</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Area:</strong> 813 sf</p>
+                              <p><strong>Count:</strong> 12 units</p>
+                              <p><strong>Percentage:</strong> 50%</p>
+                              <p><strong>Features:</strong> Living room, kitchen, 2 bedrooms, full bath, storage</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">3-Bedroom Units (Type F+B2+C)</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Area:</strong> 980 sf</p>
+                              <p><strong>Count:</strong> 6 units</p>
+                              <p><strong>Percentage:</strong> 25%</p>
+                              <p><strong>Features:</strong> Living room, kitchen, 3 bedrooms, full bath, ample storage</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Floor Plan Tab */}
+                    <TabsContent value="floorplan" className="mt-6">
+                      <div className="space-y-6">
+                        <div className="text-center">
+                          <img 
+                            src={`/attached_assets/generated_images/architectural_floor_plan_drawing_4bbc5fb5.png`} 
+                            alt="Building Floor Plan - Complete layout showing all units, corridors, and stairs"
+                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
+                          />
+                          <p className="mt-4 text-sm text-gray-600">
+                            Complete building floor plan showing unit arrangements, circulation corridors, stair locations, and modular vs site-built areas.
+                          </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h5 className="font-semibold text-blue-700 mb-2">Modular Components</h5>
+                            <div className="space-y-2 text-sm">
+                              <p>• Individual residential units (1BD, 2BD, 3BD)</p>
+                              <p>• Interior corridors and circulation spaces</p>
+                              <p>• Stairwell modules</p>
+                              <p>• MEP risers and service areas</p>
+                              <p>• Total: 137,225 SF modular construction</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                            <h5 className="font-semibold text-orange-700 mb-2">Site-Built Components</h5>
+                            <div className="space-y-2 text-sm">
+                              <p>• Ground floor amenity spaces</p>
+                              <p>• Building entrances and lobbies</p>
+                              <p>• Utility connections and service areas</p>
+                              <p>• Foundation and structural connections</p>
+                              <p>• Total: 6,808 SF site-built construction</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* 3D View Tab */}
+                    <TabsContent value="3dview" className="mt-6">
+                      <div className="space-y-6">
+                        <div className="text-center">
+                          <img 
+                            src={`/attached_assets/generated_images/building_3d_exterior_rendering_5dafe6bf.png`} 
+                            alt="3D Building Rendering - Exterior view of the completed multifamily development"
+                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
+                          />
+                          <p className="mt-4 text-sm text-gray-600">
+                            Three-dimensional exterior rendering showing the completed building design with architectural details, materials, and landscaping.
+                          </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">Design Features</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Architecture:</strong> Contemporary residential design</p>
+                              <p><strong>Materials:</strong> Mixed exterior materials for visual interest</p>
+                              <p><strong>Windows:</strong> Large openings for natural light</p>
+                              <p><strong>Balconies:</strong> Private outdoor spaces for units</p>
+                              <p><strong>Roof:</strong> Solar-ready flat roof system</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">Modular Advantages</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Quality Control:</strong> Factory-built precision</p>
+                              <p><strong>Speed:</strong> Parallel construction and installation</p>
+                              <p><strong>Consistency:</strong> Uniform finishes and details</p>
+                              <p><strong>Weather Protection:</strong> Indoor manufacturing</p>
+                              <p><strong>Efficiency:</strong> 109% modular efficiency vs site-built</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Site Plan Tab */}
+                    <TabsContent value="siteplan" className="mt-6">
+                      <div className="space-y-6">
+                        <div className="text-center">
+                          <img 
+                            src={`/attached_assets/generated_images/architectural_site_plan_drawing_b5a890e0.png`} 
+                            alt="Site Plan - Property layout showing building placement, parking, and landscaping"
+                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
+                          />
+                          <p className="mt-4 text-sm text-gray-600">
+                            Site plan drawing showing building placement on the 4.12-acre property with parking areas, landscaping, and site improvements.
+                          </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">Site Information</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Total Area:</strong> 4.12 acres (171,600 SF)</p>
+                              <p><strong>Building Footprint:</strong> 146' × 66'</p>
+                              <p><strong>Parking Spaces:</strong> 24 spaces (1.0 ratio)</p>
+                              <p><strong>Density:</strong> 30.0 DU/acre</p>
+                              <p><strong>Setbacks:</strong> Compliant with RM zoning</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white border rounded-lg p-4">
+                            <h5 className="font-semibold text-raap-green mb-2">Site Features</h5>
+                            <div className="space-y-2 text-sm">
+                              <p><strong>Access:</strong> From Chestnut Road</p>
+                              <p><strong>Utilities:</strong> All services available</p>
+                              <p><strong>Landscaping:</strong> Native plantings and trees</p>
+                              <p><strong>Stormwater:</strong> On-site management system</p>
+                              <p><strong>Staging:</strong> Large area for modular delivery</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
 
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Special Considerations</h4>
+                    <h4 className="font-semibold text-raap-dark mb-2">Massing Assessment Summary</h4>
                     <div className="text-sm text-gray-700">
-                      <p><strong>Ground Level:</strong> Portion of ground level to be site-built for amenity spaces.</p>
-                      <p><strong>Unit Types:</strong> Please refer to the attached set of drawings for detailed unit layouts and 3D massing visualization.</p>
-                      <p><strong>Modular Advantage:</strong> Factory construction allows for precise quality control and faster assembly while maintaining identical unit mix and layout to traditional construction.</p>
+                      <p><strong>Modular Advantage:</strong> Factory construction allows for precise quality control and faster assembly while maintaining identical unit mix and layout to traditional construction. The modular approach achieves 109% efficiency compared to site-built methods.</p>
                     </div>
                   </div>
                 </div>
