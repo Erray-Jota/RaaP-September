@@ -872,13 +872,14 @@ export default function ProjectDetail() {
                     {/* Site Plan Tab */}
                     <TabsContent value="siteplan" className="mt-6">
                       <div className="space-y-6">
-                        <div className="text-center">
+                        <div className="w-full">
                           <img 
                             src={sitePlanImage} 
                             alt="Site Plan - Property layout showing building placement, parking, and landscaping"
-                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
+                            className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
+                            style={{ maxHeight: '70vh' }}
                           />
-                          <p className="mt-4 text-sm text-gray-600">
+                          <p className="mt-4 text-sm text-gray-600 text-center">
                             Site plan drawing showing building placement on the 4.12-acre property with parking areas, landscaping, and site improvements.
                           </p>
                         </div>
