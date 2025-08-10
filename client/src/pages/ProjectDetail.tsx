@@ -28,9 +28,9 @@ import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
 
 // Import generated images for Massing tab
-import floorPlanImage from "@assets/generated_images/architectural_floor_plan_drawing_4bbc5fb5.png";
-import buildingRenderingImage from "@assets/generated_images/building_3d_exterior_rendering_5dafe6bf.png";
-import sitePlanImage from "@assets/generated_images/architectural_site_plan_drawing_b5a890e0.png";
+import floorPlanImage from "@assets/Vallejo Site_1754837697661.png";
+import buildingRenderingImage from "@assets/Vallejo 3D_1754837697661.png";
+import sitePlanImage from "@assets/Serinity Site_1754837697659.png";
 import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
 import oneBedImage from "@assets/1 Bed_1754836945408.png";
 import twoBedImage from "@assets/2 Bed_1754837154542.png";
