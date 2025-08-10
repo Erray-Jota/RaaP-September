@@ -1477,8 +1477,8 @@ function ProjectDetail() {
                 <div className="space-y-6">
                   <div className="bg-green-50 rounded-lg p-4 mb-4">
                     <p className="text-sm text-gray-700">
-                      <strong>Score of 4/5:</strong> Excellent logistics conditions with direct highway access, ample staging space, 
-                      and clear delivery route. Minor overhead powerlines present manageable concerns.
+                      <strong>Score of 5/5:</strong> Excellent logistics conditions with direct highway access, ample staging space, 
+                      and clear delivery route. Ideal conditions for modular construction delivery and installation.
                     </p>
                   </div>
 
