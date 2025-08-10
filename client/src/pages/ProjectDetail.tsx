@@ -649,18 +649,48 @@ export default function ProjectDetail() {
                     {/* Units Tab */}
                     <TabsContent value="units" className="mt-6">
                       <div className="space-y-8">
+                        {/* Unit Mix Summary - First */}
+                        <div className="bg-raap-green/5 border border-raap-green rounded-lg p-6">
+                          <h4 className="font-bold text-raap-dark text-lg mb-3">Unit Mix Summary</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-raap-green">6</div>
+                              <div className="text-sm text-gray-600">1-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">563 SF Average</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-blue-600">12</div>
+                              <div className="text-sm text-gray-600">2-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">813 SF Average</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-orange-600">6</div>
+                              <div className="text-sm text-gray-600">3-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">980 SF Average</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Massing Assessment Summary - Second */}
+                        <div className="bg-gray-50 rounded-lg p-6 border">
+                          <h4 className="font-bold text-raap-dark text-lg mb-3">Massing Assessment Summary</h4>
+                          <div className="text-sm text-gray-700">
+                            <p><strong>Modular Advantage:</strong> Factory construction allows for precise quality control and faster assembly while maintaining identical unit mix and layout to traditional construction. The modular approach achieves 109% efficiency compared to site-built methods.</p>
+                          </div>
+                        </div>
+
                         {/* 1-Bedroom Unit Panel */}
                         <div className="bg-white border-2 border-raap-green rounded-lg p-6 shadow-lg">
                           <h4 className="text-xl font-bold text-raap-dark mb-6">1-Bedroom Units (Type B+C)</h4>
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-                            <div className="order-2 lg:order-1">
+                            <div>
                               <img 
                                 src={oneBedImage} 
                                 alt="1-Bedroom Unit Floor Plan - Isometric view showing layout"
                                 className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
                               />
                             </div>
-                            <div className="order-1 lg:order-2 space-y-4">
+                            <div className="space-y-4">
                               <div className="bg-raap-green/10 rounded-lg p-4">
                                 <h5 className="font-bold text-raap-green text-lg mb-3">Unit Specifications</h5>
                                 <div className="space-y-2">
@@ -689,14 +719,14 @@ export default function ProjectDetail() {
                         <div className="bg-white border-2 border-blue-500 rounded-lg p-6 shadow-lg">
                           <h4 className="text-xl font-bold text-raap-dark mb-6">2-Bedroom Units (Type D+B+C)</h4>
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-                            <div className="order-2 lg:order-1">
+                            <div>
                               <img 
                                 src={twoBedImage} 
                                 alt="2-Bedroom Unit Floor Plan - Isometric view showing layout"
                                 className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
                               />
                             </div>
-                            <div className="order-1 lg:order-2 space-y-4">
+                            <div className="space-y-4">
                               <div className="bg-blue-50 rounded-lg p-4">
                                 <h5 className="font-bold text-blue-700 text-lg mb-3">Unit Specifications</h5>
                                 <div className="space-y-2">
@@ -725,14 +755,14 @@ export default function ProjectDetail() {
                         <div className="bg-white border-2 border-orange-500 rounded-lg p-6 shadow-lg">
                           <h4 className="text-xl font-bold text-raap-dark mb-6">3-Bedroom Units (Type F+B2+C)</h4>
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-                            <div className="order-2 lg:order-1">
+                            <div>
                               <img 
                                 src={threeBedImage} 
                                 alt="3-Bedroom Unit Floor Plan - Isometric view showing layout"
                                 className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
                               />
                             </div>
-                            <div className="order-1 lg:order-2 space-y-4">
+                            <div className="space-y-4">
                               <div className="bg-orange-50 rounded-lg p-4">
                                 <h5 className="font-bold text-orange-700 text-lg mb-3">Unit Specifications</h5>
                                 <div className="space-y-2">
@@ -753,28 +783,6 @@ export default function ProjectDetail() {
                                   <p>• Large private patio/balcony</p>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Summary Section */}
-                        <div className="bg-raap-green/5 border border-raap-green rounded-lg p-6">
-                          <h4 className="font-bold text-raap-dark text-lg mb-3">Unit Mix Summary</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                            <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-raap-green">6</div>
-                              <div className="text-sm text-gray-600">1-Bedroom Units</div>
-                              <div className="text-xs text-gray-500">563 SF Average</div>
-                            </div>
-                            <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-blue-600">12</div>
-                              <div className="text-sm text-gray-600">2-Bedroom Units</div>
-                              <div className="text-xs text-gray-500">813 SF Average</div>
-                            </div>
-                            <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-orange-600">6</div>
-                              <div className="text-sm text-gray-600">3-Bedroom Units</div>
-                              <div className="text-xs text-gray-500">980 SF Average</div>
                             </div>
                           </div>
                         </div>
@@ -901,13 +909,6 @@ export default function ProjectDetail() {
                       </div>
                     </TabsContent>
                   </Tabs>
-
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Massing Assessment Summary</h4>
-                    <div className="text-sm text-gray-700">
-                      <p><strong>Modular Advantage:</strong> Factory construction allows for precise quality control and faster assembly while maintaining identical unit mix and layout to traditional construction. The modular approach achieves 109% efficiency compared to site-built methods.</p>
-                    </div>
-                  </div>
                 </div>
               </CardContent>
             </Card>
