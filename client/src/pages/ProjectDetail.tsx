@@ -33,6 +33,8 @@ import buildingRenderingImage from "@assets/generated_images/building_3d_exterio
 import sitePlanImage from "@assets/generated_images/architectural_site_plan_drawing_b5a890e0.png";
 import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
 import oneBedImage from "@assets/1 Bed_1754836945408.png";
+import twoBedImage from "@assets/2 Bed_1754837154542.png";
+import threeBedImage from "@assets/3 Bed_1754837154543.png";
 
 export default function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
@@ -647,7 +649,7 @@ export default function ProjectDetail() {
                     {/* Units Tab */}
                     <TabsContent value="units" className="mt-6">
                       <div className="space-y-8">
-                        {/* 1-Bedroom Unit with Image */}
+                        {/* 1-Bedroom Unit Panel */}
                         <div className="bg-white border-2 border-raap-green rounded-lg p-6 shadow-lg">
                           <h4 className="text-xl font-bold text-raap-dark mb-6">1-Bedroom Units (Type B+C)</h4>
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
@@ -683,14 +685,21 @@ export default function ProjectDetail() {
                           </div>
                         </div>
 
-                        {/* 2-Bedroom and 3-Bedroom Units */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="bg-white border-2 border-gray-200 rounded-lg p-6 shadow-md">
-                            <h4 className="text-xl font-bold text-raap-dark mb-4">2-Bedroom Units (Type D+B+C)</h4>
-                            <div className="space-y-4">
+                        {/* 2-Bedroom Unit Panel */}
+                        <div className="bg-white border-2 border-blue-500 rounded-lg p-6 shadow-lg">
+                          <h4 className="text-xl font-bold text-raap-dark mb-6">2-Bedroom Units (Type D+B+C)</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                            <div className="order-2 lg:order-1">
+                              <img 
+                                src={twoBedImage} 
+                                alt="2-Bedroom Unit Floor Plan - Isometric view showing layout"
+                                className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
+                              />
+                            </div>
+                            <div className="order-1 lg:order-2 space-y-4">
                               <div className="bg-blue-50 rounded-lg p-4">
                                 <h5 className="font-bold text-blue-700 text-lg mb-3">Unit Specifications</h5>
-                                <div className="space-y-2 text-sm">
+                                <div className="space-y-2">
                                   <p><strong>Total Area:</strong> 813 square feet</p>
                                   <p><strong>Unit Count:</strong> 12 units (50% of total)</p>
                                   <p><strong>Target Market:</strong> Small families, roommates</p>
@@ -698,8 +707,8 @@ export default function ProjectDetail() {
                                 </div>
                               </div>
                               <div className="bg-gray-50 rounded-lg p-4">
-                                <h5 className="font-bold text-gray-700 text-lg mb-3">Layout Features</h5>
-                                <div className="space-y-1 text-sm">
+                                <h5 className="font-bold text-raap-dark text-lg mb-3">Layout Features</h5>
+                                <div className="space-y-2">
                                   <p>• Separate living and dining areas</p>
                                   <p>• Full-size kitchen with pantry</p>
                                   <p>• Two bedrooms with ample closets</p>
@@ -710,13 +719,23 @@ export default function ProjectDetail() {
                               </div>
                             </div>
                           </div>
-                          
-                          <div className="bg-white border-2 border-gray-200 rounded-lg p-6 shadow-md">
-                            <h4 className="text-xl font-bold text-raap-dark mb-4">3-Bedroom Units (Type F+B2+C)</h4>
-                            <div className="space-y-4">
+                        </div>
+
+                        {/* 3-Bedroom Unit Panel */}
+                        <div className="bg-white border-2 border-orange-500 rounded-lg p-6 shadow-lg">
+                          <h4 className="text-xl font-bold text-raap-dark mb-6">3-Bedroom Units (Type F+B2+C)</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                            <div className="order-2 lg:order-1">
+                              <img 
+                                src={threeBedImage} 
+                                alt="3-Bedroom Unit Floor Plan - Isometric view showing layout"
+                                className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
+                              />
+                            </div>
+                            <div className="order-1 lg:order-2 space-y-4">
                               <div className="bg-orange-50 rounded-lg p-4">
                                 <h5 className="font-bold text-orange-700 text-lg mb-3">Unit Specifications</h5>
-                                <div className="space-y-2 text-sm">
+                                <div className="space-y-2">
                                   <p><strong>Total Area:</strong> 980 square feet</p>
                                   <p><strong>Unit Count:</strong> 6 units (25% of total)</p>
                                   <p><strong>Target Market:</strong> Families with children</p>
@@ -724,8 +743,8 @@ export default function ProjectDetail() {
                                 </div>
                               </div>
                               <div className="bg-gray-50 rounded-lg p-4">
-                                <h5 className="font-bold text-gray-700 text-lg mb-3">Layout Features</h5>
-                                <div className="space-y-1 text-sm">
+                                <h5 className="font-bold text-raap-dark text-lg mb-3">Layout Features</h5>
+                                <div className="space-y-2">
                                   <p>• Large living room with dining area</p>
                                   <p>• Full kitchen with island/breakfast bar</p>
                                   <p>• Three bedrooms including master suite</p>
