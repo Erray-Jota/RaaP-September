@@ -37,6 +37,7 @@ import twoBedImage from "@assets/2 Bed_1754837154542.png";
 import threeBedImage from "@assets/3 Bed_1754837154543.png";
 import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
 import zoningMapImage from "@assets/Serinity Zoning Map_1754839677898.png";
+import olivehurstMapImage from "@assets/Olivehurst Map_1754839713206.png";
 
 function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
@@ -214,9 +215,9 @@ function ProjectDetail() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div>
                     <img 
-                      src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300" 
-                      alt={`${(project as Project).name} development site`} 
-                      className="w-full h-48 rounded-lg object-cover mb-4"
+                      src={olivehurstMapImage} 
+                      alt="Serinity Village project location in Olivehurst, California showing regional context and site accessibility" 
+                      className="w-full h-48 rounded-lg object-contain bg-white border mb-4"
                     />
                     
                     <div className="bg-raap-green/10 border border-raap-green rounded-lg p-4">
