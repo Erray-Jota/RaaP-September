@@ -212,38 +212,112 @@ function ProjectDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div>
-                    <img 
-                      src={olivehurstMapImage} 
-                      alt="Serinity Village project location in Olivehurst, California showing regional context and site accessibility" 
-                      className="w-full h-48 rounded-lg object-contain bg-white border mb-4"
-                    />
-                    
-                    <div className="bg-raap-green/10 border border-raap-green rounded-lg p-4">
-                      <h4 className="font-semibold text-raap-green mb-2">Project Specifications</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• Total Units: {totalUnits}</li>
-                        {((project as Project).studioUnits || 0) > 0 && <li>• Studio: {(project as Project).studioUnits} units</li>}
-                        {((project as Project).oneBedUnits || 0) > 0 && <li>• 1 Bedroom: {(project as Project).oneBedUnits} units</li>}
-                        {((project as Project).twoBedUnits || 0) > 0 && <li>• 2 Bedroom: {(project as Project).twoBedUnits} units</li>}
-                        {((project as Project).threeBedUnits || 0) > 0 && <li>• 3 Bedroom: {(project as Project).threeBedUnits} units</li>}
-                        <li>• Floors: {(project as Project).targetFloors}</li>
-                        {(project as Project).buildingDimensions && <li>• Dimensions: {(project as Project).buildingDimensions}</li>}
-                        {(project as Project).constructionType && <li>• Construction Type: {(project as Project).constructionType}</li>}
-                        <li>• Parking Spaces: {(project as Project).targetParkingSpaces}</li>
-                      </ul>
+                <div className="space-y-6">
+                  {/* Overall Score & Summary */}
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 border border-green-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold text-green-800">Overall Modular Feasibility Assessment</h3>
+                      <div className="text-4xl font-bold text-green-600">4.4/5</div>
                     </div>
-                  </div>
-                  
-                  <div>
-                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <p className="text-sm text-gray-600 mb-3">
-                        <strong>{parseFloat((project as Project).overallScore || "0") >= 3.5 ? "Good fit" : "Moderate fit"} for modular construction</strong> with a {parseFloat((project as Project).overallScore || "0") >= 4 ? "high" : "moderate"} Modular Feasibility score of {(project as Project).overallScore || "0.0"}/5.0 based on the six criteria assessment.
+                    <p className="text-sm text-gray-700 mb-4">
+                      <strong>Good fit for modular construction</strong> with a high Modular Feasibility score of 4.4/5 based on the six criteria below, with no additional restrictions introduced by modular construction.
+                    </p>
+                    <div className="bg-white rounded-lg p-4 border">
+                      <h4 className="font-semibold text-gray-800 mb-2">Assessment Summary</h4>
+                      <p className="text-sm text-gray-700">
+                        24 units of Affordable Housing (6 x 1BR, 12 x 2BR, and 6 x 3BR units). 
+                        Dimensions: 146' X 66'. 3 Floors. Construction Type: V-A. 
+                        Total 24 units with 24 parking spaces.
                       </p>
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                      <img 
+                        src={olivehurstMapImage} 
+                        alt="Serinity Village project location in Olivehurst, California showing regional context and site accessibility" 
+                        className="w-full h-48 rounded-lg object-contain bg-white border mb-4"
+                      />
+                      
+                      <div className="bg-raap-green/10 border border-raap-green rounded-lg p-4">
+                        <h4 className="font-semibold text-raap-green mb-2">Project Specifications</h4>
+                        <ul className="text-sm text-gray-700 space-y-1">
+                          <li>• Total Units: {totalUnits}</li>
+                          {((project as Project).studioUnits || 0) > 0 && <li>• Studio: {(project as Project).studioUnits} units</li>}
+                          {((project as Project).oneBedUnits || 0) > 0 && <li>• 1 Bedroom: {(project as Project).oneBedUnits} units</li>}
+                          {((project as Project).twoBedUnits || 0) > 0 && <li>• 2 Bedroom: {(project as Project).twoBedUnits} units</li>}
+                          {((project as Project).threeBedUnits || 0) > 0 && <li>• 3 Bedroom: {(project as Project).threeBedUnits} units</li>}
+                          <li>• Floors: {(project as Project).targetFloors}</li>
+                          {(project as Project).buildingDimensions && <li>• Dimensions: {(project as Project).buildingDimensions}</li>}
+                          {(project as Project).constructionType && <li>• Construction Type: {(project as Project).constructionType}</li>}
+                          <li>• Parking Spaces: {(project as Project).targetParkingSpaces}</li>
+                        </ul>
+                      </div>
+                    </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      {/* Detailed Scoring Breakdown */}
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-raap-dark mb-4">Detailed Scoring Breakdown</h4>
+                        <div className="space-y-3">
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-blue-700">Zoning</h5>
+                              <div className="text-xl font-bold text-blue-600">4/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
+                            <p className="text-sm text-gray-700">Concessions required to reduce open space and parking requirements. Modular construction does not introduce any additional waivers or restrictions for this site.</p>
+                          </div>
+
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-green-700">Massing</h5>
+                              <div className="text-xl font-bold text-green-600">5/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 15%</p>
+                            <p className="text-sm text-gray-700">No additional constraints caused by modular structure. We can achieve the goal of 24 units and unit mix as the traditional original design.</p>
+                          </div>
+
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-green-700">Sustainability</h5>
+                              <div className="text-xl font-bold text-green-600">5/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
+                            <p className="text-sm text-gray-700">Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. Will require enhancements to foundation, walls, roof, windows, HVAC & lighting in addition to investment in batteries & solar power.</p>
+                          </div>
+
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-green-700">Cost</h5>
+                              <div className="text-xl font-bold text-green-600">4/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
+                            <p className="text-sm text-gray-700">$62.7M ($404/sf; $506K/unit). Prevailing Wage: 1.2% savings over site-built. Modular is cheaper than site-built.</p>
+                          </div>
+
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-green-700">Logistics</h5>
+                              <div className="text-xl font-bold text-green-600">5/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 15%</p>
+                            <p className="text-sm text-gray-700">Easy access from the highway and available open space for the staging site. No transportation or setting constraints.</p>
+                          </div>
+
+                          <div className="bg-white border rounded-lg p-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <h5 className="font-semibold text-green-700">Time</h5>
+                              <div className="text-xl font-bold text-green-600">4/5</div>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 10%</p>
+                            <p className="text-sm text-gray-700">9 months design + construction using modular approach vs 13 months for site built. Savings of 4 months.</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-4 bg-green-50 rounded-lg">
                         <div className="text-2xl font-bold text-green-600">
                           ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost!) / 1000000).toFixed(1) : "0.0"}M
@@ -305,6 +379,7 @@ function ProjectDetail() {
                         </div>
                         <div className="text-xs text-gray-500">Build Time</div>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>
