@@ -32,6 +32,7 @@ import floorPlanImage from "@assets/generated_images/architectural_floor_plan_dr
 import buildingRenderingImage from "@assets/generated_images/building_3d_exterior_rendering_5dafe6bf.png";
 import sitePlanImage from "@assets/generated_images/architectural_site_plan_drawing_b5a890e0.png";
 import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
+import oneBedImage from "@assets/1 Bed_1754836945408.png";
 
 export default function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
@@ -645,46 +646,116 @@ export default function ProjectDetail() {
 
                     {/* Units Tab */}
                     <TabsContent value="units" className="mt-6">
-                      <div className="space-y-6">
-                        <div className="text-center">
-                          <img 
-                            src={unitPlansImage} 
-                            alt="Unit Floor Plans - 1BD, 2BD, and 3BD layouts"
-                            className="mx-auto max-w-full h-auto border rounded-lg shadow-lg"
-                          />
-                          <p className="mt-4 text-sm text-gray-600">
-                            Individual unit layouts showing 1-bedroom, 2-bedroom, and 3-bedroom configurations with detailed room arrangements and dimensions.
-                          </p>
+                      <div className="space-y-8">
+                        {/* 1-Bedroom Unit with Image */}
+                        <div className="bg-white border-2 border-raap-green rounded-lg p-6 shadow-lg">
+                          <h4 className="text-xl font-bold text-raap-dark mb-6">1-Bedroom Units (Type B+C)</h4>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                            <div className="order-2 lg:order-1">
+                              <img 
+                                src={oneBedImage} 
+                                alt="1-Bedroom Unit Floor Plan - Isometric view showing layout"
+                                className="w-full h-auto border rounded-lg shadow-md bg-white p-4"
+                              />
+                            </div>
+                            <div className="order-1 lg:order-2 space-y-4">
+                              <div className="bg-raap-green/10 rounded-lg p-4">
+                                <h5 className="font-bold text-raap-green text-lg mb-3">Unit Specifications</h5>
+                                <div className="space-y-2">
+                                  <p><strong>Total Area:</strong> 563 square feet</p>
+                                  <p><strong>Unit Count:</strong> 6 units (25% of total)</p>
+                                  <p><strong>Target Market:</strong> Young professionals, singles</p>
+                                  <p><strong>Rent Range:</strong> Affordable housing tier</p>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 rounded-lg p-4">
+                                <h5 className="font-bold text-raap-dark text-lg mb-3">Layout Features</h5>
+                                <div className="space-y-2">
+                                  <p>• Open concept living room and kitchen</p>
+                                  <p>• Spacious bedroom with large window</p>
+                                  <p>• Full bathroom with modern fixtures</p>
+                                  <p>• Built-in closet storage throughout</p>
+                                  <p>• Private balcony/patio access</p>
+                                  <p>• Energy-efficient appliances included</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="bg-white border rounded-lg p-4">
-                            <h5 className="font-semibold text-raap-green mb-2">1-Bedroom Units (Type B+C)</h5>
-                            <div className="space-y-2 text-sm">
-                              <p><strong>Area:</strong> 563 sf</p>
-                              <p><strong>Count:</strong> 6 units</p>
-                              <p><strong>Percentage:</strong> 25%</p>
-                              <p><strong>Features:</strong> Open living/kitchen, bedroom, full bath, closet storage</p>
+
+                        {/* 2-Bedroom and 3-Bedroom Units */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="bg-white border-2 border-gray-200 rounded-lg p-6 shadow-md">
+                            <h4 className="text-xl font-bold text-raap-dark mb-4">2-Bedroom Units (Type D+B+C)</h4>
+                            <div className="space-y-4">
+                              <div className="bg-blue-50 rounded-lg p-4">
+                                <h5 className="font-bold text-blue-700 text-lg mb-3">Unit Specifications</h5>
+                                <div className="space-y-2 text-sm">
+                                  <p><strong>Total Area:</strong> 813 square feet</p>
+                                  <p><strong>Unit Count:</strong> 12 units (50% of total)</p>
+                                  <p><strong>Target Market:</strong> Small families, roommates</p>
+                                  <p><strong>Rent Range:</strong> Moderate income housing</p>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 rounded-lg p-4">
+                                <h5 className="font-bold text-gray-700 text-lg mb-3">Layout Features</h5>
+                                <div className="space-y-1 text-sm">
+                                  <p>• Separate living and dining areas</p>
+                                  <p>• Full-size kitchen with pantry</p>
+                                  <p>• Two bedrooms with ample closets</p>
+                                  <p>• Full bathroom plus powder room</p>
+                                  <p>• In-unit laundry connections</p>
+                                  <p>• Private outdoor space</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           
-                          <div className="bg-white border rounded-lg p-4">
-                            <h5 className="font-semibold text-raap-green mb-2">2-Bedroom Units (Type D+B+C)</h5>
-                            <div className="space-y-2 text-sm">
-                              <p><strong>Area:</strong> 813 sf</p>
-                              <p><strong>Count:</strong> 12 units</p>
-                              <p><strong>Percentage:</strong> 50%</p>
-                              <p><strong>Features:</strong> Living room, kitchen, 2 bedrooms, full bath, storage</p>
+                          <div className="bg-white border-2 border-gray-200 rounded-lg p-6 shadow-md">
+                            <h4 className="text-xl font-bold text-raap-dark mb-4">3-Bedroom Units (Type F+B2+C)</h4>
+                            <div className="space-y-4">
+                              <div className="bg-orange-50 rounded-lg p-4">
+                                <h5 className="font-bold text-orange-700 text-lg mb-3">Unit Specifications</h5>
+                                <div className="space-y-2 text-sm">
+                                  <p><strong>Total Area:</strong> 980 square feet</p>
+                                  <p><strong>Unit Count:</strong> 6 units (25% of total)</p>
+                                  <p><strong>Target Market:</strong> Families with children</p>
+                                  <p><strong>Rent Range:</strong> Family housing tier</p>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 rounded-lg p-4">
+                                <h5 className="font-bold text-gray-700 text-lg mb-3">Layout Features</h5>
+                                <div className="space-y-1 text-sm">
+                                  <p>• Large living room with dining area</p>
+                                  <p>• Full kitchen with island/breakfast bar</p>
+                                  <p>• Three bedrooms including master suite</p>
+                                  <p>• Two full bathrooms</p>
+                                  <p>• Ample storage throughout unit</p>
+                                  <p>• Large private patio/balcony</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          
-                          <div className="bg-white border rounded-lg p-4">
-                            <h5 className="font-semibold text-raap-green mb-2">3-Bedroom Units (Type F+B2+C)</h5>
-                            <div className="space-y-2 text-sm">
-                              <p><strong>Area:</strong> 980 sf</p>
-                              <p><strong>Count:</strong> 6 units</p>
-                              <p><strong>Percentage:</strong> 25%</p>
-                              <p><strong>Features:</strong> Living room, kitchen, 3 bedrooms, full bath, ample storage</p>
+                        </div>
+
+                        {/* Summary Section */}
+                        <div className="bg-raap-green/5 border border-raap-green rounded-lg p-6">
+                          <h4 className="font-bold text-raap-dark text-lg mb-3">Unit Mix Summary</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-raap-green">6</div>
+                              <div className="text-sm text-gray-600">1-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">563 SF Average</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-blue-600">12</div>
+                              <div className="text-sm text-gray-600">2-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">813 SF Average</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-orange-600">6</div>
+                              <div className="text-sm text-gray-600">3-Bedroom Units</div>
+                              <div className="text-xs text-gray-500">980 SF Average</div>
                             </div>
                           </div>
                         </div>
