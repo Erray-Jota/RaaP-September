@@ -35,6 +35,7 @@ import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_
 import oneBedImage from "@assets/1 Bed_1754836945408.png";
 import twoBedImage from "@assets/2 Bed_1754837154542.png";
 import threeBedImage from "@assets/3 Bed_1754837154543.png";
+import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
 
 function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
@@ -1529,13 +1530,41 @@ function ProjectDetail() {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Logistics Summary</h4>
-                    <p className="text-sm text-gray-700">
-                      The site presents ideal logistics conditions for modular construction with excellent highway access, 
-                      ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward 
-                      route from the Tracy fabrication facility ensures efficient module transportation and installation.
-                    </p>
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold text-raap-dark mb-4">Delivery Route: Tracy to Olivehurst</h4>
+                      <div className="w-full">
+                        <img 
+                          src={tracyRouteImage} 
+                          alt="Google Maps route from Tracy CA to Olivehurst CA showing 1 hour 29 minute drive via Highway 99 and Highway 70"
+                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
+                          style={{ maxHeight: '60vh' }}
+                        />
+                        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                          <div className="bg-blue-50 rounded-lg p-3 text-center">
+                            <div className="font-semibold text-blue-600">Distance</div>
+                            <div className="text-gray-700">103 miles</div>
+                          </div>
+                          <div className="bg-green-50 rounded-lg p-3 text-center">
+                            <div className="font-semibold text-green-600">Drive Time</div>
+                            <div className="text-gray-700">1 hour 29 minutes</div>
+                          </div>
+                          <div className="bg-orange-50 rounded-lg p-3 text-center">
+                            <div className="font-semibold text-orange-600">Primary Route</div>
+                            <div className="text-gray-700">Highway 99 → Highway 70</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h4 className="font-semibold text-raap-dark mb-2">Logistics Summary</h4>
+                      <p className="text-sm text-gray-700">
+                        The site presents ideal logistics conditions for modular construction with excellent highway access, 
+                        ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward 
+                        route from the Tracy fabrication facility ensures efficient module transportation and installation.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
