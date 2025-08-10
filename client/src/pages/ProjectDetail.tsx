@@ -1682,14 +1682,6 @@ function ProjectDetail() {
                         <div className="col-span-2"></div>
                       </div>
 
-                      {/* Start Construction & Fabrication */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Start Construction & Fabrication</div>
-                        <div className="col-span-5"></div>
-                        <div className="bg-orange-500 text-white text-xs px-2 py-2 rounded text-center">Week 1</div>
-                        <div className="col-span-3"></div>
-                      </div>
-
                       {/* Site Preparation */}
                       <div className="grid grid-cols-11 gap-1 items-center">
                         <div className="col-span-2 text-sm pr-2 font-medium">Site Preparation</div>
@@ -1711,13 +1703,6 @@ function ProjectDetail() {
                         <div className="bg-blue-300 px-2 py-2 rounded"></div>
                       </div>
 
-                      {/* Module Delivery */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Module Delivery</div>
-                        <div className="col-span-8"></div>
-                        <div className="bg-orange-500 text-white text-xs px-2 py-2 rounded text-center">2 weeks</div>
-                      </div>
-
                       {/* Module Installation */}
                       <div className="grid grid-cols-11 gap-1 items-center">
                         <div className="col-span-2 text-sm pr-2 font-medium">Module Installation</div>
@@ -1731,19 +1716,40 @@ function ProjectDetail() {
                         <div className="col-span-8"></div>
                         <div className="bg-green-500 text-white text-xs px-2 py-2 rounded text-center">2 weeks</div>
                       </div>
+                    </div>
 
-                      {/* Final Inspections */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Final Inspections</div>
-                        <div className="col-span-8"></div>
-                        <div className="bg-green-500 text-white text-xs px-2 py-2 rounded text-center">1 week</div>
+                    {/* Milestone Markers */}
+                    <div className="mt-6 pt-4 border-t border-gray-200">
+                      <h5 className="font-medium text-gray-700 mb-3 text-sm">Key Milestones</h5>
+                      <div className="grid grid-cols-11 gap-1 mb-4 text-xs">
+                        <div className="col-span-2"></div>
+                        {Array.from({ length: 9 }, (_, i) => (
+                          <div key={i} className="text-center text-gray-400 border-l border-gray-200">Month {i + 1}</div>
+                        ))}
                       </div>
-
-                      {/* Project Completion */}
-                      <div className="grid grid-cols-11 gap-1 items-center border-t border-gray-300 pt-2 mt-4">
-                        <div className="col-span-2 text-sm pr-2 font-bold">Project Completion</div>
-                        <div className="col-span-8"></div>
-                        <div className="bg-raap-dark text-white text-xs px-2 py-2 rounded text-center font-bold">9 months</div>
+                      
+                      <div className="grid grid-cols-11 gap-1 items-center relative">
+                        <div className="col-span-2"></div>
+                        
+                        {/* Start Construction & Fabrication - Month 6 */}
+                        <div className="col-span-5"></div>
+                        <div className="flex flex-col items-center">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full border-2 border-white shadow-lg"></div>
+                          <div className="text-xs text-orange-600 font-medium mt-1 text-center leading-tight">Start<br/>Construction</div>
+                        </div>
+                        
+                        {/* Module Delivery - Month 8 */}
+                        <div className="col-span-1"></div>
+                        <div className="flex flex-col items-center">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full border-2 border-white shadow-lg"></div>
+                          <div className="text-xs text-orange-600 font-medium mt-1 text-center leading-tight">Module<br/>Delivery</div>
+                        </div>
+                        
+                        {/* Final Inspections & Project Completion - Month 9 */}
+                        <div className="flex flex-col items-center">
+                          <div className="w-4 h-4 bg-raap-dark rounded-full border-2 border-white shadow-lg"></div>
+                          <div className="text-xs text-raap-dark font-bold mt-1 text-center leading-tight">Final<br/>Completion</div>
+                        </div>
                       </div>
                     </div>
 
@@ -1763,8 +1769,12 @@ function ProjectDetail() {
                           <span>Site Work</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                          <span>Delivery & Coordination</span>
+                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                          <span>Key Milestones</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-raap-dark rounded-full"></div>
+                          <span>Project Completion</span>
                         </div>
                       </div>
                     </div>
