@@ -36,6 +36,7 @@ import oneBedImage from "@assets/1 Bed_1754836945408.png";
 import twoBedImage from "@assets/2 Bed_1754837154542.png";
 import threeBedImage from "@assets/3 Bed_1754837154543.png";
 import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
+import zoningMapImage from "@assets/Serinity Zoning Map_1754839677898.png";
 
 function ProjectDetail() {
   const [, params] = useRoute("/projects/:id");
@@ -350,6 +351,36 @@ function ProjectDetail() {
                           <p><strong>Total Site Area:</strong> ±4.12 acres</p>
                           <p><strong>Target Units:</strong> 24 units</p>
                           <p><strong>Parking:</strong> 24 spaces (1.0 ratio)</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-raap-dark mb-4">Site Zoning Context</h4>
+                    <div className="w-full">
+                      <img 
+                        src={zoningMapImage} 
+                        alt="Serinity Village zoning map showing IL (Industrial Light) zoning designation with surrounding residential and mixed-use zones"
+                        className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
+                        style={{ maxHeight: '70vh' }}
+                      />
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                        <div className="bg-green-50 rounded-lg p-3 text-center">
+                          <div className="font-semibold text-green-600">Site Zoning</div>
+                          <div className="text-gray-700">IL - Industrial Light</div>
+                        </div>
+                        <div className="bg-blue-50 rounded-lg p-3 text-center">
+                          <div className="font-semibold text-blue-600">North Zone</div>
+                          <div className="text-gray-700">NMX - Neighborhood Mixed</div>
+                        </div>
+                        <div className="bg-purple-50 rounded-lg p-3 text-center">
+                          <div className="font-semibold text-purple-600">South Zone</div>
+                          <div className="text-gray-700">RM - Residential Multiple</div>
+                        </div>
+                        <div className="bg-orange-50 rounded-lg p-3 text-center">
+                          <div className="font-semibold text-orange-600">East Zone</div>
+                          <div className="text-gray-700">PF - Public Facilities</div>
                         </div>
                       </div>
                     </div>
