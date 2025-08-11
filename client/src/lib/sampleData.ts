@@ -73,23 +73,23 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "4.8",
     massingJustification: "Excellent unit configuration for modular construction with efficient repetitive layouts.",
     costScore: "4.5",
-    costJustification: "3% cost savings over site-built construction due to factory efficiencies and reduced labor costs.",
+    costJustification: "4.56% cost savings over site-built construction due to factory efficiencies and reduced labor costs.",
     sustainabilityScore: "4.5",
     sustainabilityJustification: "Good sustainability potential with modular design supporting energy efficiency goals.",
     logisticsScore: "4.0",
     logisticsJustification: "Urban location with some transportation constraints but adequate staging area.",
     buildTimeScore: "4.8",
     buildTimeJustification: "5 months time savings through parallel construction and factory efficiency.",
-    overallScore: "4.6",
+    overallScore: "4.5",
     
     // Cost analysis
     modularTotalCost: "18540000",
     modularCostPerSf: "485",
     modularCostPerUnit: "515000",
-    siteBuiltTotalCost: "19158000",
+    siteBuiltTotalCost: "19425817",
     siteBuiltCostPerSf: "501",
-    siteBuiltCostPerUnit: "532167",
-    costSavingsPercent: "3",
+    siteBuiltCostPerUnit: "539606",
+    costSavingsPercent: "4.56",
     
     // Timeline analysis
     modularTimelineMonths: 8,
