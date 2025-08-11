@@ -1632,8 +1632,7 @@ function ProjectDetail() {
                       <div className="text-3xl font-bold text-green-600">5/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of 5/5:</strong> Easy access from the highway and available open space for the staging site. 
-                      No transportation or setting constraints.
+                      <strong>Score of 5/5:</strong> The site presents ideal logistics conditions for modular construction with excellent highway access, ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward route from the Tracy fabrication facility ensures efficient module transportation and installation.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 15% of overall feasibility score
@@ -1717,14 +1716,7 @@ function ProjectDetail() {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Logistics Summary</h4>
-                    <p className="text-sm text-gray-700">
-                      The site presents ideal logistics conditions for modular construction with excellent highway access, 
-                      ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward 
-                      route from the Tracy fabrication facility ensures efficient module transportation and installation.
-                    </p>
-                  </div>
+
                 </div>
               </CardContent>
             </Card>
