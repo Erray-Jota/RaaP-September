@@ -177,7 +177,7 @@ function ProjectDetail() {
               <span className="hidden sm:inline">Summary</span>
             </TabsTrigger>
             <TabsTrigger value="zoning" className="flex items-center space-x-1">
-              <Building className="h-4 w-4" />
+              <MapPin className="h-4 w-4" />
               <span className="hidden sm:inline">Zoning</span>
             </TabsTrigger>
             <TabsTrigger value="massing" className="flex items-center space-x-1">
@@ -232,154 +232,153 @@ function ProjectDetail() {
                     </div>
                   </div>
 
+                  {/* 6 Assessment Criteria Tiles */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).zoningScore || "0")}`}>
+                        {(project as Project).zoningScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Zoning</div>
+                      <div className="text-xs text-gray-400">20% weight</div>
+                    </div>
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).massingScore || "0")}`}>
+                        {(project as Project).massingScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Massing</div>
+                      <div className="text-xs text-gray-400">15% weight</div>
+                    </div>
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).sustainabilityScore || "0")}`}>
+                        {(project as Project).sustainabilityScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Sustainability</div>
+                      <div className="text-xs text-gray-400">20% weight</div>
+                    </div>
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).costScore || "0")}`}>
+                        {(project as Project).costScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Cost</div>
+                      <div className="text-xs text-gray-400">20% weight</div>
+                    </div>
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).logisticsScore || "0")}`}>
+                        {(project as Project).logisticsScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Logistics</div>
+                      <div className="text-xs text-gray-400">15% weight</div>
+                    </div>
+                    <div className="text-center p-4 bg-white rounded-lg border">
+                      <div className={`text-2xl font-bold ${getScoreColor((project as Project).buildTimeScore || "0")}`}>
+                        {(project as Project).buildTimeScore || "0.0"}
+                      </div>
+                      <div className="text-sm text-gray-500 font-medium">Build Time</div>
+                      <div className="text-xs text-gray-400">10% weight</div>
+                    </div>
+                  </div>
+
+                  {/* Cost & Build Time Metrics */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                      <div className="text-3xl font-bold text-green-600">
+                        ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost!) / 1000000).toFixed(1) : "0.0"}M
+                      </div>
+                      <div className="text-sm text-gray-500">Modular Cost</div>
+                    </div>
+                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                      <div className="text-3xl font-bold text-blue-600">
+                        {(project as Project).modularTimelineMonths || 0} mo
+                      </div>
+                      <div className="text-sm text-gray-500">Build Time</div>
+                    </div>
+                    {((project as Project).costSavingsPercent && parseFloat((project as Project).costSavingsPercent!) > 0) && (
+                      <div className="text-center p-4 bg-green-100 rounded-lg">
+                        <div className="text-3xl font-bold text-green-600">
+                          {(project as Project).costSavingsPercent}%
+                        </div>
+                        <div className="text-sm text-gray-500">Cost Savings</div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Image and Specifications Side by Side */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div>
                       <img 
                         src={olivehurstMapImage} 
                         alt="Serinity Village project location in Olivehurst, California showing regional context and site accessibility" 
-                        className="w-full h-48 rounded-lg object-contain bg-white border mb-4"
+                        className="w-full h-64 rounded-lg object-contain bg-white border"
                       />
-                      
-                      <div className="bg-raap-green/10 border border-raap-green rounded-lg p-4">
-                        <h4 className="font-semibold text-raap-green mb-2">Project Specifications</h4>
-                        <ul className="text-sm text-gray-700 space-y-1">
-                          <li>• Total Units: {totalUnits}</li>
-                          {((project as Project).studioUnits || 0) > 0 && <li>• Studio: {(project as Project).studioUnits} units</li>}
-                          {((project as Project).oneBedUnits || 0) > 0 && <li>• 1 Bedroom: {(project as Project).oneBedUnits} units</li>}
-                          {((project as Project).twoBedUnits || 0) > 0 && <li>• 2 Bedroom: {(project as Project).twoBedUnits} units</li>}
-                          {((project as Project).threeBedUnits || 0) > 0 && <li>• 3 Bedroom: {(project as Project).threeBedUnits} units</li>}
-                          <li>• Floors: {(project as Project).targetFloors}</li>
-                          {(project as Project).buildingDimensions && <li>• Dimensions: {(project as Project).buildingDimensions}</li>}
-                          {(project as Project).constructionType && <li>• Construction Type: {(project as Project).constructionType}</li>}
-                          <li>• Parking Spaces: {(project as Project).targetParkingSpaces}</li>
-                        </ul>
-                      </div>
                     </div>
                     
-                    <div>
-                      {/* Detailed Scoring Breakdown */}
-                      <div className="mb-6">
-                        <h4 className="font-semibold text-raap-dark mb-4">Detailed Scoring Breakdown</h4>
-                        <div className="space-y-3">
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-blue-700">Zoning</h5>
-                              <div className="text-xl font-bold text-blue-600">4/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
-                            <p className="text-sm text-gray-700">Concessions required to reduce open space and parking requirements. Modular construction does not introduce any additional waivers or restrictions for this site.</p>
-                          </div>
-
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-green-700">Massing</h5>
-                              <div className="text-xl font-bold text-green-600">5/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 15%</p>
-                            <p className="text-sm text-gray-700">No additional constraints caused by modular structure. We can achieve the goal of 24 units and unit mix as the traditional original design.</p>
-                          </div>
-
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-green-700">Sustainability</h5>
-                              <div className="text-xl font-bold text-green-600">5/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
-                            <p className="text-sm text-gray-700">Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. Will require enhancements to foundation, walls, roof, windows, HVAC & lighting in addition to investment in batteries & solar power.</p>
-                          </div>
-
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-green-700">Cost</h5>
-                              <div className="text-xl font-bold text-green-600">4/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 20%</p>
-                            <p className="text-sm text-gray-700">$62.7M ($404/sf; $506K/unit). Prevailing Wage: 1.2% savings over site-built. Modular is cheaper than site-built.</p>
-                          </div>
-
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-green-700">Logistics</h5>
-                              <div className="text-xl font-bold text-green-600">5/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 15%</p>
-                            <p className="text-sm text-gray-700">Easy access from the highway and available open space for the staging site. No transportation or setting constraints.</p>
-                          </div>
-
-                          <div className="bg-white border rounded-lg p-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <h5 className="font-semibold text-green-700">Time</h5>
-                              <div className="text-xl font-bold text-green-600">4/5</div>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-1"><strong>Weight:</strong> 10%</p>
-                            <p className="text-sm text-gray-700">9 months design + construction using modular approach vs 13 months for site built. Savings of 4 months.</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-green-50 rounded-lg">
-                        <div className="text-2xl font-bold text-green-600">
-                          ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost!) / 1000000).toFixed(1) : "0.0"}M
-                        </div>
-                        <div className="text-xs text-gray-500">Modular Cost</div>
-                      </div>
-                      <div className="text-center p-4 bg-blue-50 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-600">
-                          {(project as Project).modularTimelineMonths || 0} mo
-                        </div>
-                        <div className="text-xs text-gray-500">Build Time</div>
+                    <div className="bg-raap-green/10 border border-raap-green rounded-lg p-6">
+                      <h4 className="font-semibold text-raap-green mb-4">Project Specifications</h4>
+                      <div className="grid grid-cols-1 gap-2 text-sm text-gray-700">
+                        <div><strong>Total Units:</strong> {totalUnits}</div>
+                        {((project as Project).studioUnits || 0) > 0 && <div><strong>Studio:</strong> {(project as Project).studioUnits} units</div>}
+                        {((project as Project).oneBedUnits || 0) > 0 && <div><strong>1 Bedroom:</strong> {(project as Project).oneBedUnits} units</div>}
+                        {((project as Project).twoBedUnits || 0) > 0 && <div><strong>2 Bedroom:</strong> {(project as Project).twoBedUnits} units</div>}
+                        {((project as Project).threeBedUnits || 0) > 0 && <div><strong>3 Bedroom:</strong> {(project as Project).threeBedUnits} units</div>}
+                        <div><strong>Floors:</strong> {(project as Project).targetFloors}</div>
+                        {(project as Project).buildingDimensions && <div><strong>Dimensions:</strong> {(project as Project).buildingDimensions}</div>}
+                        {(project as Project).constructionType && <div><strong>Construction Type:</strong> {(project as Project).constructionType}</div>}
+                        <div><strong>Parking Spaces:</strong> {(project as Project).targetParkingSpaces}</div>
                       </div>
                     </div>
+                  </div>
 
-                    {((project as Project).costSavingsPercent && parseFloat((project as Project).costSavingsPercent!) > 0) && (
-                      <div className="mt-4 text-center p-3 bg-green-100 rounded-lg">
-                        <div className="text-lg font-bold text-green-600">
-                          {(project as Project).costSavingsPercent}% Cost Savings
+                  {/* Detailed Scoring Breakdown */}
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-raap-dark text-lg">Detailed Assessment Summary</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-blue-700">Zoning Assessment</h5>
+                          <div className="text-xl font-bold text-blue-600">4/5</div>
                         </div>
-                        <div className="text-xs text-gray-600">vs. Site-Built Construction</div>
+                        <p className="text-sm text-gray-700">Concessions required to reduce open space and parking requirements. Modular construction does not introduce any additional waivers or restrictions for this site.</p>
                       </div>
-                    )}
 
-                    {/* Overall Scores Grid */}
-                    <div className="mt-6 grid grid-cols-3 gap-3">
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).zoningScore || "0")}`}>
-                          {(project as Project).zoningScore || "0.0"}
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-green-700">Massing Assessment</h5>
+                          <div className="text-xl font-bold text-green-600">5/5</div>
                         </div>
-                        <div className="text-xs text-gray-500">Zoning</div>
+                        <p className="text-sm text-gray-700">No additional constraints caused by modular structure. We can achieve the goal of 24 units and unit mix as the traditional original design.</p>
                       </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).massingScore || "0")}`}>
-                          {(project as Project).massingScore || "0.0"}
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-green-700">Sustainability Assessment</h5>
+                          <div className="text-xl font-bold text-green-600">5/5</div>
                         </div>
-                        <div className="text-xs text-gray-500">Massing</div>
+                        <p className="text-sm text-gray-700">Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. Will require enhancements to foundation, walls, roof, windows, HVAC & lighting.</p>
                       </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).sustainabilityScore || "0")}`}>
-                          {(project as Project).sustainabilityScore || "0.0"}
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-green-700">Cost Assessment</h5>
+                          <div className="text-xl font-bold text-green-600">4/5</div>
                         </div>
-                        <div className="text-xs text-gray-500">Sustainability</div>
+                        <p className="text-sm text-gray-700">$62.7M ($404/sf; $506K/unit). Prevailing Wage: 1.2% savings over site-built. Modular is cheaper than site-built.</p>
                       </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).costScore || "0")}`}>
-                          {(project as Project).costScore || "0.0"}
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-green-700">Logistics Assessment</h5>
+                          <div className="text-xl font-bold text-green-600">5/5</div>
                         </div>
-                        <div className="text-xs text-gray-500">Pricing</div>
+                        <p className="text-sm text-gray-700">Easy access from the highway and available open space for the staging site. No transportation or setting constraints.</p>
                       </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).logisticsScore || "0")}`}>
-                          {(project as Project).logisticsScore || "0.0"}
+
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <h5 className="font-semibold text-green-700">Time Assessment</h5>
+                          <div className="text-xl font-bold text-green-600">4/5</div>
                         </div>
-                        <div className="text-xs text-gray-500">Logistics</div>
+                        <p className="text-sm text-gray-700">9 months design + construction using modular approach vs 13 months for site built. Savings of 4 months.</p>
                       </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <div className={`text-xl font-bold ${getScoreColor((project as Project).buildTimeScore || "0")}`}>
-                          {(project as Project).buildTimeScore || "0.0"}
-                        </div>
-                        <div className="text-xs text-gray-500">Build Time</div>
-                      </div>
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -392,7 +391,7 @@ function ProjectDetail() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Building className="h-5 w-5" />
+                  <MapPin className="h-5 w-5" />
                   <span>Site & Zoning</span>
                   <Badge variant="outline" className={`ml-auto ${getScoreColor((project as Project).zoningScore || "0")}`}>
                     Score: {(project as Project).zoningScore || "0.0"}/5.0
@@ -1303,6 +1302,16 @@ function ProjectDetail() {
                     <h4 className="font-semibold text-raap-dark mb-4">Detailed MasterFormat Cost Breakdown</h4>
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse shadow-lg rounded-lg overflow-hidden text-sm">
+                        <colgroup>
+                          <col className="w-1/4" />
+                          <col className="w-3/20" />
+                          <col className="w-2/20" />
+                          <col className="w-2/20" />
+                          <col className="w-2/20" />
+                          <col className="w-3/20" />
+                          <col className="w-2/20" />
+                          <col className="w-2/20" />
+                        </colgroup>
                         <thead>
                           <tr className="bg-gradient-to-r from-raap-dark to-gray-700 text-white">
                             <th className="px-4 py-3 text-left font-bold">MasterFormat Division</th>
@@ -1646,18 +1655,21 @@ function ProjectDetail() {
                         className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
                         style={{ maxHeight: '60vh' }}
                       />
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div className="bg-blue-50 rounded-lg p-3 text-center">
+                      <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+                        <div className="bg-blue-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl font-bold text-blue-600">103</div>
                           <div className="font-semibold text-blue-600">Distance</div>
-                          <div className="text-gray-700">103 miles</div>
+                          <div className="text-gray-700">miles</div>
                         </div>
-                        <div className="bg-green-50 rounded-lg p-3 text-center">
+                        <div className="bg-green-50 rounded-lg p-4 text-center">
+                          <div className="text-2xl font-bold text-green-600">1:29</div>
                           <div className="font-semibold text-green-600">Drive Time</div>
-                          <div className="text-gray-700">1 hour 29 minutes</div>
+                          <div className="text-gray-700">hours</div>
                         </div>
-                        <div className="bg-orange-50 rounded-lg p-3 text-center">
+                        <div className="bg-orange-50 rounded-lg p-4 text-center">
+                          <div className="text-lg font-bold text-orange-600">Hwy 99→70</div>
                           <div className="font-semibold text-orange-600">Primary Route</div>
-                          <div className="text-gray-700">Highway 99 → Highway 70</div>
+                          <div className="text-gray-700">major highways</div>
                         </div>
                       </div>
                     </div>
@@ -1756,27 +1768,21 @@ function ProjectDetail() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
                       <h4 className="font-semibold text-raap-dark mb-3">Timeline Comparison</h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
-                          <span>RaaP Modular</span>
-                          <div className="text-right">
-                            <div className="font-semibold text-blue-600">9 months</div>
-                            <div className="text-sm text-gray-600">Design + Construction</div>
-                          </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="text-center p-4 bg-blue-50 rounded border border-blue-200">
+                          <div className="text-2xl font-bold text-blue-600">9</div>
+                          <div className="font-semibold text-blue-600">RaaP Modular</div>
+                          <div className="text-xs text-gray-600">months total</div>
                         </div>
-                        <div className="flex justify-between p-3 bg-gray-50 rounded">
-                          <span>Traditional Site-Built</span>
-                          <div className="text-right">
-                            <div className="font-semibold text-gray-600">13 months</div>
-                            <div className="text-sm text-gray-600">Design + Construction</div>
-                          </div>
+                        <div className="text-center p-4 bg-gray-50 rounded border">
+                          <div className="text-2xl font-bold text-gray-600">13</div>
+                          <div className="font-semibold text-gray-600">Site-Built</div>
+                          <div className="text-xs text-gray-600">months total</div>
                         </div>
-                        <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
-                          <span className="font-semibold">Time Savings</span>
-                          <div className="text-right">
-                            <div className="font-semibold text-green-600">4 months</div>
-                            <div className="text-sm text-gray-600">30% faster</div>
-                          </div>
+                        <div className="text-center p-4 bg-green-50 rounded border border-green-200">
+                          <div className="text-2xl font-bold text-green-600">4</div>
+                          <div className="font-semibold text-green-600">Time Savings</div>
+                          <div className="text-xs text-gray-600">months (30%)</div>
                         </div>
                       </div>
                     </div>
