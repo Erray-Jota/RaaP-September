@@ -22,6 +22,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   };
 
   const getProjectTypeImage = (projectType: string) => {
+    // Use specific image for Serenity Village project
+    if (project.name === "Serenity Village") {
+      return "/attached_assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
+    }
+    
     const images = {
       affordable: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=120",
       senior: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=120",
