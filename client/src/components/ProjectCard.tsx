@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ChevronRight } from "lucide-react";
 import type { Project } from "@shared/schema";
-import serenityBuildingImage from "@assets/generated_images/3-story_modern_residential_building_6e9e1cd1.png";
+import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 
 interface ProjectCardProps {
   project: Project;
