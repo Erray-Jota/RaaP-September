@@ -5,6 +5,7 @@ import { MapPin, ChevronRight } from "lucide-react";
 import type { Project } from "@shared/schema";
 import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 import workforceBuildingImage from "@assets/Building 2_1754894840186.jpg";
+import universityBuildingImage from "@assets/Building 4_1754895114379.jpg";
 
 interface ProjectCardProps {
   project: Project;
@@ -30,6 +31,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     }
     if (project.name === "Workforce Commons") {
       return workforceBuildingImage;
+    }
+    if (project.name === "University Housing Complex") {
+      return universityBuildingImage;
     }
     
     const images = {
