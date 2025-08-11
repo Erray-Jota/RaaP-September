@@ -10,6 +10,8 @@ Preferred communication style: Simple, everyday language.
 Logo display: RaaP logo should display with white background, not black background.
 Mobile layout: Project tiles must not have overlapping text on mobile devices.
 Project data: No consolidation or aggregation across disparate projects - show individual project data only.
+Cost savings display: Serenity Village project should show exactly 1% savings, not calculated percentages.
+Project images: Serenity Village uses custom generated building rendering instead of stock photos.
 
 ## System Architecture
 
