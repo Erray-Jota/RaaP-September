@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, ChevronRight } from "lucide-react";
 import type { Project } from "@shared/schema";
 import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
-import workforceBuildingImage from "@assets/generated_images/4-story_workforce_housing_isometric_260ec263.png";
+import workforceBuildingImage from "@assets/Building 2_1754894840186.jpg";
 
 interface ProjectCardProps {
   project: Project;
