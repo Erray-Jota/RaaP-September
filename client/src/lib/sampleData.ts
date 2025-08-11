@@ -179,7 +179,7 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "4.5",
     massingJustification: "Very good modular fit with 32 units (16 1-bed, 16 2-bed) and optimal building configuration.",
     costScore: "4.8",
-    costJustification: "11% cost savings over site-built construction. Strong modular economics for this project scale.",
+    costJustification: "8.23% cost savings over site-built construction. Strong modular economics for this project scale.",
     sustainabilityScore: "4.7",
     sustainabilityJustification: "Excellent sustainability alignment with city green building requirements and modular efficiency.",
     logisticsScore: "4.8",
@@ -192,10 +192,10 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     modularTotalCost: "17323946",
     modularCostPerSf: "448",
     modularCostPerUnit: "541373",
-    siteBuiltTotalCost: "19465108",
+    siteBuiltTotalCost: "18877570",
     siteBuiltCostPerSf: "469",
-    siteBuiltCostPerUnit: "608285",
-    costSavingsPercent: "11",
+    siteBuiltCostPerUnit: "589924",
+    costSavingsPercent: "8.23",
     
     // Timeline analysis
     modularTimelineMonths: 7,
