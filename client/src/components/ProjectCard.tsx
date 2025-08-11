@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ChevronRight } from "lucide-react";
 import type { Project } from "@shared/schema";
+import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 
 interface ProjectCardProps {
   project: Project;
@@ -24,7 +25,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const getProjectTypeImage = (projectType: string) => {
     // Use specific image for Serenity Village project
     if (project.name === "Serenity Village") {
-      return "/attached_assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
+      return serenityBuildingImage;
     }
     
     const images = {
