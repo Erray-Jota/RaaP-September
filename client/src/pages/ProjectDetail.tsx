@@ -408,7 +408,8 @@ function ProjectDetail() {
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
                       <strong>Score of 4/5:</strong> Concessions are required to reduce open space and parking requirements. 
-                      Modular construction does not introduce any additional waivers or restrictions for this site.
+                      Modular construction does not introduce any additional waivers or restrictions for this site. 
+                      The project qualifies for density bonus provisions under AB 1287 due to affordable unit mix.
                     </p>
                     <div className="text-xs text-blue-600 font-medium">
                       Weight: 20% of overall feasibility score
@@ -636,14 +637,7 @@ function ProjectDetail() {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-raap-dark mb-2">Zoning Assessment</h4>
-                    <p className="text-sm text-gray-700">
-                      <strong>Score of 4/5:</strong> Concessions are required to reduce open space and parking requirements. 
-                      Modular construction does not introduce any additional waivers or restrictions for this site. 
-                      The project qualifies for density bonus provisions under AB 1287 due to affordable unit mix.
-                    </p>
-                  </div>
+
                 </div>
               </CardContent>
             </Card>
