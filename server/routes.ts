@@ -209,7 +209,7 @@ function calculateFeasibilityScores(projectData: any) {
   // Calculate cost estimates
   const costPerUnit = projectData.projectType === 'affordable' ? 451000 : 500000;
   const modularTotalCost = totalUnits * costPerUnit;
-  const siteBuiltTotalCost = modularTotalCost * 1.012; // 1.2% higher
+  const siteBuiltTotalCost = modularTotalCost * 1.0101; // 1% higher (adjusted to show exactly 1% savings)
   const costSavingsPercent = ((siteBuiltTotalCost - modularTotalCost) / siteBuiltTotalCost) * 100;
 
   return {
@@ -230,7 +230,7 @@ function calculateFeasibilityScores(projectData: any) {
     modularCostPerUnit: costPerUnit.toString(),
     siteBuiltTotalCost: siteBuiltTotalCost.toString(),
     siteBuiltCostPerUnit: (siteBuiltTotalCost / totalUnits).toString(),
-    costSavingsPercent: costSavingsPercent.toFixed(2),
+    costSavingsPercent: costSavingsPercent.toFixed(0),
     modularTimelineMonths: 9,
     siteBuiltTimelineMonths: 13,
     timeSavingsMonths: 4,
