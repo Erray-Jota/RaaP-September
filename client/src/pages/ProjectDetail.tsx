@@ -1743,8 +1743,8 @@ function ProjectDetail() {
                       <div className="text-3xl font-bold text-green-600">4/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of 4/5:</strong> 9 months design + construction using modular approach vs 13 months for site built. 
-                      Savings of 4 months (30% timeline reduction).
+                      <strong>Score of 4/5:</strong> 30.5 months total project delivery using modular approach vs 41 months for site built. 
+                      Savings of 10.5 months (25% timeline reduction).
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 10% of overall feasibility score
@@ -1756,19 +1756,19 @@ function ProjectDetail() {
                       <h4 className="font-semibold text-raap-dark mb-3">Timeline Comparison</h4>
                       <div className="grid grid-cols-3 gap-3">
                         <div className="text-center p-4 bg-blue-50 rounded border border-blue-200">
-                          <div className="text-2xl font-bold text-blue-600">9</div>
+                          <div className="text-2xl font-bold text-blue-600">30.5</div>
                           <div className="font-semibold text-blue-600">RaaP Modular</div>
                           <div className="text-xs text-gray-600">months total</div>
                         </div>
                         <div className="text-center p-4 bg-gray-50 rounded border">
-                          <div className="text-2xl font-bold text-gray-600">13</div>
+                          <div className="text-2xl font-bold text-gray-600">41</div>
                           <div className="font-semibold text-gray-600">Site-Built</div>
                           <div className="text-xs text-gray-600">months total</div>
                         </div>
                         <div className="text-center p-4 bg-green-50 rounded border border-green-200">
-                          <div className="text-2xl font-bold text-green-600">4</div>
+                          <div className="text-2xl font-bold text-green-600">10.5</div>
                           <div className="font-semibold text-green-600">Time Savings</div>
-                          <div className="text-xs text-gray-600">months (30%)</div>
+                          <div className="text-xs text-gray-600">months (25%)</div>
                         </div>
                       </div>
                     </div>
@@ -1796,174 +1796,136 @@ function ProjectDetail() {
                     </div>
                   </div>
 
-                  {/* Gantt Chart */}
+                  {/* Estimated Project Timeline Comparison */}
                   <div className="bg-white border rounded-lg p-6">
-                    <h4 className="font-semibold text-raap-dark mb-6 text-lg">Project Timeline - RaaP Modular Construction (9 months)</h4>
+                    <h4 className="font-semibold text-raap-dark mb-6 text-lg">Estimated Project Timeline Comparison</h4>
                     
-                    {/* Timeline Header */}
-                    <div className="grid grid-cols-11 gap-1 mb-4 text-xs text-center">
-                      <div className="col-span-2"></div>
-                      {Array.from({ length: 9 }, (_, i) => (
-                        <div key={i} className="font-medium text-gray-600 border-l border-gray-200 px-1">Month {i + 1}</div>
-                      ))}
-                    </div>
-
-                    {/* Project Timeline */}
-                    <div className="space-y-2">
-                      {/* Design Development */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Design Development</div>
-                        <div className="bg-purple-500 text-white text-xs px-2 py-2 rounded text-center font-medium">8 weeks</div>
-                        <div className="bg-purple-300 px-2 py-2 rounded"></div>
-                        <div className="col-span-7"></div>
-                      </div>
-
-                      {/* Factory Permit Set */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Factory Permit Set</div>
-                        <div className="col-span-2"></div>
-                        <div className="bg-purple-500 text-white text-xs px-2 py-2 rounded text-center">1 month</div>
-                        <div className="col-span-6"></div>
-                      </div>
-
-                      {/* AHJ Permit Set */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">AHJ Permit Set</div>
-                        <div className="col-span-2"></div>
-                        <div className="bg-purple-500 text-white text-xs px-2 py-2 rounded text-center">4 months</div>
-                        <div className="bg-purple-300 px-2 py-2 rounded"></div>
-                        <div className="bg-purple-300 px-2 py-2 rounded"></div>
-                        <div className="bg-purple-300 px-2 py-2 rounded"></div>
-                        <div className="col-span-2"></div>
-                      </div>
-
-                      {/* Site Preparation */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Site Preparation</div>
-                        <div className="col-span-5"></div>
-                        <div className="bg-green-500 text-white text-xs px-2 py-2 rounded text-center">2 months</div>
-                        <div className="bg-green-300 px-2 py-2 rounded"></div>
-                        <div className="col-span-1"></div>
-                      </div>
-
-                      {/* Factory Production */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Factory Production</div>
-                        <div className="col-span-3"></div>
-                        <div className="bg-blue-500 text-white text-xs px-2 py-2 rounded text-center">6 months</div>
-                        <div className="bg-blue-300 px-2 py-2 rounded"></div>
-                        <div className="bg-blue-300 px-2 py-2 rounded"></div>
-                        <div className="bg-blue-300 px-2 py-2 rounded"></div>
-                        <div className="bg-blue-300 px-2 py-2 rounded"></div>
-                        <div className="bg-blue-300 px-2 py-2 rounded"></div>
-                      </div>
-
-                      {/* Module Installation */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Module Installation</div>
-                        <div className="col-span-8"></div>
-                        <div className="bg-green-500 text-white text-xs px-2 py-2 rounded text-center">3 weeks</div>
-                      </div>
-
-                      {/* Site Connections */}
-                      <div className="grid grid-cols-11 gap-1 items-center">
-                        <div className="col-span-2 text-sm pr-2 font-medium">Site Connections</div>
-                        <div className="col-span-8"></div>
-                        <div className="bg-green-500 text-white text-xs px-2 py-2 rounded text-center">2 weeks</div>
-                      </div>
-                    </div>
-
-                    {/* Milestone Markers */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <h5 className="font-medium text-gray-700 mb-3 text-sm">Key Milestones</h5>
-                      <div className="grid grid-cols-11 gap-1 mb-4 text-xs">
-                        <div className="col-span-2"></div>
-                        {Array.from({ length: 9 }, (_, i) => (
-                          <div key={i} className="text-center text-gray-400 border-l border-gray-200">Month {i + 1}</div>
-                        ))}
-                      </div>
-                      
-                      <div className="grid grid-cols-11 gap-1 items-center relative">
-                        <div className="col-span-2"></div>
-                        
-                        {/* Start Construction & Fabrication - Month 6 */}
-                        <div className="col-span-5"></div>
-                        <div className="flex flex-col items-center">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full border-2 border-white shadow-lg"></div>
-                          <div className="text-xs text-orange-600 font-medium mt-1 text-center leading-tight">Start<br/>Construction</div>
+                    <div className="space-y-8">
+                      {/* RaaP Modular Timeline */}
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-gray-800">RaaP Modular (30.5 months)</h5>
+                          <div className="text-right text-xs">
+                            <div>18.5 months design time</div>
+                            <div className="text-gray-500">(8.5 months design work)</div>
+                          </div>
                         </div>
                         
-                        {/* Module Delivery - Month 8 */}
-                        <div className="col-span-1"></div>
-                        <div className="flex flex-col items-center">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full border-2 border-white shadow-lg"></div>
-                          <div className="text-xs text-orange-600 font-medium mt-1 text-center leading-tight">Module<br/>Delivery</div>
+                        <div className="relative">
+                          <div className="flex items-center space-x-1 mb-2">
+                            <div className="bg-green-600 text-white text-xs px-3 py-2 rounded font-medium min-w-0 text-center">SmartStart<br/>(2 months)</div>
+                            <div className="bg-blue-300 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Entitlement<br/>Docs<br/>(2 months)</div>
+                            <div className="bg-white border-2 border-gray-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Entitlement<br/>(~6 months?)</div>
+                            <div className="bg-blue-300 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Permit Docs<br/>(4.5 months)</div>
+                            <div className="bg-white border-2 border-gray-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Permitting<br/>(~4 months?)</div>
+                            <div className="bg-yellow-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Site Work<br/>(~7 months?)</div>
+                            <div className="bg-green-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Setting<br/>(1 month)</div>
+                            <div className="bg-yellow-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Building<br/>(4 months)</div>
+                          </div>
+                          
+                          <div className="text-right text-xs mt-2">
+                            <div>12 months construction time</div>
+                            <div className="text-gray-500">(6 months modular fabrication)</div>
+                          </div>
+                          
+                          {/* Milestone markers */}
+                          <div className="flex justify-end space-x-16 mt-2">
+                            <div className="text-center">
+                              <div className="w-2 h-8 bg-orange-500"></div>
+                              <div className="text-xs text-orange-600 mt-1">Deliver RaaP<br/>EasyDesign</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="w-2 h-8 bg-orange-500"></div>
+                              <div className="text-xs text-orange-600 mt-1">Deliver Modules</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Site Build Timeline */}
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-gray-800">Site Build (41 months)</h5>
+                          <div className="text-right text-xs">
+                            <div>23 months design time</div>
+                            <div className="text-gray-500">(13 months design work)</div>
+                          </div>
                         </div>
                         
-                        {/* Final Inspections & Project Completion - Month 9 */}
-                        <div className="flex flex-col items-center">
-                          <div className="w-4 h-4 bg-raap-dark rounded-full border-2 border-white shadow-lg"></div>
-                          <div className="text-xs text-raap-dark font-bold mt-1 text-center leading-tight">Final<br/>Completion</div>
+                        <div className="relative">
+                          <div className="flex items-center space-x-1 mb-2">
+                            <div className="bg-green-600 text-white text-xs px-3 py-2 rounded font-medium min-w-0 text-center">Project Prep<br/>(2 months)</div>
+                            <div className="bg-blue-300 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Entitlement<br/>Docs<br/>(3 months)</div>
+                            <div className="bg-white border-2 border-gray-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Entitlement<br/>(~6 months?)</div>
+                            <div className="bg-blue-300 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Permit Docs<br/>(8 months)</div>
+                            <div className="bg-white border-2 border-gray-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Permitting<br/>(~4 months?)</div>
+                            <div className="bg-yellow-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Site Work<br/>(~8 months?)</div>
+                            <div className="bg-yellow-400 text-black text-xs px-3 py-2 rounded min-w-0 text-center">Building<br/>(10 months)</div>
+                          </div>
+                          
+                          <div className="text-right text-xs mt-2">
+                            <div>18 months construction time</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Legend */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <div className="flex flex-wrap gap-4 text-xs">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-purple-500 rounded"></div>
-                          <span>Design & Permitting</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                          <span>Factory Production</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-green-500 rounded"></div>
-                          <span>Site Work</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                          <span>Key Milestones</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-raap-dark rounded-full"></div>
-                          <span>Project Completion</span>
+                      {/* Legend */}
+                      <div className="pt-4 border-t border-gray-200">
+                        <div className="flex flex-wrap gap-4 text-xs">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-green-600 rounded"></div>
+                            <span>RaaP tasks</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-blue-300 rounded"></div>
+                            <span>AoR tasks</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-white border border-gray-400 rounded"></div>
+                            <span>AHJ tasks</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-yellow-400 rounded"></div>
+                            <span>GC tasks</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-green-400 rounded"></div>
+                            <span>Fabrication tasks</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Key Benefits */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <h5 className="font-medium text-gray-700 mb-3 text-sm">Key Timeline Benefits</h5>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span><strong>Parallel Production:</strong> Site prep occurs while modules are fabricated</span>
+                      {/* Key Timeline Benefits */}
+                      <div className="pt-4 border-t border-gray-200">
+                        <h5 className="font-medium text-gray-700 mb-3 text-sm">Key Timeline Benefits</h5>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                              <span><strong>Design Efficiency:</strong> 4.5 months savings through streamlined RaaP process</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span><strong>Parallel Production:</strong> Site work occurs while modules are fabricated</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                              <span><strong>Construction Speed:</strong> 6 months savings through factory efficiency</span>
+                            </div>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                            <span><strong>Permit Overlap:</strong> AHJ permits processed during factory production</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span><strong>Fast Installation:</strong> Modules installed in just 3 weeks</span>
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                            <span><strong>Weather Independent:</strong> Factory work unaffected by weather</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span><strong>Quality Control:</strong> Controlled factory environment</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span><strong>30% Time Savings:</strong> 9 months vs 13 months traditional</span>
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                              <span><strong>Weather Independent:</strong> Factory work unaffected by weather delays</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                              <span><strong>Quality Control:</strong> Consistent factory environment reduces rework</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                              <span><strong>25% Time Savings:</strong> 30.5 months vs 41 months traditional</span>
+                            </div>
                           </div>
                         </div>
                       </div>
