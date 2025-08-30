@@ -519,15 +519,87 @@ export function generateProjectPDF(project: Project, costBreakdowns: CostBreakdo
     addText(project.stagingNotes, 15, 9, 'normal', pageWidth - 20);
   }
 
-  // Timeline Analysis
-  yPosition += 10;
-  addText('Build Timeline Analysis', 10, 14, 'bold');
-  addText(`Modular Construction: ${project.modularTimelineMonths || 9} months`, 10, 11);
-  addText(`Site-Built Construction: ${project.siteBuiltTimelineMonths || 13} months`, 10, 11);
-  
-  if (project.timeSavingsMonths && project.timeSavingsMonths > 0) {
-    addText(`Time Savings: ${project.timeSavingsMonths} months faster with modular construction`, 10, 11, 'bold');
+  // Comprehensive Timeline Analysis
+  if (yPosition > pageHeight - 100) {
+    doc.addPage();
+    yPosition = 20;
   }
+
+  addText('Comprehensive Project Timeline Analysis', 10, 14, 'bold');
+  addText('Detailed Phase-by-Phase Comparison:', 10, 12, 'bold');
+  yPosition += 5;
+
+  // RaaP Modular Timeline (30.5 months total)
+  addText('RaaP Modular Construction Timeline (30.5 months total):', 10, 11, 'bold');
+  
+  const modularPhases = [
+    { phase: 'SmartStart', duration: '2 months', type: 'RaaP Process' },
+    { phase: 'Entitlement Documents', duration: '2 months', type: 'AoR Work' },
+    { phase: 'Entitlement Process', duration: '6 months', type: 'AHJ Review' },
+    { phase: 'Permit Documents', duration: '4.5 months', type: 'AoR Work' },
+    { phase: 'Permitting Process', duration: '4 months', type: 'AHJ Review' },
+    { phase: 'Site Work', duration: '7 months', type: 'GC Work' },
+    { phase: 'Module Setting', duration: '1 month', type: 'RaaP Installation' },
+    { phase: 'Building Completion', duration: '4 months', type: 'GC Work' },
+  ];
+
+  modularPhases.forEach(phase => {
+    addText(`• ${phase.phase}: ${phase.duration} (${phase.type})`, 15, 9);
+  });
+
+  yPosition += 3;
+  addText('Design Time: 18.5 months (8.5 months design work)', 15, 9, 'bold');
+  addText('Construction Time: 12 months (6 months modular fabrication)', 15, 9, 'bold');
+  
+  yPosition += 5;
+
+  // Site-Built Timeline (41 months total)
+  addText('Traditional Site-Built Construction Timeline (41 months total):', 10, 11, 'bold');
+  
+  const siteBuiltPhases = [
+    { phase: 'Project Preparation', duration: '2 months', type: 'Initial Setup' },
+    { phase: 'Entitlement Documents', duration: '3 months', type: 'AoR Work' },
+    { phase: 'Entitlement Process', duration: '6 months', type: 'AHJ Review' },
+    { phase: 'Permit Documents', duration: '8 months', type: 'AoR Work' },
+    { phase: 'Permitting Process', duration: '4 months', type: 'AHJ Review' },
+    { phase: 'Site Work', duration: '8 months', type: 'GC Work' },
+    { phase: 'Building Construction', duration: '10 months', type: 'GC Work' },
+  ];
+
+  siteBuiltPhases.forEach(phase => {
+    addText(`• ${phase.phase}: ${phase.duration} (${phase.type})`, 15, 9);
+  });
+
+  yPosition += 3;
+  addText('Design Time: 23 months (13 months design work)', 15, 9, 'bold');
+  addText('Construction Time: 18 months (all on-site construction)', 15, 9, 'bold');
+  
+  yPosition += 5;
+
+  // Timeline Advantages Summary
+  addText('Timeline Advantages Analysis:', 10, 11, 'bold');
+  
+  const timelineAdvantages = [
+    'Total Time Savings: 10.5 months (25% faster project delivery)',
+    'Design Phase Efficiency: 4.5 months savings through streamlined RaaP process',
+    'Construction Phase Acceleration: 6 months savings through parallel fabrication',
+    'Weather Independence: Factory fabrication eliminates weather delays',
+    'Quality Control: Consistent factory environment reduces rework time',
+    'Parallel Activities: Site work occurs simultaneously with module fabrication',
+  ];
+
+  timelineAdvantages.forEach(advantage => {
+    addText(`• ${advantage}`, 15, 9, 'normal', pageWidth - 20);
+  });
+
+  yPosition += 5;
+
+  // Key Timeline Benefits
+  addText('Key Timeline Benefits:', 10, 11, 'bold');
+  addText('• Earlier Revenue Generation: 10.5 months faster occupancy and rent collection', 15, 9, 'normal', pageWidth - 20);
+  addText('• Reduced Carrying Costs: Shorter construction loans and development overhead', 15, 9, 'normal', pageWidth - 20);
+  addText('• Market Timing: Faster delivery reduces market risk and captures current demand', 15, 9, 'normal', pageWidth - 20);
+  addText('• Financing Advantages: Lenders favor predictable modular construction schedules', 15, 9, 'normal', pageWidth - 20);
 
   // Footer
   const totalPages = doc.getNumberOfPages();
