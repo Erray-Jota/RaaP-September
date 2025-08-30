@@ -109,6 +109,9 @@ export function generateProjectPDF(project: Project, costBreakdowns: CostBreakdo
              10, 10, 'normal', pageWidth - 20);
   }
   
+  addText('This report includes comprehensive analysis supported by detailed visual documentation including site plans, 3D renderings, unit layouts, and timeline comparisons available in the digital project file.', 
+           10, 10, 'normal', pageWidth - 20);
+  
   yPosition += 10;
 
   // Detailed Feasibility Scoring Analysis
@@ -395,6 +398,15 @@ export function generateProjectPDF(project: Project, costBreakdowns: CostBreakdo
   
   yPosition += 5;
 
+  // Zoning Visual Documentation
+  addText('Zoning Documentation Available:', 10, 11, 'bold');
+  addText('• Detailed zoning map showing site context and surrounding districts', 15, 9);
+  addText('• Site location map with transportation routes and accessibility', 15, 9);
+  addText('• Comprehensive site analysis drawings', 15, 9);
+  addText('Note: Complete zoning and site documentation is available in the digital project file.', 15, 9, 'normal', pageWidth - 20);
+  
+  yPosition += 5;
+
   // Massing Analysis
   if (yPosition > pageHeight - 60) {
     doc.addPage();
@@ -436,6 +448,16 @@ export function generateProjectPDF(project: Project, costBreakdowns: CostBreakdo
   addText(`• Units per Floor: ${efficiency} (${efficiency >= 4 ? 'Excellent' : efficiency >= 3 ? 'Good' : 'Moderate'} density for modular)`, 15, 9);
   addText(`• Floor Plan Repetition: ${project.targetFloors - 1} typical floors (high manufacturing efficiency)`, 15, 9);
   addText(`• Structural Regularity: Rectangular footprint optimizes modular bay sizing`, 15, 9);
+  
+  yPosition += 5;
+
+  // Visual Documentation Reference
+  addText('Design Documentation Available:', 10, 11, 'bold');
+  addText('• Site plan and building layout drawings', 15, 9);
+  addText('• 3D building renderings showing massing and context', 15, 9);
+  addText('• Individual unit floor plans (1BR, 2BR, 3BR layouts)', 15, 9);
+  addText('• Comprehensive unit plans showing spatial efficiency', 15, 9);
+  addText('Note: Complete visual documentation is available in the digital project file.', 15, 9, 'normal', pageWidth - 20);
   
   yPosition += 10;
 
@@ -600,6 +622,18 @@ export function generateProjectPDF(project: Project, costBreakdowns: CostBreakdo
   addText('• Reduced Carrying Costs: Shorter construction loans and development overhead', 15, 9, 'normal', pageWidth - 20);
   addText('• Market Timing: Faster delivery reduces market risk and captures current demand', 15, 9, 'normal', pageWidth - 20);
   addText('• Financing Advantages: Lenders favor predictable modular construction schedules', 15, 9, 'normal', pageWidth - 20);
+
+  yPosition += 5;
+
+  // Timeline Visualization Reference
+  addText('Timeline Visualization Available:', 10, 11, 'bold');
+  addText('A comprehensive timeline comparison diagram is included in the digital project file showing:', 15, 9, 'normal', pageWidth - 20);
+  addText('• Detailed phase-by-phase comparison between RaaP Modular and Site-Built timelines', 15, 9);
+  addText('• Color-coded task categories (RaaP tasks, AoR tasks, AHJ tasks, GC tasks, Fabrication)', 15, 9);
+  addText('• Design time breakdown: 18.5 months (RaaP) vs. 23 months (Site-Built)', 15, 9);
+  addText('• Construction time breakdown: 12 months (RaaP) vs. 18 months (Site-Built)', 15, 9);
+  addText('• Key milestone markers showing critical delivery points', 15, 9);
+  addText('Note: Complete timeline visualization is available in the digital project presentation.', 15, 9, 'normal', pageWidth - 20);
 
   // Footer
   const totalPages = doc.getNumberOfPages();
