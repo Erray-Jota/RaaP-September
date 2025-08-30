@@ -55,7 +55,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <CardContent className="p-6">
       <div 
         className="cursor-pointer hover:bg-gray-50 -m-6 p-6 rounded-lg transition-colors"
-        onClick={() => navigate(`/projects/${project.id}`)}
+        onClick={() => navigate(`/projects/${project.id}/workflow`)}
       >
         {/* Mobile-first responsive layout */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">

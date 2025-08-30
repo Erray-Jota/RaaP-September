@@ -90,6 +90,40 @@ export const projects = pgTable("projects", {
   transportationNotes: text("transportation_notes"),
   stagingNotes: text("staging_notes"),
   
+  // Application workflow progress tracking
+  modularFeasibilityComplete: boolean("modular_feasibility_complete").default(false),
+  smartStartComplete: boolean("smart_start_complete").default(false),
+  fabAssureComplete: boolean("fab_assure_complete").default(false),
+  easyDesignComplete: boolean("easy_design_complete").default(false),
+  
+  // SmartStart application fields
+  entitlementStatus: varchar("entitlement_status"),
+  entitlementNotes: text("entitlement_notes"),
+  planningSdkSubmitted: boolean("planning_sdk_submitted").default(false),
+  preliminaryDesignComplete: boolean("preliminary_design_complete").default(false),
+  permitApplicationSubmitted: boolean("permit_application_submitted").default(false),
+  permitStatus: varchar("permit_status"),
+  permitNotes: text("permit_notes"),
+  
+  // FabAssure application fields
+  factoryPartner: varchar("factory_partner"),
+  factorySchedulingComplete: boolean("factory_scheduling_complete").default(false),
+  qualityAssurancePlan: text("quality_assurance_plan"),
+  fabricationStart: timestamp("fabrication_start"),
+  fabricationTimeline: text("fabrication_timeline"),
+  qualityCheckpoints: text("quality_checkpoints"),
+  shippingPlan: text("shipping_plan"),
+  factoryInspectionScheduled: boolean("factory_inspection_scheduled").default(false),
+  
+  // EasyDesign application fields
+  designCustomizationLevel: varchar("design_customization_level"),
+  architecturalPlansFinalized: boolean("architectural_plans_finalized").default(false),
+  interiorDesignComplete: boolean("interior_design_complete").default(false),
+  materialSelectionsFinalized: boolean("material_selections_finalized").default(false),
+  systemsDesignComplete: boolean("systems_design_complete").default(false),
+  finalDesignApproval: boolean("final_design_approval").default(false),
+  designNotes: text("design_notes"),
+  
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

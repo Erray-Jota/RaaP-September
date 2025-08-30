@@ -58,7 +58,7 @@ export default function CreateProject() {
         title: "Project Created",
         description: "Your project has been created and assessed for modular feasibility.",
       });
-      navigate(`/projects/${data.project.id}`);
+      navigate(`/projects/${data.project.id}/workflow`);
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -81,7 +81,7 @@ export default function CreateProject() {
   });
 
   const onSubmit = (data: CreateProjectForm) => {
-    const totalUnits = data.studioUnits + data.oneBedUnits + data.twoBedUnits + data.threeBedUnits;
+    const totalUnits = (data.studioUnits || 0) + (data.oneBedUnits || 0) + (data.twoBedUnits || 0) + (data.threeBedUnits || 0);
     
     if (totalUnits === 0) {
       toast({
@@ -269,6 +269,7 @@ export default function CreateProject() {
                               type="number"
                               min="0"
                               {...field}
+                              value={field.value || 0}
                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                             />
                           </FormControl>
@@ -288,6 +289,7 @@ export default function CreateProject() {
                               type="number"
                               min="0"
                               {...field}
+                              value={field.value || 0}
                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                             />
                           </FormControl>
@@ -307,6 +309,7 @@ export default function CreateProject() {
                               type="number"
                               min="0"
                               {...field}
+                              value={field.value || 0}
                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                             />
                           </FormControl>
@@ -326,6 +329,7 @@ export default function CreateProject() {
                               type="number"
                               min="0"
                               {...field}
+                              value={field.value || 0}
                               onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                             />
                           </FormControl>

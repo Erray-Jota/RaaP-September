@@ -137,6 +137,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PATCH route for updating application completion status
+  app.patch('/api/projects/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const project = await storage.getProject(id);
+      
+      if (!project) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+
+      // Verify ownership
+      if (project.userId !== req.user.claims.sub) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Define schema for application completion updates
+      const updateSchema = z.object({
+        modularFeasibilityComplete: z.boolean().optional(),
+        smartStartComplete: z.boolean().optional(),
+        fabAssureComplete: z.boolean().optional(),
+        easyDesignComplete: z.boolean().optional(),
+      });
+
+      const validatedData = updateSchema.parse(req.body);
+      
+      const updatedProject = await storage.updateProject(id, validatedData);
+
+      res.json(updatedProject);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid update data", errors: error.errors });
+      }
+      console.error("Error updating project status:", error);
+      res.status(500).json({ message: "Failed to update project" });
+    }
+  });
+
   // Cost breakdown routes
   app.get('/api/projects/:id/cost-breakdowns', isAuthenticated, async (req: any, res) => {
     try {

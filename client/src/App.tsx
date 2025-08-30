@@ -8,6 +8,11 @@ import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
 import ProjectDetail from "@/pages/ProjectDetail";
 import CreateProject from "@/pages/CreateProject";
+import WorkflowOverview from "@/pages/WorkflowOverview";
+import ModularFeasibility from "@/pages/ModularFeasibility";
+import SmartStart from "@/pages/SmartStart";
+import FabAssure from "@/pages/FabAssure";
+import EasyDesign from "@/pages/EasyDesign";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,6 +25,11 @@ function Router() {
       ) : (
         <>
           <Route path="/" component={Dashboard} />
+          <Route path="/projects/:id/workflow" component={WorkflowOverview} />
+          <Route path="/projects/:id/modular-feasibility" component={ModularFeasibility} />
+          <Route path="/projects/:id/smart-start" component={SmartStart} />
+          <Route path="/projects/:id/fab-assure" component={FabAssure} />
+          <Route path="/projects/:id/easy-design" component={EasyDesign} />
           <Route path="/projects/:id" component={ProjectDetail} />
           <Route path="/create-project" component={CreateProject} />
         </>
