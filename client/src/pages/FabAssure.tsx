@@ -535,6 +535,20 @@ export default function FabAssure() {
                 </CardContent>
               </Card>
 
+              {/* Selected Fabricator Display */}
+              <Card className="border-2 border-blue-200 bg-blue-50">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-blue-800">Currently Evaluating: Modular Solutions Inc.</h3>
+                      <p className="text-sm text-blue-600">Located in Tracy, CA | Selected for Serenity Village Project</p>
+                      <p className="text-sm text-blue-600">Total Fabrication Cost: $3,072,915 (28.4% of project)</p>
+                    </div>
+                    <Badge className="bg-blue-200 text-blue-800">Primary Fabricator</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Design Assessment - Key Assemblies */}
               <Card>
                 <CardHeader>
@@ -598,7 +612,7 @@ export default function FabAssure() {
                             <Label className="text-sm font-medium">Score (0-5 scale):</Label>
                             <div className="flex items-center space-x-2 mt-2">
                               {[1,2,3,4,5].map(score => (
-                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                <button key={score} className={`flex-1 h-10 rounded cursor-pointer transition-colors flex items-center justify-center text-sm font-medium ${score === 4 ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-green-300'}`}>
                                   {score}
                                 </button>
                               ))}
@@ -606,6 +620,9 @@ export default function FabAssure() {
                             <div className="flex justify-between text-xs text-gray-500 mt-1">
                               <span>Proprietary system</span>
                               <span>Open, documented system</span>
+                            </div>
+                            <div className="mt-2 p-2 bg-green-50 rounded text-sm">
+                              <strong>Score: 4/5</strong> - Good open system with documented alternates, minor proprietary elements
                             </div>
                           </div>
                         </div>
@@ -996,17 +1013,21 @@ export default function FabAssure() {
                     {/* Key Assembly Score */}
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <h4 className="font-semibold text-green-800 mb-2">Key Assemblies Score</h4>
-                      <div className="text-3xl font-bold text-green-700">--/100</div>
+                      <div className="text-3xl font-bold text-green-700">82/100</div>
                       <div className="text-sm text-green-600 mt-2">
                         <div className="flex justify-between">
                           <span>85-100: Green (Low Risk)</span>
                         </div>
-                        <div className="flex justify-between">
-                          <span>65-84: Yellow (Med Risk)</span>
+                        <div className="flex justify-between font-medium">
+                          <span>► 65-84: Yellow (Med Risk)</span>
                         </div>
                         <div className="flex justify-between">
                           <span>&lt;65: Red (High Risk)</span>
                         </div>
+                      </div>
+                      <div className="mt-2 text-xs text-green-700">
+                        <p>Structural: 12/15 | Fire: 14/15 | HVAC: 13/15 | Envelope: 12/15</p>
+                        <p>Geometry: 12/15 | Logistics: 8/10 | BIM: 7/10 | Regulatory: 4/5</p>
                       </div>
                     </div>
 
@@ -1015,30 +1036,30 @@ export default function FabAssure() {
                       <h4 className="font-semibold text-yellow-800 mb-2">Lock-In Risk Meter</h4>
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="flex-1 bg-gray-200 rounded-full h-3">
-                          <div className="bg-yellow-500 h-3 rounded-full" style={{width: '60%'}}></div>
+                          <div className="bg-yellow-500 h-3 rounded-full" style={{width: '40%'}}></div>
                         </div>
-                        <span className="text-sm font-medium">Medium</span>
+                        <span className="text-sm font-medium">Low-Medium</span>
                       </div>
                       <ul className="text-sm text-yellow-700 space-y-1">
-                        <li>• Proprietary corner posts identified</li>
-                        <li>• Limited routing options</li>
-                        <li>• Step flexibility concerns</li>
+                        <li>• Standard connector system with approved alternates</li>
+                        <li>• Multiple MEP routing options available</li>
+                        <li>• Good dimensional flexibility (±12" increments)</li>
                       </ul>
                     </div>
 
                     {/* RFI/Submittal Risk */}
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-red-800 mb-2">RFI/Submittal Risk</h4>
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-green-800 mb-2">RFI/Submittal Risk</h4>
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="flex-1 bg-gray-200 rounded-full h-3">
-                          <div className="bg-red-500 h-3 rounded-full" style={{width: '75%'}}></div>
+                          <div className="bg-green-500 h-3 rounded-full" style={{width: '30%'}}></div>
                         </div>
-                        <span className="text-sm font-medium">High</span>
+                        <span className="text-sm font-medium">Low</span>
                       </div>
-                      <ul className="text-sm text-red-700 space-y-1">
-                        <li>• Undefined firestop details</li>
-                        <li>• Late MEP coordination</li>
-                        <li>• No design-freeze gates</li>
+                      <ul className="text-sm text-green-700 space-y-1">
+                        <li>• Tested firestop details provided</li>
+                        <li>• Clear LOD standards and design-freeze gates</li>
+                        <li>• Average 8 RFIs per project (industry avg: 25)</li>
                       </ul>
                     </div>
                   </div>
@@ -1077,29 +1098,34 @@ export default function FabAssure() {
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
                       <DollarSign className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-blue-600">--</div>
+                      <div className="text-2xl font-bold text-blue-600">86</div>
                       <div className="text-sm text-blue-600">Cost Score (25%)</div>
+                      <div className="text-xs text-blue-500 mt-1">$3.07M fabrication cost</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <Building className="h-8 w-8 text-green-600 mx-auto mb-2" />
                       <div className="text-2xl font-bold text-green-600">82</div>
                       <div className="text-sm text-green-600">Design Score (25%)</div>
+                      <div className="text-xs text-green-500 mt-1">Key assemblies rated</div>
                     </div>
                     <div className="text-center p-4 bg-yellow-50 rounded-lg">
                       <Shield className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-yellow-600">--</div>
+                      <div className="text-2xl font-bold text-yellow-600">89</div>
                       <div className="text-sm text-yellow-600">Quality Score (25%)</div>
+                      <div className="text-xs text-yellow-500 mt-1">ISO 9001 certified</div>
                     </div>
                     <div className="text-center p-4 bg-purple-50 rounded-lg">
                       <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-purple-600">--</div>
+                      <div className="text-2xl font-bold text-purple-600">84</div>
                       <div className="text-sm text-purple-600">Commercial Score (25%)</div>
+                      <div className="text-xs text-purple-500 mt-1">15 years experience</div>
                     </div>
                   </div>
                   
-                  <div className="text-center p-6 bg-gray-100 rounded-lg">
-                    <div className="text-3xl font-bold text-raap-dark">Overall Score: --/100</div>
-                    <div className="text-gray-600 mt-2">Weighted average of all evaluation criteria (Cost 25%, Design 25%, Quality 25%, Commercial 25%)</div>
+                  <div className="text-center p-6 bg-green-100 rounded-lg border-2 border-green-300">
+                    <div className="text-3xl font-bold text-green-800">Overall Score: 85/100</div>
+                    <div className="text-green-700 mt-2 font-medium">RECOMMENDED - Low Risk Fabricator</div>
+                    <div className="text-sm text-green-600 mt-1">Weighted average: (86×25% + 82×25% + 89×25% + 84×25%) = 85.25</div>
                   </div>
                   
                   <div className="mt-6">
@@ -1129,121 +1155,162 @@ export default function FabAssure() {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  {/* Selected Partners from SmartStart */}
+                  {/* Selected Partners from Evaluation */}
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-4">Selected Partners from SmartStart</h3>
+                    <h3 className="text-lg font-semibold mb-4">Selected Partners from Evaluation Process</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {project.finalSelectedFabricator && (
-                        <Card className="bg-blue-50 border-blue-200">
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-medium">Fabricator</h4>
-                              <Factory className="h-5 w-5 text-blue-600" />
-                            </div>
-                            <p className="font-semibold">{project.finalSelectedFabricator}</p>
-                            <p className="text-sm text-gray-600">Final Cost: ${project.finalFabricatorCost ? Number(project.finalFabricatorCost).toLocaleString() : 'TBD'}</p>
-                          </CardContent>
-                        </Card>
-                      )}
-                      {project.finalSelectedGc && (
-                        <Card className="bg-green-50 border-green-200">
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-medium">General Contractor</h4>
-                              <Building className="h-5 w-5 text-green-600" />
-                            </div>
-                            <p className="font-semibold">{project.finalSelectedGc}</p>
-                            <p className="text-sm text-gray-600">Final Cost: ${project.finalGcCost ? Number(project.finalGcCost).toLocaleString() : 'TBD'}</p>
-                          </CardContent>
-                        </Card>
-                      )}
+                      <Card className="bg-blue-50 border-blue-200">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-medium">Primary Fabricator</h4>
+                            <Factory className="h-5 w-5 text-blue-600" />
+                          </div>
+                          <p className="font-semibold">Modular Solutions Inc.</p>
+                          <p className="text-sm text-gray-600">Total Fabrication Cost: $3,072,915</p>
+                          <p className="text-sm text-gray-600">Location: Tracy, CA</p>
+                          <div className="mt-2">
+                            <Badge className="bg-green-200 text-green-800">Overall Score: 85/100</Badge>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <Card className="bg-green-50 border-green-200">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-medium">General Contractor</h4>
+                            <Building className="h-5 w-5 text-green-600" />
+                          </div>
+                          <p className="font-semibold">Pacific Coast Builders</p>
+                          <p className="text-sm text-gray-600">Site & Assembly Cost: $7,748,650</p>
+                          <p className="text-sm text-gray-600">Location: Sacramento, CA</p>
+                          <div className="mt-2">
+                            <Badge className="bg-blue-200 text-blue-800">Selected Partner</Badge>
+                          </div>
+                        </CardContent>
+                      </Card>
                     </div>
                   </div>
 
                   {/* Contract Forms */}
                   <div className="space-y-6">
                     {/* Fabrication Contract */}
-                    {project.finalSelectedFabricator && (
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="text-lg">Fabrication Contract Terms</CardTitle>
-                          <p className="text-sm text-gray-600">Define key terms for the fabrication agreement</p>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="fabContractValue">Contract Value</Label>
-                              <Input
-                                id="fabContractValue"
-                                type="number"
-                                step="0.01"
-                                placeholder="Enter total contract value"
-                                defaultValue={project.finalFabricatorCost || ""}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="fabContractStatus">Contract Status</Label>
-                              <Select defaultValue="draft">
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="draft">Draft</SelectItem>
-                                  <SelectItem value="negotiating">Negotiating</SelectItem>
-                                  <SelectItem value="signed">Signed</SelectItem>
-                                  <SelectItem value="completed">Completed</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Fabrication Contract Terms - Modular Solutions Inc.</CardTitle>
+                        <p className="text-sm text-gray-600">Comprehensive contract terms based on evaluation results and risk assessment</p>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label htmlFor="fabPaymentTerms">Payment Terms</Label>
-                            <Textarea
-                              id="fabPaymentTerms"
-                              placeholder="Define payment schedule, milestones, and terms (e.g., 30% upon signing, 40% at 50% completion, 30% upon delivery)"
-                              rows={3}
+                            <Label htmlFor="fabContractValue">Contract Value</Label>
+                            <Input
+                              id="fabContractValue"
+                              type="text"
+                              defaultValue="$3,072,915"
+                              className="font-medium"
+                              readOnly
                             />
                           </div>
-
                           <div className="space-y-2">
-                            <Label htmlFor="fabDeliverySchedule">Delivery Schedule</Label>
-                            <Textarea
-                              id="fabDeliverySchedule"
-                              placeholder="Specify delivery timeline, key milestones, and coordination requirements"
-                              rows={3}
-                            />
+                            <Label htmlFor="fabContractStatus">Contract Status</Label>
+                            <Select defaultValue="negotiating">
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="draft">Draft</SelectItem>
+                                <SelectItem value="negotiating">Negotiating</SelectItem>
+                                <SelectItem value="signed">Signed</SelectItem>
+                                <SelectItem value="completed">Completed</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
+                        </div>
 
-                          <div className="space-y-2">
-                            <Label htmlFor="fabQualityRequirements">Quality Requirements & Standards</Label>
-                            <Textarea
-                              id="fabQualityRequirements"
-                              placeholder="Define quality standards, inspection requirements, acceptance criteria, and compliance standards"
-                              rows={3}
-                            />
-                          </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="fabPaymentTerms">Payment Terms</Label>
+                          <Textarea
+                            id="fabPaymentTerms"
+                            defaultValue="25% ($768,229) upon contract signing and design approval
+30% ($921,875) at 50% factory completion milestone  
+30% ($921,875) upon completed modules ready for shipment
+15% ($460,937) final payment upon successful site installation and acceptance
 
-                          <div className="space-y-2">
-                            <Label htmlFor="fabWarrantyTerms">Warranty Terms</Label>
-                            <Textarea
-                              id="fabWarrantyTerms"
-                              placeholder="Specify warranty period, coverage, and remediation procedures"
-                              rows={2}
-                            />
-                          </div>
+Payment terms: Net 15 days. Late payment penalty: 1.5% per month."
+                            rows={6}
+                          />
+                        </div>
 
-                          <div className="space-y-2">
-                            <Label htmlFor="fabPenaltyClauses">Penalty & Performance Clauses</Label>
-                            <Textarea
-                              id="fabPenaltyClauses"
-                              placeholder="Define penalties for delays, quality issues, and performance incentives"
-                              rows={3}
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    )}
+                        <div className="space-y-2">
+                          <Label htmlFor="fabDeliverySchedule">Delivery Schedule</Label>
+                          <Textarea
+                            id="fabDeliverySchedule"
+                            defaultValue="Factory Production Timeline:
+- Design finalization and shop drawings: Weeks 1-3
+- Material procurement and fabrication start: Week 4
+- First module completion: Week 8
+- All 24 modules completed: Week 14
+- Transportation to site: Weeks 15-16
+
+Key Milestones:
+- 25% design freeze gate: Week 2
+- First module inspection: Week 8  
+- Final quality inspection: Week 14
+- Site delivery coordination: Week 15"
+                            rows={8}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="fabQualityRequirements">Quality Requirements & Standards</Label>
+                          <Textarea
+                            id="fabQualityRequirements"
+                            defaultValue="Quality Standards:
+- ISO 9001:2015 certification maintained throughout project
+- All modules must pass third-party inspection before shipment
+- UL-listed fire assemblies with tested penetration details required
+- California DSA pre-check approval for structural connections
+- Weather protection during transport per specification
+
+Inspection Requirements:
+- Weekly progress inspections by owner's representative
+- Hold points at: framing completion, MEP rough-in, finish installation
+- Final acceptance inspection before shipment authorization
+- Compliance with CA prevailing wage requirements and documentation"
+                            rows={8}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="fabWarrantyTerms">Warranty Terms</Label>
+                          <Textarea
+                            id="fabWarrantyTerms"
+                            defaultValue="Warranty Coverage:
+- 2-year comprehensive warranty on all factory work and materials
+- 10-year structural warranty on modular frame and connections
+- 1-year warranty on MEP systems and installations
+- Workmanship defects covered for 2 years from substantial completion
+- Transportation damage coverage and remediation at no cost to owner"
+                            rows={5}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="fabPenaltyClauses">Penalty & Performance Clauses</Label>
+                          <Textarea
+                            id="fabPenaltyClauses"
+                            defaultValue="Performance Requirements:
+- Late delivery penalty: $2,000 per day per module after agreed delivery date
+- Quality defect penalty: Cost of remediation plus 10% administrative fee
+- Early delivery bonus: $1,000 per day for each day ahead of schedule
+- Zero RFI bonus: $25,000 if project completed with fewer than 5 RFIs
+- Liquidated damages cap: 10% of total contract value
+
+Performance guarantees backed by 10% performance bond from approved surety."
+                            rows={6}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
 
                     {/* GC Contract */}
                     {project.finalSelectedGc && (
@@ -1472,36 +1539,54 @@ export default function FabAssure() {
                       <CardHeader>
                         <CardTitle className="text-lg flex items-center space-x-2">
                           <Factory className="h-5 w-5" />
-                          <span>Fabricator Coordination</span>
+                          <span>Modular Solutions Inc. - Fabricator</span>
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">Current Status</span>
-                            <Badge className="bg-green-500 text-white">Production Active</Badge>
+                            <Badge className="bg-green-500 text-white">Shop Drawings Review</Badge>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">Progress</span>
-                            <span className="text-sm">35% Complete</span>
+                            <span className="text-sm font-medium">Design Progress</span>
+                            <span className="text-sm">Week 2 of 3 (67%)</span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div className="bg-green-600 h-2 rounded-full" style={{width: '35%'}}></div>
+                            <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
                           </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between text-sm">
-                              <span>Last Update</span>
-                              <span className="text-gray-600">2 hours ago</span>
+                          
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center justify-between">
+                              <span>Contract Value</span>
+                              <span className="font-medium">$3,072,915</span>
                             </div>
-                            <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center justify-between">
+                              <span>Performance Score</span>
+                              <span className="text-green-600 font-medium">85/100</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>RFI Count</span>
+                              <span className="text-green-600 font-medium">2 (Target: &lt;5)</span>
+                            </div>
+                            <div className="flex items-center justify-between">
                               <span>Next Milestone</span>
-                              <span className="text-gray-600">First Quality Check</span>
+                              <span className="text-gray-600">Design Freeze - Week 3</span>
                             </div>
                           </div>
-                          <Button size="sm" className="w-full">
-                            <Phone className="h-4 w-4 mr-2" />
-                            Contact Fabricator
-                          </Button>
+                          
+                          <div className="pt-2 border-t">
+                            <div className="grid grid-cols-2 gap-2">
+                              <Button size="sm" className="text-xs">
+                                <Phone className="h-3 w-3 mr-1" />
+                                Call Team
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-xs">
+                                <FileText className="h-3 w-3 mr-1" />
+                                Reports
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -1510,36 +1595,54 @@ export default function FabAssure() {
                       <CardHeader>
                         <CardTitle className="text-lg flex items-center space-x-2">
                           <Building className="h-5 w-5" />
-                          <span>GC Coordination</span>
+                          <span>Pacific Coast Builders - GC</span>
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">Current Status</span>
-                            <Badge className="bg-blue-500 text-white">Site Prep Planning</Badge>
+                            <Badge className="bg-blue-500 text-white">Foundation Design</Badge>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">Progress</span>
-                            <span className="text-sm">15% Complete</span>
+                            <span className="text-sm font-medium">Site Prep Progress</span>
+                            <span className="text-sm">Planning Phase (25%)</span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div className="bg-blue-600 h-2 rounded-full" style={{width: '15%'}}></div>
+                            <div className="bg-blue-600 h-2 rounded-full" style={{width: '25%'}}></div>
                           </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between text-sm">
-                              <span>Last Update</span>
-                              <span className="text-gray-600">1 day ago</span>
+                          
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center justify-between">
+                              <span>Contract Value</span>
+                              <span className="font-medium">$7,748,650</span>
                             </div>
-                            <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center justify-between">
+                              <span>Site Access</span>
+                              <span className="text-green-600 font-medium">Confirmed</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span>Permit Status</span>
+                              <span className="text-yellow-600 font-medium">In Review</span>
+                            </div>
+                            <div className="flex items-center justify-between">
                               <span>Next Milestone</span>
-                              <span className="text-gray-600">Permit Approval</span>
+                              <span className="text-gray-600">Foundation Start - Week 8</span>
                             </div>
                           </div>
-                          <Button size="sm" className="w-full">
-                            <Phone className="h-4 w-4 mr-2" />
-                            Contact GC
-                          </Button>
+                          
+                          <div className="pt-2 border-t">
+                            <div className="grid grid-cols-2 gap-2">
+                              <Button size="sm" className="text-xs">
+                                <Phone className="h-3 w-3 mr-1" />
+                                Call Team
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-xs">
+                                <Calendar className="h-3 w-3 mr-1" />
+                                Schedule
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
