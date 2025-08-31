@@ -32,42 +32,25 @@ const getMarkerColor = (type: string) => {
   return colors[type as keyof typeof colors] || colors.fabricator;
 };
 
-// Create custom marker icon with partner type icons
+// Create custom marker icon with clear partner type display
 const createMarkerIcon = (type: string, isProject: boolean = false) => {
-  const size = isProject ? 40 : 32;
+  const size = isProject ? 40 : 24;
   const color = getMarkerColor(type);
   
-  // Get the appropriate icon SVG path based on partner type
-  const getIconPath = (partnerType: string) => {
-    switch(partnerType) {
-      case 'fabricator':
-        return '<path d="M3 21V7L8 3L13 7V21H11V14H9V21H3ZM5 19H7V12H5V19ZM14 21V10L19 6L22 8V21H20V14H18V21H14ZM16 19H20V12H16V19Z" fill="white"/>';
-      case 'gc':
-        return '<path d="M13 3V5H21V19H19V21H15V19H9V21H5V19H3V5H11V3H13ZM11 7H5V17H7V15H9V17H15V15H17V17H19V7H13V9H11V7Z" fill="white"/>';
-      case 'aor':
-        return '<path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="white"/>';
-      case 'consultant':
-        return '<path d="M16 4C18.2 4 20 5.8 20 8C20 10.2 18.2 12 16 12C13.8 12 12 10.2 12 8C12 5.8 13.8 4 16 4ZM16 6C14.9 6 14 6.9 14 8C14 9.1 14.9 10 16 10C17.1 10 18 9.1 18 8C18 6.9 17.1 6 16 6ZM8 8C9.1 8 10 7.1 10 6C10 4.9 9.1 4 8 4C6.9 4 6 4.9 6 6C6 7.1 6.9 8 8 8ZM8 10C5.8 10 2 11.1 2 13.3V16H10V13.3C10 11.1 8.2 10 8 10ZM16 14C13.8 14 10 15.1 10 17.3V20H22V17.3C22 15.1 18.2 14 16 14Z" fill="white"/>';
-      case 'transportation':
-        return '<path d="M20 8H18V6C18 4.9 17.1 4 16 4H4C2.9 4 2 4.9 2 6V17H4C4 18.7 5.3 20 7 20S10 18.7 10 17H14C14 18.7 15.3 20 17 20S20 18.7 20 17H22V13L20 8ZM7 18.5C6.2 18.5 5.5 17.8 5.5 17S6.2 15.5 7 15.5 8.5 16.2 8.5 17 7.8 18.5 7 18.5ZM17 18.5C16.2 18.5 15.5 17.8 15.5 17S16.2 15.5 17 15.5 18.5 16.2 18.5 17 17.8 18.5 17 18.5ZM16 6V8H20L18.5 6H16Z" fill="white"/>';
-      case 'engineering':
-        return '<path d="M12 15.5C10.07 15.5 8.5 13.93 8.5 12C8.5 10.07 10.07 8.5 12 8.5C13.93 8.5 15.5 10.07 15.5 12C15.5 13.93 13.93 15.5 12 15.5ZM19.43 12.98C19.47 12.66 19.5 12.34 19.5 12C19.5 11.66 19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.97 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.49 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.51 2.42L9.13 5.07C8.52 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.72 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.21 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12C4.5 12.33 4.53 12.66 4.57 12.98L2.46 14.63C2.27 14.78 2.21 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.95C7.96 18.35 8.52 18.68 9.13 18.93L9.51 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.49 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.95L19.05 18.95C19.28 19.04 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98Z" fill="white"/>';
-      default:
-        return '<circle cx="12" cy="12" r="6" fill="white"/>';
-    }
-  };
-  
-  const svg = isProject ? 
-    `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  if (isProject) {
+    // Project markers keep the original circle design
+    const svg = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="10" fill="${color}" stroke="white" stroke-width="2"/>
       <circle cx="12" cy="12" r="4" fill="white"/>
-    </svg>` :
-    `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" fill="${color}" stroke="white" stroke-width="2"/>
-      ${getIconPath(type)}
     </svg>`;
-  
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  } else {
+    // Partner markers use colored dots for better visibility
+    const svg = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="8" fill="${color}" stroke="white" stroke-width="2"/>
+    </svg>`;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
 };
 
 export default function GoogleMaps({
