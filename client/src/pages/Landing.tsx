@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building, Calculator, FileText, MapPin } from "lucide-react";
+import { Building, Calculator, FileText, MapPin, Users, Wrench, Palette, ArrowRight } from "lucide-react";
 import raapLogoPath from "@assets/RaaP-grene@3x_1754729327740.jpg";
 
 export default function Landing() {
@@ -34,8 +34,8 @@ export default function Landing() {
             Rooms as a Product Workflow
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Complete workflow system guiding multifamily developers through modular construction 
-            development with integrated applications for feasibility, entitlements, factory coordination, and design.
+            Complete 4-application workflow guiding multifamily developers from initial feasibility through final design. 
+            Navigate seamlessly through ModularFeasibility → SmartStart → FabAssure → EasyDesign with integrated project data flow.
           </p>
           <Button 
             onClick={handleLogin}
@@ -46,69 +46,118 @@ export default function Landing() {
           </Button>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          <Card className="text-center">
-            <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-raap-green/10 rounded-lg flex items-center justify-center mb-4">
-                <Calculator className="h-6 w-6 text-raap-green" />
+        {/* 4-Application Workflow */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-raap-dark mb-8 text-center">
+            Complete Development Workflow
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* ModularFeasibility */}
+            <Card className="relative">
+              <CardHeader className="text-center">
+                <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Calculator className="h-6 w-6 text-blue-600" />
+                </div>
+                <CardTitle className="text-raap-dark text-lg">ModularFeasibility</CardTitle>
+                <div className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">Step 1</div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-3">
+                  6-criteria assessment covering zoning, massing, cost analysis, sustainability, logistics, and build time
+                </p>
+                <ul className="text-xs text-gray-500 space-y-1">
+                  <li>• Feasibility scoring</li>
+                  <li>• Cost comparison</li>
+                  <li>• Professional reports</li>
+                </ul>
+              </CardContent>
+              <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 hidden lg:block">
+                <ArrowRight className="h-5 w-5 text-gray-400" />
               </div>
-              <CardTitle className="text-raap-dark">6-Criteria Scoring</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Comprehensive assessment across Zoning, Massing, Cost, Sustainability, Logistics, and Build Time
-              </p>
-            </CardContent>
-          </Card>
+            </Card>
 
-          <Card className="text-center">
-            <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-raap-green/10 rounded-lg flex items-center justify-center mb-4">
-                <Building className="h-6 w-6 text-raap-green" />
+            {/* SmartStart */}
+            <Card className="relative">
+              <CardHeader className="text-center">
+                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                  <FileText className="h-6 w-6 text-green-600" />
+                </div>
+                <CardTitle className="text-raap-dark text-lg">SmartStart</CardTitle>
+                <div className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full">Step 2</div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-3">
+                  Entitlement and permitting coordination with regulatory compliance and AHJ engagement
+                </p>
+                <ul className="text-xs text-gray-500 space-y-1">
+                  <li>• Permit coordination</li>
+                  <li>• Regulatory compliance</li>
+                  <li>• AHJ engagement</li>
+                </ul>
+              </CardContent>
+              <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 hidden lg:block">
+                <ArrowRight className="h-5 w-5 text-gray-400" />
               </div>
-              <CardTitle className="text-raap-dark">MasterFormat Costing</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Detailed cost breakdown with modular vs site-built comparison using industry-standard categories
-              </p>
-            </CardContent>
-          </Card>
+            </Card>
 
-          <Card className="text-center">
-            <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-raap-green/10 rounded-lg flex items-center justify-center mb-4">
-                <MapPin className="h-6 w-6 text-raap-green" />
+            {/* FabAssure */}
+            <Card className="relative">
+              <CardHeader className="text-center">
+                <div className="mx-auto w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-4">
+                  <Wrench className="h-6 w-6 text-amber-600" />
+                </div>
+                <CardTitle className="text-raap-dark text-lg">FabAssure</CardTitle>
+                <div className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded-full">Step 3</div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-3">
+                  Factory coordination with partner selection, quality standards, and production timeline management
+                </p>
+                <ul className="text-xs text-gray-500 space-y-1">
+                  <li>• Partner selection</li>
+                  <li>• Quality standards</li>
+                  <li>• Timeline coordination</li>
+                </ul>
+              </CardContent>
+              <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 hidden lg:block">
+                <ArrowRight className="h-5 w-5 text-gray-400" />
               </div>
-              <CardTitle className="text-raap-dark">Logistics Analysis</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Transportation routes, factory proximity, and site staging assessment with visual mapping
-              </p>
-            </CardContent>
-          </Card>
+            </Card>
 
-          <Card className="text-center">
-            <CardHeader>
-              <div className="mx-auto w-12 h-12 bg-raap-green/10 rounded-lg flex items-center justify-center mb-4">
-                <FileText className="h-6 w-6 text-raap-green" />
-              </div>
-              <CardTitle className="text-raap-dark">Professional Reports</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 text-sm">
-                Downloadable PDF reports with detailed analysis, architectural plans, and recommendations
-              </p>
-            </CardContent>
-          </Card>
+            {/* EasyDesign */}
+            <Card className="relative">
+              <CardHeader className="text-center">
+                <div className="mx-auto w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                  <Palette className="h-6 w-6 text-purple-600" />
+                </div>
+                <CardTitle className="text-raap-dark text-lg">EasyDesign</CardTitle>
+                <div className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full">Step 4</div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 text-sm mb-3">
+                  Design finalization with AOR workflows, fabricator coordination, and GC/trades documentation
+                </p>
+                <ul className="text-xs text-gray-500 space-y-1">
+                  <li>• Design prototypes</li>
+                  <li>• Stakeholder workflows</li>
+                  <li>• File coordination</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="text-center mt-8">
+            <p className="text-gray-600 text-sm">
+              Each application builds on the previous step, with project data flowing seamlessly through the entire workflow
+            </p>
+          </div>
         </div>
 
         {/* Sample Project Showcase */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-16">
           <h2 className="text-2xl font-bold text-raap-dark mb-6 text-center">
-            Sample Assessment: Serenity Village
+            Sample Project: Serenity Village Complete Workflow
           </h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -127,13 +176,13 @@ export default function Landing() {
 
             <div className="space-y-4">
               <div className="text-center">
-                <div className="text-4xl font-bold text-raap-green mb-2">4.4</div>
-                <div className="text-sm text-gray-600">Overall Feasibility Score</div>
+                <div className="text-4xl font-bold text-raap-green mb-2">Complete</div>
+                <div className="text-sm text-gray-600">Full Workflow Status</div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 bg-green-50 rounded-lg">
-                  <div className="text-lg font-bold text-green-600">1.2%</div>
+                  <div className="text-lg font-bold text-green-600">1%</div>
                   <div className="text-xs text-gray-600">Cost Savings</div>
                 </div>
                 <div className="text-center p-3 bg-blue-50 rounded-lg">
@@ -142,10 +191,28 @@ export default function Landing() {
                 </div>
               </div>
 
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span>ModularFeasibility</span>
+                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Complete</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>SmartStart</span>
+                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Complete</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>FabAssure</span>
+                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Complete</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span>EasyDesign</span>
+                  <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Complete</span>
+                </div>
+              </div>
+
               <div className="text-sm text-gray-600">
-                <strong>Good fit for modular construction</strong> with high feasibility score based on 
-                zoning compatibility, massing efficiency, cost advantages, sustainability goals, 
-                logistics accessibility, and construction timeline benefits.
+                <strong>Successful modular construction project</strong> navigated through the complete 
+                4-application workflow from initial feasibility assessment to final design coordination.
               </div>
             </div>
           </div>
@@ -154,17 +221,17 @@ export default function Landing() {
         {/* Call to Action */}
         <div className="text-center">
           <h2 className="text-2xl font-bold text-raap-dark mb-4">
-            Ready to Assess Your Project?
+            Ready to Start Your Development Workflow?
           </h2>
           <p className="text-gray-600 mb-8">
-            Join construction professionals using our comprehensive workflow system to streamline modular development
+            Join multifamily developers using our complete 4-application workflow system to navigate modular construction from feasibility through design
           </p>
           <Button 
             onClick={handleLogin}
             size="lg" 
             className="bg-raap-green hover:bg-green-700 text-lg px-8 py-3"
           >
-            Start Your Assessment
+            Begin Workflow - Sign In
           </Button>
         </div>
       </main>
