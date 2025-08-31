@@ -38,6 +38,15 @@ import {
 } from "lucide-react";
 import type { Project } from "@shared/schema";
 
+// Import visual assets for Design tab
+import floorPlanImage from "@assets/Vallejo Site_1754837697661.png";
+import buildingRenderingImage from "@assets/Vallejo 3D_1754837697661.png";
+import sitePlanImage from "@assets/Serinity Site_1754837697659.png";
+import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
+import oneBedImage from "@assets/1 Bed_1754836945408.png";
+import twoBedImage from "@assets/2 Bed_1754837154542.png";
+import threeBedImage from "@assets/3 Bed_1754837154543.png";
+
 export default function SmartStart() {
   const [, params] = useRoute("/projects/:id/smart-start");
   const [, navigate] = useLocation();
@@ -560,63 +569,89 @@ export default function SmartStart() {
 
                       {/* Unit Plans Sub-Tab */}
                       <TabsContent value="unit-plans">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-lg">1-Bedroom Unit (650 sf)</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="bg-gray-100 rounded-lg p-8 text-center mb-4">
-                                <Building className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                                <div className="text-sm text-gray-600">1BR Unit Floor Plan</div>
-                              </div>
-                              <div className="space-y-2 text-sm">
-                                <div><strong>Layout:</strong> Open concept living/kitchen</div>
-                                <div><strong>Bedroom:</strong> 12' x 11' with walk-in closet</div>
-                                <div><strong>Kitchen:</strong> Galley style with island</div>
-                                <div><strong>Bathroom:</strong> Full bath with tub/shower</div>
-                                <div><strong>Features:</strong> In-unit laundry, private balcony</div>
-                              </div>
-                            </CardContent>
-                          </Card>
+                        <div className="space-y-6">
+                          {/* Unit Plans Overview */}
+                          <div className="text-center">
+                            <img 
+                              src={unitPlansImage} 
+                              alt="Comprehensive apartment unit floor plans layout"
+                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                              style={{ maxHeight: '70vh' }}
+                            />
+                            <h5 className="font-semibold text-gray-800 mb-2">Unit Plans Overview</h5>
+                            <p className="text-sm text-gray-600">Complete floor plan layouts for all unit types</p>
+                          </div>
 
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-lg">2-Bedroom Unit (850 sf)</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="bg-gray-100 rounded-lg p-8 text-center mb-4">
-                                <Building className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                                <div className="text-sm text-gray-600">2BR Unit Floor Plan</div>
-                              </div>
-                              <div className="space-y-2 text-sm">
-                                <div><strong>Layout:</strong> Split bedroom design</div>
-                                <div><strong>Master:</strong> 13' x 12' with en-suite bath</div>
-                                <div><strong>Second BR:</strong> 11' x 10' with closet</div>
-                                <div><strong>Kitchen:</strong> L-shaped with peninsula</div>
-                                <div><strong>Features:</strong> 2 full baths, large balcony</div>
-                              </div>
-                            </CardContent>
-                          </Card>
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-lg">1-Bedroom Unit (650 sf)</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="text-center mb-4">
+                                  <img 
+                                    src={oneBedImage} 
+                                    alt="1-bedroom unit floor plan"
+                                    className="w-full h-auto border rounded-lg shadow object-contain bg-white"
+                                    style={{ maxHeight: '300px' }}
+                                  />
+                                </div>
+                                <div className="space-y-2 text-sm">
+                                  <div><strong>Layout:</strong> Open concept living/kitchen</div>
+                                  <div><strong>Bedroom:</strong> 12' x 11' with walk-in closet</div>
+                                  <div><strong>Kitchen:</strong> Galley style with island</div>
+                                  <div><strong>Bathroom:</strong> Full bath with tub/shower</div>
+                                  <div><strong>Features:</strong> In-unit laundry, private balcony</div>
+                                </div>
+                              </CardContent>
+                            </Card>
 
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-lg">3-Bedroom Unit (1,100 sf)</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="bg-gray-100 rounded-lg p-8 text-center mb-4">
-                                <Building className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                                <div className="text-sm text-gray-600">3BR Unit Floor Plan</div>
-                              </div>
-                              <div className="space-y-2 text-sm">
-                                <div><strong>Layout:</strong> Family-oriented design</div>
-                                <div><strong>Master:</strong> 14' x 13' with walk-in closet</div>
-                                <div><strong>Bedrooms:</strong> 11' x 10' and 10' x 10'</div>
-                                <div><strong>Kitchen:</strong> U-shaped with breakfast bar</div>
-                                <div><strong>Features:</strong> 2.5 baths, utility room</div>
-                              </div>
-                            </CardContent>
-                          </Card>
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-lg">2-Bedroom Unit (850 sf)</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="text-center mb-4">
+                                  <img 
+                                    src={twoBedImage} 
+                                    alt="2-bedroom unit floor plan"
+                                    className="w-full h-auto border rounded-lg shadow object-contain bg-white"
+                                    style={{ maxHeight: '300px' }}
+                                  />
+                                </div>
+                                <div className="space-y-2 text-sm">
+                                  <div><strong>Layout:</strong> Split bedroom design</div>
+                                  <div><strong>Master:</strong> 13' x 12' with en-suite bath</div>
+                                  <div><strong>Second BR:</strong> 11' x 10' with closet</div>
+                                  <div><strong>Kitchen:</strong> L-shaped with peninsula</div>
+                                  <div><strong>Features:</strong> 2 full baths, large balcony</div>
+                                </div>
+                              </CardContent>
+                            </Card>
+
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-lg">3-Bedroom Unit (1,100 sf)</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="text-center mb-4">
+                                  <img 
+                                    src={threeBedImage} 
+                                    alt="3-bedroom unit floor plan"
+                                    className="w-full h-auto border rounded-lg shadow object-contain bg-white"
+                                    style={{ maxHeight: '300px' }}
+                                  />
+                                </div>
+                                <div className="space-y-2 text-sm">
+                                  <div><strong>Layout:</strong> Family-oriented design</div>
+                                  <div><strong>Master:</strong> 14' x 13' with walk-in closet</div>
+                                  <div><strong>Bedrooms:</strong> 11' x 10' and 10' x 10'</div>
+                                  <div><strong>Kitchen:</strong> U-shaped with breakfast bar</div>
+                                  <div><strong>Features:</strong> 2.5 baths, utility room</div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
                         </div>
                       </TabsContent>
 
@@ -628,32 +663,41 @@ export default function SmartStart() {
                               <CardTitle className="text-lg">Building Floor Plans</CardTitle>
                             </CardHeader>
                             <CardContent>
+                              <div className="text-center mb-6">
+                                <img 
+                                  src={floorPlanImage} 
+                                  alt="Building floor plan layout showing unit arrangement and common areas"
+                                  className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                                  style={{ maxHeight: '70vh' }}
+                                />
+                                <h5 className="font-semibold text-gray-800 mb-2">Complete Building Floor Plan</h5>
+                                <p className="text-sm text-gray-600">Detailed layout showing all units, corridors, and common areas</p>
+                              </div>
+
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div>
                                   <h4 className="font-semibold mb-3">Ground Floor (Parking + Amenities)</h4>
-                                  <div className="bg-gray-100 rounded-lg p-12 text-center mb-4">
-                                    <Building className="h-20 w-20 mx-auto mb-4 text-gray-400" />
-                                    <div className="text-sm text-gray-600">Ground Floor Plan</div>
-                                  </div>
-                                  <div className="space-y-2 text-sm">
-                                    <div><strong>Parking:</strong> 32 spaces (1.33 per unit)</div>
-                                    <div><strong>Amenities:</strong> Community room, fitness center</div>
-                                    <div><strong>Services:</strong> Mail room, bike storage</div>
-                                    <div><strong>Access:</strong> Secure entry, elevator core</div>
+                                  <div className="bg-white border rounded-lg p-4">
+                                    <div className="space-y-2 text-sm">
+                                      <div><strong>Parking:</strong> 32 spaces (1.33 per unit)</div>
+                                      <div><strong>Amenities:</strong> Community room, fitness center</div>
+                                      <div><strong>Services:</strong> Mail room, bike storage</div>
+                                      <div><strong>Access:</strong> Secure entry, elevator core</div>
+                                      <div><strong>Total Area:</strong> 8,500 sq ft</div>
+                                    </div>
                                   </div>
                                 </div>
 
                                 <div>
                                   <h4 className="font-semibold mb-3">Typical Floor (6 Units)</h4>
-                                  <div className="bg-gray-100 rounded-lg p-12 text-center mb-4">
-                                    <Building className="h-20 w-20 mx-auto mb-4 text-gray-400" />
-                                    <div className="text-sm text-gray-600">Typical Floor Plan</div>
-                                  </div>
-                                  <div className="space-y-2 text-sm">
-                                    <div><strong>Layout:</strong> Double-loaded corridor</div>
-                                    <div><strong>Circulation:</strong> 6' wide hallways</div>
-                                    <div><strong>Utilities:</strong> Central mechanical rooms</div>
-                                    <div><strong>Emergency:</strong> Two means of egress</div>
+                                  <div className="bg-white border rounded-lg p-4">
+                                    <div className="space-y-2 text-sm">
+                                      <div><strong>Layout:</strong> Double-loaded corridor</div>
+                                      <div><strong>Circulation:</strong> 6' wide hallways</div>
+                                      <div><strong>Utilities:</strong> Central mechanical rooms</div>
+                                      <div><strong>Emergency:</strong> Two means of egress</div>
+                                      <div><strong>Floor Area:</strong> 4,750 sq ft per floor</div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -670,31 +714,40 @@ export default function SmartStart() {
                               <CardTitle className="text-lg">Building Renderings</CardTitle>
                             </CardHeader>
                             <CardContent>
+                              <div className="text-center mb-6">
+                                <img 
+                                  src={buildingRenderingImage} 
+                                  alt="3D rendering of the modular apartment building"
+                                  className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                                  style={{ maxHeight: '70vh' }}
+                                />
+                                <h5 className="font-semibold text-gray-800 mb-2">Exterior Building Rendering</h5>
+                                <p className="text-sm text-gray-600">Three-story modular apartment building with contemporary design</p>
+                              </div>
+
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <div>
-                                  <h4 className="font-semibold mb-3">Street View Rendering</h4>
-                                  <div className="bg-gradient-to-b from-blue-100 to-blue-200 rounded-lg p-16 text-center mb-4">
-                                    <Building className="h-24 w-24 mx-auto mb-4 text-blue-400" />
-                                    <div className="text-sm text-blue-600">Front Elevation Rendering</div>
-                                  </div>
+                                <div className="bg-white border rounded-lg p-4">
+                                  <h4 className="font-semibold mb-3">Design Features</h4>
                                   <div className="space-y-2 text-sm">
                                     <div><strong>Architecture:</strong> Contemporary design with clean lines</div>
-                                    <div><strong>Materials:</strong> Fiber cement, metal accents</div>
+                                    <div><strong>Materials:</strong> Mixed exterior materials (siding, brick)</div>
                                     <div><strong>Colors:</strong> Warm gray with dark trim</div>
-                                    <div><strong>Features:</strong> Private balconies, large windows</div>
+                                    <div><strong>Windows:</strong> Energy-efficient windows</div>
+                                    <div><strong>Parking:</strong> Covered parking at ground level</div>
+                                    <div><strong>Landscaping:</strong> Landscaped common areas</div>
+                                    <div><strong>Features:</strong> Balconies for upper floor units</div>
                                   </div>
                                 </div>
 
-                                <div>
-                                  <h4 className="font-semibold mb-3">Courtyard View</h4>
-                                  <div className="bg-gradient-to-b from-green-100 to-green-200 rounded-lg p-16 text-center mb-4">
-                                    <Building className="h-24 w-24 mx-auto mb-4 text-green-400" />
-                                    <div className="text-sm text-green-600">Rear Elevation Rendering</div>
-                                  </div>
+                                <div className="bg-white border rounded-lg p-4">
+                                  <h4 className="font-semibold mb-3">Modular Advantages</h4>
                                   <div className="space-y-2 text-sm">
-                                    <div><strong>Modular Advantages:</strong> Precise factory construction</div>
-                                    <div><strong>Quality Control:</strong> Indoor assembly environment</div>
-                                    <div><strong>Speed:</strong> 50% faster than stick-built</div>
+                                    <div><strong>Quality:</strong> Factory-controlled quality</div>
+                                    <div><strong>Consistency:</strong> Consistent material finishes</div>
+                                    <div><strong>Speed:</strong> Reduced on-site construction time</div>
+                                    <div><strong>Performance:</strong> Enhanced structural performance</div>
+                                    <div><strong>Weather:</strong> Better weather protection during build</div>
+                                    <div><strong>Precision:</strong> Improved dimensional accuracy</div>
                                     <div><strong>Sustainability:</strong> Reduced material waste</div>
                                   </div>
                                 </div>
@@ -712,56 +765,58 @@ export default function SmartStart() {
                               <CardTitle className="text-lg">Site Layout & Planning</CardTitle>
                             </CardHeader>
                             <CardContent>
+                              <div className="text-center mb-6">
+                                <img 
+                                  src={sitePlanImage} 
+                                  alt="Site plan showing building placement, parking, and landscaping"
+                                  className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                                  style={{ maxHeight: '70vh' }}
+                                />
+                                <h5 className="font-semibold text-gray-800 mb-2">Site Plan Layout</h5>
+                                <p className="text-sm text-gray-600">Building placement, parking layout, and site circulation</p>
+                              </div>
+
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <div>
-                                  <h4 className="font-semibold mb-3">Site Plan</h4>
-                                  <div className="bg-gradient-to-br from-yellow-100 to-orange-200 rounded-lg p-16 text-center mb-4">
-                                    <Building className="h-24 w-24 mx-auto mb-4 text-orange-400" />
-                                    <div className="text-sm text-orange-600">Site Layout Plan</div>
-                                  </div>
+                                <div className="bg-white border rounded-lg p-4">
+                                  <h4 className="font-semibold mb-3">Site Statistics</h4>
                                   <div className="space-y-2 text-sm">
-                                    <div><strong>Building Footprint:</strong> 8,500 sq ft</div>
-                                    <div><strong>Setbacks:</strong> Front 15', Side 10', Rear 20'</div>
-                                    <div><strong>Parking Layout:</strong> Surface lot with 32 spaces</div>
-                                    <div><strong>Landscaping:</strong> 25% open space requirement</div>
+                                    <div className="flex justify-between">
+                                      <span>Total Site Area</span>
+                                      <span className="font-semibold">1.75 acres</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span>Building Coverage</span>
+                                      <span className="font-semibold">14.5%</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span>Parking Spaces</span>
+                                      <span className="font-semibold">24 spaces</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span>Open Space</span>
+                                      <span className="font-semibold">65%</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span>Landscaping</span>
+                                      <span className="font-semibold">20%</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span>Density</span>
+                                      <span className="font-semibold">13.7 units/acre</span>
+                                    </div>
                                   </div>
                                 </div>
 
-                                <div>
-                                  <h4 className="font-semibold mb-3">Site Statistics</h4>
-                                  <div className="bg-white border rounded-lg p-4 space-y-3">
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Lot Size</span>
-                                      <span className="text-sm">0.75 acres</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Building Coverage</span>
-                                      <span className="text-sm">26%</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Floor Area Ratio</span>
-                                      <span className="text-sm">1.45</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Density</span>
-                                      <span className="text-sm">32 units/acre</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Open Space</span>
-                                      <span className="text-sm">28%</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-sm font-medium">Parking Ratio</span>
-                                      <span className="text-sm">1.33 spaces/unit</span>
-                                    </div>
-                                  </div>
-
-                                  <h4 className="font-semibold mb-3 mt-6">Site Features</h4>
+                                <div className="bg-white border rounded-lg p-4">
+                                  <h4 className="font-semibold mb-3">Site Features</h4>
                                   <div className="space-y-2 text-sm">
-                                    <div><strong>Access:</strong> Two-way driveway from main street</div>
-                                    <div><strong>Utilities:</strong> All services available at street</div>
-                                    <div><strong>Stormwater:</strong> On-site retention system</div>
-                                    <div><strong>Zoning:</strong> R-3 Multi-family Residential</div>
+                                    <div><strong>Parking:</strong> Surface parking with covered spaces</div>
+                                    <div><strong>Courtyard:</strong> Central courtyard for residents</div>
+                                    <div><strong>Landscaping:</strong> Perimeter landscaping and screening</div>
+                                    <div><strong>Access:</strong> Accessible pathways throughout</div>
+                                    <div><strong>Stormwater:</strong> Stormwater management features</div>
+                                    <div><strong>Utilities:</strong> Utility service access points</div>
+                                    <div><strong>Setbacks:</strong> Front 15', Side 10', Rear 20'</div>
                                   </div>
                                 </div>
                               </div>
