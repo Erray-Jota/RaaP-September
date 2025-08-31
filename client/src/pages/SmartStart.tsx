@@ -264,32 +264,52 @@ export default function SmartStart() {
 
         {/* Tab Interface */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-6 w-full mb-8">
-            <TabsTrigger value="overview" className="flex items-center space-x-1">
-              <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Overview</span>
-            </TabsTrigger>
-            <TabsTrigger value="design" className="flex items-center space-x-1">
-              <Building className="h-4 w-4" />
-              <span className="hidden sm:inline">Design</span>
-            </TabsTrigger>
-            <TabsTrigger value="aor" className="flex items-center space-x-1">
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">AOR</span>
-            </TabsTrigger>
-            <TabsTrigger value="pricing" className="flex items-center space-x-1">
-              <Calculator className="h-4 w-4" />
-              <span className="hidden sm:inline">Cost</span>
-            </TabsTrigger>
-            <TabsTrigger value="simulator" className="flex items-center space-x-1">
-              <Calculator className="h-4 w-4" />
-              <span className="hidden sm:inline">Simulator</span>
-            </TabsTrigger>
-            <TabsTrigger value="costs" className="flex items-center space-x-1">
-              <Handshake className="h-4 w-4" />
-              <span className="hidden sm:inline">Bids</span>
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto mb-8">
+            <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground min-w-full md:w-full">
+              <TabsTrigger 
+                value="overview" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <FileText className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">Overview</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="design" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <Building className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">Design</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="aor" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <Users className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">AOR</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="pricing" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <Calculator className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">Cost</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="simulator" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <Calculator className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">Simulator</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="costs" 
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1.5 text-xs font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm min-w-[80px] md:min-w-0 md:flex-1"
+              >
+                <Handshake className="h-4 w-4 mr-1" />
+                <span className="text-[11px] md:text-sm">Bids</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Overview Tab */}
           <TabsContent value="overview">
