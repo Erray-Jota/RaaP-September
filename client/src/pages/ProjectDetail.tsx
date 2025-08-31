@@ -191,7 +191,7 @@ function ProjectDetail() {
             </TabsTrigger>
             <TabsTrigger value="pricing" className="flex items-center space-x-1">
               <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Pricing</span>
+              <span className="hidden sm:inline">Cost</span>
             </TabsTrigger>
             <TabsTrigger value="logistics" className="flex items-center space-x-1">
               <Truck className="h-4 w-4" />

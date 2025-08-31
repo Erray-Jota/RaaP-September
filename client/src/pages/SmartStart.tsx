@@ -101,7 +101,7 @@ export default function SmartStart() {
       queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
       toast({
         title: "SmartStart Complete",
-        description: "Your conceptual design and refined pricing package is complete. You can now proceed to FabAssure.",
+        description: "Your conceptual design and refined cost package is complete. You can now proceed to FabAssure.",
       });
       navigate(`/projects/${projectId}/workflow`);
     },
@@ -228,7 +228,7 @@ export default function SmartStart() {
               {project.address}
             </div>
             <p className="text-gray-600">
-              Conceptual design, AOR collaboration, and refined pricing with fabricators and GCs
+              Conceptual design, AOR collaboration, and refined costs with fabricators and GCs
             </p>
           </div>
           <div className="text-right">
@@ -263,11 +263,11 @@ export default function SmartStart() {
             </TabsTrigger>
             <TabsTrigger value="pricing" className="flex items-center space-x-1">
               <Calculator className="h-4 w-4" />
-              <span className="hidden sm:inline">Pricing</span>
+              <span className="hidden sm:inline">Cost</span>
             </TabsTrigger>
             <TabsTrigger value="costs" className="flex items-center space-x-1">
               <Handshake className="h-4 w-4" />
-              <span className="hidden sm:inline">Cost</span>
+              <span className="hidden sm:inline">Bids</span>
             </TabsTrigger>
           </TabsList>
 
@@ -283,9 +283,9 @@ export default function SmartStart() {
               <CardContent>
                 <div className="space-y-6">
                   <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 border border-green-200">
-                    <h3 className="text-xl font-bold text-green-800 mb-2">Conceptual Design & Refined Pricing</h3>
+                    <h3 className="text-xl font-bold text-green-800 mb-2">Conceptual Design & Refined Costs</h3>
                     <p className="text-sm text-gray-700 mb-4">
-                      SmartStart develops comprehensive conceptual designs for your building, coordinates with architect of record for entitlement packages, and validates refined pricing with multiple fabricators and general contractors.
+                      SmartStart develops comprehensive conceptual designs for your building, coordinates with architect of record for entitlement packages, and validates refined costs with multiple fabricators and general contractors.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="bg-white rounded-lg p-4 border">
@@ -297,12 +297,12 @@ export default function SmartStart() {
                         <p className="text-sm text-gray-700">Design handoff and entitlement package development</p>
                       </div>
                       <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-orange-700 mb-2">Pricing Package</h4>
+                        <h4 className="font-semibold text-orange-700 mb-2">Cost Package</h4>
                         <p className="text-sm text-gray-700">Validated costs from multiple fabricators and GCs</p>
                       </div>
                       <div className="bg-white rounded-lg p-4 border">
                         <h4 className="font-semibold text-purple-700 mb-2">Cost Collaboration</h4>
-                        <p className="text-sm text-gray-700">Finalize pricing with selected partners</p>
+                        <p className="text-sm text-gray-700">Finalize costs with selected partners</p>
                       </div>
                     </div>
                   </div>
@@ -371,7 +371,7 @@ export default function SmartStart() {
 
                     <Card>
                       <CardHeader>
-                        <CardTitle className="text-lg">Pricing & Cost Progress</CardTitle>
+                        <CardTitle className="text-lg">Cost Progress</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -381,7 +381,7 @@ export default function SmartStart() {
                             ) : (
                               <Circle className="h-4 w-4 text-gray-400" />
                             )}
-                            <span className="text-sm">Pricing Validation</span>
+                            <span className="text-sm">Cost Validation</span>
                           </div>
                           <Badge variant={project.pricingValidationComplete ? "default" : "secondary"}>
                             {project.pricingValidationComplete ? "Complete" : "Pending"}
@@ -768,7 +768,7 @@ export default function SmartStart() {
             </div>
           </TabsContent>
 
-          {/* Pricing Package Tab */}
+          {/* Cost Package Tab */}
           <TabsContent value="pricing">
             <div className="space-y-6">
               <Card>
