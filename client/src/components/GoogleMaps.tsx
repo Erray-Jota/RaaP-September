@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import GoogleMapsLoader from '@/utils/googleMapsLoader';
 
 // Location interface
 interface Location {
@@ -138,53 +139,11 @@ export default function GoogleMaps({
     };
 
     const loadGoogleMaps = async () => {
-      // Check if Google Maps is already loaded
-      if ((window as any).google && (window as any).google.maps) {
-        initializeMap();
-        return;
-      }
-
-      // Check if script is already being loaded or exists
-      const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-      if (existingScript) {
-        // Wait for existing script to load
-        if (existingScript.getAttribute('data-loaded') === 'true') {
-          initializeMap();
-        } else {
-          existingScript.addEventListener('load', initializeMap);
-        }
-        return;
-      }
-
+      const loader = GoogleMapsLoader.getInstance();
+      
       try {
-        // Fetch API key from server
-        const response = await fetch('/api/config/maps');
-        if (!response.ok) {
-          throw new Error('Failed to fetch API key');
-        }
-        const config = await response.json();
-        
-        if (!config.apiKey) {
-          throw new Error('Google Maps API key not configured');
-        }
-
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${config.apiKey}&libraries=places&callback=initGoogleMaps`;
-        script.async = true;
-        script.defer = true;
-        script.setAttribute('data-loaded', 'false');
-        
-        // Create global callback
-        (window as any).initGoogleMaps = () => {
-          script.setAttribute('data-loaded', 'true');
-          initializeMap();
-        };
-        
-        script.onerror = () => {
-          setLoadError('Failed to load Google Maps API');
-        };
-
-        document.head.appendChild(script);
+        await loader.loadGoogleMaps();
+        initializeMap();
       } catch (error) {
         console.error('Error loading Google Maps:', error);
         setLoadError('Failed to load Google Maps API');
@@ -196,11 +155,7 @@ export default function GoogleMaps({
     return () => {
       // Cleanup if needed
       if (mapInstanceRef.current) {
-        // google.maps doesn't require explicit cleanup
-      }
-      // Clean up global callback
-      if ((window as any).initGoogleMaps) {
-        delete (window as any).initGoogleMaps;
+        mapInstanceRef.current = null;
       }
     };
   }, [locations, center, zoom]);
