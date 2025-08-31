@@ -47,6 +47,11 @@ import oneBedImage from "@assets/1 Bed_1754836945408.png";
 import twoBedImage from "@assets/2 Bed_1754837154542.png";
 import threeBedImage from "@assets/3 Bed_1754837154543.png";
 
+// Import generated building renderings
+import exteriorRenderingImage from "@assets/generated_images/Modern_apartment_building_exterior_006bc1c6.png";
+import courtyardRenderingImage from "@assets/generated_images/Building_courtyard_view_rendering_1a349f38.png";
+import twilightRenderingImage from "@assets/generated_images/Building_twilight_exterior_rendering_cbe0db35.png";
+
 export default function SmartStart() {
   const [, params] = useRoute("/projects/:id/smart-start");
   const [, navigate] = useLocation();
@@ -476,7 +481,7 @@ export default function SmartStart() {
                         <TabsTrigger value="unit-plans">Unit Plans</TabsTrigger>
                         <TabsTrigger value="floor-plan">Floor Plan</TabsTrigger>
                         <TabsTrigger value="3d-view">3D View</TabsTrigger>
-                        <TabsTrigger value="site-plan">Site Plan</TabsTrigger>
+                        <TabsTrigger value="renderings">Renderings</TabsTrigger>
                       </TabsList>
 
                       {/* Specifications Sub-Tab */}
@@ -757,66 +762,115 @@ export default function SmartStart() {
                         </div>
                       </TabsContent>
 
-                      {/* Site Plan Sub-Tab */}
-                      <TabsContent value="site-plan">
+                      {/* Renderings Sub-Tab */}
+                      <TabsContent value="renderings">
                         <div className="space-y-6">
+                          {/* Main Exterior Rendering */}
                           <Card>
                             <CardHeader>
-                              <CardTitle className="text-lg">Site Layout & Planning</CardTitle>
+                              <CardTitle className="text-lg">Exterior Building Renderings</CardTitle>
                             </CardHeader>
                             <CardContent>
                               <div className="text-center mb-6">
                                 <img 
-                                  src={sitePlanImage} 
-                                  alt="Site plan showing building placement, parking, and landscaping"
+                                  src={exteriorRenderingImage} 
+                                  alt="Modern three-story modular apartment building exterior rendering"
                                   className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
                                   style={{ maxHeight: '70vh' }}
                                 />
-                                <h5 className="font-semibold text-gray-800 mb-2">Site Plan Layout</h5>
-                                <p className="text-sm text-gray-600">Building placement, parking layout, and site circulation</p>
+                                <h5 className="font-semibold text-gray-800 mb-2">Main Exterior View</h5>
+                                <p className="text-sm text-gray-600">Contemporary modular apartment building with mixed materials and modern design</p>
                               </div>
+                            </CardContent>
+                          </Card>
 
-                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Additional Renderings Grid */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-lg">Courtyard View</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="text-center">
+                                  <img 
+                                    src={courtyardRenderingImage} 
+                                    alt="Building courtyard view with landscaping and resident amenities"
+                                    className="w-full h-auto border rounded-lg shadow object-contain bg-white mb-4"
+                                    style={{ maxHeight: '400px' }}
+                                  />
+                                  <h6 className="font-semibold text-gray-800 mb-2">Central Courtyard</h6>
+                                  <p className="text-sm text-gray-600">Private outdoor space for residents with landscaping and community areas</p>
+                                </div>
+                                
+                                <div className="mt-4 space-y-2 text-sm">
+                                  <div><strong>Features:</strong> Central courtyard design</div>
+                                  <div><strong>Landscaping:</strong> Professional landscape design</div>
+                                  <div><strong>Privacy:</strong> Screened outdoor spaces</div>
+                                  <div><strong>Community:</strong> Shared resident amenities</div>
+                                </div>
+                              </CardContent>
+                            </Card>
+
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="text-lg">Evening View</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="text-center">
+                                  <img 
+                                    src={twilightRenderingImage} 
+                                    alt="Building twilight view with warm interior lighting"
+                                    className="w-full h-auto border rounded-lg shadow object-contain bg-white mb-4"
+                                    style={{ maxHeight: '400px' }}
+                                  />
+                                  <h6 className="font-semibold text-gray-800 mb-2">Twilight Exterior</h6>
+                                  <p className="text-sm text-gray-600">Evening view showcasing warm interior lighting and architectural details</p>
+                                </div>
+                                
+                                <div className="mt-4 space-y-2 text-sm">
+                                  <div><strong>Lighting:</strong> Warm interior ambiance</div>
+                                  <div><strong>Materials:</strong> Mixed exterior finishes</div>
+                                  <div><strong>Windows:</strong> Large energy-efficient openings</div>
+                                  <div><strong>Balconies:</strong> Private outdoor spaces</div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
+
+                          {/* Rendering Details */}
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="text-lg">Design Visualization Details</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <div className="bg-white border rounded-lg p-4">
-                                  <h4 className="font-semibold mb-3">Site Statistics</h4>
+                                  <h6 className="font-semibold text-blue-700 mb-3">Architectural Style</h6>
                                   <div className="space-y-2 text-sm">
-                                    <div className="flex justify-between">
-                                      <span>Total Site Area</span>
-                                      <span className="font-semibold">1.75 acres</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>Building Coverage</span>
-                                      <span className="font-semibold">14.5%</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>Parking Spaces</span>
-                                      <span className="font-semibold">24 spaces</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>Open Space</span>
-                                      <span className="font-semibold">65%</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>Landscaping</span>
-                                      <span className="font-semibold">20%</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>Density</span>
-                                      <span className="font-semibold">13.7 units/acre</span>
-                                    </div>
+                                    <div>• Contemporary design language</div>
+                                    <div>• Clean lines and geometric forms</div>
+                                    <div>• Mixed material palette</div>
+                                    <div>• Human-scale proportions</div>
                                   </div>
                                 </div>
-
+                                
                                 <div className="bg-white border rounded-lg p-4">
-                                  <h4 className="font-semibold mb-3">Site Features</h4>
+                                  <h6 className="font-semibold text-green-700 mb-3">Material Selection</h6>
                                   <div className="space-y-2 text-sm">
-                                    <div><strong>Parking:</strong> Surface parking with covered spaces</div>
-                                    <div><strong>Courtyard:</strong> Central courtyard for residents</div>
-                                    <div><strong>Landscaping:</strong> Perimeter landscaping and screening</div>
-                                    <div><strong>Access:</strong> Accessible pathways throughout</div>
-                                    <div><strong>Stormwater:</strong> Stormwater management features</div>
-                                    <div><strong>Utilities:</strong> Utility service access points</div>
-                                    <div><strong>Setbacks:</strong> Front 15', Side 10', Rear 20'</div>
+                                    <div>• Fiber cement siding panels</div>
+                                    <div>• Brick accent elements</div>
+                                    <div>• Metal trim and detailing</div>
+                                    <div>• High-performance windows</div>
+                                  </div>
+                                </div>
+                                
+                                <div className="bg-white border rounded-lg p-4">
+                                  <h6 className="font-semibold text-orange-700 mb-3">Modular Benefits</h6>
+                                  <div className="space-y-2 text-sm">
+                                    <div>• Factory precision construction</div>
+                                    <div>• Consistent quality finishes</div>
+                                    <div>• Reduced construction timeline</div>
+                                    <div>• Enhanced structural integrity</div>
                                   </div>
                                 </div>
                               </div>
