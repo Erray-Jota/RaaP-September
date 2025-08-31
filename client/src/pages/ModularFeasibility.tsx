@@ -634,6 +634,196 @@ export default function ModularFeasibility() {
                     </div>
                   </div>
 
+                  {/* Unit Floor Plans */}
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Unit Floor Plans</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="text-center">
+                        <img 
+                          src={oneBedImage} 
+                          alt="1 Bedroom Unit Floor Plan - 650 sf"
+                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
+                          style={{ maxHeight: '300px' }}
+                        />
+                        <h5 className="font-semibold text-blue-600">1 Bedroom</h5>
+                        <p className="text-sm text-gray-600">650 sf • 8 units</p>
+                      </div>
+                      <div className="text-center">
+                        <img 
+                          src={twoBedImage} 
+                          alt="2 Bedroom Unit Floor Plan - 850 sf"
+                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
+                          style={{ maxHeight: '300px' }}
+                        />
+                        <h5 className="font-semibold text-green-600">2 Bedroom</h5>
+                        <p className="text-sm text-gray-600">850 sf • 12 units</p>
+                      </div>
+                      <div className="text-center">
+                        <img 
+                          src={threeBedImage} 
+                          alt="3 Bedroom Unit Floor Plan - 1,100 sf"
+                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
+                          style={{ maxHeight: '300px' }}
+                        />
+                        <h5 className="font-semibold text-purple-600">3 Bedroom</h5>
+                        <p className="text-sm text-gray-600">1,100 sf • 4 units</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Detailed Cost Breakdown by Division */}
+                  <div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Cost Breakdown by Division</h4>
+                    <div className="bg-white border rounded-lg overflow-hidden">
+                      <table className="w-full">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-4 py-3 text-left font-semibold">Division</th>
+                            <th className="px-4 py-3 text-left font-semibold">Site-Built</th>
+                            <th className="px-4 py-3 text-left font-semibold">Modular GC</th>
+                            <th className="px-4 py-3 text-left font-semibold">Fabricator</th>
+                            <th className="px-4 py-3 text-left font-semibold">Variance</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Site Work</td>
+                            <td className="px-4 py-3">$1,247,892</td>
+                            <td className="px-4 py-3">$1,247,892</td>
+                            <td className="px-4 py-3">$0</td>
+                            <td className="px-4 py-3 text-green-600">$0</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Concrete</td>
+                            <td className="px-4 py-3">$986,453</td>
+                            <td className="px-4 py-3">$723,891</td>
+                            <td className="px-4 py-3">$0</td>
+                            <td className="px-4 py-3 text-green-600">-$262,562</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Masonry</td>
+                            <td className="px-4 py-3">$98,765</td>
+                            <td className="px-4 py-3">$45,234</td>
+                            <td className="px-4 py-3">$0</td>
+                            <td className="px-4 py-3 text-green-600">-$53,531</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Metals</td>
+                            <td className="px-4 py-3">$342,187</td>
+                            <td className="px-4 py-3">$123,456</td>
+                            <td className="px-4 py-3">$567,890</td>
+                            <td className="px-4 py-3 text-red-600">+$349,159</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Wood, Plastics</td>
+                            <td className="px-4 py-3">$1,456,789</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3">$1,876,543</td>
+                            <td className="px-4 py-3 text-red-600">+$654,321</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Thermal & Moisture</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3">$78,901</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3 text-red-600">+$78,901</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Openings</td>
+                            <td className="px-4 py-3">$567,890</td>
+                            <td className="px-4 py-3">$123,456</td>
+                            <td className="px-4 py-3">$567,890</td>
+                            <td className="px-4 py-3 text-red-600">+$123,456</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Finishes</td>
+                            <td className="px-4 py-3">$1,234,567</td>
+                            <td className="px-4 py-3">$345,678</td>
+                            <td className="px-4 py-3">$1,456,789</td>
+                            <td className="px-4 py-3 text-red-600">+$567,900</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Specialties</td>
+                            <td className="px-4 py-3">$123,456</td>
+                            <td className="px-4 py-3">$67,890</td>
+                            <td className="px-4 py-3">$98,765</td>
+                            <td className="px-4 py-3 text-red-600">+$43,199</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Equipment</td>
+                            <td className="px-4 py-3">$89,123</td>
+                            <td className="px-4 py-3">$45,678</td>
+                            <td className="px-4 py-3">$67,890</td>
+                            <td className="px-4 py-3 text-red-600">+$24,445</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Furnishings</td>
+                            <td className="px-4 py-3">$45,678</td>
+                            <td className="px-4 py-3">$23,456</td>
+                            <td className="px-4 py-3">$34,567</td>
+                            <td className="px-4 py-3 text-red-600">+$12,345</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Fire Suppression</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3">$156,789</td>
+                            <td className="px-4 py-3">$123,456</td>
+                            <td className="px-4 py-3 text-green-600">+$45,678</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Plumbing</td>
+                            <td className="px-4 py-3">$456,789</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3">$345,678</td>
+                            <td className="px-4 py-3 text-red-600">+$123,456</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">HVAC</td>
+                            <td className="px-4 py-3">$678,901</td>
+                            <td className="px-4 py-3">$345,678</td>
+                            <td className="px-4 py-3">$456,789</td>
+                            <td className="px-4 py-3 text-red-600">+$123,566</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Electrical</td>
+                            <td className="px-4 py-3">$567,890</td>
+                            <td className="px-4 py-3">$289,456</td>
+                            <td className="px-4 py-3">$398,765</td>
+                            <td className="px-4 py-3 text-red-600">+$120,331</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">Transportation</td>
+                            <td className="px-4 py-3">$0</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3">$0</td>
+                            <td className="px-4 py-3 text-red-600">+$234,567</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-3 font-medium">General Conditions</td>
+                            <td className="px-4 py-3">$892,345</td>
+                            <td className="px-4 py-3">$456,789</td>
+                            <td className="px-4 py-3">$234,567</td>
+                            <td className="px-4 py-3 text-green-600">-$201,011</td>
+                          </tr>
+                          <tr className="bg-gray-50 font-semibold">
+                            <td className="px-4 py-3">TOTAL</td>
+                            <td className="px-4 py-3">$10,256,845</td>
+                            <td className="px-4 py-3">$4,977,945</td>
+                            <td className="px-4 py-3">$6,462,156</td>
+                            <td className="px-4 py-3 text-red-600">+$1,183,256</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-blue-800">
+                        <strong>Note:</strong> The modular approach redistributes costs between field work (Modular GC) 
+                        and factory fabrication (Fabricator). While some divisions show increases due to modular premiums, 
+                        overall project cost is $138,738 lower than site-built with significant time savings.
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="bg-green-50 rounded-lg p-4">
                     <h4 className="font-semibold text-green-800 mb-2">Key Advantages</h4>
                     <ul className="text-sm text-green-700 space-y-1">
