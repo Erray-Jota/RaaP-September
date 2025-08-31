@@ -45,7 +45,7 @@ export default function FabAssure() {
   const { toast } = useToast();
   const projectId = params?.id;
   const [activeTab, setActiveTab] = useState("identify");
-  const [selectedPartnerType, setSelectedPartnerType] = useState("fabricator");
+  const [selectedPartnerTab, setSelectedPartnerTab] = useState("fabricator");
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
   const { data: project, isLoading, error } = useQuery<Project>({
@@ -58,10 +58,12 @@ export default function FabAssure() {
     enabled: !!projectId,
   });
 
-  const { data: partnersByType = [] } = useQuery<Partner[]>({
-    queryKey: ["/api/partners", selectedPartnerType],
-    enabled: !!selectedPartnerType,
-  });
+  // Get partners by type for the selected tab
+  const getPartnersByType = (type: string) => {
+    return allPartners.filter(partner => partner.partnerType === type);
+  };
+
+  const currentTabPartners = getPartnersByType(selectedPartnerTab);
 
   // Handle authentication errors
   if (error && isUnauthorizedError(error)) {
@@ -212,8 +214,8 @@ export default function FabAssure() {
       info: project?.address || '5224 Chestnut Road, Olivehurst CA'
     });
 
-    // Add partner locations
-    partnersByType.forEach(partner => {
+    // Add all partner locations to map regardless of selected tab
+    allPartners.forEach(partner => {
       if (partner.latitude && partner.longitude) {
         locations.push({
           lat: parseFloat(partner.latitude),
@@ -359,23 +361,6 @@ export default function FabAssure() {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  {/* Partner Type Filter */}
-                  <div className="mb-6">
-                    <Label htmlFor="partnerType">Partner Type</Label>
-                    <Select value={selectedPartnerType} onValueChange={setSelectedPartnerType}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select partner type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {partnerTypes.map((type) => (
-                          <SelectItem key={type.value} value={type.value}>
-                            {type.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
                   {/* Google Maps with Project and Partner Locations */}
                   <div className="mb-6">
                     <h4 className="text-sm font-medium text-gray-700 mb-3">Project & Partner Locations</h4>
@@ -410,23 +395,49 @@ export default function FabAssure() {
                     </div>
                   </div>
 
-                  {/* Partner Cards */}
+                  {/* Partner Type Tabs */}
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">
-                      {getPartnerTypeLabel(selectedPartnerType)} ({partnersByType.length})
-                    </h3>
-                    {partnersByType.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {partnersByType.map(renderPartnerCard)}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-gray-500">
-                        No {getPartnerTypeLabel(selectedPartnerType).toLowerCase()} found. 
-                        {allPartners.length === 0 && (
-                          <span> Click "Seed Sample Partners" to add demo data.</span>
-                        )}
-                      </div>
-                    )}
+                    <h3 className="text-lg font-semibold mb-4">Partners by Type</h3>
+                    <Tabs value={selectedPartnerTab} onValueChange={setSelectedPartnerTab} className="w-full">
+                      <TabsList className="grid grid-cols-3 lg:grid-cols-6 w-full mb-6">
+                        {partnerTypes.map((type) => {
+                          const Icon = type.icon;
+                          const count = getPartnersByType(type.value).length;
+                          return (
+                            <TabsTrigger key={type.value} value={type.value} className="flex items-center space-x-1">
+                              <Icon className="h-4 w-4" />
+                              <span className="hidden sm:inline">{type.label.split(' ')[0]}</span>
+                              <Badge variant="secondary" className="ml-1 text-xs">{count}</Badge>
+                            </TabsTrigger>
+                          );
+                        })}
+                      </TabsList>
+                      
+                      {partnerTypes.map((type) => {
+                        const typePartners = getPartnersByType(type.value);
+                        return (
+                          <TabsContent key={type.value} value={type.value}>
+                            <div className="space-y-4">
+                              <h4 className="text-md font-medium text-gray-700">
+                                {type.label} ({typePartners.length})
+                              </h4>
+                              {typePartners.length > 0 ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                  {typePartners.map(renderPartnerCard)}
+                                </div>
+                              ) : (
+                                <div className="text-center py-8 text-gray-500">
+                                  No {type.label.toLowerCase()} found. 
+                                  {allPartners.length === 0 && (
+                                    <span> Click "Seed Sample Partners" to add demo data.</span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </TabsContent>
+                        );
+                      })}
+                    </Tabs>
                   </div>
                 </CardContent>
               </Card>
