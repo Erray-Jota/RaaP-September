@@ -262,7 +262,7 @@ export default function SmartStart() {
 
         {/* Tab Interface */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-5 w-full mb-8">
+          <TabsList className="grid grid-cols-6 w-full mb-8">
             <TabsTrigger value="overview" className="flex items-center space-x-1">
               <FileText className="h-4 w-4" />
               <span className="hidden sm:inline">Overview</span>
@@ -278,6 +278,10 @@ export default function SmartStart() {
             <TabsTrigger value="pricing" className="flex items-center space-x-1">
               <Calculator className="h-4 w-4" />
               <span className="hidden sm:inline">Cost</span>
+            </TabsTrigger>
+            <TabsTrigger value="simulator" className="flex items-center space-x-1">
+              <Calculator className="h-4 w-4" />
+              <span className="hidden sm:inline">Simulator</span>
             </TabsTrigger>
             <TabsTrigger value="costs" className="flex items-center space-x-1">
               <Handshake className="h-4 w-4" />
@@ -1490,6 +1494,254 @@ export default function SmartStart() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Simulator Tab */}
+          <TabsContent value="simulator">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Calculator className="h-5 w-5" />
+                    <span>Interactive Cost Simulator</span>
+                    <Badge variant="outline" className="ml-auto bg-blue-100 text-blue-700 border-blue-300">
+                      Live Model
+                    </Badge>
+                  </CardTitle>
+                  <CardDescription>
+                    Adjust project parameters to see real-time cost impacts from our integrated financial model
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Parameter Controls */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Unit Mix</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">1-Bedroom Units</label>
+                            <div className="flex items-center space-x-3">
+                              <input 
+                                type="range" 
+                                min="0" 
+                                max="15" 
+                                defaultValue="8" 
+                                className="flex-1"
+                                data-testid="slider-one-bedroom"
+                              />
+                              <span className="w-8 text-sm font-medium">8</span>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">2-Bedroom Units</label>
+                            <div className="flex items-center space-x-3">
+                              <input 
+                                type="range" 
+                                min="0" 
+                                max="15" 
+                                defaultValue="12" 
+                                className="flex-1"
+                                data-testid="slider-two-bedroom"
+                              />
+                              <span className="w-8 text-sm font-medium">12</span>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">3-Bedroom Units</label>
+                            <div className="flex items-center space-x-3">
+                              <input 
+                                type="range" 
+                                min="0" 
+                                max="10" 
+                                defaultValue="4" 
+                                className="flex-1"
+                                data-testid="slider-three-bedroom"
+                              />
+                              <span className="w-8 text-sm font-medium">4</span>
+                            </div>
+                          </div>
+                          <div className="pt-2 border-t">
+                            <div className="flex justify-between text-sm">
+                              <span>Total Units:</span>
+                              <span className="font-semibold">24</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Building Configuration</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Number of Floors</label>
+                            <select className="w-full p-2 border rounded-md" data-testid="select-floors">
+                              <option value="2">2 Floors</option>
+                              <option value="3" selected>3 Floors</option>
+                              <option value="4">4 Floors</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Building Type</label>
+                            <select className="w-full p-2 border rounded-md" data-testid="select-building-type">
+                              <option value="garden">Garden Style</option>
+                              <option value="stacked" selected>Stacked Flats</option>
+                              <option value="townhome">Townhome Style</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Parking Type</label>
+                            <select className="w-full p-2 border rounded-md" data-testid="select-parking">
+                              <option value="surface" selected>Surface Parking</option>
+                              <option value="covered">Covered Parking</option>
+                              <option value="garage">Garage Parking</option>
+                            </select>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Location Factors</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Market Location</label>
+                            <select className="w-full p-2 border rounded-md" data-testid="select-location">
+                              <option value="vallejo" selected>Vallejo, CA</option>
+                              <option value="sacramento">Sacramento, CA</option>
+                              <option value="fresno">Fresno, CA</option>
+                              <option value="stockton">Stockton, CA</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Prevailing Wage</label>
+                            <div className="flex items-center space-x-2">
+                              <input type="checkbox" defaultChecked className="h-4 w-4" data-testid="checkbox-prevailing-wage" />
+                              <span className="text-sm">Required</span>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium mb-2 block">Site Conditions</label>
+                            <select className="w-full p-2 border rounded-md" data-testid="select-site-conditions">
+                              <option value="standard" selected>Standard</option>
+                              <option value="challenging">Challenging</option>
+                              <option value="complex">Complex</option>
+                            </select>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Results Display */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Cost Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-700 mb-1">$10.8M</div>
+                                <div className="text-sm text-blue-600">Total Project Cost</div>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                <div className="text-lg font-semibold text-gray-700">$411</div>
+                                <div className="text-xs text-gray-600">Cost per SF</div>
+                              </div>
+                              <div className="text-center p-3 bg-gray-50 rounded-lg">
+                                <div className="text-lg font-semibold text-gray-700">$451K</div>
+                                <div className="text-xs text-gray-600">Cost per Unit</div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-2 pt-2 border-t">
+                              <div className="flex justify-between text-sm">
+                                <span>Modular Total:</span>
+                                <span className="font-semibold text-green-600">$10.8M</span>
+                              </div>
+                              <div className="flex justify-between text-sm">
+                                <span>Site-Built Est:</span>
+                                <span className="font-semibold">$10.9M</span>
+                              </div>
+                              <div className="flex justify-between text-sm font-semibold text-green-600">
+                                <span>Savings:</span>
+                                <span>$138K (1.2%)</span>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">Cost Breakdown</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-3">
+                            <div className="flex justify-between text-sm">
+                              <span>Site Preparation:</span>
+                              <span className="font-medium">$485K</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Foundation:</span>
+                              <span className="font-medium">$780K</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Modular Units:</span>
+                              <span className="font-medium">$6.2M</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Site Assembly:</span>
+                              <span className="font-medium">$920K</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>MEP Connections:</span>
+                              <span className="font-medium">$1.1M</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Finish Work:</span>
+                              <span className="font-medium">$830K</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                              <span>Soft Costs:</span>
+                              <span className="font-medium">$485K</span>
+                            </div>
+                            <div className="pt-2 border-t flex justify-between font-semibold">
+                              <span>Total:</span>
+                              <span>$10.8M</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex justify-between items-center pt-4 border-t">
+                      <div className="text-sm text-gray-600">
+                        Powered by integrated Google Sheets financial model
+                      </div>
+                      <div className="flex space-x-3">
+                        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm" data-testid="button-update-model">
+                          Update Model
+                        </button>
+                        <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm" data-testid="button-save-scenario">
+                          Save Scenario
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Bids Tab */}
