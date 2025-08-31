@@ -1,8 +1,8 @@
-# ModularFeasibility - Construction Assessment Platform
+# Rooms as a Product Workflow - Construction Development Platform
 
 ## Overview
 
-ModularFeasibility is a professional assessment platform for multifamily developers to evaluate modular construction suitability for residential projects. The application provides comprehensive feasibility analysis through a 6-criteria scoring system, cost comparisons between modular and site-built construction, timeline analysis, and professional PDF reporting. Users can create projects by entering site details, unit mix requirements, and project specifications to receive detailed assessments covering zoning compliance, massing feasibility, cost analysis, sustainability considerations, logistics planning, and construction timeline comparisons.
+Rooms as a Product Workflow is a comprehensive development platform for multifamily developers to navigate the complete modular construction process. The system provides a 4-application workflow: ModularFeasibility (feasibility assessment), SmartStart (entitlement/permitting), FabAssure (factory coordination), and EasyDesign (design customization). Users progress sequentially through each application, with project data flowing between applications to create a seamless development experience from initial feasibility through final design approval.
 
 ## User Preferences
 

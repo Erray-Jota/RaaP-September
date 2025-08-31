@@ -27,7 +27,7 @@ export default function Header() {
                 className="text-lg font-medium text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
                 onClick={() => navigate("/")}
               >
-                ModularFeasibility
+                Rooms as a Product Workflow
               </h1>
             </div>
           </div>

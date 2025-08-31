@@ -17,7 +17,7 @@ export default function Landing() {
             <div className="flex items-center space-x-3">
               <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto" style={{backgroundColor: 'white', padding: '2px'}} />
               <div className="text-gray-400">|</div>
-              <h1 className="text-lg font-medium text-raap-dark">ModularFeasibility</h1>
+              <h1 className="text-lg font-medium text-raap-dark">Rooms as a Product Workflow</h1>
             </div>
             
             <Button onClick={handleLogin} size="sm" className="bg-raap-green hover:bg-green-700 text-sm px-4 py-2">
@@ -31,11 +31,11 @@ export default function Landing() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-raap-dark mb-6">
-            Assess Modular Construction Feasibility
+            Rooms as a Product Workflow
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Professional assessment platform for multifamily developers to evaluate modular construction 
-            suitability with detailed 6-criteria scoring, cost analysis, and comprehensive reporting.
+            Complete workflow system guiding multifamily developers through modular construction 
+            development with integrated applications for feasibility, entitlements, factory coordination, and design.
           </p>
           <Button 
             onClick={handleLogin}
@@ -157,7 +157,7 @@ export default function Landing() {
             Ready to Assess Your Project?
           </h2>
           <p className="text-gray-600 mb-8">
-            Join construction professionals using ModularFeasibility to make data-driven decisions
+            Join construction professionals using our comprehensive workflow system to streamline modular development
           </p>
           <Button 
             onClick={handleLogin}
