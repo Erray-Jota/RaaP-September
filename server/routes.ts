@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertProjectSchema, insertCostBreakdownSchema } from "@shared/schema";
 import { z } from "zod";
+import googleSheetsService, { type SimulatorParams } from "./googleSheetsService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -307,6 +308,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error seeding partners:", error);
       res.status(500).json({ message: "Failed to seed partners" });
+    }
+  });
+
+  // Simulator API route for Google Sheets integration
+  app.post('/api/simulator/calculate', isAuthenticated, async (req: any, res) => {
+    try {
+      const simulatorParamsSchema = z.object({
+        oneBedUnits: z.number().min(0).max(20),
+        twoBedUnits: z.number().min(0).max(20),
+        threeBedUnits: z.number().min(0).max(15),
+        floors: z.number().min(2).max(4),
+        buildingType: z.string(),
+        parkingType: z.string(),
+        location: z.string(),
+        prevailingWage: z.boolean(),
+        siteConditions: z.string(),
+      });
+
+      const validatedParams = simulatorParamsSchema.parse(req.body);
+      const results = await googleSheetsService.updateSimulatorParams(validatedParams);
+      
+      res.json(results);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid simulator parameters", errors: error.errors });
+      }
+      console.error("Error calculating costs:", error);
+      res.status(500).json({ message: "Failed to calculate costs" });
     }
   });
 
