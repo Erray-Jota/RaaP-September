@@ -522,318 +522,351 @@ export default function ModularFeasibility() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
-                      <div className="bg-white border rounded-lg p-4">
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span>Total Units</span>
-                            <span className="font-semibold">24 units</span>
+                  {/* Sub-Tabs */}
+                  <Tabs defaultValue="specifications" className="w-full">
+                    <TabsList className="grid w-full grid-cols-5 bg-gray-100">
+                      <TabsTrigger value="specifications" className="text-sm">Specifications</TabsTrigger>
+                      <TabsTrigger value="unitplans" className="text-sm">Unit Plans</TabsTrigger>
+                      <TabsTrigger value="floorplan" className="text-sm">Floor Plan</TabsTrigger>
+                      <TabsTrigger value="3dview" className="text-sm">3D View</TabsTrigger>
+                      <TabsTrigger value="siteplan" className="text-sm">Site Plan</TabsTrigger>
+                    </TabsList>
+
+                    {/* Specifications Sub-Tab */}
+                    <TabsContent value="specifications" className="mt-6">
+                      <div className="space-y-6">
+                        {/* Unit Mix Summary matching the image */}
+                        <div className="bg-white border rounded-lg p-6">
+                          <h4 className="font-semibold text-gray-800 mb-6">Unit Mix Summary</h4>
+                          <div className="grid grid-cols-3 gap-6">
+                            <div className="text-center p-6 bg-gray-50 rounded-lg">
+                              <div className="text-4xl font-bold text-green-600 mb-2">6</div>
+                              <div className="font-semibold text-gray-700">1-Bedroom Units</div>
+                              <div className="text-sm text-gray-500">563 SF Average</div>
+                            </div>
+                            <div className="text-center p-6 bg-gray-50 rounded-lg">
+                              <div className="text-4xl font-bold text-blue-600 mb-2">12</div>
+                              <div className="font-semibold text-gray-700">2-Bedroom Units</div>
+                              <div className="text-sm text-gray-500">813 SF Average</div>
+                            </div>
+                            <div className="text-center p-6 bg-gray-50 rounded-lg">
+                              <div className="text-4xl font-bold text-orange-600 mb-2">6</div>
+                              <div className="font-semibold text-gray-700">3-Bedroom Units</div>
+                              <div className="text-sm text-gray-500">980 SF Average</div>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Building Stories</span>
-                            <span className="font-semibold">3 stories</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <div>
+                            <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
+                            <div className="bg-white border rounded-lg p-4">
+                              <div className="space-y-3">
+                                <div className="flex justify-between">
+                                  <span>Total Units</span>
+                                  <span className="font-semibold">24 units</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Building Stories</span>
+                                  <span className="font-semibold">3 stories</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Building Height</span>
+                                  <span className="font-semibold">32 feet</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Total Building Area</span>
+                                  <span className="font-semibold">19,008 sf</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Site Coverage</span>
+                                  <span className="font-semibold">14.5%</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Parking Spaces</span>
+                                  <span className="font-semibold">24 spaces</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Building Height</span>
-                            <span className="font-semibold">32 feet</span>
+
+                          <div>
+                            <h4 className="font-semibold text-raap-dark mb-3">Modular Specifications</h4>
+                            <div className="bg-white border rounded-lg p-4">
+                              <div className="space-y-3">
+                                <div className="flex justify-between">
+                                  <span>Module Size</span>
+                                  <span className="font-semibold">14' x 60'</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Total Modules</span>
+                                  <span className="font-semibold">24 modules</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Construction Type</span>
+                                  <span className="font-semibold">V-A</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Structural System</span>
+                                  <span className="font-semibold">Light Frame</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Foundation</span>
+                                  <span className="font-semibold">Concrete Slab</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Shipping Weight</span>
+                                  <span className="font-semibold">~45 tons each</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Total Building Area</span>
-                            <span className="font-semibold">19,008 sf</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Site Coverage</span>
-                            <span className="font-semibold">14.5%</span>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold text-raap-dark mb-3">Modular vs Site-Built Comparison</h4>
+                          <div className="bg-white border rounded-lg overflow-hidden">
+                            <table className="w-full">
+                              <thead className="bg-gray-50">
+                                <tr>
+                                  <th className="px-4 py-3 text-left font-semibold">Aspect</th>
+                                  <th className="px-4 py-3 text-left font-semibold">Site-Built</th>
+                                  <th className="px-4 py-3 text-left font-semibold">RaaP Modular</th>
+                                  <th className="px-4 py-3 text-left font-semibold">Impact</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-gray-200">
+                                <tr>
+                                  <td className="px-4 py-3">Unit Count</td>
+                                  <td className="px-4 py-3">24 units</td>
+                                  <td className="px-4 py-3">24 units</td>
+                                  <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
+                                </tr>
+                                <tr>
+                                  <td className="px-4 py-3">Building Footprint</td>
+                                  <td className="px-4 py-3">6,336 sf</td>
+                                  <td className="px-4 py-3">6,336 sf</td>
+                                  <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
+                                </tr>
+                                <tr>
+                                  <td className="px-4 py-3">Floor Area Ratio</td>
+                                  <td className="px-4 py-3">0.44</td>
+                                  <td className="px-4 py-3">0.44</td>
+                                  <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
+                                </tr>
+                                <tr>
+                                  <td className="px-4 py-3">Structural Efficiency</td>
+                                  <td className="px-4 py-3">Standard</td>
+                                  <td className="px-4 py-3">Optimized</td>
+                                  <td className="px-4 py-3"><span className="text-blue-600 font-semibold">↑ Improved</span></td>
+                                </tr>
+                                <tr>
+                                  <td className="px-4 py-3">Design Flexibility</td>
+                                  <td className="px-4 py-3">High</td>
+                                  <td className="px-4 py-3">Moderate</td>
+                                  <td className="px-4 py-3"><span className="text-orange-600 font-semibold">↓ Reduced</span></td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </TabsContent>
 
-                    <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Unit Mix Breakdown</h4>
-                      <div className="bg-white border rounded-lg p-4">
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span>1-Bedroom Units</span>
-                            <div className="text-right">
-                              <div className="font-semibold">8 units</div>
-                              <div className="text-sm text-gray-600">650 sf avg</div>
+                    {/* Unit Plans Sub-Tab */}
+                    <TabsContent value="unitplans" className="mt-6">
+                      <div className="space-y-6">
+                        <h4 className="font-semibold text-raap-dark mb-4">Individual Unit Floor Plans</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div className="text-center">
+                            <img 
+                              src={oneBedImage} 
+                              alt="1 Bedroom Unit Floor Plan - 563 sf"
+                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                              style={{ maxHeight: '400px' }}
+                            />
+                            <h5 className="font-semibold text-green-600 mb-1">1 Bedroom Unit</h5>
+                            <p className="text-sm text-gray-600 mb-2">563 sf • 6 units</p>
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <div>1 Bedroom, 1 Bathroom</div>
+                              <div>Kitchen, Living Room</div>
+                              <div>In-unit Washer/Dryer</div>
                             </div>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <span>2-Bedroom Units</span>
-                            <div className="text-right">
-                              <div className="font-semibold">12 units</div>
-                              <div className="text-sm text-gray-600">850 sf avg</div>
+                          <div className="text-center">
+                            <img 
+                              src={twoBedImage} 
+                              alt="2 Bedroom Unit Floor Plan - 813 sf"
+                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                              style={{ maxHeight: '400px' }}
+                            />
+                            <h5 className="font-semibold text-blue-600 mb-1">2 Bedroom Unit</h5>
+                            <p className="text-sm text-gray-600 mb-2">813 sf • 12 units</p>
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <div>2 Bedrooms, 2 Bathrooms</div>
+                              <div>Kitchen, Living/Dining</div>
+                              <div>In-unit Washer/Dryer</div>
                             </div>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <span>3-Bedroom Units</span>
-                            <div className="text-right">
-                              <div className="font-semibold">4 units</div>
-                              <div className="text-sm text-gray-600">1,100 sf avg</div>
+                          <div className="text-center">
+                            <img 
+                              src={threeBedImage} 
+                              alt="3 Bedroom Unit Floor Plan - 980 sf"
+                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                              style={{ maxHeight: '400px' }}
+                            />
+                            <h5 className="font-semibold text-orange-600 mb-1">3 Bedroom Unit</h5>
+                            <p className="text-sm text-gray-600 mb-2">980 sf • 6 units</p>
+                            <div className="text-xs text-gray-500 space-y-1">
+                              <div>3 Bedrooms, 2 Bathrooms</div>
+                              <div>Kitchen, Living/Dining</div>
+                              <div>In-unit Washer/Dryer</div>
                             </div>
-                          </div>
-                          <hr className="my-2" />
-                          <div className="flex justify-between items-center font-semibold">
-                            <span>Average Unit Size</span>
-                            <span>792 sf</span>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </TabsContent>
 
-                  <div>
-                    <h4 className="font-semibold text-raap-dark mb-3">Modular vs Site-Built Comparison</h4>
-                    <div className="bg-white border rounded-lg overflow-hidden">
-                      <table className="w-full">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-4 py-3 text-left font-semibold">Aspect</th>
-                            <th className="px-4 py-3 text-left font-semibold">Site-Built</th>
-                            <th className="px-4 py-3 text-left font-semibold">RaaP Modular</th>
-                            <th className="px-4 py-3 text-left font-semibold">Impact</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          <tr>
-                            <td className="px-4 py-3">Unit Count</td>
-                            <td className="px-4 py-3">24 units</td>
-                            <td className="px-4 py-3">24 units</td>
-                            <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3">Building Footprint</td>
-                            <td className="px-4 py-3">6,336 sf</td>
-                            <td className="px-4 py-3">6,336 sf</td>
-                            <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3">Floor Area Ratio</td>
-                            <td className="px-4 py-3">0.44</td>
-                            <td className="px-4 py-3">0.44</td>
-                            <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3">Structural Efficiency</td>
-                            <td className="px-4 py-3">Standard</td>
-                            <td className="px-4 py-3">Optimized</td>
-                            <td className="px-4 py-3"><span className="text-blue-600 font-semibold">↑ Improved</span></td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3">Design Flexibility</td>
-                            <td className="px-4 py-3">High</td>
-                            <td className="px-4 py-3">Moderate</td>
-                            <td className="px-4 py-3"><span className="text-orange-600 font-semibold">↓ Reduced</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Unit Floor Plans */}
-                  <div>
-                    <h4 className="font-semibold text-raap-dark mb-4">Unit Floor Plans</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="text-center">
-                        <img 
-                          src={oneBedImage} 
-                          alt="1 Bedroom Unit Floor Plan - 650 sf"
-                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
-                          style={{ maxHeight: '300px' }}
-                        />
-                        <h5 className="font-semibold text-blue-600">1 Bedroom</h5>
-                        <p className="text-sm text-gray-600">650 sf • 8 units</p>
+                    {/* Floor Plan Sub-Tab */}
+                    <TabsContent value="floorplan" className="mt-6">
+                      <div className="space-y-6">
+                        <h4 className="font-semibold text-raap-dark mb-4">Building Floor Plans</h4>
+                        <div className="space-y-6">
+                          <div className="text-center">
+                            <img 
+                              src={floorPlanImage} 
+                              alt="Building floor plan showing unit layout and circulation"
+                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                              style={{ maxHeight: '70vh' }}
+                            />
+                            <h5 className="font-semibold text-gray-800 mb-2">Typical Floor Plan</h5>
+                            <p className="text-sm text-gray-600">Shows unit layout, circulation, and common areas</p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div className="bg-white border rounded-lg p-4">
+                              <h6 className="font-semibold text-raap-dark mb-3">Floor Plan Features</h6>
+                              <ul className="text-sm text-gray-700 space-y-2">
+                                <li>• Double-loaded corridor for efficiency</li>
+                                <li>• Central stairwell with elevator access</li>
+                                <li>• Natural light in all units</li>
+                                <li>• Compliant with accessibility requirements</li>
+                                <li>• Optimized for modular construction grid</li>
+                              </ul>
+                            </div>
+                            <div className="bg-white border rounded-lg p-4">
+                              <h6 className="font-semibold text-raap-dark mb-3">Circulation & Access</h6>
+                              <ul className="text-sm text-gray-700 space-y-2">
+                                <li>• Two means of egress per code</li>
+                                <li>• ADA compliant unit distribution</li>
+                                <li>• Efficient corridor width (6 feet)</li>
+                                <li>• Direct exterior access from ground floor</li>
+                                <li>• Covered parking beneath building</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-center">
-                        <img 
-                          src={twoBedImage} 
-                          alt="2 Bedroom Unit Floor Plan - 850 sf"
-                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
-                          style={{ maxHeight: '300px' }}
-                        />
-                        <h5 className="font-semibold text-green-600">2 Bedroom</h5>
-                        <p className="text-sm text-gray-600">850 sf • 12 units</p>
-                      </div>
-                      <div className="text-center">
-                        <img 
-                          src={threeBedImage} 
-                          alt="3 Bedroom Unit Floor Plan - 1,100 sf"
-                          className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-2"
-                          style={{ maxHeight: '300px' }}
-                        />
-                        <h5 className="font-semibold text-purple-600">3 Bedroom</h5>
-                        <p className="text-sm text-gray-600">1,100 sf • 4 units</p>
-                      </div>
-                    </div>
-                  </div>
+                    </TabsContent>
 
-                  {/* Detailed Cost Breakdown by Division */}
-                  <div>
-                    <h4 className="font-semibold text-raap-dark mb-4">Cost Breakdown by Division</h4>
-                    <div className="bg-white border rounded-lg overflow-hidden">
-                      <table className="w-full">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-4 py-3 text-left font-semibold">Division</th>
-                            <th className="px-4 py-3 text-left font-semibold">Site-Built</th>
-                            <th className="px-4 py-3 text-left font-semibold">Modular GC</th>
-                            <th className="px-4 py-3 text-left font-semibold">Fabricator</th>
-                            <th className="px-4 py-3 text-left font-semibold">Variance</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Site Work</td>
-                            <td className="px-4 py-3">$1,247,892</td>
-                            <td className="px-4 py-3">$1,247,892</td>
-                            <td className="px-4 py-3">$0</td>
-                            <td className="px-4 py-3 text-green-600">$0</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Concrete</td>
-                            <td className="px-4 py-3">$986,453</td>
-                            <td className="px-4 py-3">$723,891</td>
-                            <td className="px-4 py-3">$0</td>
-                            <td className="px-4 py-3 text-green-600">-$262,562</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Masonry</td>
-                            <td className="px-4 py-3">$98,765</td>
-                            <td className="px-4 py-3">$45,234</td>
-                            <td className="px-4 py-3">$0</td>
-                            <td className="px-4 py-3 text-green-600">-$53,531</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Metals</td>
-                            <td className="px-4 py-3">$342,187</td>
-                            <td className="px-4 py-3">$123,456</td>
-                            <td className="px-4 py-3">$567,890</td>
-                            <td className="px-4 py-3 text-red-600">+$349,159</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Wood, Plastics</td>
-                            <td className="px-4 py-3">$1,456,789</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3">$1,876,543</td>
-                            <td className="px-4 py-3 text-red-600">+$654,321</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Thermal & Moisture</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3">$78,901</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3 text-red-600">+$78,901</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Openings</td>
-                            <td className="px-4 py-3">$567,890</td>
-                            <td className="px-4 py-3">$123,456</td>
-                            <td className="px-4 py-3">$567,890</td>
-                            <td className="px-4 py-3 text-red-600">+$123,456</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Finishes</td>
-                            <td className="px-4 py-3">$1,234,567</td>
-                            <td className="px-4 py-3">$345,678</td>
-                            <td className="px-4 py-3">$1,456,789</td>
-                            <td className="px-4 py-3 text-red-600">+$567,900</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Specialties</td>
-                            <td className="px-4 py-3">$123,456</td>
-                            <td className="px-4 py-3">$67,890</td>
-                            <td className="px-4 py-3">$98,765</td>
-                            <td className="px-4 py-3 text-red-600">+$43,199</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Equipment</td>
-                            <td className="px-4 py-3">$89,123</td>
-                            <td className="px-4 py-3">$45,678</td>
-                            <td className="px-4 py-3">$67,890</td>
-                            <td className="px-4 py-3 text-red-600">+$24,445</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Furnishings</td>
-                            <td className="px-4 py-3">$45,678</td>
-                            <td className="px-4 py-3">$23,456</td>
-                            <td className="px-4 py-3">$34,567</td>
-                            <td className="px-4 py-3 text-red-600">+$12,345</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Fire Suppression</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3">$156,789</td>
-                            <td className="px-4 py-3">$123,456</td>
-                            <td className="px-4 py-3 text-green-600">+$45,678</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Plumbing</td>
-                            <td className="px-4 py-3">$456,789</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3">$345,678</td>
-                            <td className="px-4 py-3 text-red-600">+$123,456</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">HVAC</td>
-                            <td className="px-4 py-3">$678,901</td>
-                            <td className="px-4 py-3">$345,678</td>
-                            <td className="px-4 py-3">$456,789</td>
-                            <td className="px-4 py-3 text-red-600">+$123,566</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Electrical</td>
-                            <td className="px-4 py-3">$567,890</td>
-                            <td className="px-4 py-3">$289,456</td>
-                            <td className="px-4 py-3">$398,765</td>
-                            <td className="px-4 py-3 text-red-600">+$120,331</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">Transportation</td>
-                            <td className="px-4 py-3">$0</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3">$0</td>
-                            <td className="px-4 py-3 text-red-600">+$234,567</td>
-                          </tr>
-                          <tr>
-                            <td className="px-4 py-3 font-medium">General Conditions</td>
-                            <td className="px-4 py-3">$892,345</td>
-                            <td className="px-4 py-3">$456,789</td>
-                            <td className="px-4 py-3">$234,567</td>
-                            <td className="px-4 py-3 text-green-600">-$201,011</td>
-                          </tr>
-                          <tr className="bg-gray-50 font-semibold">
-                            <td className="px-4 py-3">TOTAL</td>
-                            <td className="px-4 py-3">$10,256,845</td>
-                            <td className="px-4 py-3">$4,977,945</td>
-                            <td className="px-4 py-3">$6,462,156</td>
-                            <td className="px-4 py-3 text-red-600">+$1,183,256</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                      <p className="text-sm text-blue-800">
-                        <strong>Note:</strong> The modular approach redistributes costs between field work (Modular GC) 
-                        and factory fabrication (Fabricator). While some divisions show increases due to modular premiums, 
-                        overall project cost is $138,738 lower than site-built with significant time savings.
-                      </p>
-                    </div>
-                  </div>
+                    {/* 3D View Sub-Tab */}
+                    <TabsContent value="3dview" className="mt-6">
+                      <div className="space-y-6">
+                        <h4 className="font-semibold text-raap-dark mb-4">3D Building Renderings</h4>
+                        <div className="text-center">
+                          <img 
+                            src={buildingRenderingImage} 
+                            alt="3D rendering of the modular apartment building"
+                            className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                            style={{ maxHeight: '70vh' }}
+                          />
+                          <h5 className="font-semibold text-gray-800 mb-2">Exterior Building Rendering</h5>
+                          <p className="text-sm text-gray-600">Three-story modular apartment building with contemporary design</p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                          <div className="bg-white border rounded-lg p-4">
+                            <h6 className="font-semibold text-raap-dark mb-3">Design Features</h6>
+                            <ul className="text-sm text-gray-700 space-y-2">
+                              <li>• Contemporary architectural style</li>
+                              <li>• Mixed exterior materials (siding, brick)</li>
+                              <li>• Energy-efficient windows</li>
+                              <li>• Covered parking at ground level</li>
+                              <li>• Landscaped common areas</li>
+                              <li>• Balconies for upper floor units</li>
+                            </ul>
+                          </div>
+                          <div className="bg-white border rounded-lg p-4">
+                            <h6 className="font-semibold text-raap-dark mb-3">Modular Advantages</h6>
+                            <ul className="text-sm text-gray-700 space-y-2">
+                              <li>• Factory-controlled quality</li>
+                              <li>• Consistent material finishes</li>
+                              <li>• Reduced on-site construction time</li>
+                              <li>• Enhanced structural performance</li>
+                              <li>• Better weather protection during build</li>
+                              <li>• Improved dimensional accuracy</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
 
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-green-800 mb-2">Key Advantages</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• No reduction in unit count or building program</li>
-                      <li>• Maintains all required setbacks and height compliance</li>
-                      <li>• Optimized structural design reduces material waste</li>
-                      <li>• Modular grid aligns well with residential unit layouts</li>
-                      <li>• Standard shipping dimensions accommodate all unit types</li>
-                    </ul>
-                  </div>
+                    {/* Site Plan Sub-Tab */}
+                    <TabsContent value="siteplan" className="mt-6">
+                      <div className="space-y-6">
+                        <h4 className="font-semibold text-raap-dark mb-4">Site Layout & Planning</h4>
+                        <div className="text-center">
+                          <img 
+                            src={sitePlanImage} 
+                            alt="Site plan showing building placement, parking, and landscaping"
+                            className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
+                            style={{ maxHeight: '70vh' }}
+                          />
+                          <h5 className="font-semibold text-gray-800 mb-2">Site Plan Layout</h5>
+                          <p className="text-sm text-gray-600">Building placement, parking layout, and site circulation</p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                          <div className="bg-white border rounded-lg p-4">
+                            <h6 className="font-semibold text-raap-dark mb-3">Site Statistics</h6>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex justify-between">
+                                <span>Total Site Area</span>
+                                <span className="font-semibold">1.75 acres</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Building Coverage</span>
+                                <span className="font-semibold">14.5%</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Parking Spaces</span>
+                                <span className="font-semibold">24 spaces</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Open Space</span>
+                                <span className="font-semibold">65%</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Landscaping</span>
+                                <span className="font-semibold">20%</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-white border rounded-lg p-4">
+                            <h6 className="font-semibold text-raap-dark mb-3">Site Features</h6>
+                            <ul className="text-sm text-gray-700 space-y-2">
+                              <li>• Surface parking with covered spaces</li>
+                              <li>• Central courtyard for residents</li>
+                              <li>• Perimeter landscaping and screening</li>
+                              <li>• Accessible pathways throughout</li>
+                              <li>• Stormwater management features</li>
+                              <li>• Utility service access points</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
               </CardContent>
             </Card>
