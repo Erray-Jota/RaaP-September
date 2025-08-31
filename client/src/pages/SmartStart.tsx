@@ -255,19 +255,19 @@ export default function SmartStart() {
             </TabsTrigger>
             <TabsTrigger value="design" className="flex items-center space-x-1">
               <Building className="h-4 w-4" />
-              <span className="hidden sm:inline">Design Package</span>
+              <span className="hidden sm:inline">Design</span>
             </TabsTrigger>
             <TabsTrigger value="aor" className="flex items-center space-x-1">
               <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">AOR Collaboration</span>
+              <span className="hidden sm:inline">AOR</span>
             </TabsTrigger>
             <TabsTrigger value="pricing" className="flex items-center space-x-1">
               <Calculator className="h-4 w-4" />
-              <span className="hidden sm:inline">Pricing Package</span>
+              <span className="hidden sm:inline">Pricing</span>
             </TabsTrigger>
             <TabsTrigger value="costs" className="flex items-center space-x-1">
               <Handshake className="h-4 w-4" />
-              <span className="hidden sm:inline">Cost Collaboration</span>
+              <span className="hidden sm:inline">Cost</span>
             </TabsTrigger>
           </TabsList>
 
