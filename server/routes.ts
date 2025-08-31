@@ -215,6 +215,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Partner routes for FabAssure marketplace
+  app.get('/api/partners', isAuthenticated, async (req: any, res) => {
+    try {
+      const partners = await storage.getAllPartners();
+      res.json(partners);
+    } catch (error) {
+      console.error("Error fetching partners:", error);
+      res.status(500).json({ message: "Failed to fetch partners" });
+    }
+  });
+
+  app.get('/api/partners/:type', isAuthenticated, async (req: any, res) => {
+    try {
+      const { type } = req.params;
+      const partners = await storage.getPartnersByType(type);
+      res.json(partners);
+    } catch (error) {
+      console.error("Error fetching partners by type:", error);
+      res.status(500).json({ message: "Failed to fetch partners" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/partner-evaluations', isAuthenticated, async (req: any, res) => {
+    try {
+      const { projectId } = req.params;
+      const evaluations = await storage.getPartnerEvaluations(projectId);
+      res.json(evaluations);
+    } catch (error) {
+      console.error("Error fetching partner evaluations:", error);
+      res.status(500).json({ message: "Failed to fetch evaluations" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/partner-evaluations', isAuthenticated, async (req: any, res) => {
+    try {
+      const { projectId } = req.params;
+      const evaluation = await storage.createPartnerEvaluation({
+        ...req.body,
+        projectId,
+      });
+      res.status(201).json(evaluation);
+    } catch (error) {
+      console.error("Error creating partner evaluation:", error);
+      res.status(500).json({ message: "Failed to create evaluation" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/partner-contracts', isAuthenticated, async (req: any, res) => {
+    try {
+      const { projectId } = req.params;
+      const contracts = await storage.getPartnerContracts(projectId);
+      res.json(contracts);
+    } catch (error) {
+      console.error("Error fetching partner contracts:", error);
+      res.status(500).json({ message: "Failed to fetch contracts" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/partner-contracts', isAuthenticated, async (req: any, res) => {
+    try {
+      const { projectId } = req.params;
+      const contract = await storage.createPartnerContract({
+        ...req.body,
+        projectId,
+      });
+      res.status(201).json(contract);
+    } catch (error) {
+      console.error("Error creating partner contract:", error);
+      res.status(500).json({ message: "Failed to create contract" });
+    }
+  });
+
+  // Seed sample partners for marketplace
+  app.post('/api/seed-partners', isAuthenticated, async (req: any, res) => {
+    try {
+      const samplePartners = await createSamplePartners();
+      res.json({ message: "Sample partners created", count: samplePartners.length });
+    } catch (error) {
+      console.error("Error seeding partners:", error);
+      res.status(500).json({ message: "Failed to seed partners" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
@@ -399,4 +482,148 @@ async function createSampleProjects(userId: string) {
   }
   
   return createdProjects;
+}
+
+// Helper function to create sample partners for the marketplace
+async function createSamplePartners() {
+  const samplePartners = [
+    // Fabricators
+    {
+      name: "Modular Solutions Inc",
+      partnerType: "fabricator",
+      location: "Portland, OR",
+      city: "Portland",
+      state: "OR",
+      latitude: "45.5152",
+      longitude: "-122.6784",
+      yearEstablished: 2015,
+      buildingTypeFocus: "multifamily",
+      capacity: "50-200 units per month, specializes in 3-6 story buildings",
+      certifications: "ISO 9001, ENERGY STAR Certified",
+      contactEmail: "sales@modularsolutions.com",
+      contactPhone: "(503) 555-0123",
+      website: "www.modularsolutions.com",
+      description: "Leading modular fabricator specializing in multifamily housing with emphasis on sustainable construction",
+      specialties: "Energy-efficient design, rapid delivery, custom architectural features",
+      avgProjectSize: "medium",
+      rating: "4.8",
+      totalProjects: 127,
+    },
+    {
+      name: "Pacific Modular Manufacturing",
+      partnerType: "fabricator",
+      location: "Sacramento, CA",
+      city: "Sacramento", 
+      state: "CA",
+      latitude: "38.5816",
+      longitude: "-121.4944",
+      yearEstablished: 2018,
+      buildingTypeFocus: "multifamily",
+      capacity: "30-150 units per month, up to 8 stories",
+      certifications: "HUD Code Certified, Green Building Certified",
+      contactEmail: "info@pacificmodular.com",
+      contactPhone: "(916) 555-0456",
+      website: "www.pacificmodular.com",
+      description: "Advanced modular construction with focus on high-density urban housing",
+      specialties: "High-rise modular, urban infill, mixed-use developments",
+      avgProjectSize: "large",
+      rating: "4.6",
+      totalProjects: 89,
+    },
+    {
+      name: "Rocky Mountain Modular",
+      partnerType: "fabricator",
+      location: "Denver, CO",
+      city: "Denver",
+      state: "CO",
+      latitude: "39.7392",
+      longitude: "-104.9903",
+      yearEstablished: 2012,
+      buildingTypeFocus: "multifamily",
+      capacity: "20-100 units per month, specializes in 2-4 story buildings",
+      certifications: "OSHA Certified, Energy Star Partner",
+      contactEmail: "contact@rmmodular.com",
+      contactPhone: "(720) 555-0789",
+      website: "www.rmmodular.com", 
+      description: "Regional modular fabricator serving Colorado and surrounding mountain states",
+      specialties: "Cold weather construction, mountain terrain adaptation, energy efficiency",
+      avgProjectSize: "medium",
+      rating: "4.7",
+      totalProjects: 156,
+    },
+    // General Contractors
+    {
+      name: "Premier Construction Partners",
+      partnerType: "gc",
+      location: "San Francisco, CA",
+      city: "San Francisco",
+      state: "CA", 
+      latitude: "37.7749",
+      longitude: "-122.4194",
+      yearEstablished: 2010,
+      buildingTypeFocus: "multifamily",
+      capacity: "5-15 concurrent projects, up to 300 units per project",
+      certifications: "CGC Licensed, LEED Accredited",
+      contactEmail: "projects@premierconstruction.com",
+      contactPhone: "(415) 555-0321",
+      website: "www.premierconstruction.com",
+      description: "Full-service general contractor specializing in modular and traditional construction",
+      specialties: "Site preparation, utility connections, final assembly, project management",
+      avgProjectSize: "large",
+      rating: "4.9",
+      totalProjects: 203,
+    },
+    // AORs
+    {
+      name: "Urban Design Associates",
+      partnerType: "aor",
+      location: "Seattle, WA",
+      city: "Seattle",
+      state: "WA",
+      latitude: "47.6062",
+      longitude: "-122.3321",
+      yearEstablished: 2008,
+      buildingTypeFocus: "multifamily",
+      capacity: "8-12 concurrent projects, specializes in entitlement process",
+      certifications: "AIA Member, NCARB Certified",
+      contactEmail: "design@urbandesignassoc.com",
+      contactPhone: "(206) 555-0654",
+      website: "www.urbandesignassoc.com",
+      description: "Architectural firm with extensive experience in modular design and urban entitlement",
+      specialties: "Zoning compliance, permit expediting, modular design optimization",
+      avgProjectSize: "medium",
+      rating: "4.8",
+      totalProjects: 178,
+    },
+    // Transportation
+    {
+      name: "Elite Modular Transport",
+      partnerType: "transportation",
+      location: "Phoenix, AZ",
+      city: "Phoenix",
+      state: "AZ",
+      latitude: "33.4484",
+      longitude: "-112.0740",
+      yearEstablished: 2016,
+      buildingTypeFocus: "all",
+      capacity: "200+ modular moves per month, nationwide coverage",
+      certifications: "DOT Certified, Heavy Haul Specialist",
+      contactEmail: "logistics@elitemodular.com",
+      contactPhone: "(602) 555-0987",
+      website: "www.elitemodulartransport.com",
+      description: "Specialized transportation and crane services for modular construction",
+      specialties: "Heavy haul transport, crane services, site logistics, installation supervision",
+      avgProjectSize: "all",
+      rating: "4.7",
+      totalProjects: 892,
+    },
+  ];
+
+  const createdPartners = [];
+  for (const partnerData of samplePartners) {
+    const partner = await storage.createPartner(partnerData);
+    createdPartners.push(partner);
+  }
+  
+  return createdPartners;
 }

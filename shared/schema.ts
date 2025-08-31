@@ -196,6 +196,69 @@ export const insertCostBreakdownSchema = createInsertSchema(costBreakdowns).omit
   id: true,
 });
 
+// Partners table for FabAssure marketplace
+export const partners = pgTable("partners", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  partnerType: varchar("partner_type").notNull(), // "fabricator", "gc", "aor", "consultant", "transportation", "engineering", "implementation"
+  location: varchar("location").notNull(),
+  city: varchar("city").notNull(),
+  state: varchar("state").notNull(),
+  latitude: decimal("latitude", { precision: 10, scale: 8 }),
+  longitude: decimal("longitude", { precision: 11, scale: 8 }),
+  yearEstablished: integer("year_established"),
+  buildingTypeFocus: varchar("building_type_focus"), // "multifamily", "commercial", "mixed-use", "all"
+  capacity: text("capacity"), // Description of capacity/capabilities
+  certifications: text("certifications"),
+  contactEmail: varchar("contact_email"),
+  contactPhone: varchar("contact_phone"),
+  website: varchar("website"),
+  description: text("description"),
+  specialties: text("specialties"),
+  avgProjectSize: varchar("avg_project_size"), // "small", "medium", "large", "all"
+  rating: decimal("rating", { precision: 3, scale: 2 }), // 1.00 to 5.00
+  totalProjects: integer("total_projects"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Partner evaluations for projects
+export const partnerEvaluations = pgTable("partner_evaluations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  partnerId: varchar("partner_id").references(() => partners.id).notNull(),
+  evaluationType: varchar("evaluation_type").notNull(), // "cost", "design", "quality", "reliability"
+  score: decimal("score", { precision: 3, scale: 1 }), // 1.0 to 10.0
+  notes: text("notes"),
+  evaluatedAt: timestamp("evaluated_at").defaultNow(),
+});
+
+// Contract terms for selected partners
+export const partnerContracts = pgTable("partner_contracts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  partnerId: varchar("partner_id").references(() => partners.id).notNull(),
+  contractType: varchar("contract_type").notNull(), // "fabrication", "gc", "design", "consulting"
+  contractValue: decimal("contract_value", { precision: 12, scale: 2 }),
+  paymentTerms: text("payment_terms"),
+  deliverySchedule: text("delivery_schedule"),
+  qualityRequirements: text("quality_requirements"),
+  penaltyClauses: text("penalty_clauses"),
+  warrantyTerms: text("warranty_terms"),
+  contractStatus: varchar("contract_status").default("draft"), // "draft", "negotiating", "signed", "completed"
+  signedAt: timestamp("signed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type Partner = typeof partners.$inferSelect;
+export type InsertPartner = typeof partners.$inferInsert;
+export type PartnerEvaluation = typeof partnerEvaluations.$inferSelect;
+export type InsertPartnerEvaluation = typeof partnerEvaluations.$inferInsert;
+export type PartnerContract = typeof partnerContracts.$inferSelect;
+export type InsertPartnerContract = typeof partnerContracts.$inferInsert;
+
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Project = typeof projects.$inferSelect;
 export type InsertCostBreakdown = z.infer<typeof insertCostBreakdownSchema>;

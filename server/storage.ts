@@ -2,12 +2,21 @@ import {
   users,
   projects,
   costBreakdowns,
+  partners,
+  partnerEvaluations,
+  partnerContracts,
   type User,
   type UpsertUser,
   type Project,
   type InsertProject,
   type CostBreakdown,
   type InsertCostBreakdown,
+  type Partner,
+  type InsertPartner,
+  type PartnerEvaluation,
+  type InsertPartnerEvaluation,
+  type PartnerContract,
+  type InsertPartnerContract,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -28,6 +37,15 @@ export interface IStorage {
   getProjectCostBreakdowns(projectId: string): Promise<CostBreakdown[]>;
   createCostBreakdown(breakdown: InsertCostBreakdown): Promise<CostBreakdown>;
   updateCostBreakdown(id: string, breakdown: Partial<InsertCostBreakdown>): Promise<CostBreakdown>;
+  
+  // Partner operations
+  getAllPartners(): Promise<Partner[]>;
+  getPartnersByType(type: string): Promise<Partner[]>;
+  createPartner(partner: InsertPartner): Promise<Partner>;
+  getPartnerEvaluations(projectId: string): Promise<PartnerEvaluation[]>;
+  createPartnerEvaluation(evaluation: InsertPartnerEvaluation): Promise<PartnerEvaluation>;
+  getPartnerContracts(projectId: string): Promise<PartnerContract[]>;
+  createPartnerContract(contract: InsertPartnerContract): Promise<PartnerContract>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -110,6 +128,63 @@ export class DatabaseStorage implements IStorage {
       .where(eq(costBreakdowns.id, id))
       .returning();
     return updatedBreakdown;
+  }
+
+  // Partner operations
+  async getAllPartners(): Promise<Partner[]> {
+    return await db
+      .select()
+      .from(partners)
+      .where(eq(partners.isActive, true))
+      .orderBy(partners.name);
+  }
+
+  async getPartnersByType(type: string): Promise<Partner[]> {
+    return await db
+      .select()
+      .from(partners)
+      .where(eq(partners.partnerType, type) && eq(partners.isActive, true))
+      .orderBy(partners.name);
+  }
+
+  async createPartner(partnerData: InsertPartner): Promise<Partner> {
+    const [newPartner] = await db
+      .insert(partners)
+      .values(partnerData)
+      .returning();
+    return newPartner;
+  }
+
+  async getPartnerEvaluations(projectId: string): Promise<PartnerEvaluation[]> {
+    return await db
+      .select()
+      .from(partnerEvaluations)
+      .where(eq(partnerEvaluations.projectId, projectId))
+      .orderBy(desc(partnerEvaluations.evaluatedAt));
+  }
+
+  async createPartnerEvaluation(evaluation: InsertPartnerEvaluation): Promise<PartnerEvaluation> {
+    const [newEvaluation] = await db
+      .insert(partnerEvaluations)
+      .values(evaluation)
+      .returning();
+    return newEvaluation;
+  }
+
+  async getPartnerContracts(projectId: string): Promise<PartnerContract[]> {
+    return await db
+      .select()
+      .from(partnerContracts)
+      .where(eq(partnerContracts.projectId, projectId))
+      .orderBy(desc(partnerContracts.updatedAt));
+  }
+
+  async createPartnerContract(contract: InsertPartnerContract): Promise<PartnerContract> {
+    const [newContract] = await db
+      .insert(partnerContracts)
+      .values(contract)
+      .returning();
+    return newContract;
   }
 }
 
