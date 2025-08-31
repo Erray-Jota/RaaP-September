@@ -390,28 +390,28 @@ export default function FabAssure() {
                         </div>
                         <span>Project Location</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Factory className="w-4 h-4 text-amber-500" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-amber-500 border border-white"></div>
                         <span>Fabricators</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Building className="w-4 h-4 text-emerald-600" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-emerald-600 border border-white"></div>
                         <span>General Contractors</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <FileText className="w-4 h-4 text-blue-600" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-600 border border-white"></div>
                         <span>Architects of Record</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4 text-violet-600" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-violet-600 border border-white"></div>
                         <span>Consultants</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Truck className="w-4 h-4 text-yellow-600" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-yellow-600 border border-white"></div>
                         <span>Transportation</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Settings className="w-4 h-4 text-gray-600" />
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-gray-600 border border-white"></div>
                         <span>Engineering</span>
                       </div>
                     </div>
