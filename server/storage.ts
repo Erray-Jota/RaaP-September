@@ -5,6 +5,11 @@ import {
   partners,
   partnerEvaluations,
   partnerContracts,
+  designDocuments,
+  materialSpecifications,
+  doorSchedule,
+  designWorkflows,
+  engineeringDetails,
   type User,
   type UpsertUser,
   type Project,
@@ -17,6 +22,16 @@ import {
   type InsertPartnerEvaluation,
   type PartnerContract,
   type InsertPartnerContract,
+  type DesignDocument,
+  type InsertDesignDocument,
+  type MaterialSpecification,
+  type InsertMaterialSpecification,
+  type DoorScheduleItem,
+  type InsertDoorScheduleItem,
+  type DesignWorkflow,
+  type InsertDesignWorkflow,
+  type EngineeringDetail,
+  type InsertEngineeringDetail,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -46,6 +61,18 @@ export interface IStorage {
   createPartnerEvaluation(evaluation: InsertPartnerEvaluation): Promise<PartnerEvaluation>;
   getPartnerContracts(projectId: string): Promise<PartnerContract[]>;
   createPartnerContract(contract: InsertPartnerContract): Promise<PartnerContract>;
+  
+  // EasyDesign operations
+  getDesignDocuments(projectId: string): Promise<DesignDocument[]>;
+  createDesignDocument(document: InsertDesignDocument): Promise<DesignDocument>;
+  getMaterialSpecifications(projectId: string): Promise<MaterialSpecification[]>;
+  createMaterialSpecification(spec: InsertMaterialSpecification): Promise<MaterialSpecification>;
+  getDoorSchedule(projectId: string): Promise<DoorScheduleItem[]>;
+  createDoorScheduleItem(item: InsertDoorScheduleItem): Promise<DoorScheduleItem>;
+  getDesignWorkflows(projectId: string): Promise<DesignWorkflow[]>;
+  createDesignWorkflow(workflow: InsertDesignWorkflow): Promise<DesignWorkflow>;
+  getEngineeringDetails(projectId: string): Promise<EngineeringDetail[]>;
+  createEngineeringDetail(detail: InsertEngineeringDetail): Promise<EngineeringDetail>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -185,6 +212,87 @@ export class DatabaseStorage implements IStorage {
       .values(contract)
       .returning();
     return newContract;
+  }
+
+  // EasyDesign operations
+  async getDesignDocuments(projectId: string): Promise<DesignDocument[]> {
+    return await db
+      .select()
+      .from(designDocuments)
+      .where(eq(designDocuments.projectId, projectId))
+      .orderBy(desc(designDocuments.createdAt));
+  }
+
+  async createDesignDocument(documentData: InsertDesignDocument): Promise<DesignDocument> {
+    const [newDocument] = await db
+      .insert(designDocuments)
+      .values(documentData)
+      .returning();
+    return newDocument;
+  }
+
+  async getMaterialSpecifications(projectId: string): Promise<MaterialSpecification[]> {
+    return await db
+      .select()
+      .from(materialSpecifications)
+      .where(eq(materialSpecifications.projectId, projectId))
+      .orderBy(materialSpecifications.roomType, materialSpecifications.materialCategory);
+  }
+
+  async createMaterialSpecification(specData: InsertMaterialSpecification): Promise<MaterialSpecification> {
+    const [newSpec] = await db
+      .insert(materialSpecifications)
+      .values(specData)
+      .returning();
+    return newSpec;
+  }
+
+  async getDoorSchedule(projectId: string): Promise<DoorScheduleItem[]> {
+    return await db
+      .select()
+      .from(doorSchedule)
+      .where(eq(doorSchedule.projectId, projectId))
+      .orderBy(doorSchedule.doorNumber);
+  }
+
+  async createDoorScheduleItem(itemData: InsertDoorScheduleItem): Promise<DoorScheduleItem> {
+    const [newItem] = await db
+      .insert(doorSchedule)
+      .values(itemData)
+      .returning();
+    return newItem;
+  }
+
+  async getDesignWorkflows(projectId: string): Promise<DesignWorkflow[]> {
+    return await db
+      .select()
+      .from(designWorkflows)
+      .where(eq(designWorkflows.projectId, projectId))
+      .orderBy(designWorkflows.dueDate, designWorkflows.priority);
+  }
+
+  async createDesignWorkflow(workflowData: InsertDesignWorkflow): Promise<DesignWorkflow> {
+    const [newWorkflow] = await db
+      .insert(designWorkflows)
+      .values(workflowData)
+      .returning();
+    return newWorkflow;
+  }
+
+  async getEngineeringDetails(projectId: string): Promise<EngineeringDetail[]> {
+    return await db
+      .select()
+      .from(engineeringDetails)
+      .where(eq(engineeringDetails.projectId, projectId))
+      .orderBy(engineeringDetails.system, engineeringDetails.detailType);
+  }
+
+  async createEngineeringDetail(detailData: InsertEngineeringDetail): Promise<EngineeringDetail> {
+    const [newDetail] = await db
+      .insert(engineeringDetails)
+      .values(detailData)
+      .returning();
+    return newDetail;
   }
 }
 

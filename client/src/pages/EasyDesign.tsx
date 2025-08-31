@@ -1,460 +1,882 @@
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { useRoute, useLocation } from "wouter";
-import { useToast } from "@/hooks/use-toast";
-import { queryClient, apiRequest } from "@/lib/queryClient";
-import { isUnauthorizedError } from "@/lib/authUtils";
-import Header from "@/components/Header";
+import { useState, useEffect } from "react";
+import { useRoute } from "wouter";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  ArrowLeft, 
-  ArrowRight,
-  MapPin, 
-  Palette,
-  Home,
-  Layers,
-  Cog,
-  CheckCircle,
-  Circle,
-  AlertCircle,
-  PaintBucket
-} from "lucide-react";
-import type { Project } from "@shared/schema";
+import { Calendar } from "@/components/ui/calendar";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { FileText, Building, Users, Wrench, Clock, CheckCircle, AlertCircle, Upload, Download } from "lucide-react";
+import type {
+  Project,
+  DesignDocument,
+  MaterialSpecification,
+  DoorScheduleItem,
+  DesignWorkflow,
+  EngineeringDetail
+} from "@shared/schema";
 
-export default function EasyDesign() {
-  const [, params] = useRoute("/projects/:id/easy-design");
-  const [, navigate] = useLocation();
-  const { toast } = useToast();
-  const projectId = params?.id;
-  const [activeTab, setActiveTab] = useState("overview");
+function EasyDesign() {
+  const [match, params] = useRoute("/projects/:id/easy-design");
+  const [activeTab, setActiveTab] = useState("prototype");
+  const queryClient = useQueryClient();
 
-  const { data: project, isLoading, error } = useQuery<Project>({
-    queryKey: ["/api/projects", projectId],
-    enabled: !!projectId,
+  // Fetch project data
+  const { data: project, isLoading: projectLoading } = useQuery<Project>({
+    queryKey: ["/api/projects", params?.id],
+    enabled: !!params?.id,
   });
 
-  // Handle authentication errors
-  if (error && isUnauthorizedError(error)) {
-    toast({
-      title: "Unauthorized",
-      description: "You are logged out. Logging in again...",
-      variant: "destructive",
-    });
-    setTimeout(() => {
-      window.location.href = "/api/login";
-    }, 500);
-  }
-
-  const markAsComplete = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("PATCH", `/api/projects/${projectId}`, {
-        easyDesignComplete: true
-      });
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
-      toast({
-        title: "EasyDesign Complete",
-        description: "Your design customization and finalization is complete. Your project workflow is now finished!",
-      });
-      navigate(`/projects/${projectId}/workflow`);
-    },
-    onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-      }
-    },
+  // Fetch design data
+  const { data: designDocuments = [] } = useQuery<DesignDocument[]>({
+    queryKey: ["/api/projects", params?.id, "design-documents"],
+    enabled: !!params?.id,
   });
 
-  if (isLoading) {
+  const { data: materialSpecs = [] } = useQuery<MaterialSpecification[]>({
+    queryKey: ["/api/projects", params?.id, "material-specifications"],
+    enabled: !!params?.id,
+  });
+
+  const { data: doorSchedule = [] } = useQuery<DoorScheduleItem[]>({
+    queryKey: ["/api/projects", params?.id, "door-schedule"],
+    enabled: !!params?.id,
+  });
+
+  const { data: workflows = [] } = useQuery<DesignWorkflow[]>({
+    queryKey: ["/api/projects", params?.id, "design-workflows"],
+    enabled: !!params?.id,
+  });
+
+  const { data: engineeringDetails = [] } = useQuery<EngineeringDetail[]>({
+    queryKey: ["/api/projects", params?.id, "engineering-details"],
+    enabled: !!params?.id,
+  });
+
+  if (projectLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="animate-pulse space-y-8">
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-64 bg-gray-200 rounded-lg"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-48 bg-gray-200 rounded-lg"></div>
-              ))}
-            </div>
-          </div>
-        </main>
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading EasyDesign...</p>
+        </div>
       </div>
     );
   }
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900">Project not found</h2>
-            <Button onClick={() => navigate("/")} className="mt-4">
-              Back to Dashboard
-            </Button>
-          </div>
-        </main>
+      <div className="container mx-auto px-4 py-8">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Project Not Found</h2>
+            <p className="text-gray-600">The project you're looking for doesn't exist.</p>
+          </CardContent>
+        </Card>
       </div>
     );
   }
-
-  // Check if user can access this application
-  if (!project.fabAssureComplete) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <AlertCircle className="h-12 w-12 mx-auto mb-4 text-orange-500" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Complete FabAssure First</h2>
-            <p className="text-gray-600 mb-4">
-              You need to complete the FabAssure application before accessing EasyDesign.
-            </p>
-            <Button onClick={() => navigate(`/projects/${projectId}/workflow`)} className="mr-2">
-              Back to Workflow
-            </Button>
-            <Button 
-              onClick={() => navigate(`/projects/${projectId}/fab-assure`)}
-              className="bg-raap-green hover:bg-green-700"
-            >
-              Complete FabAssure
-            </Button>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
-                    (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
-
-  // Calculate progress based on completed tasks
-  const completedTasks = [
-    project.architecturalPlansFinalized,
-    project.interiorDesignComplete,
-    project.materialSelectionsFinalized,
-    project.systemsDesignComplete,
-    project.finalDesignApproval,
-  ].filter(Boolean).length;
-  const totalTasks = 5;
-  const progressPercentage = (completedTasks / totalTasks) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8 flex justify-between items-start">
-          <div>
-            <Button
-              variant="ghost"
-              onClick={() => navigate(`/projects/${projectId}/workflow`)}
-              className="text-raap-green hover:text-green-700 mb-4 p-0"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Workflow
-            </Button>
-            <h1 className="text-3xl font-bold text-raap-dark mb-2">EasyDesign Application</h1>
-            <h2 className="text-xl text-gray-700 mb-2">{project.name}</h2>
-            <div className="flex items-center text-gray-600 mb-2">
-              <MapPin className="h-4 w-4 mr-1" />
-              {project.address}
-            </div>
-            <p className="text-gray-600">
-              Finalize architectural plans, interior design, and material selections
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-purple-600">{completedTasks}/{totalTasks}</div>
-            <div className="text-sm text-gray-500 mb-2">Tasks Complete</div>
-            <div className="w-32 mb-4">
-              <Progress value={progressPercentage} className="h-2" />
-            </div>
-            {project.easyDesignComplete && (
-              <Badge className="bg-green-500 text-white">
-                <CheckCircle className="h-4 w-4 mr-1" />
-                Complete
-              </Badge>
-            )}
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          EasyDesign - {project.name}
+        </h1>
+        <p className="text-lg text-gray-600 mb-4">
+          Detailed design prototypes and comprehensive workflow coordination
+        </p>
+        <div className="flex items-center gap-4 mb-6">
+          <Badge variant="outline" className="px-3 py-1">
+            <Building className="h-4 w-4 mr-2" />
+            {project.projectType} housing
+          </Badge>
+          <Badge variant="outline" className="px-3 py-1">
+            <Users className="h-4 w-4 mr-2" />
+            {(project.studioUnits || 0) + (project.oneBedUnits || 0) + (project.twoBedUnits || 0) + (project.threeBedUnits || 0)} units
+          </Badge>
+          <Badge variant="outline" className="px-3 py-1">
+            <CheckCircle className="h-4 w-4 mr-2" />
+            Design Phase
+          </Badge>
         </div>
-
-        {/* Tab Interface */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-5 w-full mb-8">
-            <TabsTrigger value="overview" className="flex items-center space-x-1">
-              <PaintBucket className="h-4 w-4" />
-              <span className="hidden sm:inline">Overview</span>
-            </TabsTrigger>
-            <TabsTrigger value="architecture" className="flex items-center space-x-1">
-              <Home className="h-4 w-4" />
-              <span className="hidden sm:inline">Architecture</span>
-            </TabsTrigger>
-            <TabsTrigger value="interior" className="flex items-center space-x-1">
-              <Palette className="h-4 w-4" />
-              <span className="hidden sm:inline">Interior</span>
-            </TabsTrigger>
-            <TabsTrigger value="materials" className="flex items-center space-x-1">
-              <Layers className="h-4 w-4" />
-              <span className="hidden sm:inline">Materials</span>
-            </TabsTrigger>
-            <TabsTrigger value="systems" className="flex items-center space-x-1">
-              <Cog className="h-4 w-4" />
-              <span className="hidden sm:inline">Systems</span>
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Overview Tab */}
-          <TabsContent value="overview">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <PaintBucket className="h-5 w-5" />
-                  <span>EasyDesign Overview</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
-                    <h3 className="text-xl font-bold text-purple-800 mb-2">Design Customization & Finalization</h3>
-                    <p className="text-sm text-gray-700 mb-4">
-                      EasyDesign streamlines the final design phase, allowing you to customize and finalize all aspects of your modular units while maintaining manufacturability and cost efficiency.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-purple-700 mb-2">Architectural Plans</h4>
-                        <p className="text-sm text-gray-700">Finalize detailed architectural drawings and unit layouts</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-pink-700 mb-2">Interior Design</h4>
-                        <p className="text-sm text-gray-700">Select interior finishes, layouts, and design elements</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-blue-700 mb-2">Systems Integration</h4>
-                        <p className="text-sm text-gray-700">Coordinate MEP systems and smart building features</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Task Progress */}
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-raap-dark text-lg">Design Checklist</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.architecturalPlansFinalized ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Architectural Plans</h5>
-                            <p className="text-sm text-gray-600">Finalize detailed architectural drawings and floor plans</p>
-                          </div>
-                        </div>
-                        <Badge variant={project.architecturalPlansFinalized ? "default" : "secondary"}>
-                          {project.architecturalPlansFinalized ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.interiorDesignComplete ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Interior Design</h5>
-                            <p className="text-sm text-gray-600">Complete interior layouts and design specifications</p>
-                          </div>
-                        </div>
-                        <Badge variant={project.interiorDesignComplete ? "default" : "secondary"}>
-                          {project.interiorDesignComplete ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.materialSelectionsFinalized ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Material Selections</h5>
-                            <p className="text-sm text-gray-600">Choose final materials, finishes, and fixtures</p>
-                          </div>
-                        </div>
-                        <Badge variant={project.materialSelectionsFinalized ? "default" : "secondary"}>
-                          {project.materialSelectionsFinalized ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.systemsDesignComplete ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Systems Design</h5>
-                            <p className="text-sm text-gray-600">Finalize MEP systems and technology integration</p>
-                          </div>
-                        </div>
-                        <Badge variant={project.systemsDesignComplete ? "default" : "secondary"}>
-                          {project.systemsDesignComplete ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.finalDesignApproval ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Final Design Approval</h5>
-                            <p className="text-sm text-gray-600">Obtain final approval for all design elements</p>
-                          </div>
-                        </div>
-                        <Badge variant={project.finalDesignApproval ? "default" : "secondary"}>
-                          {project.finalDesignApproval ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Design Level Information */}
-                  {project.designCustomizationLevel && (
-                    <div className="bg-white rounded-lg p-6 border">
-                      <h4 className="font-semibold text-raap-dark mb-3">Design Customization Level</h4>
-                      <p className="text-gray-700 capitalize">{project.designCustomizationLevel}</p>
-                      {project.designNotes && (
-                        <p className="text-sm text-gray-600 mt-2">{project.designNotes}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Other tabs with placeholder content */}
-          <TabsContent value="architecture">
-            <Card>
-              <CardHeader>
-                <CardTitle>Architectural Plans</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Architectural plan review and finalization tools will be implemented here...</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="interior">
-            <Card>
-              <CardHeader>
-                <CardTitle>Interior Design</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Interior design customization and selection tools will be implemented here...</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="materials">
-            <Card>
-              <CardHeader>
-                <CardTitle>Material Selections</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Material and finish selection catalogs will be implemented here...</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="systems">
-            <Card>
-              <CardHeader>
-                <CardTitle>Systems Design</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>MEP systems and technology integration tools will be implemented here...</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Complete Application Button */}
-        {!project.easyDesignComplete && (
-          <Card className="mt-8">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold text-raap-dark mb-1">Complete EasyDesign Application</h3>
-                  <p className="text-gray-600">
-                    Once you've finalized all architectural plans, interior design, material selections, and systems design, 
-                    mark this application as complete to finish your project workflow.
-                  </p>
-                </div>
-                <Button
-                  className="bg-raap-green hover:bg-green-700"
-                  onClick={() => markAsComplete.mutate()}
-                  disabled={markAsComplete.isPending}
-                  data-testid="button-complete-easydesign"
-                >
-                  {markAsComplete.isPending ? "Completing..." : "Complete EasyDesign"}
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+        
+        {/* Progress Overview */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Design Progress Overview</CardTitle>
+            <CardDescription>
+              Track progress across all design components and stakeholder workflows
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 mb-1">80%</div>
+                <div className="text-sm text-gray-600">Factory Permit Ready</div>
+                <Progress value={80} className="mt-2" />
               </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {project.easyDesignComplete && (
-          <Card className="mt-8 bg-green-50 border-green-200">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                  <div>
-                    <h3 className="font-semibold text-green-800">EasyDesign Complete</h3>
-                    <p className="text-green-700">
-                      Congratulations! Your design customization and finalization is complete. Your entire project workflow is now finished!
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  className="bg-raap-green hover:bg-green-700"
-                  onClick={() => navigate(`/projects/${projectId}/workflow`)}
-                  data-testid="button-continue-workflow"
-                >
-                  View Final Workflow
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-amber-600 mb-1">60%</div>
+                <div className="text-sm text-gray-600">AHJ Permit Ready</div>
+                <Progress value={60} className="mt-2" />
               </div>
-            </CardContent>
-          </Card>
-        )}
-      </main>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600 mb-1">{workflows.length}</div>
+                <div className="text-sm text-gray-600">Active Workflows</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-600 mb-1">{designDocuments.length}</div>
+                <div className="text-sm text-gray-600">Design Documents</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsTrigger value="prototype" className="flex items-center gap-2">
+            <Building className="h-4 w-4" />
+            Design Prototype
+          </TabsTrigger>
+          <TabsTrigger value="aor" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            AOR Workflows
+          </TabsTrigger>
+          <TabsTrigger value="fabricator" className="flex items-center gap-2">
+            <Wrench className="h-4 w-4" />
+            Fabricator Workflows
+          </TabsTrigger>
+          <TabsTrigger value="gc-trades" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            GC/Trades Workflows
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Design Prototype Tab */}
+        <TabsContent value="prototype" className="space-y-6">
+          <DesignPrototypeSection 
+            project={project}
+            designDocuments={designDocuments}
+            materialSpecs={materialSpecs}
+            doorSchedule={doorSchedule}
+            engineeringDetails={engineeringDetails}
+          />
+        </TabsContent>
+
+        {/* AOR Workflows Tab */}
+        <TabsContent value="aor" className="space-y-6">
+          <AORWorkflowsSection 
+            project={project}
+            workflows={workflows.filter(w => w.workflowType === 'aor')}
+          />
+        </TabsContent>
+
+        {/* Fabricator Workflows Tab */}
+        <TabsContent value="fabricator" className="space-y-6">
+          <FabricatorWorkflowsSection 
+            project={project}
+            workflows={workflows.filter(w => w.workflowType === 'fabricator')}
+          />
+        </TabsContent>
+
+        {/* GC/Trades Workflows Tab */}
+        <TabsContent value="gc-trades" className="space-y-6">
+          <GCTradesWorkflowsSection 
+            project={project}
+            workflows={workflows.filter(w => w.workflowType === 'gc')}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
+
+// Design Prototype Section Component
+function DesignPrototypeSection({ 
+  project, 
+  designDocuments, 
+  materialSpecs, 
+  doorSchedule, 
+  engineeringDetails 
+}: {
+  project: Project;
+  designDocuments: DesignDocument[];
+  materialSpecs: MaterialSpecification[];
+  doorSchedule: DoorScheduleItem[];
+  engineeringDetails: EngineeringDetail[];
+}) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Room Designs */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building className="h-5 w-5" />
+            Room Designs & Layouts
+          </CardTitle>
+          <CardDescription>
+            Detailed room configurations with optimized layouts for factory production
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-blue-800">Studio Units</h4>
+                <p className="text-2xl font-bold text-blue-600">{project.studioUnits || 0}</p>
+                <p className="text-sm text-blue-600">450-500 sq ft layouts</p>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-green-800">1-Bedroom</h4>
+                <p className="text-2xl font-bold text-green-600">{project.oneBedUnits || 0}</p>
+                <p className="text-sm text-green-600">650-750 sq ft layouts</p>
+              </div>
+              <div className="bg-amber-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-amber-800">2-Bedroom</h4>
+                <p className="text-2xl font-bold text-amber-600">{project.twoBedUnits || 0}</p>
+                <p className="text-sm text-amber-600">900-1100 sq ft layouts</p>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-purple-800">3-Bedroom</h4>
+                <p className="text-2xl font-bold text-purple-600">{project.threeBedUnits || 0}</p>
+                <p className="text-sm text-purple-600">1200-1400 sq ft layouts</p>
+              </div>
+            </div>
+            <Button className="w-full">
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Room Design Files
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Materials & Finishes */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wrench className="h-5 w-5" />
+            Materials & Finishes
+          </CardTitle>
+          <CardDescription>
+            Comprehensive material specifications for all room types and common areas
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {materialSpecs.length > 0 ? (
+              <div className="space-y-3">
+                {materialSpecs.slice(0, 3).map((spec, index) => (
+                  <div key={index} className="border rounded-lg p-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium">{spec.roomType}</h4>
+                        <p className="text-sm text-gray-600">{spec.materialCategory}</p>
+                      </div>
+                      <Badge variant="outline">Pending Review</Badge>
+                    </div>
+                    <p className="text-sm mt-1">{spec.specifications}</p>
+                  </div>
+                ))}
+                {materialSpecs.length > 3 && (
+                  <p className="text-sm text-gray-600 text-center">
+                    +{materialSpecs.length - 3} more specifications
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-500">
+                <Wrench className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p>No material specifications yet</p>
+              </div>
+            )}
+            <Button className="w-full" variant="outline">
+              <FileText className="h-4 w-4 mr-2" />
+              Manage Material Specifications
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Door & Hardware Schedule */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Door & Hardware Schedule
+          </CardTitle>
+          <CardDescription>
+            Complete door schedule with hardware specifications and installation details
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {doorSchedule.length > 0 ? (
+              <div className="space-y-2">
+                {doorSchedule.slice(0, 4).map((door, index) => (
+                  <div key={index} className="flex justify-between items-center py-2 border-b">
+                    <div>
+                      <span className="font-medium">{door.doorNumber}</span>
+                      <span className="text-sm text-gray-600 ml-2">{door.doorType}</span>
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {door.width}" x {door.height}"
+                    </div>
+                  </div>
+                ))}
+                {doorSchedule.length > 4 && (
+                  <p className="text-sm text-gray-600 text-center">
+                    +{doorSchedule.length - 4} more doors
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-500">
+                <FileText className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p>No door schedule items yet</p>
+              </div>
+            )}
+            <Button className="w-full" variant="outline">
+              <FileText className="h-4 w-4 mr-2" />
+              Edit Door Schedule
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* MEP & Structural Details */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wrench className="h-5 w-5" />
+            MEP & Structural Details
+          </CardTitle>
+          <CardDescription>
+            Engineering details for mechanical, electrical, plumbing, and structural systems
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {engineeringDetails.length > 0 ? (
+              <div className="space-y-3">
+                {engineeringDetails.slice(0, 3).map((detail, index) => (
+                  <div key={index} className="border rounded-lg p-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium">{detail.system}</h4>
+                        <p className="text-sm text-gray-600">{detail.detailType}</p>
+                      </div>
+                      <Badge variant="secondary">
+                        Review Required
+                      </Badge>
+                    </div>
+                    <p className="text-sm mt-1">{detail.description}</p>
+                  </div>
+                ))}
+                {engineeringDetails.length > 3 && (
+                  <p className="text-sm text-gray-600 text-center">
+                    +{engineeringDetails.length - 3} more details
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-500">
+                <Wrench className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p>No engineering details yet</p>
+              </div>
+            )}
+            <Button className="w-full" variant="outline">
+              <Wrench className="h-4 w-4 mr-2" />
+              Manage Engineering Details
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// AOR Workflows Section Component
+function AORWorkflowsSection({ project, workflows }: { project: Project; workflows: DesignWorkflow[] }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Revit Libraries */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Revit Libraries & BIM Models
+          </CardTitle>
+          <CardDescription>
+            Standardized Revit families and BIM components for modular construction
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg text-center">
+                <h4 className="font-semibold text-blue-800 mb-2">Wall Systems</h4>
+                <p className="text-lg font-bold text-blue-600">12</p>
+                <p className="text-xs text-blue-600">Revit families</p>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg text-center">
+                <h4 className="font-semibold text-green-800 mb-2">MEP Components</h4>
+                <p className="text-lg font-bold text-green-600">28</p>
+                <p className="text-xs text-green-600">Revit families</p>
+              </div>
+            </div>
+            <Button className="w-full">
+              <Download className="h-4 w-4 mr-2" />
+              Download Revit Library Package
+            </Button>
+            <Button className="w-full" variant="outline">
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Custom Components
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Design Files & Documentation */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building className="h-5 w-5" />
+            Design Files & Documentation
+          </CardTitle>
+          <CardDescription>
+            Architectural drawings, specifications, and project documentation
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                  <span className="font-medium">Architectural Plans.rvt</span>
+                </div>
+                <Badge variant="outline">Current</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-green-600" />
+                  <span className="font-medium">Design Specifications.pdf</span>
+                </div>
+                <Badge variant="secondary">v2.1</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-amber-600" />
+                  <span className="font-medium">Module Connections.dwg</span>
+                </div>
+                <Badge variant="outline">Draft</Badge>
+              </div>
+            </div>
+            <Button className="w-full" variant="outline">
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Design Files
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Scope Clarification Workflows */}
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Scope Clarification & AOR Coordination
+          </CardTitle>
+          <CardDescription>
+            Active workflows for scope clarification, design reviews, and AOR coordination tasks
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {workflows.length > 0 ? (
+              workflows.map((workflow, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-semibold">{workflow.taskName}</h4>
+                      <p className="text-sm text-gray-600">{workflow.description}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={workflow.status === 'completed' ? 'default' : 
+                                   workflow.status === 'in_progress' ? 'secondary' : 'outline'}>
+                        {workflow.status?.replace('_', ' ') || 'pending'}
+                      </Badge>
+                      <Badge variant={workflow.priority === 'high' ? 'destructive' : 
+                                   workflow.priority === 'medium' ? 'default' : 'secondary'}>
+                        {workflow.priority}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      Due: {workflow.dueDate ? new Date(workflow.dueDate).toLocaleDateString() : 'TBD'}
+                    </span>
+                    <span>Assigned to: {workflow.assignedTo || 'Unassigned'}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <h3 className="font-medium mb-2">No AOR Workflows Yet</h3>
+                <p className="text-sm mb-4">Create workflows to coordinate with your Architect of Record</p>
+                <Button>
+                  <Users className="h-4 w-4 mr-2" />
+                  Create AOR Workflow
+                </Button>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// Fabricator Workflows Section Component
+function FabricatorWorkflowsSection({ project, workflows }: { project: Project; workflows: DesignWorkflow[] }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Shop Drawings Coordination */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wrench className="h-5 w-5" />
+            Shop Drawings Coordination
+          </CardTitle>
+          <CardDescription>
+            Coordinate shop drawings development and approval with fabrication partners
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-amber-50 p-4 rounded-lg text-center">
+                <h4 className="font-semibold text-amber-800 mb-2">In Progress</h4>
+                <p className="text-2xl font-bold text-amber-600">3</p>
+                <p className="text-xs text-amber-600">Shop drawing sets</p>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg text-center">
+                <h4 className="font-semibold text-green-800 mb-2">Approved</h4>
+                <p className="text-2xl font-bold text-green-600">8</p>
+                <p className="text-xs text-green-600">Shop drawing sets</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <span className="font-medium">Bathroom Module - SD-001</span>
+                <Badge variant="default">Approved</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <span className="font-medium">Kitchen Module - SD-002</span>
+                <Badge variant="secondary">Under Review</Badge>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <span className="font-medium">MEP Connections - SD-003</span>
+                <Badge variant="outline">Pending</Badge>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Material Schedules & Production */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building className="h-5 w-5" />
+            Material Schedules & Production
+          </CardTitle>
+          <CardDescription>
+            Material procurement schedules and production timeline coordination
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">Lumber & Framing</h4>
+                  <Badge variant="default">Ordered</Badge>
+                </div>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Delivery: Feb 15, 2024</span>
+                  <span>Lead time: 2 weeks</span>
+                </div>
+              </div>
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">MEP Components</h4>
+                  <Badge variant="secondary">Sourcing</Badge>
+                </div>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Est. Delivery: Feb 28, 2024</span>
+                  <span>Lead time: 4 weeks</span>
+                </div>
+              </div>
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">Finish Materials</h4>
+                  <Badge variant="outline">Pending</Badge>
+                </div>
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Est. Delivery: Mar 10, 2024</span>
+                  <span>Lead time: 6 weeks</span>
+                </div>
+              </div>
+            </div>
+            <Button className="w-full" variant="outline">
+              <FileText className="h-4 w-4 mr-2" />
+              Update Material Schedule
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Active Fabricator Workflows */}
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wrench className="h-5 w-5" />
+            Active Fabricator Workflows
+          </CardTitle>
+          <CardDescription>
+            Coordinate production schedules, quality control, and delivery logistics with fabricators
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {workflows.length > 0 ? (
+              workflows.map((workflow, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-semibold">{workflow.taskName}</h4>
+                      <p className="text-sm text-gray-600">{workflow.description}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={workflow.status === 'completed' ? 'default' : 
+                                   workflow.status === 'in_progress' ? 'secondary' : 'outline'}>
+                        {workflow.status?.replace('_', ' ') || 'pending'}
+                      </Badge>
+                      <Badge variant={workflow.priority === 'high' ? 'destructive' : 
+                                   workflow.priority === 'medium' ? 'default' : 'secondary'}>
+                        {workflow.priority}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      Due: {workflow.dueDate ? new Date(workflow.dueDate).toLocaleDateString() : 'TBD'}
+                    </span>
+                    <span>Assigned to: {workflow.assignedTo || 'Unassigned'}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Wrench className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <h3 className="font-medium mb-2">No Fabricator Workflows Yet</h3>
+                <p className="text-sm mb-4">Create workflows to coordinate with your fabrication partners</p>
+                <Button>
+                  <Wrench className="h-4 w-4 mr-2" />
+                  Create Fabricator Workflow
+                </Button>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// GC/Trades Workflows Section Component
+function GCTradesWorkflowsSection({ project, workflows }: { project: Project; workflows: DesignWorkflow[] }) {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Trade-Specific File Packages */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Trade-Specific File Packages
+          </CardTitle>
+          <CardDescription>
+            Customized documentation packages for different trades and on-site requirements
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">Electrical Trade Package</h4>
+                  <Badge variant="default">Ready</Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-2">Module wiring diagrams, junction details, panel schedules</p>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4 mr-1" />
+                  Download
+                </Button>
+              </div>
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">Plumbing Trade Package</h4>
+                  <Badge variant="secondary">In Progress</Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-2">Rough-in plans, fixture schedules, connection details</p>
+                <Button size="sm" variant="outline" disabled>
+                  <Clock className="h-4 w-4 mr-1" />
+                  Pending
+                </Button>
+              </div>
+              <div className="border rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="font-medium">HVAC Trade Package</h4>
+                  <Badge variant="default">Ready</Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-2">Ductwork layouts, equipment specs, installation guides</p>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4 mr-1" />
+                  Download
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Product Sheets & Documentation */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Product Sheets & Documentation
+          </CardTitle>
+          <CardDescription>
+            Technical specifications, installation guides, and product documentation
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-blue-600" />
+                  <span className="font-medium">Window Installation Guide.pdf</span>
+                </div>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-green-600" />
+                  <span className="font-medium">MEP Connection Specs.pdf</span>
+                </div>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-amber-600" />
+                  <span className="font-medium">Assembly Instructions.pdf</span>
+                </div>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex justify-between items-center p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-purple-600" />
+                  <span className="font-medium">Quality Control Checklist.pdf</span>
+                </div>
+                <Button size="sm" variant="outline">
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <Button className="w-full" variant="outline">
+              <Upload className="h-4 w-4 mr-2" />
+              Upload Additional Documentation
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* GC/Trades Coordination Workflows */}
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            GC/Trades Coordination Workflows
+          </CardTitle>
+          <CardDescription>
+            Coordinate on-site work requirements, sequencing, and quality control with general contractors and trades
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {workflows.length > 0 ? (
+              workflows.map((workflow, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-semibold">{workflow.taskName}</h4>
+                      <p className="text-sm text-gray-600">{workflow.description}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={workflow.status === 'completed' ? 'default' : 
+                                   workflow.status === 'in_progress' ? 'secondary' : 'outline'}>
+                        {workflow.status?.replace('_', ' ') || 'pending'}
+                      </Badge>
+                      <Badge variant={workflow.priority === 'high' ? 'destructive' : 
+                                   workflow.priority === 'medium' ? 'default' : 'secondary'}>
+                        {workflow.priority}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      Due: {workflow.dueDate ? new Date(workflow.dueDate).toLocaleDateString() : 'TBD'}
+                    </span>
+                    <span>Assigned to: {workflow.assignedTo || 'Unassigned'}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <h3 className="font-medium mb-2">No GC/Trades Workflows Yet</h3>
+                <p className="text-sm mb-4">Create workflows to coordinate with general contractors and trades</p>
+                <Button>
+                  <Users className="h-4 w-4 mr-2" />
+                  Create GC/Trades Workflow
+                </Button>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default EasyDesign;

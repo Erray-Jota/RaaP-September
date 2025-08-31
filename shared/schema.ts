@@ -259,6 +259,116 @@ export type InsertPartnerEvaluation = typeof partnerEvaluations.$inferInsert;
 export type PartnerContract = typeof partnerContracts.$inferSelect;
 export type InsertPartnerContract = typeof partnerContracts.$inferInsert;
 
+// Design documents table for EasyDesign application
+export const designDocuments = pgTable("design_documents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  documentType: varchar("document_type").notNull(), // "room_design", "door_schedule", "hardware_schedule", "mep_detail", "structural_detail", "revit_library", "pdf_draft", "shop_drawing"
+  documentCategory: varchar("document_category").notNull(), // "unit_design", "building_design", "factory_permit", "ahj_permit"
+  title: varchar("title").notNull(),
+  description: text("description"),
+  filePath: varchar("file_path"), // Object storage path
+  fileType: varchar("file_type"), // "pdf", "dwg", "rvt", "xlsx", "jpg", "png"
+  fileSize: integer("file_size"), // Size in bytes
+  stakeholder: varchar("stakeholder"), // "aor", "fabricator", "gc", "trades", "owner"
+  status: varchar("status").default("draft"), // "draft", "review", "approved", "final"
+  createdBy: varchar("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Material and finish specifications
+export const materialSpecifications = pgTable("material_specifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  roomType: varchar("room_type").notNull(), // "living", "bedroom", "bathroom", "kitchen", "hallway", "exterior"
+  unitType: varchar("unit_type"), // "studio", "1bed", "2bed", "3bed" or null for common areas
+  materialCategory: varchar("material_category").notNull(), // "flooring", "wall_finish", "ceiling", "trim", "fixtures", "appliances"
+  materialName: varchar("material_name").notNull(),
+  manufacturer: varchar("manufacturer"),
+  modelNumber: varchar("model_number"),
+  color: varchar("color"),
+  finish: varchar("finish"),
+  specifications: text("specifications"),
+  costPerUnit: decimal("cost_per_unit", { precision: 8, scale: 2 }),
+  unitOfMeasure: varchar("unit_of_measure"), // "sqft", "lnft", "each"
+  productSheetPath: varchar("product_sheet_path"), // Object storage path to product sheet
+  installationNotes: text("installation_notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Door and hardware schedules
+export const doorSchedule = pgTable("door_schedule", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  doorNumber: varchar("door_number").notNull(), // "D01", "D02", etc.
+  unitType: varchar("unit_type"), // "studio", "1bed", "2bed", "3bed" or null for common
+  location: varchar("location").notNull(), // "unit_entry", "bedroom", "bathroom", "closet", "mechanical"
+  doorType: varchar("door_type").notNull(), // "hinged", "sliding", "bifold", "pocket"
+  width: decimal("width", { precision: 5, scale: 2 }), // In inches
+  height: decimal("height", { precision: 5, scale: 2 }), // In inches
+  material: varchar("material"), // "solid_core", "hollow_core", "glass", "metal"
+  finish: varchar("finish"),
+  fireRating: varchar("fire_rating"), // "0", "20", "45", "60", "90"
+  hardwareSet: varchar("hardware_set"), // Reference to hardware specification
+  locksetType: varchar("lockset_type"), // "passage", "privacy", "entry", "dummy"
+  hingetype: varchar("hinge_type"),
+  threshold: varchar("threshold"),
+  weatherstrip: boolean("weatherstrip").default(false),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Design workflows and tasks
+export const designWorkflows = pgTable("design_workflows", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  workflowType: varchar("workflow_type").notNull(), // "aor_handoff", "fabricator_coordination", "gc_trades_coordination"
+  taskName: varchar("task_name").notNull(),
+  description: text("description"),
+  assignedTo: varchar("assigned_to"), // Stakeholder responsible
+  dueDate: timestamp("due_date"),
+  status: varchar("status").default("pending"), // "pending", "in_progress", "completed", "blocked"
+  priority: varchar("priority").default("medium"), // "low", "medium", "high", "critical"
+  deliverables: text("deliverables"), // JSON array of deliverable items
+  completionNotes: text("completion_notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// MEP and structural details
+export const engineeringDetails = pgTable("engineering_details", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  projectId: varchar("project_id").references(() => projects.id).notNull(),
+  system: varchar("system").notNull(), // "mechanical", "electrical", "plumbing", "structural"
+  detailType: varchar("detail_type").notNull(), // "connection", "layout", "schedule", "specification"
+  title: varchar("title").notNull(),
+  description: text("description"),
+  drawingNumber: varchar("drawing_number"),
+  specification: text("specification"),
+  designLoadNotes: text("design_load_notes"),
+  installationNotes: text("installation_notes"),
+  inspectionRequirements: text("inspection_requirements"),
+  codeReferences: text("code_references"),
+  detailDrawingPath: varchar("detail_drawing_path"), // Object storage path
+  calculationPath: varchar("calculation_path"), // Object storage path for engineering calcs
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type DesignDocument = typeof designDocuments.$inferSelect;
+export type InsertDesignDocument = typeof designDocuments.$inferInsert;
+export type MaterialSpecification = typeof materialSpecifications.$inferSelect;
+export type InsertMaterialSpecification = typeof materialSpecifications.$inferInsert;
+export type DoorScheduleItem = typeof doorSchedule.$inferSelect;
+export type InsertDoorScheduleItem = typeof doorSchedule.$inferInsert;
+export type DesignWorkflow = typeof designWorkflows.$inferSelect;
+export type InsertDesignWorkflow = typeof designWorkflows.$inferInsert;
+export type EngineeringDetail = typeof engineeringDetails.$inferSelect;
+export type InsertEngineeringDetail = typeof engineeringDetails.$inferInsert;
+
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Project = typeof projects.$inferSelect;
 export type InsertCostBreakdown = z.infer<typeof insertCostBreakdownSchema>;

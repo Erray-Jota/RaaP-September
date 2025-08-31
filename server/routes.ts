@@ -298,6 +298,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // EasyDesign API routes
+  app.get('/api/projects/:projectId/design-documents', isAuthenticated, async (req: any, res) => {
+    try {
+      const documents = await storage.getDesignDocuments(req.params.projectId);
+      res.json(documents);
+    } catch (error) {
+      console.error("Error fetching design documents:", error);
+      res.status(500).json({ message: "Failed to fetch design documents" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/design-documents', isAuthenticated, async (req: any, res) => {
+    try {
+      const document = await storage.createDesignDocument({
+        ...req.body,
+        projectId: req.params.projectId,
+        createdBy: req.user?.claims?.sub,
+      });
+      res.status(201).json(document);
+    } catch (error) {
+      console.error("Error creating design document:", error);
+      res.status(500).json({ message: "Failed to create design document" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/material-specifications', isAuthenticated, async (req: any, res) => {
+    try {
+      const specs = await storage.getMaterialSpecifications(req.params.projectId);
+      res.json(specs);
+    } catch (error) {
+      console.error("Error fetching material specifications:", error);
+      res.status(500).json({ message: "Failed to fetch material specifications" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/material-specifications', isAuthenticated, async (req: any, res) => {
+    try {
+      const spec = await storage.createMaterialSpecification({
+        ...req.body,
+        projectId: req.params.projectId,
+      });
+      res.status(201).json(spec);
+    } catch (error) {
+      console.error("Error creating material specification:", error);
+      res.status(500).json({ message: "Failed to create material specification" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/door-schedule', isAuthenticated, async (req: any, res) => {
+    try {
+      const doorItems = await storage.getDoorSchedule(req.params.projectId);
+      res.json(doorItems);
+    } catch (error) {
+      console.error("Error fetching door schedule:", error);
+      res.status(500).json({ message: "Failed to fetch door schedule" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/door-schedule', isAuthenticated, async (req: any, res) => {
+    try {
+      const doorItem = await storage.createDoorScheduleItem({
+        ...req.body,
+        projectId: req.params.projectId,
+      });
+      res.status(201).json(doorItem);
+    } catch (error) {
+      console.error("Error creating door schedule item:", error);
+      res.status(500).json({ message: "Failed to create door schedule item" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/design-workflows', isAuthenticated, async (req: any, res) => {
+    try {
+      const workflows = await storage.getDesignWorkflows(req.params.projectId);
+      res.json(workflows);
+    } catch (error) {
+      console.error("Error fetching design workflows:", error);
+      res.status(500).json({ message: "Failed to fetch design workflows" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/design-workflows', isAuthenticated, async (req: any, res) => {
+    try {
+      const workflow = await storage.createDesignWorkflow({
+        ...req.body,
+        projectId: req.params.projectId,
+      });
+      res.status(201).json(workflow);
+    } catch (error) {
+      console.error("Error creating design workflow:", error);
+      res.status(500).json({ message: "Failed to create design workflow" });
+    }
+  });
+
+  app.get('/api/projects/:projectId/engineering-details', isAuthenticated, async (req: any, res) => {
+    try {
+      const details = await storage.getEngineeringDetails(req.params.projectId);
+      res.json(details);
+    } catch (error) {
+      console.error("Error fetching engineering details:", error);
+      res.status(500).json({ message: "Failed to fetch engineering details" });
+    }
+  });
+
+  app.post('/api/projects/:projectId/engineering-details', isAuthenticated, async (req: any, res) => {
+    try {
+      const detail = await storage.createEngineeringDetail({
+        ...req.body,
+        projectId: req.params.projectId,
+      });
+      res.status(201).json(detail);
+    } catch (error) {
+      console.error("Error creating engineering detail:", error);
+      res.status(500).json({ message: "Failed to create engineering detail" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
