@@ -21,7 +21,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto" />
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-12 w-auto" />
               <div className="text-gray-400">|</div>
               <h1 
                 className="text-lg font-medium text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
