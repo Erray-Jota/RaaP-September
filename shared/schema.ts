@@ -105,6 +105,49 @@ export const projects = pgTable("projects", {
   permitStatus: varchar("permit_status"),
   permitNotes: text("permit_notes"),
   
+  // Design Package fields
+  buildingLayoutComplete: boolean("building_layout_complete").default(false),
+  unitDesignsComplete: boolean("unit_designs_complete").default(false),
+  buildingRenderingsComplete: boolean("building_renderings_complete").default(false),
+  designPackageStatus: varchar("design_package_status"), // "draft", "review", "approved"
+  buildingRenderingUrls: text("building_rendering_urls"), // JSON array of image URLs
+  unitLayoutData: text("unit_layout_data"), // JSON data for unit layouts
+  buildingLayoutData: text("building_layout_data"), // JSON data for building layout
+  
+  // AOR Collaboration fields
+  aorPartner: varchar("aor_partner"), // Architect of Record firm name
+  aorContactInfo: text("aor_contact_info"), // JSON contact details
+  designHandoffComplete: boolean("design_handoff_complete").default(false),
+  aorReviewStatus: varchar("aor_review_status"), // "pending", "reviewing", "approved", "revisions_requested"
+  aorFeedback: text("aor_feedback"),
+  entitlementPackageStatus: varchar("entitlement_package_status"), // "planning", "in_progress", "submitted", "approved"
+  
+  // Refined Pricing Package fields
+  fabricatorPartner1: varchar("fabricator_partner_1"),
+  fabricatorPartner2: varchar("fabricator_partner_2"), 
+  fabricatorPartner3: varchar("fabricator_partner_3"),
+  gcPartner1: varchar("gc_partner_1"),
+  gcPartner2: varchar("gc_partner_2"),
+  gcPartner3: varchar("gc_partner_3"),
+  fabricatorPricing1: decimal("fabricator_pricing_1", { precision: 12, scale: 2 }),
+  fabricatorPricing2: decimal("fabricator_pricing_2", { precision: 12, scale: 2 }),
+  fabricatorPricing3: decimal("fabricator_pricing_3", { precision: 12, scale: 2 }),
+  gcPricing1: decimal("gc_pricing_1", { precision: 12, scale: 2 }),
+  gcPricing2: decimal("gc_pricing_2", { precision: 12, scale: 2 }),
+  gcPricing3: decimal("gc_pricing_3", { precision: 12, scale: 2 }),
+  pricingValidationComplete: boolean("pricing_validation_complete").default(false),
+  refinedCostingComplete: boolean("refined_costing_complete").default(false),
+  
+  // Cost Collaboration fields
+  fabricatorNegotiationStatus: varchar("fabricator_negotiation_status"), // "pending", "negotiating", "finalized"
+  gcNegotiationStatus: varchar("gc_negotiation_status"), // "pending", "negotiating", "finalized"
+  costFinalizationComplete: boolean("cost_finalization_complete").default(false),
+  finalSelectedFabricator: varchar("final_selected_fabricator"),
+  finalSelectedGc: varchar("final_selected_gc"),
+  finalFabricatorCost: decimal("final_fabricator_cost", { precision: 12, scale: 2 }),
+  finalGcCost: decimal("final_gc_cost", { precision: 12, scale: 2 }),
+  costCollaborationNotes: text("cost_collaboration_notes"),
+  
   // FabAssure application fields
   factoryPartner: varchar("factory_partner"),
   factorySchedulingComplete: boolean("factory_scheduling_complete").default(false),

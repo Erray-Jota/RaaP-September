@@ -10,6 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   ArrowLeft, 
   ArrowRight,
@@ -18,10 +22,19 @@ import {
   Building,
   CheckCircle,
   Circle,
-  Calendar,
   Users,
-  FileCheck,
-  AlertCircle
+  DollarSign,
+  AlertCircle,
+  Upload,
+  Download,
+  Mail,
+  Phone,
+  Eye,
+  Edit3,
+  Save,
+  MessageSquare,
+  Calculator,
+  Handshake
 } from "lucide-react";
 import type { Project } from "@shared/schema";
 
@@ -31,6 +44,7 @@ export default function SmartStart() {
   const { toast } = useToast();
   const projectId = params?.id;
   const [activeTab, setActiveTab] = useState("overview");
+  const [editMode, setEditMode] = useState<string | null>(null);
 
   const { data: project, isLoading, error } = useQuery<Project>({
     queryKey: ["/api/projects", projectId],
@@ -49,6 +63,33 @@ export default function SmartStart() {
     }, 500);
   }
 
+  const updateProject = useMutation({
+    mutationFn: async (updates: Partial<Project>) => {
+      const response = await apiRequest("PATCH", `/api/projects/${projectId}`, updates);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
+      setEditMode(null);
+      toast({
+        title: "Updates Saved",
+        description: "Project information has been updated successfully.",
+      });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+      }
+    },
+  });
+
   const markAsComplete = useMutation({
     mutationFn: async () => {
       const response = await apiRequest("PATCH", `/api/projects/${projectId}`, {
@@ -60,7 +101,7 @@ export default function SmartStart() {
       queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
       toast({
         title: "SmartStart Complete",
-        description: "Your entitlement and permitting process is complete. You can now proceed to FabAssure.",
+        description: "Your conceptual design and refined pricing package is complete. You can now proceed to FabAssure.",
       });
       navigate(`/projects/${projectId}/workflow`);
     },
@@ -140,17 +181,30 @@ export default function SmartStart() {
     );
   }
 
-  const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
-                    (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
-
   // Calculate progress based on completed tasks
   const completedTasks = [
-    project.planningSdkSubmitted,
-    project.preliminaryDesignComplete,
-    project.permitApplicationSubmitted,
+    project.buildingLayoutComplete,
+    project.unitDesignsComplete,
+    project.buildingRenderingsComplete,
+    project.designHandoffComplete,
+    project.pricingValidationComplete,
+    project.costFinalizationComplete,
   ].filter(Boolean).length;
-  const totalTasks = 3;
+  const totalTasks = 6;
   const progressPercentage = (completedTasks / totalTasks) * 100;
+
+  const getStatusBadge = (status: string | null) => {
+    if (!status) return <Badge variant="secondary">Not Started</Badge>;
+    switch (status) {
+      case "draft": return <Badge variant="secondary">Draft</Badge>;
+      case "review": return <Badge variant="outline">In Review</Badge>;
+      case "approved": return <Badge className="bg-green-500 text-white">Approved</Badge>;
+      case "pending": return <Badge variant="secondary">Pending</Badge>;
+      case "negotiating": return <Badge variant="outline">Negotiating</Badge>;
+      case "finalized": return <Badge className="bg-green-500 text-white">Finalized</Badge>;
+      default: return <Badge variant="secondary">{status}</Badge>;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -174,12 +228,12 @@ export default function SmartStart() {
               {project.address}
             </div>
             <p className="text-gray-600">
-              Navigate entitlements, permitting, and preliminary design development
+              Conceptual design, AOR collaboration, and refined pricing with fabricators and GCs
             </p>
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-green-600">{completedTasks}/{totalTasks}</div>
-            <div className="text-sm text-gray-500 mb-2">Tasks Complete</div>
+            <div className="text-sm text-gray-500 mb-2">Components Complete</div>
             <div className="w-32 mb-4">
               <Progress value={progressPercentage} className="h-2" />
             </div>
@@ -194,22 +248,26 @@ export default function SmartStart() {
 
         {/* Tab Interface */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-4 w-full mb-8">
+          <TabsList className="grid grid-cols-5 w-full mb-8">
             <TabsTrigger value="overview" className="flex items-center space-x-1">
               <FileText className="h-4 w-4" />
               <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
-            <TabsTrigger value="entitlements" className="flex items-center space-x-1">
-              <Building className="h-4 w-4" />
-              <span className="hidden sm:inline">Entitlements</span>
-            </TabsTrigger>
             <TabsTrigger value="design" className="flex items-center space-x-1">
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Design</span>
+              <Building className="h-4 w-4" />
+              <span className="hidden sm:inline">Design Package</span>
             </TabsTrigger>
-            <TabsTrigger value="permits" className="flex items-center space-x-1">
-              <FileCheck className="h-4 w-4" />
-              <span className="hidden sm:inline">Permits</span>
+            <TabsTrigger value="aor" className="flex items-center space-x-1">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">AOR Collaboration</span>
+            </TabsTrigger>
+            <TabsTrigger value="pricing" className="flex items-center space-x-1">
+              <Calculator className="h-4 w-4" />
+              <span className="hidden sm:inline">Pricing Package</span>
+            </TabsTrigger>
+            <TabsTrigger value="costs" className="flex items-center space-x-1">
+              <Handshake className="h-4 w-4" />
+              <span className="hidden sm:inline">Cost Collaboration</span>
             </TabsTrigger>
           </TabsList>
 
@@ -225,119 +283,844 @@ export default function SmartStart() {
               <CardContent>
                 <div className="space-y-6">
                   <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 border border-green-200">
-                    <h3 className="text-xl font-bold text-green-800 mb-2">Entitlement & Permitting Process</h3>
+                    <h3 className="text-xl font-bold text-green-800 mb-2">Conceptual Design & Refined Pricing</h3>
                     <p className="text-sm text-gray-700 mb-4">
-                      SmartStart guides you through the complex entitlement and permitting process, ensuring your modular project meets all regulatory requirements and gets approved efficiently.
+                      SmartStart develops comprehensive conceptual designs for your building, coordinates with architect of record for entitlement packages, and validates refined pricing with multiple fabricators and general contractors.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-blue-700 mb-2">Entitlement Strategy</h4>
-                        <p className="text-sm text-gray-700">Develop comprehensive approach to zoning approvals and density bonuses</p>
+                        <h4 className="font-semibold text-blue-700 mb-2">Design Package</h4>
+                        <p className="text-sm text-gray-700">Building layouts, unit designs, and 3D renderings</p>
                       </div>
                       <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-green-700 mb-2">Design Development</h4>
-                        <p className="text-sm text-gray-700">Create preliminary designs that align with modular construction requirements</p>
+                        <h4 className="font-semibold text-green-700 mb-2">AOR Collaboration</h4>
+                        <p className="text-sm text-gray-700">Design handoff and entitlement package development</p>
                       </div>
                       <div className="bg-white rounded-lg p-4 border">
-                        <h4 className="font-semibold text-purple-700 mb-2">Permit Applications</h4>
-                        <p className="text-sm text-gray-700">Submit and track building permits through approval process</p>
+                        <h4 className="font-semibold text-orange-700 mb-2">Pricing Package</h4>
+                        <p className="text-sm text-gray-700">Validated costs from multiple fabricators and GCs</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4 border">
+                        <h4 className="font-semibold text-purple-700 mb-2">Cost Collaboration</h4>
+                        <p className="text-sm text-gray-700">Finalize pricing with selected partners</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Task Progress */}
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-raap-dark text-lg">Process Checklist</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.planningSdkSubmitted ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Planning SDK Submission</h5>
-                            <p className="text-sm text-gray-600">Submit initial planning documents and feasibility analysis</p>
+                  {/* Progress Overview */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Design & Collaboration Progress</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.buildingLayoutComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Building Layout</span>
                           </div>
+                          <Badge variant={project.buildingLayoutComplete ? "default" : "secondary"}>
+                            {project.buildingLayoutComplete ? "Complete" : "Pending"}
+                          </Badge>
                         </div>
-                        <Badge variant={project.planningSdkSubmitted ? "default" : "secondary"}>
-                          {project.planningSdkSubmitted ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.unitDesignsComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Unit Designs</span>
+                          </div>
+                          <Badge variant={project.unitDesignsComplete ? "default" : "secondary"}>
+                            {project.unitDesignsComplete ? "Complete" : "Pending"}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.buildingRenderingsComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Building Renderings</span>
+                          </div>
+                          <Badge variant={project.buildingRenderingsComplete ? "default" : "secondary"}>
+                            {project.buildingRenderingsComplete ? "Complete" : "Pending"}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.designHandoffComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">AOR Design Handoff</span>
+                          </div>
+                          <Badge variant={project.designHandoffComplete ? "default" : "secondary"}>
+                            {project.designHandoffComplete ? "Complete" : "Pending"}
+                          </Badge>
+                        </div>
+                      </CardContent>
+                    </Card>
 
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.preliminaryDesignComplete ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Preliminary Design</h5>
-                            <p className="text-sm text-gray-600">Develop detailed architectural plans for modular units</p>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Pricing & Cost Progress</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.pricingValidationComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Pricing Validation</span>
                           </div>
+                          <Badge variant={project.pricingValidationComplete ? "default" : "secondary"}>
+                            {project.pricingValidationComplete ? "Complete" : "Pending"}
+                          </Badge>
                         </div>
-                        <Badge variant={project.preliminaryDesignComplete ? "default" : "secondary"}>
-                          {project.preliminaryDesignComplete ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          {project.permitApplicationSubmitted ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-gray-400" />
-                          )}
-                          <div>
-                            <h5 className="font-medium">Permit Application</h5>
-                            <p className="text-sm text-gray-600">Submit building permits and coordinate approvals</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.refinedCostingComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Refined Costing</span>
                           </div>
+                          <Badge variant={project.refinedCostingComplete ? "default" : "secondary"}>
+                            {project.refinedCostingComplete ? "Complete" : "Pending"}
+                          </Badge>
                         </div>
-                        <Badge variant={project.permitApplicationSubmitted ? "default" : "secondary"}>
-                          {project.permitApplicationSubmitted ? "Complete" : "Pending"}
-                        </Badge>
-                      </div>
-                    </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            {project.costFinalizationComplete ? (
+                              <CheckCircle className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Circle className="h-4 w-4 text-gray-400" />
+                            )}
+                            <span className="text-sm">Cost Finalization</span>
+                          </div>
+                          <Badge variant={project.costFinalizationComplete ? "default" : "secondary"}>
+                            {project.costFinalizationComplete ? "Complete" : "Pending"}
+                          </Badge>
+                        </div>
+                        <div className="text-center pt-4 border-t">
+                          <div className="text-sm text-gray-600">Selected Partners</div>
+                          {project.finalSelectedFabricator && (
+                            <div className="text-sm font-medium">Fab: {project.finalSelectedFabricator}</div>
+                          )}
+                          {project.finalSelectedGc && (
+                            <div className="text-sm font-medium">GC: {project.finalSelectedGc}</div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Other tabs with placeholder content */}
-          <TabsContent value="entitlements">
-            <Card>
-              <CardHeader>
-                <CardTitle>Entitlement Process</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Detailed entitlement workflow and documentation will be implemented here...</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
+          {/* Design Package Tab */}
           <TabsContent value="design">
-            <Card>
-              <CardHeader>
-                <CardTitle>Preliminary Design</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Design development tools and collaboration features will be implemented here...</p>
-              </CardContent>
-            </Card>
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Building className="h-5 w-5" />
+                      <span>Design Package</span>
+                    </div>
+                    {getStatusBadge(project.designPackageStatus)}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Building Layout */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center justify-between">
+                          Building Layout
+                          {project.buildingLayoutComplete && <CheckCircle className="h-5 w-5 text-green-500" />}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="bg-gray-100 rounded-lg p-6 text-center">
+                          <Building className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                          <p className="text-sm text-gray-600 mb-4">Upload building layout files</p>
+                          <Button size="sm" variant="outline">
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload Layout
+                          </Button>
+                        </div>
+                        <div className="flex justify-between">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateProject.mutate({ buildingLayoutComplete: !project.buildingLayoutComplete })}
+                          >
+                            {project.buildingLayoutComplete ? "Mark Incomplete" : "Mark Complete"}
+                          </Button>
+                          <Button size="sm" variant="ghost">
+                            <Eye className="h-4 w-4 mr-2" />
+                            Preview
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Unit Designs */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center justify-between">
+                          Unit Designs
+                          {project.unitDesignsComplete && <CheckCircle className="h-5 w-5 text-green-500" />}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <div className="text-sm font-medium">Unit Mix</div>
+                          <div className="text-sm text-gray-600">
+                            {project.studioUnits} Studio, {project.oneBedUnits} 1BR, {project.twoBedUnits} 2BR, {project.threeBedUnits} 3BR
+                          </div>
+                        </div>
+                        <div className="bg-gray-100 rounded-lg p-6 text-center">
+                          <FileText className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                          <p className="text-sm text-gray-600 mb-4">Upload unit design files</p>
+                          <Button size="sm" variant="outline">
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload Designs
+                          </Button>
+                        </div>
+                        <div className="flex justify-between">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateProject.mutate({ unitDesignsComplete: !project.unitDesignsComplete })}
+                          >
+                            {project.unitDesignsComplete ? "Mark Incomplete" : "Mark Complete"}
+                          </Button>
+                          <Button size="sm" variant="ghost">
+                            <Eye className="h-4 w-4 mr-2" />
+                            Preview
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Building Renderings */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center justify-between">
+                          Building Renderings
+                          {project.buildingRenderingsComplete && <CheckCircle className="h-5 w-5 text-green-500" />}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="bg-gray-100 rounded-lg p-6 text-center">
+                          <Eye className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                          <p className="text-sm text-gray-600 mb-4">Upload 3D renderings</p>
+                          <Button size="sm" variant="outline">
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload Renderings
+                          </Button>
+                        </div>
+                        <div className="flex justify-between">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateProject.mutate({ buildingRenderingsComplete: !project.buildingRenderingsComplete })}
+                          >
+                            {project.buildingRenderingsComplete ? "Mark Incomplete" : "Mark Complete"}
+                          </Button>
+                          <Button size="sm" variant="ghost">
+                            <Eye className="h-4 w-4 mr-2" />
+                            Preview
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Design Package Actions */}
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium">Design Package Status</h4>
+                        <p className="text-sm text-gray-600">Current status: {project.designPackageStatus || "Not started"}</p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button size="sm" variant="outline">
+                          <Download className="h-4 w-4 mr-2" />
+                          Export Package
+                        </Button>
+                        <Select
+                          value={project.designPackageStatus || ""}
+                          onValueChange={(value) => updateProject.mutate({ designPackageStatus: value })}
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue placeholder="Status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="draft">Draft</SelectItem>
+                            <SelectItem value="review">In Review</SelectItem>
+                            <SelectItem value="approved">Approved</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
-          <TabsContent value="permits">
-            <Card>
-              <CardHeader>
-                <CardTitle>Permit Management</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Permit tracking and submission tools will be implemented here...</p>
-              </CardContent>
-            </Card>
+          {/* AOR Collaboration Tab */}
+          <TabsContent value="aor">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Users className="h-5 w-5" />
+                    <span>Architect of Record (AOR) Collaboration</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* AOR Partner Information */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center justify-between">
+                          AOR Partner
+                          {editMode === "aor" ? (
+                            <Button size="sm" onClick={() => setEditMode(null)}>
+                              <Save className="h-4 w-4 mr-2" />
+                              Save
+                            </Button>
+                          ) : (
+                            <Button size="sm" variant="ghost" onClick={() => setEditMode("aor")}>
+                              <Edit3 className="h-4 w-4 mr-2" />
+                              Edit
+                            </Button>
+                          )}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {editMode === "aor" ? (
+                          <div className="space-y-4">
+                            <div>
+                              <Label htmlFor="aorPartner">Firm Name</Label>
+                              <Input
+                                id="aorPartner"
+                                defaultValue={project.aorPartner || ""}
+                                onBlur={(e) => updateProject.mutate({ aorPartner: e.target.value })}
+                                placeholder="Enter AOR firm name"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="aorContact">Contact Information</Label>
+                              <Textarea
+                                id="aorContact"
+                                defaultValue={project.aorContactInfo || ""}
+                                onBlur={(e) => updateProject.mutate({ aorContactInfo: e.target.value })}
+                                placeholder="Contact details (JSON format)"
+                                rows={3}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <div>
+                              <div className="text-sm font-medium">Firm Name</div>
+                              <div className="text-sm text-gray-600">{project.aorPartner || "Not specified"}</div>
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium">Contact Information</div>
+                              <div className="text-sm text-gray-600">{project.aorContactInfo || "Not specified"}</div>
+                            </div>
+                          </div>
+                        )}
+                        <div className="flex space-x-2">
+                          <Button size="sm" variant="outline">
+                            <Mail className="h-4 w-4 mr-2" />
+                            Email AOR
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Phone className="h-4 w-4 mr-2" />
+                            Call AOR
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Design Handoff Status */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Design Handoff & Entitlement Package</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div className="flex items-center space-x-2">
+                              {project.designHandoffComplete ? (
+                                <CheckCircle className="h-4 w-4 text-green-500" />
+                              ) : (
+                                <Circle className="h-4 w-4 text-gray-400" />
+                              )}
+                              <span className="text-sm">Design Handoff</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {getStatusBadge(project.aorReviewStatus)}
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => updateProject.mutate({ designHandoffComplete: !project.designHandoffComplete })}
+                              >
+                                {project.designHandoffComplete ? "Mark Incomplete" : "Mark Complete"}
+                              </Button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label>AOR Review Status</Label>
+                            <Select
+                              value={project.aorReviewStatus || ""}
+                              onValueChange={(value) => updateProject.mutate({ aorReviewStatus: value })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select review status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="reviewing">Reviewing</SelectItem>
+                                <SelectItem value="approved">Approved</SelectItem>
+                                <SelectItem value="revisions_requested">Revisions Requested</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label>Entitlement Package Status</Label>
+                            <Select
+                              value={project.entitlementPackageStatus || ""}
+                              onValueChange={(value) => updateProject.mutate({ entitlementPackageStatus: value })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select package status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="planning">Planning</SelectItem>
+                                <SelectItem value="in_progress">In Progress</SelectItem>
+                                <SelectItem value="submitted">Submitted</SelectItem>
+                                <SelectItem value="approved">Approved</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* AOR Feedback Section */}
+                  <Card className="mt-6">
+                    <CardHeader>
+                      <CardTitle className="text-lg flex items-center space-x-2">
+                        <MessageSquare className="h-5 w-5" />
+                        <span>AOR Feedback & Communication</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="aorFeedback">AOR Feedback</Label>
+                          <Textarea
+                            id="aorFeedback"
+                            defaultValue={project.aorFeedback || ""}
+                            onBlur={(e) => updateProject.mutate({ aorFeedback: e.target.value })}
+                            placeholder="Record feedback from AOR reviews and meetings"
+                            rows={4}
+                          />
+                        </div>
+                        <div className="flex justify-between">
+                          <Button variant="outline">
+                            <Download className="h-4 w-4 mr-2" />
+                            Download Design Package
+                          </Button>
+                          <Button>
+                            <Mail className="h-4 w-4 mr-2" />
+                            Send to AOR
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Pricing Package Tab */}
+          <TabsContent value="pricing">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Calculator className="h-5 w-5" />
+                    <span>Refined Pricing Package</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Fabricator Partners */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Fabricator Partners</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="p-3 border rounded-lg space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label className="text-sm font-medium">Fabricator {i}</Label>
+                              {editMode === `fab${i}` ? (
+                                <Button size="sm" onClick={() => setEditMode(null)}>
+                                  <Save className="h-4 w-4" />
+                                </Button>
+                              ) : (
+                                <Button size="sm" variant="ghost" onClick={() => setEditMode(`fab${i}`)}>
+                                  <Edit3 className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                            {editMode === `fab${i}` ? (
+                              <div className="space-y-2">
+                                <Input
+                                  defaultValue={project[`fabricatorPartner${i}` as keyof Project] as string || ""}
+                                  onBlur={(e) => updateProject.mutate({ [`fabricatorPartner${i}`]: e.target.value })}
+                                  placeholder="Fabricator name"
+                                />
+                                <Input
+                                  type="number"
+                                  step="0.01"
+                                  defaultValue={project[`fabricatorPricing${i}` as keyof Project] as string || ""}
+                                  onBlur={(e) => updateProject.mutate({ [`fabricatorPricing${i}`]: parseFloat(e.target.value) || 0 })}
+                                  placeholder="Pricing"
+                                />
+                              </div>
+                            ) : (
+                              <div className="space-y-1">
+                                <div className="text-sm">{project[`fabricatorPartner${i}` as keyof Project] as string || "Not specified"}</div>
+                                <div className="text-sm font-medium">
+                                  ${project[`fabricatorPricing${i}` as keyof Project] ? Number(project[`fabricatorPricing${i}` as keyof Project]).toLocaleString() : "No pricing"}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                        <div className="text-center pt-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateProject.mutate({ pricingValidationComplete: !project.pricingValidationComplete })}
+                          >
+                            {project.pricingValidationComplete ? "Mark Incomplete" : "Mark Validation Complete"}
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* GC Partners */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">General Contractor Partners</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="p-3 border rounded-lg space-y-2">
+                            <div className="flex items-center justify-between">
+                              <Label className="text-sm font-medium">GC {i}</Label>
+                              {editMode === `gc${i}` ? (
+                                <Button size="sm" onClick={() => setEditMode(null)}>
+                                  <Save className="h-4 w-4" />
+                                </Button>
+                              ) : (
+                                <Button size="sm" variant="ghost" onClick={() => setEditMode(`gc${i}`)}>
+                                  <Edit3 className="h-4 w-4" />
+                                </Button>
+                              )}
+                            </div>
+                            {editMode === `gc${i}` ? (
+                              <div className="space-y-2">
+                                <Input
+                                  defaultValue={project[`gcPartner${i}` as keyof Project] as string || ""}
+                                  onBlur={(e) => updateProject.mutate({ [`gcPartner${i}`]: e.target.value })}
+                                  placeholder="GC name"
+                                />
+                                <Input
+                                  type="number"
+                                  step="0.01"
+                                  defaultValue={project[`gcPricing${i}` as keyof Project] as string || ""}
+                                  onBlur={(e) => updateProject.mutate({ [`gcPricing${i}`]: parseFloat(e.target.value) || 0 })}
+                                  placeholder="Pricing"
+                                />
+                              </div>
+                            ) : (
+                              <div className="space-y-1">
+                                <div className="text-sm">{project[`gcPartner${i}` as keyof Project] as string || "Not specified"}</div>
+                                <div className="text-sm font-medium">
+                                  ${project[`gcPricing${i}` as keyof Project] ? Number(project[`gcPricing${i}` as keyof Project]).toLocaleString() : "No pricing"}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                        <div className="text-center pt-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateProject.mutate({ refinedCostingComplete: !project.refinedCostingComplete })}
+                          >
+                            {project.refinedCostingComplete ? "Mark Incomplete" : "Mark Costing Complete"}
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Pricing Summary */}
+                  <Card className="mt-6">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Pricing Summary & Validation</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-green-50 rounded-lg">
+                          <div className="text-2xl font-bold text-green-600">
+                            {project.pricingValidationComplete && project.refinedCostingComplete ? "✓" : "○"}
+                          </div>
+                          <div className="text-sm text-gray-600">Validation Status</div>
+                        </div>
+                        <div className="text-center p-4 bg-blue-50 rounded-lg">
+                          <div className="text-2xl font-bold text-blue-600">
+                            {/* Calculate lowest fabricator pricing */}
+                            ${[project.fabricatorPricing1, project.fabricatorPricing2, project.fabricatorPricing3]
+                              .filter(p => p && Number(p) > 0)
+                              .reduce((min, p) => Math.min(min, Number(p)), Infinity) !== Infinity 
+                              ? [project.fabricatorPricing1, project.fabricatorPricing2, project.fabricatorPricing3]
+                                  .filter(p => p && Number(p) > 0)
+                                  .reduce((min, p) => Math.min(min, Number(p)), Infinity).toLocaleString()
+                              : "TBD"}
+                          </div>
+                          <div className="text-sm text-gray-600">Best Fabricator Price</div>
+                        </div>
+                        <div className="text-center p-4 bg-purple-50 rounded-lg">
+                          <div className="text-2xl font-bold text-purple-600">
+                            {/* Calculate lowest GC pricing */}
+                            ${[project.gcPricing1, project.gcPricing2, project.gcPricing3]
+                              .filter(p => p && Number(p) > 0)
+                              .reduce((min, p) => Math.min(min, Number(p)), Infinity) !== Infinity
+                              ? [project.gcPricing1, project.gcPricing2, project.gcPricing3]
+                                  .filter(p => p && Number(p) > 0)
+                                  .reduce((min, p) => Math.min(min, Number(p)), Infinity).toLocaleString()
+                              : "TBD"}
+                          </div>
+                          <div className="text-sm text-gray-600">Best GC Price</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Cost Collaboration Tab */}
+          <TabsContent value="costs">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Handshake className="h-5 w-5" />
+                    <span>Cost Collaboration & Finalization</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Fabricator Negotiation */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Fabricator Negotiation</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <Label>Negotiation Status</Label>
+                          <Select
+                            value={project.fabricatorNegotiationStatus || ""}
+                            onValueChange={(value) => updateProject.mutate({ fabricatorNegotiationStatus: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="negotiating">Negotiating</SelectItem>
+                              <SelectItem value="finalized">Finalized</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label>Selected Fabricator</Label>
+                          <Input
+                            defaultValue={project.finalSelectedFabricator || ""}
+                            onBlur={(e) => updateProject.mutate({ finalSelectedFabricator: e.target.value })}
+                            placeholder="Enter selected fabricator name"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label>Final Fabricator Cost</Label>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            defaultValue={project.finalFabricatorCost ? Number(project.finalFabricatorCost).toString() : ""}
+                            onBlur={(e) => updateProject.mutate({ finalFabricatorCost: e.target.value })}
+                            placeholder="Enter final cost"
+                          />
+                        </div>
+
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                          <div className="text-sm font-medium mb-1">Status</div>
+                          {getStatusBadge(project.fabricatorNegotiationStatus)}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* GC Negotiation */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">GC Negotiation</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <Label>Negotiation Status</Label>
+                          <Select
+                            value={project.gcNegotiationStatus || ""}
+                            onValueChange={(value) => updateProject.mutate({ gcNegotiationStatus: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="negotiating">Negotiating</SelectItem>
+                              <SelectItem value="finalized">Finalized</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label>Selected GC</Label>
+                          <Input
+                            defaultValue={project.finalSelectedGc || ""}
+                            onBlur={(e) => updateProject.mutate({ finalSelectedGc: e.target.value })}
+                            placeholder="Enter selected GC name"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label>Final GC Cost</Label>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            defaultValue={project.finalGcCost ? Number(project.finalGcCost).toString() : ""}
+                            onBlur={(e) => updateProject.mutate({ finalGcCost: e.target.value })}
+                            placeholder="Enter final cost"
+                          />
+                        </div>
+
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                          <div className="text-sm font-medium mb-1">Status</div>
+                          {getStatusBadge(project.gcNegotiationStatus)}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Collaboration Notes */}
+                  <Card className="mt-6">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Collaboration Notes & Final Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <Label htmlFor="costNotes">Cost Collaboration Notes</Label>
+                        <Textarea
+                          id="costNotes"
+                          defaultValue={project.costCollaborationNotes || ""}
+                          onBlur={(e) => updateProject.mutate({ costCollaborationNotes: e.target.value })}
+                          placeholder="Record negotiation details, agreements, and collaboration notes"
+                          rows={4}
+                        />
+                      </div>
+
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <h4 className="font-medium mb-3">Final Cost Summary</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-green-600">
+                              ${project.finalFabricatorCost ? Number(project.finalFabricatorCost).toLocaleString() : "TBD"}
+                            </div>
+                            <div className="text-sm text-gray-600">Final Fabricator Cost</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-blue-600">
+                              ${project.finalGcCost ? Number(project.finalGcCost).toLocaleString() : "TBD"}
+                            </div>
+                            <div className="text-sm text-gray-600">Final GC Cost</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-purple-600">
+                              ${project.finalFabricatorCost && project.finalGcCost 
+                                ? (Number(project.finalFabricatorCost) + Number(project.finalGcCost)).toLocaleString() 
+                                : "TBD"}
+                            </div>
+                            <div className="text-sm text-gray-600">Total Project Cost</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-center">
+                        <Button
+                          onClick={() => updateProject.mutate({ costFinalizationComplete: !project.costFinalizationComplete })}
+                          className={project.costFinalizationComplete ? "bg-green-600 hover:bg-green-700" : "bg-raap-green hover:bg-green-700"}
+                        >
+                          {project.costFinalizationComplete ? (
+                            <>
+                              <CheckCircle className="h-4 w-4 mr-2" />
+                              Cost Finalization Complete
+                            </>
+                          ) : (
+                            <>
+                              <DollarSign className="h-4 w-4 mr-2" />
+                              Mark Cost Finalization Complete
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
 
@@ -349,7 +1132,7 @@ export default function SmartStart() {
                 <div>
                   <h3 className="font-semibold text-raap-dark mb-1">Complete SmartStart Application</h3>
                   <p className="text-gray-600">
-                    Once you've completed the entitlement process, preliminary design, and permit submissions, 
+                    Once you've completed the design package, AOR collaboration, pricing validation, and cost finalization, 
                     mark this application as complete to proceed to FabAssure.
                   </p>
                 </div>
@@ -376,7 +1159,7 @@ export default function SmartStart() {
                   <div>
                     <h3 className="font-semibold text-green-800">SmartStart Complete</h3>
                     <p className="text-green-700">
-                      Your entitlement and permitting process is complete. You can now proceed to FabAssure.
+                      Your conceptual design and refined pricing package is complete. You can now proceed to FabAssure.
                     </p>
                   </div>
                 </div>
