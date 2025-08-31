@@ -470,299 +470,646 @@ export default function FabAssure() {
           {/* Evaluate Tab */}
           <TabsContent value="evaluate">
             <div className="space-y-6">
+              {/* Overview Section */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <TrendingUp className="h-5 w-5" />
-                    <span>Partner Evaluation</span>
+                    <span>Fabricator Evaluation Framework</span>
                   </CardTitle>
                   <p className="text-gray-600">
-                    Evaluate fabricators and partners based on cost, design capabilities, quality, and commercial reliability.
+                    Comprehensive assessment based on four critical evaluation criteria: Cost, Design, Quality, and Commercial Strength.
                   </p>
                 </CardHeader>
                 <CardContent>
-                  {/* Fabricator Selection */}
-                  <div className="mb-6">
-                    <Label>Select Fabricators to Evaluate</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
-                      {allPartners.filter(p => p.partnerType === 'fabricator').map((fabricator) => (
-                        <Card key={fabricator.id} className="cursor-pointer hover:bg-blue-50 border-2 hover:border-blue-200">
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-medium">{fabricator.name}</h4>
-                              <Badge variant="outline">{fabricator.location}</Badge>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="text-center p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <DollarSign className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                      <div className="font-semibold text-blue-700">Cost (25%)</div>
+                      <div className="text-sm text-blue-600">Lowest overall cost</div>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <Building className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                      <div className="font-semibold text-green-700">Design (25%)</div>
+                      <div className="text-sm text-green-600">Vendor-agnostic approach</div>
+                    </div>
+                    <div className="text-center p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <Shield className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
+                      <div className="font-semibold text-yellow-700">Quality (25%)</div>
+                      <div className="text-sm text-yellow-600">Assembly & logistics risk</div>
+                    </div>
+                    <div className="text-center p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                      <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                      <div className="font-semibold text-purple-700">Commercial (25%)</div>
+                      <div className="text-sm text-purple-600">Viability & reliability</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Fabricator Selection */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Select Fabricator to Evaluate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {allPartners.filter(p => p.partnerType === 'fabricator').map((fabricator) => (
+                      <Card key={fabricator.id} className="cursor-pointer hover:bg-blue-50 border-2 hover:border-blue-200 transition-colors">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-medium">{fabricator.name}</h4>
+                            <Badge variant="outline">{fabricator.location}</Badge>
+                          </div>
+                          <div className="flex items-center justify-between text-sm text-gray-600">
+                            <span>Est. {fabricator.yearEstablished}</span>
+                            <div className="flex items-center">
+                              <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                              <span>{fabricator.rating}</span>
                             </div>
-                            <div className="flex items-center justify-between text-sm text-gray-600">
-                              <span>Est. {fabricator.yearEstablished}</span>
-                              <div className="flex items-center">
-                                <Star className="h-4 w-4 text-yellow-500 mr-1" />
-                                <span>{fabricator.rating}</span>
-                              </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Design Assessment - Key Assemblies */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Building className="h-5 w-5" />
+                    <span>Design Assessment - Key Assemblies (100 Points)</span>
+                  </CardTitle>
+                  <p className="text-gray-600">
+                    Score fabricator's design approach focusing on vendor-agnostic systems, minimizing RFIs, and controlling schedule/cost risks.
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <Tabs defaultValue="structural" className="w-full">
+                    <TabsList className="grid grid-cols-4 lg:grid-cols-8 w-full mb-6">
+                      <TabsTrigger value="structural" className="text-xs">Structural</TabsTrigger>
+                      <TabsTrigger value="fire" className="text-xs">Fire/Acoustic</TabsTrigger>
+                      <TabsTrigger value="hvac" className="text-xs">HVAC/MEP</TabsTrigger>
+                      <TabsTrigger value="envelope" className="text-xs">Envelope</TabsTrigger>
+                      <TabsTrigger value="geometry" className="text-xs">Geometry</TabsTrigger>
+                      <TabsTrigger value="logistics" className="text-xs">Logistics</TabsTrigger>
+                      <TabsTrigger value="bim" className="text-xs">BIM/Shop</TabsTrigger>
+                      <TabsTrigger value="regulatory" className="text-xs">Regulatory</TabsTrigger>
+                    </TabsList>
+
+                    {/* Structural + Vertical Connections (15 pts) */}
+                    <TabsContent value="structural" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Structural + Vertical Connections (15 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Evaluate repeatable corner/shear-wall strategy, stacking grid flexibility, and non-proprietary connectors.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Provide standard corner/edge details and allowable alternates. What are vertical/horizontal tolerances?"
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Repeatable corner strategy with published load tables</li>
+                                <li>• Clear stacking grid + step changes allowed</li>
+                                <li>• Non-proprietary connectors with alternates</li>
+                              </ul>
                             </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Proprietary corner posts with no alternates</li>
+                                <li>• Fixed module dimensions requiring redesign</li>
+                                <li>• Ambiguous erection tolerances</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Proprietary system</span>
+                              <span>Open, documented system</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Fire & Acoustics (15 pts) */}
+                    <TabsContent value="fire" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Floor/Ceiling Fire & Acoustics at Penetrations (15 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Assess UL-listed assemblies, penetration details, and clear firestop responsibility.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Submit tested assemblies + penetration details; who owns field firestop?"
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• UL-listed assemblies with pre-engineered details</li>
+                                <li>• Clear 1-hr rating maintenance at matelines</li>
+                                <li>• Acoustic flanking control included</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• "To be engineered by others" for penetrations</li>
+                                <li>• Site-applied firestop without details</li>
+                                <li>• Non-standard field fixes after install</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>No tested details</span>
+                              <span>Complete detail library</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* HVAC & MEP Integration (15 pts) */}
+                    <TabsContent value="hvac" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">HVAC & MEP Integration Strategy (15 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Evaluate vendor-agnostic HVAC routing and coordinated MEP integration.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Show two viable duct routing schemes (outside-module vs open-web). Where are wet stacks?"
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Multiple workable routing options</li>
+                                <li>• Standard open-web strategy with soffits</li>
+                                <li>• Documented riser/shaft conventions</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Unique components forcing single fabricator</li>
+                                <li>• MEP clashes deferred to shop stage</li>
+                                <li>• No coordination rules for vertical systems</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Custom components</span>
+                              <span>Multiple routing options</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Mateline Waterproofing (15 pts) */}
+                    <TabsContent value="envelope" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Mateline Waterproofing & Envelope Continuity (15 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Assess standard mateline details and air/water continuity systems.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Provide WRB/air barrier continuity details and set sequence; how are seams protected during transport?"
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Standard mateline joint details with tested sequences</li>
+                                <li>• Clear air/water continuity factory to field</li>
+                                <li>• Temporary protection during transport</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Site-invented flashing at set</li>
+                                <li>• WRB continuity not defined over matelines</li>
+                                <li>• No transport weather protection spec</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Undefined details</span>
+                              <span>Proven detail library</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Geometry & Tolerances (15 pts) */}
+                    <TabsContent value="geometry" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Geometry & Tolerances (15 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Evaluate dimensional flexibility and published tolerance standards.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "List dimension step options that don't trigger chassis redesign."
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Step-function flexibility (±12" increments)</li>
+                                <li>• Published stacking and alignment tolerances</li>
+                                <li>• Fit-up allowance at matelines</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Any deviation triggers full redesign</li>
+                                <li>• No published tolerances</li>
+                                <li>• "Confirm in shop drawings" pattern</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>No flexibility</span>
+                              <span>Multiple step options</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Logistics & Lifting (10 pts) */}
+                    <TabsContent value="logistics" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Logistics & Lifting (10 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Assess transport-ready design and damage prevention protocols.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Share standard pick drawings, max module envelope, escort requirements, and damage rate last 3 jobs."
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Modules sized for route permits</li>
+                                <li>• Standard lift points and rigging calcs</li>
+                                <li>• Edge and finish protection specs</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Over-width/height requiring escorts</li>
+                                <li>• No standard rigging drawings</li>
+                                <li>• Cribbing improvised on-site</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Frequent damage</span>
+                              <span>Packaged logistics kit</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Shop-Drawing/BIM (10 pts) */}
+                    <TabsContent value="bim" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Shop-Drawing Conversion & BIM Protocols (10 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Evaluate LOD targets, approval workflow, and design-freeze gates.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "State LOD by discipline, approval workflow, and design-freeze gates; RFI/submittal metrics from last 3 jobs."
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Clear LOD targets and model exchanges</li>
+                                <li>• Defined design-freeze gates</li>
+                                <li>• Proven turnaround SLAs</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Ambiguous LOD requirements</li>
+                                <li>• Late design freeze timing</li>
+                                <li>• "Figure it out in shop" culture</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Chronic late changes</span>
+                              <span>Low-RFI pipeline</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    {/* Regulatory Strategy (5 pts) */}
+                    <TabsContent value="regulatory" className="space-y-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold mb-2">Regulatory Strategy (5 points)</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Assess pre-checked designs and AHJ approval strategies.
+                        </p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <Label className="text-sm font-medium">Diagnostic Question:</Label>
+                            <p className="text-sm text-blue-700 italic bg-blue-50 p-2 rounded mt-1">
+                              "Prior PC approvals? Plan for AHJ interface and inspection regimen."
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-green-700">✓ What Good Looks Like:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• Pre-checked (PC) designs available</li>
+                                <li>• Prior approvals with AHJs</li>
+                                <li>• Mapped delta list for deviations</li>
+                              </ul>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-red-700">⚠ Red Flags:</Label>
+                              <ul className="text-sm text-gray-600 mt-1 space-y-1">
+                                <li>• AHJ engagement left to late phase</li>
+                                <li>• PC criteria not understood</li>
+                                <li>• Starting from scratch with regulators</li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Label className="text-sm font-medium">Score (0-5 scale):</Label>
+                            <div className="flex items-center space-x-2 mt-2">
+                              {[1,2,3,4,5].map(score => (
+                                <button key={score} className="flex-1 h-10 bg-gray-200 rounded cursor-pointer hover:bg-green-300 transition-colors flex items-center justify-center text-sm font-medium">
+                                  {score}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-1">
+                              <span>Starting from scratch</span>
+                              <span>PC-ready library</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+
+              {/* Risk Assessment & Scoring Summary */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Assessment Summary & Risk Indicators</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Key Assembly Score */}
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-green-800 mb-2">Key Assemblies Score</h4>
+                      <div className="text-3xl font-bold text-green-700">--/100</div>
+                      <div className="text-sm text-green-600 mt-2">
+                        <div className="flex justify-between">
+                          <span>85-100: Green (Low Risk)</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>65-84: Yellow (Med Risk)</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>&lt;65: Red (High Risk)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Lock-In Risk Meter */}
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-yellow-800 mb-2">Lock-In Risk Meter</h4>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="flex-1 bg-gray-200 rounded-full h-3">
+                          <div className="bg-yellow-500 h-3 rounded-full" style={{width: '60%'}}></div>
+                        </div>
+                        <span className="text-sm font-medium">Medium</span>
+                      </div>
+                      <ul className="text-sm text-yellow-700 space-y-1">
+                        <li>• Proprietary corner posts identified</li>
+                        <li>• Limited routing options</li>
+                        <li>• Step flexibility concerns</li>
+                      </ul>
+                    </div>
+
+                    {/* RFI/Submittal Risk */}
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-red-800 mb-2">RFI/Submittal Risk</h4>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="flex-1 bg-gray-200 rounded-full h-3">
+                          <div className="bg-red-500 h-3 rounded-full" style={{width: '75%'}}></div>
+                        </div>
+                        <span className="text-sm font-medium">High</span>
+                      </div>
+                      <ul className="text-sm text-red-700 space-y-1">
+                        <li>• Undefined firestop details</li>
+                        <li>• Late MEP coordination</li>
+                        <li>• No design-freeze gates</li>
+                      </ul>
                     </div>
                   </div>
 
-                  {/* Evaluation Criteria */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Cost Evaluation */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center space-x-2">
-                          <DollarSign className="h-5 w-5" />
-                          <span>Cost Evaluation</span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-3">
-                          <div>
-                            <Label className="text-sm font-medium">Overall Cost Competitiveness</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Low</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-blue-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">High</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Price Transparency</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Poor</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-blue-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Excellent</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Payment Terms Flexibility</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Rigid</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-blue-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Flexible</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-blue-50 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-blue-700">Cost Score: --/10</div>
-                          <div className="text-sm text-blue-600">Based on pricing competitiveness and terms</div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Design Capabilities */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center space-x-2">
-                          <Building className="h-5 w-5" />
-                          <span>Design Capabilities</span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-3">
-                          <div>
-                            <Label className="text-sm font-medium">Design Flexibility</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Limited</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-green-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Highly Flexible</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Technical Innovation</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Basic</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-green-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Cutting Edge</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Sustainability Features</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">None</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-green-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Comprehensive</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-green-50 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-green-700">Design Score: --/10</div>
-                          <div className="text-sm text-green-600">Based on flexibility and innovation</div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Quality Assessment */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center space-x-2">
-                          <Shield className="h-5 w-5" />
-                          <span>Quality Assessment</span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-3">
-                          <div>
-                            <Label className="text-sm font-medium">Quality Control Processes</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Basic</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-yellow-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Rigorous</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Certifications & Standards</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Minimal</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-yellow-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Comprehensive</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Defect Rate History</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">High</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-yellow-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Very Low</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-yellow-50 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-yellow-700">Quality Score: --/10</div>
-                          <div className="text-sm text-yellow-600">Based on processes and track record</div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Commercial Reliability */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg flex items-center space-x-2">
-                          <Award className="h-5 w-5" />
-                          <span>Commercial Reliability</span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-3">
-                          <div>
-                            <Label className="text-sm font-medium">On-Time Delivery</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Poor</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-purple-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Excellent</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Communication & Responsiveness</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Poor</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-purple-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Excellent</span>
-                            </div>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium">Financial Stability</Label>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <span className="text-sm">Weak</span>
-                              <div className="flex-1 flex space-x-1">
-                                {[1,2,3,4,5,6,7,8,9,10].map(score => (
-                                  <div key={score} className="flex-1 h-6 bg-gray-200 rounded cursor-pointer hover:bg-purple-300"></div>
-                                ))}
-                              </div>
-                              <span className="text-sm">Strong</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="bg-purple-50 p-3 rounded-lg">
-                          <div className="text-lg font-bold text-purple-700">Reliability Score: --/10</div>
-                          <div className="text-sm text-purple-600">Based on delivery and communication</div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                  {/* Action Pack */}
+                  <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-blue-800 mb-3">Action Pack - Recommended Next Steps</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h5 className="font-medium text-blue-700 mb-2">Immediate Actions:</h5>
+                        <ul className="text-sm text-blue-600 space-y-1">
+                          <li className="flex items-start"><span className="mr-2">□</span>Add alternate connector specifications</li>
+                          <li className="flex items-start"><span className="mr-2">□</span>Confirm WRB continuity mock-up</li>
+                          <li className="flex items-start"><span className="mr-2">□</span>Set design-freeze gate before shop MEP</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-blue-700 mb-2">Documentation Required:</h5>
+                        <ul className="text-sm text-blue-600 space-y-1">
+                          <li className="flex items-start"><span className="mr-2">□</span>Request tolerance table and examples</li>
+                          <li className="flex items-start"><span className="mr-2">□</span>Obtain RFI metrics from recent projects</li>
+                          <li className="flex items-start"><span className="mr-2">□</span>Review transportation damage rates</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
+                </CardContent>
+              </Card>
 
-                  {/* Overall Evaluation Summary */}
-                  <Card className="mt-6">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Overall Evaluation Summary</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div className="text-center p-4 bg-blue-50 rounded-lg">
-                          <div className="text-2xl font-bold text-blue-600">--</div>
-                          <div className="text-sm text-blue-600">Cost Score</div>
-                        </div>
-                        <div className="text-center p-4 bg-green-50 rounded-lg">
-                          <div className="text-2xl font-bold text-green-600">--</div>
-                          <div className="text-sm text-green-600">Design Score</div>
-                        </div>
-                        <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                          <div className="text-2xl font-bold text-yellow-600">--</div>
-                          <div className="text-sm text-yellow-600">Quality Score</div>
-                        </div>
-                        <div className="text-center p-4 bg-purple-50 rounded-lg">
-                          <div className="text-2xl font-bold text-purple-600">--</div>
-                          <div className="text-sm text-purple-600">Reliability Score</div>
-                        </div>
-                      </div>
-                      <div className="text-center p-6 bg-gray-100 rounded-lg">
-                        <div className="text-3xl font-bold text-raap-dark">Overall Score: --/10</div>
-                        <div className="text-gray-600 mt-2">Weighted average of all evaluation criteria</div>
-                      </div>
-                      
-                      <div className="mt-6">
-                        <Label htmlFor="evaluationNotes">Evaluation Notes</Label>
-                        <Textarea
-                          id="evaluationNotes"
-                          placeholder="Add detailed notes about this fabricator's strengths, weaknesses, and overall suitability for your project..."
-                          rows={4}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
+              {/* Overall Evaluation Summary */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>4-Criteria Overall Evaluation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                      <DollarSign className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-blue-600">--</div>
+                      <div className="text-sm text-blue-600">Cost Score (25%)</div>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                      <Building className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-green-600">82</div>
+                      <div className="text-sm text-green-600">Design Score (25%)</div>
+                    </div>
+                    <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                      <Shield className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-yellow-600">--</div>
+                      <div className="text-sm text-yellow-600">Quality Score (25%)</div>
+                    </div>
+                    <div className="text-center p-4 bg-purple-50 rounded-lg">
+                      <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-purple-600">--</div>
+                      <div className="text-sm text-purple-600">Commercial Score (25%)</div>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center p-6 bg-gray-100 rounded-lg">
+                    <div className="text-3xl font-bold text-raap-dark">Overall Score: --/100</div>
+                    <div className="text-gray-600 mt-2">Weighted average of all evaluation criteria (Cost 25%, Design 25%, Quality 25%, Commercial 25%)</div>
+                  </div>
+                  
+                  <div className="mt-6">
+                    <Label htmlFor="evaluationNotes">Comprehensive Evaluation Notes</Label>
+                    <Textarea
+                      id="evaluationNotes"
+                      placeholder="Document detailed findings, risk factors, and recommendations for this fabricator evaluation..."
+                      rows={4}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             </div>

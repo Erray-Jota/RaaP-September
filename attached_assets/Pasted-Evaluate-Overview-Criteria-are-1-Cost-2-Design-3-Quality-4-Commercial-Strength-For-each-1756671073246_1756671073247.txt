@@ -1,0 +1,182 @@
+Evaluate
+•	Overview: Criteria are 1) Cost, 2) Design, 3) Quality, 4) Commercial Strength.  For each criteria describe Objective, Evaluation approach & Scoring
+•	Cost
+o	Objective: lowest overall cost
+•	Design
+•	Quality
+o	Assembly quality
+o	Mitigate logistics risk
+o	Other construction factors?
+•	Commercials Strength (viability, funding, commercial reliability, bonding, terms, etc)
+
+Design
+Score for the fabricator’s design approach:
+•	Key elements are: Scope, key assemblies 
+•	stay vendor-agnostic (easy to swap fabricators/compete pricing),
+•	minimize RFIs/submittals and shop-drawing churn,
+•	cut schedule risk (transport, crane, install, inspection),
+•	preserve quality at matelines and penetrations,
+•	control cost by avoiding bespoke details and late redesigns.
+Why this matters: recurring failure modes in modular projects cluster around design–factory interface details (matelines, firestopping, MEP integration, tolerances, logistics) and late shop-drawing conversion—key sources of RFIs, change orders, and delay. (AIA Content, PMC, Build Offsite)
+________________________________________
+Key Assemblies (what we inspect & how we score it)
+1) Structural + Vertical Connections
+What good looks like
+•	Repeatable corner or shear-wall strategy with published load tables and tolerances.
+•	Clear stacking grid + allowable step changes (unit length/width increments).
+•	Non-proprietary connectors or documented alternates to avoid lock-in.
+Red flags → lock-in / RFIs
+•	Proprietary corner posts or connectors with no approved equivalents.
+•	Fixed module dimensions that can’t step without redesign.
+•	Ambiguous erection tolerances and shim/level details.
+Checks
+•	Show typicals for: corner/edge, diaphragm continuity, tie-downs, drift joints.
+•	Provide tolerance schema (factory + site).
+•	Evidence of AHJ pre-check/PC approvals where applicable (e.g., CA DSA). (Department of General Services)
+Score (0–5)
+•	5 = Open, documented system; alternates allowed; step-grid supported.
+•	3 = Mostly standard; minor proprietary bits; limited step flexibility.
+•	1 = Proprietary system; fixed grid; unclear tolerances.
+________________________________________
+2) Floor/Ceiling Fire & Acoustics at Penetrations
+What good looks like
+•	UL-listed / tested assemblies with pre-engineered details for penetrations (plumbing, electrical, HVAC).
+•	Clear methods to maintain 1-hr (or required) rating at matelines and service holes; acoustic flanking control.
+Red flags → RFIs/delays
+•	“To be engineered by others” for common penetrations.
+•	Site-applied firestop left to GC without details.
+•	Non-standard field fixes after install.
+Checks
+•	Provide firestop submittals and tested systems (or engineered judgements) matched to assemblies; identify responsible party (factory vs field). (stifirestop.com, AIA Content)
+Score (0–5)
+•	5 = Tested details for typical penetrations; clear responsibility; acoustic details included.
+•	3 = Rated assembly but partial penetration library; some field engineering.
+•	1 = No tested details; field to “figure out.”
+________________________________________
+3) HVAC & MEP Integration Strategy
+What good looks like
+•	Vendor-agnostic HVAC routing: e.g., ducted to corridor/attic/shaft outside modules OR standard open-web strategy with coordinated soffits.
+•	Riser/shaft conventions documented (wet stacks, electrical risers) with repeatable chase locations.
+•	Folded into BIM/LOD expectations for shop drawings.
+Red flags → cost creep/RFIs
+•	Unique joist types or duct routes that force a single fabricator.
+•	MEP clashes deferred to shop stage.
+•	No coordination rules for vertical wet walls vs corner shafts.
+Checks
+•	Typicals for HVAC duct pass-throughs, chase sizes, clearances, access panels; RFI history on recent jobs.
+Score (0–5)
+•	5 = Multiple workable routing options, documented; no bespoke components required.
+•	3 = Works if you follow their way; limited alternates.
+•	1 = Custom components; high clash/RFI history.
+________________________________________
+4) Mateline Waterproofing & Envelope Continuity
+What good looks like
+•	Standard mateline joint details for façade systems (panelized cladding, WRB, flashings) with tested sequences.
+•	Clear air/water continuity from factory to field; temporary protection during transport and set.
+Red flags → rework/leaks
+•	Site-invented flashing at set.
+•	WRB continuity not defined over matelines.
+•	No transport weather protection spec.
+Checks
+•	Detail sheets for WRB laps, flashing at heads/sills, balcony/roof edges; temporary protection plan.
+Score (0–5)
+•	5 = Proven detail library + install sequence; leak-free track record.
+•	3 = Adequate but relies on GC craft; a few known weak spots.
+•	1 = Undefined; field improvisation needed.
+________________________________________
+5) Geometry & Tolerances (Dimensional Flexibility)
+What good looks like
+•	Step-function flexibility (e.g., ±12" increments) without redesign of chassis or MEP cores.
+•	Published stacking and alignment tolerances and fit-up allowance at matelines.
+Red flags → price increases/delays
+•	Any deviation from “catalog” unit triggers full redesign.
+•	No published tolerances; “confirm in shop drawings” pattern.
+Checks
+•	Tolerance table; examples of step changes implemented without COs.
+Score (0–5)
+•	5 = Multiple step options; tolerance clarity; minimal redesign penalties.
+•	3 = Limited steps; some redesign cost.
+•	1 = No flexibility; change = change order.
+________________________________________
+6) Logistics & Lifting (Transport-Ready Design)
+What good looks like
+•	Modules sized for route permits with documented staging/crane picks; lift points integrated; deflection/rigging calcs standard.
+•	Edge protection and finish protection specs.
+Red flags → damage/delay
+•	Over-width/over-height requiring escorts without contingency.
+•	No standard rigging drawings; cribbing improvised.
+Checks
+•	Standard pick drawings, transport constraints, escort requirements; route risk notes. (PMC)
+Score (0–5)
+•	5 = Packaged logistics kit; predictable permits; low damage rate.
+•	3 = Works but sensitive to routes/weather.
+•	1 = Frequent damage or missed windows.
+________________________________________
+7) Shop-Drawing Conversion & BIM Protocols
+What good looks like
+•	Clear LOD targets, model exchanges, and approval workflow aligned to permit set; defined design-freeze gates to limit churn.
+•	Proven turnaround SLAs; integrated review checklists.
+Red flags → submittal churn/RFIs
+•	Ambiguous LOD; late design freeze; heavy back-and-forth with AE.
+•	“We’ll figure it out in the shop” culture.
+Checks
+•	Sample submittal packages; RFI/submittal cycle metrics from last 3 projects; documented design-freeze criteria. (AIA Content)
+Score (0–5)
+•	5 = Predictable, low-RFI pipeline; aligned with AE/permit set.
+•	3 = Manageable churn; some rework.
+•	1 = Chronic late changes; approval bottlenecks.
+________________________________________
+8) Regulatory Strategy (Pre-Check/Factory Approvals)
+What good looks like
+•	Use of pre-checked (PC) designs or prior approvals with AHJs where available (e.g., DSA PC in CA); mapped delta list for deviations.
+Red flags → inspection delays
+•	AHJ engagement left to late phase; PC criteria not understood.
+Checks
+•	Evidence of prior PC approvals; plan for AHJ/third-party inspection. (Department of General Services)
+Score (0–5)
+•	5 = PC-ready library; clear AHJ playbook.
+•	3 = Some precedent; gaps for this jurisdiction.
+•	1 = Starting from scratch.
+________________________________________
+Scoring & Weighting (make this central)
+•	Design = 25% of Fabricator Evaluation
+(remaining: Cost 25%, Quality 25%, Commercial Strength 25%)
+Within Key Assemblies (100 pts)
+•	Structural/Vertical connections – 15
+•	Fire & Acoustics at penetrations – 15
+•	HVAC/MEP integration – 15
+•	Mateline envelope/waterproofing – 15
+•	Geometry & tolerances – 15
+•	Logistics & lifting – 10
+•	Shop-drawing/BIM protocols – 10
+•	Regulatory strategy (PC/AHJ) – 5
+Score Bands
+•	85–100 (Green): Vendor-agnostic, tested libraries, low RFI risk.
+•	65–84 (Yellow): Some rigidities; manageable with oversight.
+•	<65 (Red): Proprietary lock-ins, undefined details, high churn risk.
+________________________________________
+Diagnostic Questions (drop straight into the app)
+•	Connections: “Provide standard corner/edge details and allowable alternates. What are vertical/horizontal tolerances?”
+•	Fire/Acoustics: “Submit tested assemblies + penetration details; who owns field firestop?”
+•	HVAC/MEP: “Show two viable duct routing schemes (outside-module vs open-web). Where are wet stacks?”
+•	Matelines: “Provide WRB/air barrier continuity details and set sequence; how are seams protected during transport?”
+•	Geometry: “List dimension step options that don’t trigger chassis redesign.”
+•	Logistics: “Share standard pick drawings, max module envelope, escort requirements, and damage rate last 3 jobs.”
+•	Shop/BIM: “State LOD by discipline, approval workflow, and design-freeze gates; RFI/submittal metrics from last 3 jobs.”
+•	Regulatory: “Prior PC approvals? Plan for AHJ interface and inspection regimen.”
+________________________________________
+Red-Flag Patterns to Watch (map to RFIs/cost/schedule)
+•	Proprietary connectors + fixed grids → price lock-in, redesign fees.
+•	No tested firestop details → AHJ pushback, installation delays.
+•	MEP defined late → shop-drawing churn, field clashes, COs.
+•	Undefined mateline WRB → leaks/rework.
+•	Oversize modules with no route plan → permit delays and damage risk.
+•	No design-freeze gates → endless submittals/RFIs.
+(These align with documented modular risk clusters around coordination, logistics, and late design resolution. (PMC, AIA Content, Build Offsite))
+________________________________________
+Output in FabAssure (what the user sees)
+•	Key Assemblies Score (0–100) + RAG flags per sub-assembly.
+•	Lock-In Risk Meter (Low/Med/High) with reasons (e.g., “Proprietary corner posts; single routing option”).
+•	RFI/Submittal Risk Forecast (Low/Med/High) with targeted mitigations.
+•	Action Pack: auto-generated checklist (“Add alternate connector spec,” “Confirm WRB continuity mock-up,” “Set design-freeze gate before shop MEP”).
+
