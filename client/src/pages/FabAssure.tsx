@@ -36,7 +36,6 @@ import {
   Award,
   Settings
 } from "lucide-react";
-import GoogleMaps from "@/components/GoogleMaps";
 import type { Project, Partner } from "@shared/schema";
 
 export default function FabAssure() {
@@ -199,34 +198,6 @@ export default function FabAssure() {
     return partnerType ? partnerType.label : type;
   };
 
-  // Generate map locations for Google Maps
-  const getMapLocations = () => {
-    const locations = [];
-    
-    // Add project location (Serenity Village)
-    locations.push({
-      lat: 39.0825,
-      lng: -121.5644,
-      title: project?.name || 'Serenity Village',
-      type: 'project' as const,
-      info: project?.address || '5224 Chestnut Road, Olivehurst CA'
-    });
-
-    // Add partner locations
-    partnersByType.forEach(partner => {
-      if (partner.latitude && partner.longitude) {
-        locations.push({
-          lat: parseFloat(partner.latitude),
-          lng: parseFloat(partner.longitude),
-          title: partner.name,
-          type: partner.partnerType as any,
-          info: `${partner.location} • ${partner.totalProjects} projects • ${partner.rating}★`
-        });
-      }
-    });
-
-    return locations;
-  };
 
   const renderPartnerCard = (partner: Partner) => {
     const Icon = getPartnerTypeIcon(partner.partnerType);
@@ -375,39 +346,6 @@ export default function FabAssure() {
                     </Select>
                   </div>
 
-                  {/* Google Maps with Project and Partner Locations */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-700 mb-3">Project & Partner Locations</h4>
-                    <GoogleMaps 
-                      locations={getMapLocations()}
-                      center={{ lat: 39.0825, lng: -121.5644 }}
-                      zoom={9}
-                      height="300px"
-                      className="w-full"
-                    />
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-                        <span>Project Location</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
-                        <span>Fabricators</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-emerald-600 rounded-full"></div>
-                        <span>General Contractors</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                        <span>Architects of Record</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 bg-violet-600 rounded-full"></div>
-                        <span>Consultants</span>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Partner Cards */}
                   <div>

@@ -21,17 +21,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API configuration endpoint
-  app.get('/api/config/maps', isAuthenticated, async (req: any, res) => {
-    try {
-      res.json({ 
-        apiKey: process.env.GOOGLE_MAPS_API_KEY || ''
-      });
-    } catch (error) {
-      console.error("Error fetching maps config:", error);
-      res.status(500).json({ message: "Failed to fetch maps configuration" });
-    }
-  });
 
   // Project routes
   app.get('/api/projects', isAuthenticated, async (req: any, res) => {

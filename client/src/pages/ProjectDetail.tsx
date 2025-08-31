@@ -1645,7 +1645,7 @@ function ProjectDetail() {
                     <div className="w-full">
                       <img 
                         src={tracyRouteImage} 
-                        alt="Google Maps route from Tracy CA to Olivehurst CA showing 1 hour 29 minute drive via Highway 99 and Highway 70"
+                        alt="Route from Tracy CA to Olivehurst CA showing 1 hour 29 minute drive via Highway 99 and Highway 70"
                         className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
                         style={{ maxHeight: '60vh' }}
                       />
