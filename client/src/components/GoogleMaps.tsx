@@ -106,27 +106,78 @@ export default function GoogleMaps({
     if (window.google && window.google.maps) {
       initializeMap();
     } else {
-      // Create a mock map visualization since this is for demo purposes
+      // Create a realistic mock map visualization
       if (mapRef.current) {
         const mapContainer = mapRef.current;
-        mapContainer.style.backgroundColor = '#e5f3ff';
+        mapContainer.style.backgroundColor = '#a7c5a0';
         mapContainer.style.position = 'relative';
         mapContainer.style.overflow = 'hidden';
+        mapContainer.style.backgroundImage = `
+          radial-gradient(circle at 20% 30%, #4f8a4f 2px, transparent 2px),
+          radial-gradient(circle at 80% 70%, #6b9d6b 1px, transparent 1px),
+          linear-gradient(45deg, #a7c5a0 0%, #9bb896 50%, #8fac8c 100%)
+        `;
         
-        // Create mock map content
+        // Create realistic map content with positioned markers
         mapContainer.innerHTML = `
-          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%); display: flex; align-items: center; justify-content: center;">
-            <div style="text-align: center; color: #0277bd;">
-              <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Serenity Village & Partner Locations</div>
-              <div style="font-size: 14px; opacity: 0.8;">Interactive map view showing project and partner locations</div>
-              <div style="margin-top: 16px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                ${locations.map(loc => `
-                  <div style="display: flex; align-items: center; gap: 4px; background: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <div style="width: 8px; height: 8px; border-radius: 50%; background: ${loc.type === 'project' ? '#DC2626' : loc.type === 'fabricator' ? '#F59E0B' : loc.type === 'gc' ? '#059669' : '#2563EB'}"></div>
-                    <span style="color: #374151;">${loc.title}</span>
-                  </div>
-                `).join('')}
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+            <!-- Road lines to make it look like a map -->
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+              <path d="M0,60 Q150,80 300,70 T600,75" stroke="#d4c5b9" stroke-width="3" fill="none" opacity="0.7"/>
+              <path d="M100,0 Q120,150 110,300" stroke="#d4c5b9" stroke-width="2" fill="none" opacity="0.5"/>
+              <path d="M0,150 Q200,140 400,155 T800,160" stroke="#d4c5b9" stroke-width="2" fill="none" opacity="0.6"/>
+              <path d="M250,0 Q260,100 255,200 T250,400" stroke="#d4c5b9" stroke-width="2" fill="none" opacity="0.4"/>
+            </svg>
+            
+            <!-- Project location marker (center) -->
+            <div style="position: absolute; top: 45%; left: 45%; transform: translate(-50%, -100%); z-index: 10;">
+              <div style="background: #DC2626; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.3); white-space: nowrap;">
+                🏠 Serenity Village
               </div>
+              <div style="width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #DC2626; margin: 0 auto;"></div>
+            </div>
+            
+            ${locations.filter(loc => loc.type !== 'project').map((loc, index) => {
+              const positions = [
+                { top: '25%', left: '25%' }, // Northwest
+                { top: '35%', left: '70%' }, // Northeast
+                { top: '65%', left: '30%' }, // Southwest
+                { top: '70%', left: '75%' }, // Southeast
+                { top: '20%', left: '60%' }, // North
+                { top: '80%', left: '55%' }  // South
+              ];
+              const pos = positions[index % positions.length];
+              const color = loc.type === 'fabricator' ? '#F59E0B' : loc.type === 'gc' ? '#059669' : loc.type === 'aor' ? '#2563EB' : '#8B5CF6';
+              
+              return `
+                <div style="position: absolute; top: ${pos.top}; left: ${pos.left}; transform: translate(-50%, -100%); z-index: 5;">
+                  <div style="background: ${color}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; box-shadow: 0 2px 6px rgba(0,0,0,0.2); white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis;">
+                    ${loc.title}
+                  </div>
+                  <div style="width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid ${color}; margin: 0 auto;"></div>
+                </div>
+              `;
+            }).join('')}
+            
+            <!-- Map controls (zoom buttons) -->
+            <div style="position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 2px;">
+              <button style="width: 30px; height: 30px; background: white; border: 1px solid #ccc; border-radius: 3px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">+</button>
+              <button style="width: 30px; height: 30px; background: white; border: 1px solid #ccc; border-radius: 3px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">−</button>
+            </div>
+            
+            <!-- Map type control -->
+            <div style="position: absolute; top: 10px; right: 10px;">
+              <select style="padding: 4px 8px; background: white; border: 1px solid #ccc; border-radius: 3px; font-size: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <option>Map</option>
+                <option>Satellite</option>
+                <option>Terrain</option>
+              </select>
+            </div>
+            
+            <!-- Scale indicator -->
+            <div style="position: absolute; bottom: 10px; left: 10px; background: white; padding: 4px 8px; border-radius: 3px; font-size: 11px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <div style="width: 60px; height: 2px; background: #333; margin-bottom: 2px;"></div>
+              <div>20 miles</div>
             </div>
           </div>
         `;
