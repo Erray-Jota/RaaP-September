@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Building, Calculator, FileText, MapPin, Users, Wrench, Palette, ArrowRight } from "lucide-react";
-import raapLogoPath from "@assets/RaaP-grene@3x_1754729327740.jpg";
+import raapLogoPath from "@assets/raap-logo-new.png";
 
 export default function Landing() {
   const handleLogin = () => {
@@ -15,7 +15,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto" style={{backgroundColor: 'white', padding: '2px'}} />
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-6 w-auto" />
               <div className="text-gray-400">|</div>
               <h1 className="text-lg font-medium text-raap-dark">Rooms as a Product Workflow</h1>
             </div>
@@ -241,7 +241,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src={raapLogoPath} alt="RaaP Logo" className="h-5 w-auto" style={{backgroundColor: 'white', padding: '2px'}} />
+              <img src={raapLogoPath} alt="RaaP Logo" className="h-5 w-auto" />
               <div className="text-sm text-gray-500">
                 © 2025 RaaP. Professional modular construction assessment platform.
               </div>
