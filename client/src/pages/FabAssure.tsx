@@ -201,6 +201,18 @@ export default function FabAssure() {
     return partnerType ? partnerType.label : type;
   };
 
+  const getPartnerTypeColor = (type: string) => {
+    const colors = {
+      fabricator: 'text-amber-500',
+      gc: 'text-emerald-600',
+      aor: 'text-blue-600',
+      consultant: 'text-violet-600',
+      transportation: 'text-yellow-600',
+      engineering: 'text-gray-600',
+    };
+    return colors[type as keyof typeof colors] || 'text-gray-600';
+  };
+
   // Generate map locations for Google Maps
   const getMapLocations = () => {
     const locations = [];
@@ -413,9 +425,10 @@ export default function FabAssure() {
                         {partnerTypes.map((type) => {
                           const Icon = type.icon;
                           const count = getPartnersByType(type.value).length;
+                          const colorClass = getPartnerTypeColor(type.value);
                           return (
                             <TabsTrigger key={type.value} value={type.value} className="flex items-center space-x-1">
-                              <Icon className="h-4 w-4" />
+                              <Icon className={`h-4 w-4 ${colorClass}`} />
                               <span className="hidden sm:inline">{type.label.split(' ')[0]}</span>
                               <Badge variant="secondary" className="ml-1 text-xs">{count}</Badge>
                             </TabsTrigger>
