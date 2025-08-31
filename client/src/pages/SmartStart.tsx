@@ -770,361 +770,110 @@ export default function SmartStart() {
 
           {/* Cost Package Tab */}
           <TabsContent value="pricing">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Calculator className="h-5 w-5" />
-                    <span>Refined Pricing Package</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Fabricator Partners */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Fabricator Partners</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="p-3 border rounded-lg space-y-2">
-                            <div className="flex items-center justify-between">
-                              <Label className="text-sm font-medium">Fabricator {i}</Label>
-                              {editMode === `fab${i}` ? (
-                                <Button size="sm" onClick={() => setEditMode(null)}>
-                                  <Save className="h-4 w-4" />
-                                </Button>
-                              ) : (
-                                <Button size="sm" variant="ghost" onClick={() => setEditMode(`fab${i}`)}>
-                                  <Edit3 className="h-4 w-4" />
-                                </Button>
-                              )}
-                            </div>
-                            {editMode === `fab${i}` ? (
-                              <div className="space-y-2">
-                                <Input
-                                  defaultValue={project[`fabricatorPartner${i}` as keyof Project] as string || ""}
-                                  onBlur={(e) => updateProject.mutate({ [`fabricatorPartner${i}`]: e.target.value })}
-                                  placeholder="Fabricator name"
-                                />
-                                <Input
-                                  type="number"
-                                  step="0.01"
-                                  defaultValue={project[`fabricatorPricing${i}` as keyof Project] as string || ""}
-                                  onBlur={(e) => updateProject.mutate({ [`fabricatorPricing${i}`]: parseFloat(e.target.value) || 0 })}
-                                  placeholder="Pricing"
-                                />
-                              </div>
-                            ) : (
-                              <div className="space-y-1">
-                                <div className="text-sm">{project[`fabricatorPartner${i}` as keyof Project] as string || "Not specified"}</div>
-                                <div className="text-sm font-medium">
-                                  ${project[`fabricatorPricing${i}` as keyof Project] ? Number(project[`fabricatorPricing${i}` as keyof Project]).toLocaleString() : "No pricing"}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                        <div className="text-center pt-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateProject.mutate({ pricingValidationComplete: !project.pricingValidationComplete })}
-                          >
-                            {project.pricingValidationComplete ? "Mark Incomplete" : "Mark Validation Complete"}
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* GC Partners */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">General Contractor Partners</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="p-3 border rounded-lg space-y-2">
-                            <div className="flex items-center justify-between">
-                              <Label className="text-sm font-medium">GC {i}</Label>
-                              {editMode === `gc${i}` ? (
-                                <Button size="sm" onClick={() => setEditMode(null)}>
-                                  <Save className="h-4 w-4" />
-                                </Button>
-                              ) : (
-                                <Button size="sm" variant="ghost" onClick={() => setEditMode(`gc${i}`)}>
-                                  <Edit3 className="h-4 w-4" />
-                                </Button>
-                              )}
-                            </div>
-                            {editMode === `gc${i}` ? (
-                              <div className="space-y-2">
-                                <Input
-                                  defaultValue={project[`gcPartner${i}` as keyof Project] as string || ""}
-                                  onBlur={(e) => updateProject.mutate({ [`gcPartner${i}`]: e.target.value })}
-                                  placeholder="GC name"
-                                />
-                                <Input
-                                  type="number"
-                                  step="0.01"
-                                  defaultValue={project[`gcPricing${i}` as keyof Project] as string || ""}
-                                  onBlur={(e) => updateProject.mutate({ [`gcPricing${i}`]: parseFloat(e.target.value) || 0 })}
-                                  placeholder="Pricing"
-                                />
-                              </div>
-                            ) : (
-                              <div className="space-y-1">
-                                <div className="text-sm">{project[`gcPartner${i}` as keyof Project] as string || "Not specified"}</div>
-                                <div className="text-sm font-medium">
-                                  ${project[`gcPricing${i}` as keyof Project] ? Number(project[`gcPricing${i}` as keyof Project]).toLocaleString() : "No pricing"}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                        <div className="text-center pt-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateProject.mutate({ refinedCostingComplete: !project.refinedCostingComplete })}
-                          >
-                            {project.refinedCostingComplete ? "Mark Incomplete" : "Mark Costing Complete"}
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <DollarSign className="h-5 w-5" />
+                  <span>Cost Analysis</span>
+                  <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
+                    Score: 4.0/5.0
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {/* Score & Summary */}
+                  <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold text-green-800">Cost Assessment</h3>
+                      <div className="text-3xl font-bold text-green-600">4/5</div>
+                    </div>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Score of 4/5:</strong> $10.8M ($411/sf; $451K/unit) with Prevailing Wage. 
+                      1.2% savings over site-built ($138K total savings). Modular is cheaper than site-built.
+                    </p>
+                    <div className="text-xs text-green-600 font-medium">
+                      Weight: 20% of overall feasibility score
+                    </div>
                   </div>
 
-                  {/* Pricing Summary */}
-                  <Card className="mt-6">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Pricing Summary & Validation</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-green-50 rounded-lg">
-                          <div className="text-2xl font-bold text-green-600">
-                            {project.pricingValidationComplete && project.refinedCostingComplete ? "✓" : "○"}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold text-raap-dark mb-3">Project Cost Summary</h4>
+                      <div className="space-y-3">
+                        <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
+                          <span>RaaP Modular Cost</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-blue-600">$10,821,565</div>
+                            <div className="text-sm text-gray-600">$411/sf • 9 Months</div>
                           </div>
-                          <div className="text-sm text-gray-600">Validation Status</div>
                         </div>
-                        <div className="text-center p-4 bg-blue-50 rounded-lg">
-                          <div className="text-2xl font-bold text-blue-600">
-                            {/* Calculate lowest fabricator pricing */}
-                            ${[project.fabricatorPricing1, project.fabricatorPricing2, project.fabricatorPricing3]
-                              .filter(p => p && Number(p) > 0)
-                              .reduce((min, p) => Math.min(min, Number(p)), Infinity) !== Infinity 
-                              ? [project.fabricatorPricing1, project.fabricatorPricing2, project.fabricatorPricing3]
-                                  .filter(p => p && Number(p) > 0)
-                                  .reduce((min, p) => Math.min(min, Number(p)), Infinity).toLocaleString()
-                              : "TBD"}
+                        <div className="flex justify-between p-3 bg-gray-50 rounded">
+                          <span>Traditional Site-Built</span>
+                          <div className="text-right">
+                            <div className="font-semibold">$10,960,303</div>
+                            <div className="text-sm text-gray-600">$422/sf • 13 Months</div>
                           </div>
-                          <div className="text-sm text-gray-600">Best Fabricator Price</div>
                         </div>
-                        <div className="text-center p-4 bg-purple-50 rounded-lg">
-                          <div className="text-2xl font-bold text-purple-600">
-                            {/* Calculate lowest GC pricing */}
-                            ${[project.gcPricing1, project.gcPricing2, project.gcPricing3]
-                              .filter(p => p && Number(p) > 0)
-                              .reduce((min, p) => Math.min(min, Number(p)), Infinity) !== Infinity
-                              ? [project.gcPricing1, project.gcPricing2, project.gcPricing3]
-                                  .filter(p => p && Number(p) > 0)
-                                  .reduce((min, p) => Math.min(min, Number(p)), Infinity).toLocaleString()
-                              : "TBD"}
+                        <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
+                          <span>Cost Savings</span>
+                          <div className="text-right">
+                            <div className="font-semibold text-green-600">$138,738</div>
+                            <div className="text-sm text-gray-600">1.2% savings</div>
                           </div>
-                          <div className="text-sm text-gray-600">Best GC Price</div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </CardContent>
-              </Card>
-            </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-raap-dark mb-3">Per Unit Analysis</h4>
+                      <div className="bg-white border rounded-lg p-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span>Number of Units</span>
+                            <span className="font-semibold">24</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Average Unit Area</span>
+                            <span className="font-semibold">792 sf</span>
+                          </div>
+                          <hr className="my-2" />
+                          <div className="flex justify-between">
+                            <span>Cost per Unit (RaaP)</span>
+                            <span className="font-semibold text-blue-600">$450,899</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Cost per Sq Ft (RaaP)</span>
+                            <span className="font-semibold text-blue-600">$411</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
-          {/* Cost Collaboration Tab */}
+          {/* Bids Tab */}
           <TabsContent value="costs">
             <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Handshake className="h-5 w-5" />
-                    <span>Cost Collaboration & Finalization</span>
+                    <span>Project Bids</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Fabricator Negotiation */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">Fabricator Negotiation</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Negotiation Status</Label>
-                          <Select
-                            value={project.fabricatorNegotiationStatus || ""}
-                            onValueChange={(value) => updateProject.mutate({ fabricatorNegotiationStatus: value })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="negotiating">Negotiating</SelectItem>
-                              <SelectItem value="finalized">Finalized</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label>Selected Fabricator</Label>
-                          <Input
-                            defaultValue={project.finalSelectedFabricator || ""}
-                            onBlur={(e) => updateProject.mutate({ finalSelectedFabricator: e.target.value })}
-                            placeholder="Enter selected fabricator name"
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label>Final Fabricator Cost</Label>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            defaultValue={project.finalFabricatorCost ? Number(project.finalFabricatorCost).toString() : ""}
-                            onBlur={(e) => updateProject.mutate({ finalFabricatorCost: e.target.value })}
-                            placeholder="Enter final cost"
-                          />
-                        </div>
-
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="text-sm font-medium mb-1">Status</div>
-                          {getStatusBadge(project.fabricatorNegotiationStatus)}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* GC Negotiation */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-lg">GC Negotiation</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                          <Label>Negotiation Status</Label>
-                          <Select
-                            value={project.gcNegotiationStatus || ""}
-                            onValueChange={(value) => updateProject.mutate({ gcNegotiationStatus: value })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="negotiating">Negotiating</SelectItem>
-                              <SelectItem value="finalized">Finalized</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label>Selected GC</Label>
-                          <Input
-                            defaultValue={project.finalSelectedGc || ""}
-                            onBlur={(e) => updateProject.mutate({ finalSelectedGc: e.target.value })}
-                            placeholder="Enter selected GC name"
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label>Final GC Cost</Label>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            defaultValue={project.finalGcCost ? Number(project.finalGcCost).toString() : ""}
-                            onBlur={(e) => updateProject.mutate({ finalGcCost: e.target.value })}
-                            placeholder="Enter final cost"
-                          />
-                        </div>
-
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                          <div className="text-sm font-medium mb-1">Status</div>
-                          {getStatusBadge(project.gcNegotiationStatus)}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Collaboration Notes */}
-                  <Card className="mt-6">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Collaboration Notes & Final Summary</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <Label htmlFor="costNotes">Cost Collaboration Notes</Label>
-                        <Textarea
-                          id="costNotes"
-                          defaultValue={project.costCollaborationNotes || ""}
-                          onBlur={(e) => updateProject.mutate({ costCollaborationNotes: e.target.value })}
-                          placeholder="Record negotiation details, agreements, and collaboration notes"
-                          rows={4}
-                        />
-                      </div>
-
-                      <div className="bg-gray-50 rounded-lg p-4">
-                        <h4 className="font-medium mb-3">Final Cost Summary</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-green-600">
-                              ${project.finalFabricatorCost ? Number(project.finalFabricatorCost).toLocaleString() : "TBD"}
-                            </div>
-                            <div className="text-sm text-gray-600">Final Fabricator Cost</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-blue-600">
-                              ${project.finalGcCost ? Number(project.finalGcCost).toLocaleString() : "TBD"}
-                            </div>
-                            <div className="text-sm text-gray-600">Final GC Cost</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-600">
-                              ${project.finalFabricatorCost && project.finalGcCost 
-                                ? (Number(project.finalFabricatorCost) + Number(project.finalGcCost)).toLocaleString() 
-                                : "TBD"}
-                            </div>
-                            <div className="text-sm text-gray-600">Total Project Cost</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-center">
-                        <Button
-                          onClick={() => updateProject.mutate({ costFinalizationComplete: !project.costFinalizationComplete })}
-                          className={project.costFinalizationComplete ? "bg-green-600 hover:bg-green-700" : "bg-raap-green hover:bg-green-700"}
-                        >
-                          {project.costFinalizationComplete ? (
-                            <>
-                              <CheckCircle className="h-4 w-4 mr-2" />
-                              Cost Finalization Complete
-                            </>
-                          ) : (
-                            <>
-                              <DollarSign className="h-4 w-4 mr-2" />
-                              Mark Cost Finalization Complete
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <p>Bids and final cost collaboration will be implemented here...</p>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
         </Tabs>
 
-        {/* Complete Application Button */}
+        {/* Complete Assessment Button */}
         {!project.smartStartComplete && (
           <Card className="mt-8">
             <CardContent className="pt-6">
@@ -1132,7 +881,7 @@ export default function SmartStart() {
                 <div>
                   <h3 className="font-semibold text-raap-dark mb-1">Complete SmartStart Application</h3>
                   <p className="text-gray-600">
-                    Once you've completed the design package, AOR collaboration, pricing validation, and cost finalization, 
+                    Once you've completed all design work, reviewed AOR requirements, finalized cost analysis, and collected bids, 
                     mark this application as complete to proceed to FabAssure.
                   </p>
                 </div>
@@ -1143,35 +892,23 @@ export default function SmartStart() {
                   data-testid="button-complete-smartstart"
                 >
                   {markAsComplete.isPending ? "Completing..." : "Complete SmartStart"}
-                  <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </div>
             </CardContent>
           </Card>
         )}
 
+        {/* Success Message */}
         {project.smartStartComplete && (
-          <Card className="mt-8 bg-green-50 border-green-200">
+          <Card className="mt-8 border-green-200 bg-green-50">
             <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                  <div>
-                    <h3 className="font-semibold text-green-800">SmartStart Complete</h3>
-                    <p className="text-green-700">
-                      Your conceptual design and refined pricing package is complete. You can now proceed to FabAssure.
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  className="bg-raap-green hover:bg-green-700"
-                  onClick={() => navigate(`/projects/${projectId}/workflow`)}
-                  data-testid="button-continue-workflow"
-                >
-                  Continue to Workflow
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+              <div className="flex items-center space-x-2 text-green-700">
+                <CheckCircle className="h-5 w-5" />
+                <span className="font-semibold">SmartStart Complete!</span>
               </div>
+              <p className="text-green-600 mt-2">
+                Your SmartStart application has been completed. You can now proceed to FabAssure for partner marketplace and factory coordination.
+              </p>
             </CardContent>
           </Card>
         )}
