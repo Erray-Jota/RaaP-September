@@ -35,93 +35,23 @@ export interface CostResults {
 }
 
 class GoogleSheetsService {
-  private sheets: any;
+  // private sheets: any;
 
   constructor() {
-    // Simple API key authentication
-    this.sheets = google.sheets({ 
-      version: 'v4', 
-      auth: process.env.GOOGLE_SHEETS_API_KEY 
-    });
+    // Temporarily disabled google sheets authentication
+    // this.sheets = google.sheets({ 
+    //   version: 'v4', 
+    //   auth: process.env.GOOGLE_SHEETS_API_KEY 
+    // });
   }
 
   async updateSimulatorParams(params: SimulatorParams): Promise<CostResults> {
-    try {
-      // First, update the input parameters in the spreadsheet
-      await this.updateInputCells(params);
-      
-      // Then, read the calculated results
-      const results = await this.readCalculatedResults();
-      
-      return results;
-    } catch (error) {
-      console.error('Error updating simulator params:', error);
-      // Return current static values as fallback
-      return this.getStaticResults(params);
-    }
+    // Temporarily return static results instead of using Google Sheets
+    console.log('Using static results for cost calculation');
+    return this.getStaticResults(params);
   }
 
-  private async updateInputCells(params: SimulatorParams) {
-    const values = [
-      [params.oneBedUnits],     // Assuming input cells for unit mix
-      [params.twoBedUnits],
-      [params.threeBedUnits],
-      [params.floors],
-      [params.buildingType],
-      [params.parkingType],
-      [params.location],
-      [params.prevailingWage],
-      [params.siteConditions],
-    ];
-
-    // Update input cells (you'll need to specify the exact cell ranges based on your sheet structure)
-    const requests = [
-      {
-        range: 'Inputs!B2:B10', // Adjust range based on your sheet structure
-        values: values,
-      },
-    ];
-
-    await this.sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: SPREADSHEET_ID,
-      requestBody: {
-        valueInputOption: 'USER_ENTERED',
-        data: requests,
-      },
-    });
-  }
-
-  private async readCalculatedResults(): Promise<CostResults> {
-    // Read calculated values from the spreadsheet
-    const response = await this.sheets.spreadsheets.values.batchGet({
-      spreadsheetId: SPREADSHEET_ID,
-      ranges: [
-        'Results!B2:B15', // Adjust ranges based on your sheet structure
-        'Breakdown!B2:B8',
-      ],
-    });
-
-    const [resultsValues, breakdownValues] = response.data.valueRanges;
-
-    return {
-      totalCost: parseFloat(resultsValues.values[0][0]) || 10800000,
-      costPerSF: parseFloat(resultsValues.values[1][0]) || 411,
-      costPerUnit: parseFloat(resultsValues.values[2][0]) || 451000,
-      modularTotal: parseFloat(resultsValues.values[3][0]) || 10800000,
-      siteBuiltTotal: parseFloat(resultsValues.values[4][0]) || 10938000,
-      savings: parseFloat(resultsValues.values[5][0]) || 138000,
-      savingsPercent: parseFloat(resultsValues.values[6][0]) || 1.2,
-      breakdown: {
-        sitePreparation: parseFloat(breakdownValues.values[0][0]) || 485000,
-        foundation: parseFloat(breakdownValues.values[1][0]) || 780000,
-        modularUnits: parseFloat(breakdownValues.values[2][0]) || 6200000,
-        siteAssembly: parseFloat(breakdownValues.values[3][0]) || 920000,
-        mepConnections: parseFloat(breakdownValues.values[4][0]) || 1100000,
-        finishWork: parseFloat(breakdownValues.values[5][0]) || 830000,
-        softCosts: parseFloat(breakdownValues.values[6][0]) || 485000,
-      },
-    };
-  }
+  // Temporarily removed Google Sheets methods - using static calculation only
 
   private getStaticResults(params: SimulatorParams): CostResults {
     // Calculate basic adjustments based on parameters for fallback
