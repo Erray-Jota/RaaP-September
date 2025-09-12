@@ -1,6 +1,7 @@
-import { google } from 'googleapis';
+// Temporarily disabled google sheets import to fix module resolution issue
+// import { google } from 'googleapis';
 
-const SPREADSHEET_ID = '12fsKnG2rKFGpE6DTsLM0uaqFspzVWwCJjrIvbwrDXnk';
+// const SPREADSHEET_ID = '12fsKnG2rKFGpE6DTsLM0uaqFspzVWwCJjrIvbwrDXnk';
 
 export interface SimulatorParams {
   oneBedUnits: number;
