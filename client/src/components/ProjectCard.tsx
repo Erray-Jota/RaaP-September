@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { MapPin, ChevronRight, Trash2 } from "lucide-react";
+import { MapPin, ChevronRight, Trash2, Building, FileText, Truck, Palette } from "lucide-react";
 import type { Project } from "@shared/schema";
-import { calculateProjectScores } from "@/lib/scoring";
+import { calculateProjectScores, isSampleProject } from "@/lib/scoring";
 import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 import workforceBuildingImage from "@assets/Building 2_1754894840186.jpg";
 import universityBuildingImage from "@assets/Building 4_1754895114379.jpg";
@@ -48,6 +48,63 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     if (numScore >= 4) return "text-raap-green";
     if (numScore >= 3) return "text-raap-mustard";
     return "text-red-600";
+  };
+
+  // Application steps with icons (matching WorkflowOverview)
+  const applicationSteps = [
+    {
+      id: "modular-feasibility",
+      name: "ModularFeasibility",
+      icon: Building,
+      completedField: "modularFeasibilityComplete" as keyof Project,
+      color: "blue",
+    },
+    {
+      id: "smart-start", 
+      name: "SmartStart",
+      icon: FileText,
+      completedField: "smartStartComplete" as keyof Project,
+      color: "green",
+    },
+    {
+      id: "fab-assure",
+      name: "FabAssure", 
+      icon: Truck,
+      completedField: "fabAssureComplete" as keyof Project,
+      color: "orange",
+    },
+    {
+      id: "easy-design",
+      name: "EasyDesign",
+      icon: Palette,
+      completedField: "easyDesignComplete" as keyof Project,
+      color: "purple",
+    },
+  ];
+
+  // Get application status (simplified tri-state: completed, in_progress, not_started)
+  const getApplicationStatus = (step: typeof applicationSteps[0]) => {
+    // For sample projects like Serenity Village, override FabAssure and EasyDesign status
+    if (isSampleProject(project.name)) {
+      if (step.id === "fab-assure" || step.id === "easy-design") {
+        return "in_progress";
+      }
+    }
+    
+    // Check if completed
+    if (project[step.completedField]) return "completed";
+    
+    // Everything else is not started (red)
+    return "not_started";
+  };
+
+  // Get icon color based on status (tri-state as requested)
+  const getIconColor = (status: string) => {
+    switch (status) {
+      case "completed": return "text-green-600";    // Green for complete
+      case "in_progress": return "text-yellow-600";  // Yellow for in progress
+      default: return "text-red-600";                // Red for not started
+    }
   };
 
   const getProjectTypeImage = (projectType: string) => {
@@ -116,13 +173,33 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
               <span className="truncate">{project.address}</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-2">
               <Badge variant="secondary" className="text-xs">
                 {project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)}
               </Badge>
               <span className="text-xs text-gray-500">
                 {totalUnits} Units • {project.targetFloors} Stories
               </span>
+            </div>
+            
+            {/* Application Status Icons */}
+            <div className="flex items-center space-x-3" data-testid={`app-status-${project.id}`}>
+              {applicationSteps.map((step) => {
+                const status = getApplicationStatus(step);
+                const IconComponent = step.icon;
+                return (
+                  <div 
+                    key={step.id} 
+                    className="flex items-center" 
+                    title={`${step.name}: ${status.replace('_', ' ')}`}
+                  >
+                    <IconComponent 
+                      className={`h-4 w-4 ${getIconColor(status)}`} 
+                      data-testid={`icon-${step.id}-${project.id}`}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

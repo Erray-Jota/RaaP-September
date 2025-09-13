@@ -136,23 +136,29 @@ export default function WorkflowOverview() {
   const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
 
-  // Calculate overall progress
-  const completedSteps = applicationSteps.filter(step => project[step.completedField]).length;
-  const progressPercentage = (completedSteps / applicationSteps.length) * 100;
-
   const getStepStatus = (step: ApplicationStep) => {
-    if (project[step.completedField]) return "completed";
-    
-    // For sample projects like Serenity Village, show FabAssure and EasyDesign as "in_progress"
+    // For sample projects like Serenity Village, override FabAssure and EasyDesign status
     if (isSampleProject(project.name)) {
       if (step.id === "fab-assure" || step.id === "easy-design") {
         return "in_progress";
       }
     }
     
+    if (project[step.completedField]) return "completed";
     if (step.isAvailable(project)) return "available";
     return "locked";
   };
+
+  // Calculate overall progress with overridden status for sample projects
+  const getActualCompletedSteps = () => {
+    return applicationSteps.filter(step => {
+      const status = getStepStatus(step);
+      return status === "completed";
+    }).length;
+  };
+  
+  const completedSteps = getActualCompletedSteps();
+  const progressPercentage = (completedSteps / applicationSteps.length) * 100;
 
   const getStepColorClasses = (step: ApplicationStep, status: string) => {
     if (status === "completed") {
