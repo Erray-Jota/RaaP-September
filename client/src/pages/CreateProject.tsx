@@ -38,12 +38,12 @@ export default function CreateProject() {
       name: "",
       address: "",
       projectType: "",
-      targetFloors: 5,
-      studioUnits: 22,
-      oneBedUnits: 67,
-      twoBedUnits: 22,
+      targetFloors: 3,
+      studioUnits: 0,
+      oneBedUnits: 0,
+      twoBedUnits: 0,
       threeBedUnits: 0,
-      targetParkingSpaces: 100,
+      targetParkingSpaces: 0,
     },
   });
 
@@ -81,17 +81,6 @@ export default function CreateProject() {
   });
 
   const onSubmit = (data: CreateProjectForm) => {
-    const totalUnits = (data.studioUnits || 0) + (data.oneBedUnits || 0) + (data.twoBedUnits || 0) + (data.threeBedUnits || 0);
-    
-    if (totalUnits === 0) {
-      toast({
-        title: "Validation Error",
-        description: "Please specify at least one unit in your unit mix.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     createProject.mutate(data);
   };
 
@@ -186,7 +175,7 @@ export default function CreateProject() {
                                 />
                                 <Label
                                   htmlFor={type.value}
-                                  className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-raap-green transition-colors peer-checked:border-raap-green peer-checked:bg-green-50"
+                                  className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-raap-green transition-colors peer-checked:border-raap-green peer-checked:bg-raap-green peer-checked:text-white"
                                 >
                                   <span className="text-sm font-medium">{type.label}</span>
                                 </Label>
