@@ -1,5 +1,6 @@
 import { useLocation } from "wouter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { MapPin, ChevronRight, Trash2 } from "lucide-react";
 import type { Project } from "@shared/schema";
+import { calculateProjectScores } from "@/lib/scoring";
 import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 import workforceBuildingImage from "@assets/Building 2_1754894840186.jpg";
 import universityBuildingImage from "@assets/Building 4_1754895114379.jpg";
@@ -34,6 +36,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
+
+  // Generate deterministic score that matches ModularFeasibility exactly
+  const displayScore = useMemo(() => {
+    const scores = calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined);
+    return scores.overall;
+  }, [project.id, project.name, project.overallScore]);
 
   const getScoreColor = (score: string) => {
     const numScore = parseFloat(score);
@@ -121,8 +129,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         
         <div className="flex items-center justify-between sm:space-x-4">
           <div className="text-center">
-            <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(project.overallScore || "0")}`}>
-              {project.overallScore || "0.0"}
+            <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
+              {displayScore}
             </div>
             <div className="text-xs text-gray-500">Score</div>
           </div>
