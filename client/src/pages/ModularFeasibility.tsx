@@ -472,7 +472,7 @@ export default function ModularFeasibility() {
                       <h4 className="font-semibold text-raap-dark mb-3">Site Information</h4>
                       <div className="bg-white border rounded-lg p-4">
                         <div className="space-y-2">
-                          <p><strong>Address:</strong> 1234 Olivehurst Avenue</p>
+                          <p><strong>Address:</strong> {isSampleProject ? '1234 Olivehurst Avenue' : project.address}</p>
                           <p><strong>APN:</strong> 014-240-005</p>
                           <p><strong>Lot Size:</strong> 1.0 acre (43,560 sf)</p>
                           <p><strong>Current Use:</strong> Vacant residential land</p>
@@ -526,8 +526,8 @@ export default function ModularFeasibility() {
                           </tr>
                           <tr>
                             <td className="px-4 py-3">Parking</td>
-                            <td className="px-4 py-3">2.0 spaces/unit</td>
-                            <td className="px-4 py-3">1.5 spaces/unit</td>
+                            <td className="px-4 py-3">{isSampleProject ? '2.0 spaces/unit' : '1.0 spaces/unit'}</td>
+                            <td className="px-4 py-3">{isSampleProject ? '1.5 spaces/unit' : '0.97 spaces/unit'}</td>
                             <td className="px-4 py-3"><span className="text-orange-600 font-semibold">⚠ Variance Required</span></td>
                           </tr>
                         </tbody>

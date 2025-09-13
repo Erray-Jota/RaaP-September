@@ -72,8 +72,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.claims.sub;
       const validatedData = insertProjectSchema.parse(req.body);
       
-      // Calculate feasibility scores
-      const scores = calculateFeasibilityScores(validatedData);
+      // Calculate feasibility scores for new user projects
+      const scores = calculateFeasibilityScores(validatedData, true);
       
       const project = await storage.createProject({
         ...validatedData,
@@ -110,8 +110,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = insertProjectSchema.partial().parse(req.body);
       
-      // Recalculate scores if project details changed
-      const scores = calculateFeasibilityScores({ ...project, ...validatedData });
+      // Recalculate scores if project details changed (preserve existing logic)
+      const scores = calculateFeasibilityScores({ ...project, ...validatedData }, false);
       
       const updatedProject = await storage.updateProject(id, {
         ...validatedData,
@@ -461,7 +461,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 }
 
 // Helper function to calculate feasibility scores based on project data
-function calculateFeasibilityScores(projectData: any) {
+function calculateFeasibilityScores(projectData: any, isNewProject: boolean = true) {
   // Implement scoring algorithm based on RaaP's methodology
   const totalUnits = (projectData.studioUnits || 0) + (projectData.oneBedUnits || 0) + 
                     (projectData.twoBedUnits || 0) + (projectData.threeBedUnits || 0);
@@ -484,12 +484,26 @@ function calculateFeasibilityScores(projectData: any) {
     buildTimeScore * 0.10
   );
 
-  // Calculate cost estimates - use new specifications for new projects
-  const modularTotalCost = 35700000; // $35.7M for all new projects
-  const costPerUnit = 346455; // $346,455 per unit for new projects
-  const costPerSf = 248; // $248 per sq ft for new projects
-  const costSavingsPercent = 22.4; // 22.4% savings (math: (46M - 35.7M) / 46M)
-  const siteBuiltTotalCost = 46000000; // $46M site-built cost
+  // Calculate cost estimates - use NEW specifications only for new projects
+  let modularTotalCost, costPerUnit, costPerSf, costSavingsPercent, siteBuiltTotalCost;
+  
+  if (isNewProject) {
+    // NEW project specifications
+    modularTotalCost = 35700000; // $35.7M for new projects
+    costPerUnit = 346455; // $346,455 per unit for new projects
+    costPerSf = 248; // $248 per sq ft for new projects
+    costSavingsPercent = 22.4; // 22.4% savings (math: (46M - 35.7M) / 46M)
+    siteBuiltTotalCost = 46000000; // $46M site-built cost
+  } else {
+    // Original logic for sample projects
+    costPerUnit = projectData.projectType === 'affordable' ? 321621 : 
+                  projectData.projectType === 'senior' ? 365000 :
+                  projectData.projectType === 'workforce' ? 340000 : 350000;
+    modularTotalCost = totalUnits * costPerUnit;
+    costSavingsPercent = 30.0; // 30% savings consistently
+    siteBuiltTotalCost = modularTotalCost / (1 - costSavingsPercent / 100);
+    costPerSf = Math.round(modularTotalCost / (totalUnits * 800)); // Approximate sq ft calculation
+  }
 
   return {
     zoningScore: zoningScore.toString(),
@@ -509,11 +523,11 @@ function calculateFeasibilityScores(projectData: any) {
     modularCostPerUnit: costPerUnit.toString(), 
     modularCostPerSf: costPerSf.toString(),
     siteBuiltTotalCost: siteBuiltTotalCost.toString(),
-    siteBuiltCostPerUnit: (siteBuiltTotalCost / 103).toString(), // Use 103 units for new projects
+    siteBuiltCostPerUnit: (siteBuiltTotalCost / (isNewProject ? 103 : totalUnits)).toString(),
     costSavingsPercent: costSavingsPercent.toFixed(1),
-    modularTimelineMonths: 30.5, // Fixed modular timeline
-    siteBuiltTimelineMonths: 41.0, // Fixed site-built timeline  
-    timeSavingsMonths: 10.5, // Fixed time savings (25% of 41 months)
+    modularTimelineMonths: "30.5", // Fixed modular timeline
+    siteBuiltTimelineMonths: "41.0", // Fixed site-built timeline  
+    timeSavingsMonths: "10.5", // Fixed time savings (25% of 41 months)
     factoryLocation: "Tracy, CA",
     zoningDistrict: "RM",
     densityBonusEligible: projectData.projectType === 'affordable',
@@ -630,7 +644,7 @@ async function createSampleProjects(userId: string) {
 
   const createdProjects = [];
   for (const projectData of sampleProjects) {
-    const scores = calculateFeasibilityScores(projectData);
+    const scores = calculateFeasibilityScores(projectData, false); // Sample projects use original logic
     const project = await storage.createProject({
       ...projectData,
       ...scores,
