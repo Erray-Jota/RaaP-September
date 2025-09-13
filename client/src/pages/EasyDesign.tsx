@@ -124,31 +124,9 @@ function EasyDesign() {
           </Link>
         </div>
         
-        <div className="flex justify-between items-start mb-2">
-          <h1 className="text-3xl font-bold text-gray-900">
-            EasyDesign - {project.name}
-          </h1>
-          
-          {/* Complete Workflow Button */}
-          <Button
-            onClick={() => markAsComplete.mutate()}
-            disabled={markAsComplete.isPending}
-            className="bg-green-600 hover:bg-green-700 text-white"
-            data-testid="button-complete-workflow"
-          >
-            {markAsComplete.isPending ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Completing...
-              </>
-            ) : (
-              <>
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Complete Workflow
-              </>
-            )}
-          </Button>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          EasyDesign - {project.name}
+        </h1>
         <p className="text-lg text-gray-600 mb-4">
           Detailed design prototypes and comprehensive workflow coordination
         </p>
@@ -256,6 +234,40 @@ function EasyDesign() {
           />
         </TabsContent>
       </Tabs>
+
+      {/* Complete Workflow Button */}
+      {!project.easyDesignComplete && (
+        <Card className="mt-8">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Complete EasyDesign Workflow</h3>
+                <p className="text-gray-600">
+                  Finalize all design components and mark this workflow as complete to proceed with your project.
+                </p>
+              </div>
+              <Button
+                onClick={() => markAsComplete.mutate()}
+                disabled={markAsComplete.isPending}
+                className="bg-green-600 hover:bg-green-700 text-white"
+                data-testid="button-complete-workflow"
+              >
+                {markAsComplete.isPending ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Completing...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Complete Workflow
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
