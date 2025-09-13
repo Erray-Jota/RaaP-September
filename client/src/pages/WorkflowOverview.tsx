@@ -20,6 +20,7 @@ import {
   Clock
 } from "lucide-react";
 import type { Project } from "@shared/schema";
+import { isSampleProject } from "@/lib/scoring";
 
 interface ApplicationStep {
   id: string;
@@ -141,6 +142,14 @@ export default function WorkflowOverview() {
 
   const getStepStatus = (step: ApplicationStep) => {
     if (project[step.completedField]) return "completed";
+    
+    // For sample projects like Serenity Village, show FabAssure and EasyDesign as "in_progress"
+    if (isSampleProject(project.name)) {
+      if (step.id === "fab-assure" || step.id === "easy-design") {
+        return "in_progress";
+      }
+    }
+    
     if (step.isAvailable(project)) return "available";
     return "locked";
   };
@@ -152,6 +161,14 @@ export default function WorkflowOverview() {
         title: "text-green-800",
         icon: "text-green-600",
         button: "bg-green-600 hover:bg-green-700 text-white",
+      };
+    }
+    if (status === "in_progress") {
+      return {
+        card: `border-yellow-200 bg-yellow-50 hover:bg-yellow-100`,
+        title: `text-yellow-800`,
+        icon: `text-yellow-600`,
+        button: `bg-yellow-600 hover:bg-yellow-700 text-white`,
       };
     }
     if (status === "available") {
@@ -235,6 +252,8 @@ export default function WorkflowOverview() {
                     <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center ${
                       isCompleted 
                         ? "bg-green-500 border-green-500 text-white" 
+                        : status === "in_progress"
+                        ? "bg-yellow-500 border-yellow-500 text-white"
                         : status === "available"
                         ? `bg-${step.color}-500 border-${step.color}-500 text-white`
                         : "bg-gray-200 border-gray-300 text-gray-400"
@@ -296,6 +315,11 @@ export default function WorkflowOverview() {
                         Completed
                       </Badge>
                     )}
+                    {status === "in_progress" && (
+                      <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                        In Progress
+                      </Badge>
+                    )}
                     {status === "available" && (
                       <Badge variant="outline" className={`text-${step.color}-600 border-${step.color}-600`}>
                         Ready to Start
@@ -319,7 +343,7 @@ export default function WorkflowOverview() {
                     }}
                     data-testid={`button-${step.id}`}
                   >
-                    {status === "completed" ? "Review" : status === "available" ? "Start" : "Locked"}
+                    {status === "completed" ? "Review" : status === "in_progress" ? "Continue" : status === "available" ? "Start" : "Locked"}
                     {status !== "locked" && <ArrowRight className="h-4 w-4 ml-2" />}
                   </Button>
                 </CardContent>

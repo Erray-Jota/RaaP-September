@@ -38,10 +38,13 @@ import {
 } from "lucide-react";
 import type { Project } from "@shared/schema";
 import { useSimulator } from "@/hooks/useSimulator";
+import { isSampleProject } from "@/lib/scoring";
 
 // Import visual assets for Design tab
-import floorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
-import buildingRenderingImage from "@assets/Vallejo Building 2_1757773134770.png";
+import vallejoFloorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
+import vallejoBuildingRenderingImage from "@assets/Vallejo Building 2_1757773134770.png";
+import serenityFloorPlanImage from "@assets/Mutual Floor Plan_1757790327649.png";
+import serenityBuildingRenderingImage from "@assets/Mutual Building 3_1757790327650.png";
 import sitePlanImage from "@assets/Vallejo Site 2_1757773140827.png";
 import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_5298881c.png";
 import oneBedImage from "@assets/1 Bed_1754836945408.png";
@@ -66,6 +69,15 @@ export default function SmartStart() {
     queryKey: ["/api/projects", projectId],
     enabled: !!projectId,
   });
+
+  // Get conditional images based on project type
+  const floorPlanImage = project && isSampleProject(project.name) 
+    ? serenityFloorPlanImage 
+    : vallejoFloorPlanImage;
+  
+  const buildingRenderingImage = project && isSampleProject(project.name) 
+    ? serenityBuildingRenderingImage 
+    : vallejoBuildingRenderingImage;
 
   // Handle authentication errors
   if (error && isUnauthorizedError(error)) {
