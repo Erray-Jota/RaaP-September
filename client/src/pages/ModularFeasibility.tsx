@@ -560,7 +560,7 @@ export default function ModularFeasibility() {
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
                       <strong>Score of {scores.massing}/5:</strong> No additional constraints caused by modular structure. 
-                      We can achieve the goal of 103 units and unit mix as the traditional original design.
+                      {isSampleProject ? 'Modular construction provides optimal efficiency for this unit configuration and site layout.' : 'We can achieve the goal of 103 units and unit mix (14 studios, 67 1BR, 22 2BR) as the traditional original design.'}
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 15% of overall feasibility score
@@ -583,23 +583,45 @@ export default function ModularFeasibility() {
                         {/* Unit Mix Summary matching the image */}
                         <div className="bg-white border rounded-lg p-6">
                           <h4 className="font-semibold text-gray-800 mb-6">Unit Mix Summary</h4>
-                          <div className="grid grid-cols-3 gap-6">
-                            <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-purple-600 mb-2">{isSampleProject ? '0' : '14'}</div>
-                              <div className="font-semibold text-gray-700">Studio Units</div>
-                              <div className="text-sm text-gray-500">{isSampleProject ? '— SF Average' : '450 SF Average'}</div>
+                          {isSampleProject ? (
+                            // Sample projects: show original 1BR/2BR/3BR mix
+                            <div className="grid grid-cols-3 gap-6">
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-green-600 mb-2">6</div>
+                                <div className="font-semibold text-gray-700">1-Bedroom Units</div>
+                                <div className="text-sm text-gray-500">563 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-blue-600 mb-2">12</div>
+                                <div className="font-semibold text-gray-700">2-Bedroom Units</div>
+                                <div className="text-sm text-gray-500">813 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-orange-600 mb-2">6</div>
+                                <div className="font-semibold text-gray-700">3-Bedroom Units</div>
+                                <div className="text-sm text-gray-500">980 SF Average</div>
+                              </div>
                             </div>
-                            <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-green-600 mb-2">{isSampleProject ? '6' : '67'}</div>
-                              <div className="font-semibold text-gray-700">1-Bedroom Units</div>
-                              <div className="text-sm text-gray-500">{isSampleProject ? '563 SF Average' : '600 SF Average'}</div>
+                          ) : (
+                            // NEW projects: show Studio/1BR/2BR mix
+                            <div className="grid grid-cols-3 gap-6">
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-purple-600 mb-2">14</div>
+                                <div className="font-semibold text-gray-700">Studio Units</div>
+                                <div className="text-sm text-gray-500">450 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-green-600 mb-2">67</div>
+                                <div className="font-semibold text-gray-700">1-Bedroom Units</div>
+                                <div className="text-sm text-gray-500">600 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-blue-600 mb-2">22</div>
+                                <div className="font-semibold text-gray-700">2-Bedroom Units</div>
+                                <div className="text-sm text-gray-500">850 SF Average</div>
+                              </div>
                             </div>
-                            <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-blue-600 mb-2">{isSampleProject ? '12' : '22'}</div>
-                              <div className="font-semibold text-gray-700">2-Bedroom Units</div>
-                              <div className="text-sm text-gray-500">{isSampleProject ? '813 SF Average' : '850 SF Average'}</div>
-                            </div>
-                          </div>
+                          )}
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1393,13 +1415,13 @@ export default function ModularFeasibility() {
                           {/* Total Row */}
                           <tr className="bg-gray-700 text-white font-bold text-base">
                             <td className="px-3 py-3">PROJECT TOTAL</td>
-                            <td className="px-3 py-3 text-right">$10,060,303</td>
-                            <td className="px-3 py-3 text-right">$387</td>
-                            <td className="px-3 py-3 text-right">$4,777,945</td>
-                            <td className="px-3 py-3 text-right">$6,462,156</td>
-                            <td className="px-3 py-3 text-right">$11,240,101</td>
-                            <td className="px-3 py-3 text-right">$432</td>
-                            <td className="px-3 py-3 text-right text-red-400">-$179,798</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$10,060,303' : '$35,700,000'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$387' : '$248'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$4,777,945' : '$17,850,000'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$6,462,156' : '$17,850,000'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$11,240,101' : '$46,000,000'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$432' : '$319'}</td>
+                            <td className="px-3 py-3 text-right text-red-400">{isSampleProject ? '-$179,798' : '-$10,300,000'}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -1413,22 +1435,22 @@ export default function ModularFeasibility() {
                         <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
-                            <div className="font-semibold text-blue-600">$10,821,565</div>
-                            <div className="text-sm text-gray-600">$411/sf • 9 Months</div>
+                            <div className="font-semibold text-blue-600">{isSampleProject ? '$10,821,565' : '$35,700,000'}</div>
+                            <div className="text-sm text-gray-600">{isSampleProject ? '$411/sf • 9 Months' : '$248/sf • 30.5 Months'}</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
-                            <div className="font-semibold">$10,960,303</div>
-                            <div className="text-sm text-gray-600">$422/sf • 13 Months</div>
+                            <div className="font-semibold">{isSampleProject ? '$10,960,303' : '$46,000,000'}</div>
+                            <div className="text-sm text-gray-600">{isSampleProject ? '$422/sf • 13 Months' : '$319/sf • 41 Months'}</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
                           <span>Cost Savings</span>
                           <div className="text-right">
-                            <div className="font-semibold text-green-600">$138,738</div>
-                            <div className="text-sm text-gray-600">1.2% savings</div>
+                            <div className="font-semibold text-green-600">{isSampleProject ? '$138,738' : '$10,300,000'}</div>
+                            <div className="text-sm text-gray-600">{isSampleProject ? '1.2% savings' : '30% savings'}</div>
                           </div>
                         </div>
                       </div>
@@ -1440,7 +1462,7 @@ export default function ModularFeasibility() {
                         <div className="space-y-2">
                           <div className="flex justify-between">
                             <span>Number of Units</span>
-                            <span className="font-semibold">24</span>
+                            <span className="font-semibold">{isSampleProject ? '24' : '103'}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Average Unit Area</span>
@@ -1449,11 +1471,11 @@ export default function ModularFeasibility() {
                           <hr className="my-2" />
                           <div className="flex justify-between">
                             <span>Cost per Unit (RaaP)</span>
-                            <span className="font-semibold text-blue-600">$450,899</span>
+                            <span className="font-semibold text-blue-600">{isSampleProject ? '$450,899' : '$346,455'}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Cost per Sq Ft (RaaP)</span>
-                            <span className="font-semibold text-blue-600">$411</span>
+                            <span className="font-semibold text-blue-600">{isSampleProject ? '$411' : '$248'}</span>
                           </div>
                         </div>
                       </div>
