@@ -53,11 +53,23 @@ export default function ProjectSiteMap({
           return;
         }
 
-        // If address is provided, geocode it and zoom to location
         // For CreateProject: only geocode when trigger > 0 (manual trigger system)
         // For other components: geocode automatically when address exists (trigger undefined)
         if (trigger !== undefined && trigger === 0) {
-          // This is from CreateProject with manual trigger system - don't geocode until triggered
+          // This is from CreateProject with manual trigger system - show US map until triggered
+          const defaultCenter = { lat: 39.8283, lng: -98.5795 };
+          
+          const map = new (window as any).google.maps.Map(mapRef.current, {
+            center: defaultCenter,
+            zoom: 4,
+            mapTypeId: (window as any).google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            streetViewControl: true,
+            fullscreenControl: true,
+            zoomControl: true
+          });
+
+          setIsLoaded(true);
           return;
         }
         
@@ -142,11 +154,16 @@ export default function ProjectSiteMap({
       }
     };
 
-    // Reset error and loading state when trigger changes
+    // Reset error state
     setLoadError(null);
-    setIsLoaded(false);
+    
+    // Only set loading state if we will actually geocode (not for manual trigger with trigger=0)
+    if (!(trigger !== undefined && trigger === 0)) {
+      setIsLoaded(false);
+    }
+    
     initializeMap();
-  }, [trigger, address, projectName]);
+  }, [trigger, address]);
 
   if (loadError) {
     return (
@@ -162,7 +179,7 @@ export default function ProjectSiteMap({
   }
 
   return (
-    <div className={`border rounded-lg overflow-hidden ${className}`} style={{ height }}>
+    <div className={`relative border rounded-lg overflow-hidden ${className}`} style={{ height }}>
       <div 
         ref={mapRef} 
         style={{ width: '100%', height: '100%' }}
