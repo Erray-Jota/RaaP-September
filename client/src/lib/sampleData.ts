@@ -20,13 +20,13 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     massingScore: "5.0",
     massingJustification: "Score of 5/5 since we can achieve the goal of 24 units and unit mix as the traditional original design.",
     costScore: "4.0",
-    costJustification: "$10.8M ($411/sf; $451K/unit). Prevailing Wage: 1.2% savings over site-built. Score of 4/5 since modular is cheaper than site-built.",
+    costJustification: "$10.8M ($411/sf; $451K/unit). Prevailing Wage: 6% savings over site-built. Score of 4/5 since modular is cheaper than site-built.",
     sustainabilityScore: "5.0",
     sustainabilityJustification: "Score of 5/5 due to strong alignment with PHIUS and Net Zero Energy goals through modular design. Will require enhancements to foundation, walls, roof, windows, HVAC & lighting in addition to the investment in batteries & solar power.",
     logisticsScore: "5.0",
     logisticsJustification: "Score of 5/5 due to easy access from the highway and available open space for the staging site.",
     buildTimeScore: "4.0",
-    buildTimeJustification: "9 months design + construction using modular approach vs 13 months for site built. Score of 4/5 due to savings of 4 months.",
+    buildTimeJustification: "9 months design + construction using modular approach vs 13 months for site built. Score of 4/5 due to savings of 8 months.",
     overallScore: "4.4",
     
     // Cost analysis - from the document
@@ -36,12 +36,12 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     siteBuiltTotalCost: "10960303",
     siteBuiltCostPerSf: "422",
     siteBuiltCostPerUnit: "456679",
-    costSavingsPercent: "1",
+    costSavingsPercent: "6",
     
     // Timeline analysis
     modularTimelineMonths: "9",
     siteBuiltTimelineMonths: "13",
-    timeSavingsMonths: "4",
+    timeSavingsMonths: "8",
     
     // Zoning details
     zoningDistrict: "RM",
