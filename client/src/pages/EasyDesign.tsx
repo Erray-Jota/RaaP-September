@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRoute } from "wouter";
+import { useRoute, Link, useLocation } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,7 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { Calendar } from "@/components/ui/calendar";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { FileText, Building, Users, Wrench, Clock, CheckCircle, AlertCircle, Upload, Download } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { FileText, Building, Users, Wrench, Clock, CheckCircle, AlertCircle, Upload, Download, ArrowLeft } from "lucide-react";
 import type {
   Project,
   DesignDocument,
@@ -22,6 +23,8 @@ function EasyDesign() {
   const [match, params] = useRoute("/projects/:id/easy-design");
   const [activeTab, setActiveTab] = useState("prototype");
   const queryClient = useQueryClient();
+  const [, navigate] = useLocation();
+  const { toast } = useToast();
 
   // Fetch project data
   const { data: project, isLoading: projectLoading } = useQuery<Project>({
@@ -55,6 +58,31 @@ function EasyDesign() {
     enabled: !!params?.id,
   });
 
+  // Complete workflow mutation
+  const markAsComplete = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("PATCH", `/api/projects/${params?.id}`, {
+        easyDesignComplete: true
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/projects", params?.id] });
+      toast({
+        title: "EasyDesign Complete",
+        description: "Your design workflow is complete. All design components have been finalized.",
+      });
+      navigate(`/projects/${params?.id}/workflow`);
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to complete the workflow. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   if (projectLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -84,9 +112,43 @@ function EasyDesign() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          EasyDesign - {project.name}
-        </h1>
+        {/* Back to Workflow Link */}
+        <div className="mb-4">
+          <Link 
+            href={`/projects/${params?.id}/workflow`}
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+            data-testid="link-back-workflow"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Workflow
+          </Link>
+        </div>
+        
+        <div className="flex justify-between items-start mb-2">
+          <h1 className="text-3xl font-bold text-gray-900">
+            EasyDesign - {project.name}
+          </h1>
+          
+          {/* Complete Workflow Button */}
+          <Button
+            onClick={() => markAsComplete.mutate()}
+            disabled={markAsComplete.isPending}
+            className="bg-green-600 hover:bg-green-700 text-white"
+            data-testid="button-complete-workflow"
+          >
+            {markAsComplete.isPending ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Completing...
+              </>
+            ) : (
+              <>
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Complete Workflow
+              </>
+            )}
+          </Button>
+        </div>
         <p className="text-lg text-gray-600 mb-4">
           Detailed design prototypes and comprehensive workflow coordination
         </p>
