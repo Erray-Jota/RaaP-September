@@ -451,8 +451,8 @@ export default function ModularFeasibility() {
                         <tbody className="divide-y divide-gray-200">
                           <tr>
                             <td className="px-4 py-3">Height Limit</td>
-                            <td className="px-4 py-3">35 ft max</td>
-                            <td className="px-4 py-3">32 ft</td>
+                            <td className="px-4 py-3">65 ft max</td>
+                            <td className="px-4 py-3">57 ft</td>
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>

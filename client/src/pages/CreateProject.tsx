@@ -38,12 +38,12 @@ export default function CreateProject() {
       name: "",
       address: "",
       projectType: "",
-      targetFloors: 3,
-      studioUnits: 0,
-      oneBedUnits: 0,
-      twoBedUnits: 0,
+      targetFloors: 5,
+      studioUnits: 22,
+      oneBedUnits: 67,
+      twoBedUnits: 22,
       threeBedUnits: 0,
-      targetParkingSpaces: 0,
+      targetParkingSpaces: 100,
     },
   });
 
