@@ -132,7 +132,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <div className="text-sm sm:text-lg font-semibold text-green-600">
                 {project.costSavingsPercent}%
               </div>
-              <div className="text-xs text-gray-500">Savings</div>
+              <div className="text-xs text-gray-500">Cost Savings</div>
             </div>
           )}
           
@@ -141,7 +141,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <div className="text-sm sm:text-lg font-semibold text-blue-600">
                 {project.timeSavingsMonths} mo
               </div>
-              <div className="text-xs text-gray-500">Time</div>
+              <div className="text-xs text-gray-500">Time Savings</div>
             </div>
           )}
           

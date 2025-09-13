@@ -5,14 +5,14 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     name: "Serenity Village",
     address: "5224 Chestnut Road, Olivehurst, CA",
     projectType: "affordable",
-    targetFloors: 3,
-    studioUnits: 0,
-    oneBedUnits: 6,
-    twoBedUnits: 12,
-    threeBedUnits: 6,
+    targetFloors: 5,
+    studioUnits: 14,
+    oneBedUnits: 67,
+    twoBedUnits: 22,
+    threeBedUnits: 0,
     targetParkingSpaces: 24,
-    buildingDimensions: "146' X 66'",
-    constructionType: "Type V-A",
+    buildingDimensions: "519' X 67' X 57'",
+    constructionType: "Type III-A",
     
     // Feasibility scoring - Serenity Village from the document
     zoningScore: "4.0",
@@ -30,18 +30,18 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     overallScore: "4.4",
     
     // Cost analysis - from the document
-    modularTotalCost: "10821565",
-    modularCostPerSf: "411",
-    modularCostPerUnit: "450899",
-    siteBuiltTotalCost: "10960303",
-    siteBuiltCostPerSf: "422",
-    siteBuiltCostPerUnit: "456679",
-    costSavingsPercent: "1",
+    modularTotalCost: "35700000",
+    modularCostPerSf: "248",
+    modularCostPerUnit: "346455",
+    siteBuiltTotalCost: "46000000",
+    siteBuiltCostPerSf: "320",
+    siteBuiltCostPerUnit: "446602",
+    costSavingsPercent: "22",
     
     // Timeline analysis
-    modularTimelineMonths: 9,
-    siteBuiltTimelineMonths: 13,
-    timeSavingsMonths: 4,
+    modularTimelineMonths: "9",
+    siteBuiltTimelineMonths: "13",
+    timeSavingsMonths: "4",
     
     // Zoning details
     zoningDistrict: "RM",
@@ -92,9 +92,9 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     costSavingsPercent: "4.56",
     
     // Timeline analysis
-    modularTimelineMonths: 8,
-    siteBuiltTimelineMonths: 14,
-    timeSavingsMonths: 6,
+    modularTimelineMonths: "8",
+    siteBuiltTimelineMonths: "14",
+    timeSavingsMonths: "6",
     
     // Zoning details
     zoningDistrict: "R4",
@@ -145,9 +145,9 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     costSavingsPercent: "4.65",
     
     // Timeline analysis
-    modularTimelineMonths: 11,
-    siteBuiltTimelineMonths: 16,
-    timeSavingsMonths: 5,
+    modularTimelineMonths: "11",
+    siteBuiltTimelineMonths: "16",
+    timeSavingsMonths: "5",
     
     // Zoning details
     zoningDistrict: "MU-2",
@@ -198,9 +198,9 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     costSavingsPercent: "8.23",
     
     // Timeline analysis
-    modularTimelineMonths: 7,
-    siteBuiltTimelineMonths: 14,
-    timeSavingsMonths: 7,
+    modularTimelineMonths: "7",
+    siteBuiltTimelineMonths: "14",
+    timeSavingsMonths: "7",
     
     // Zoning details
     zoningDistrict: "MX-3",
