@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import { insertProjectSchema } from "@shared/schema";
+import ProjectSiteMap from "@/components/ProjectSiteMap";
 
 const createProjectSchema = insertProjectSchema.extend({
   name: z.string().min(1, "Project name is required"),
@@ -150,6 +151,19 @@ export default function CreateProject() {
                       )}
                     />
                   </div>
+                  
+                  {/* Site Preview Map */}
+                  {form.watch("address") && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-gray-700 mb-3">Site Preview</h4>
+                      <ProjectSiteMap 
+                        address={form.watch("address")}
+                        projectName={form.watch("name") || "Project Site"}
+                        height="300px"
+                        className="border rounded-lg"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Project Type */}

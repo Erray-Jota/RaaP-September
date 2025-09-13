@@ -26,6 +26,8 @@ import {
   Layers,
   Map
 } from "lucide-react";
+import ProjectSiteMap from "@/components/ProjectSiteMap";
+import RouteMap from "@/components/RouteMap";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
 import { calculateProjectScores, isSampleProject } from "@/lib/scoring";
@@ -439,13 +441,15 @@ export default function ModularFeasibility() {
                     )}
                   </div>
 
-                  {/* Image and Specifications Side by Side */}
+                  {/* Site Map and Specifications Side by Side */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div>
-                      <img 
-                        src={olivehurstMapImage} 
-                        alt="Serinity Village project location in Olivehurst, California showing regional context and site accessibility" 
-                        className="w-full h-64 rounded-lg object-contain bg-white border"
+                      <h4 className="font-semibold text-raap-dark mb-4">Site Location</h4>
+                      <ProjectSiteMap 
+                        address={project.address}
+                        projectName={project.name}
+                        height="280px"
+                        className="border rounded-lg"
                       />
                     </div>
                     
@@ -1576,32 +1580,13 @@ export default function ModularFeasibility() {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-raap-dark mb-4">Delivery Route: Tracy to Olivehurst</h4>
-                    <div className="w-full">
-                      <img 
-                        src={tracyRouteImage} 
-                        alt="Route from Tracy CA to Olivehurst CA showing 1 hour 29 minute drive via Highway 99 and Highway 70"
-                        className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white"
-                        style={{ maxHeight: '60vh' }}
-                      />
-                      <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
-                        <div className="bg-blue-50 rounded-lg p-4 text-center">
-                          <div className="text-2xl font-bold text-blue-600">103</div>
-                          <div className="font-semibold text-blue-600">Distance</div>
-                          <div className="text-gray-600">miles</div>
-                        </div>
-                        <div className="bg-green-50 rounded-lg p-4 text-center">
-                          <div className="text-2xl font-bold text-green-600">1:29</div>
-                          <div className="font-semibold text-green-600">Drive Time</div>
-                          <div className="text-gray-600">hours</div>
-                        </div>
-                        <div className="bg-purple-50 rounded-lg p-4 text-center">
-                          <div className="text-2xl font-bold text-purple-600">0</div>
-                          <div className="font-semibold text-purple-600">Permits</div>
-                          <div className="text-gray-600">required</div>
-                        </div>
-                      </div>
-                    </div>
+                    <h4 className="font-semibold text-raap-dark mb-4">Delivery Route: Boise to Project Site</h4>
+                    <RouteMap 
+                      destinationAddress={project.address}
+                      projectName={project.name}
+                      height="400px"
+                      className="w-full"
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
