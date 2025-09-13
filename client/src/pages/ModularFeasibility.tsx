@@ -173,50 +173,50 @@ export default function ModularFeasibility() {
       ['MasterFormat Division', 'Site Built Total', 'Site Built $/sf', 'RaaP GC', 'RaaP Fab', 'RaaP Total', 'RaaP $/sf', 'Savings'],
       
       // Concrete, Masonry & Metals Section
-      ['Concrete, Masonry & Metals', '$1,311,770', '$50', '$1,147,404', '$281,220', '$1,428,623', '$54', '-$116,853'],
-      ['  03 Concrete', '$407,021', '$16', '$285,136', '$164,393', '$449,528', '$17', '-$42,507'],
-      ['  04 Masonry', '$233,482', '$9', '$260,237', '-', '$260,237', '$10', '-$26,755'],
-      ['  05 Metal', '$671,267', '$26', '$602,031', '$116,827', '$718,859', '$27', '-$47,592'],
+      ['Concrete, Masonry & Metals', isSampleProject ? '$1,311,770' : '$6,553,211', isSampleProject ? '$50' : '$38', isSampleProject ? '$1,147,404' : '$4,790,786', isSampleProject ? '$281,220' : '$867,184', isSampleProject ? '$1,428,623' : '$5,657,970', isSampleProject ? '$54' : '$39', isSampleProject ? '-$116,853' : '($895,241)'],
+      ['  03 Concrete', isSampleProject ? '$407,021' : '$2,533,115', isSampleProject ? '$16' : '$15', isSampleProject ? '$285,136' : '$1,373,299', isSampleProject ? '$164,393' : '$625,628', isSampleProject ? '$449,528' : '$1,998,927', isSampleProject ? '$17' : '$14', isSampleProject ? '-$42,507' : '($534,188)'],
+      ['  04 Masonry', isSampleProject ? '$233,482' : '$916,443', isSampleProject ? '$9' : '$5', isSampleProject ? '$260,237' : '$845,392', isSampleProject ? '-' : '0', isSampleProject ? '$260,237' : '$845,392', isSampleProject ? '$10' : '$6', isSampleProject ? '-$26,755' : '($71,051)'],
+      ['  05 Metal', isSampleProject ? '$671,267' : '$3,103,653', isSampleProject ? '$26' : '$18', isSampleProject ? '$602,031' : '$2,572,095', isSampleProject ? '$116,827' : '$241,556', isSampleProject ? '$718,859' : '$2,813,651', isSampleProject ? '$27' : '$20', isSampleProject ? '-$47,592' : '($290,003)'],
       
       // Rooms Section
-      ['Rooms', '$4,452,553', '$171', '$465,938', '$4,121,807', '$4,587,745', '$174', '-$135,192'],
-      ['  06 Wood & Plastics', '$1,982,860', '$76', '$14,171', '$2,137,612', '$2,151,783', '$82', '-$168,923'],
-      ['  07 Thermal & Moisture Protection', '$490,766', '$19', '$289,407', '$293,030', '$582,437', '$22', '-$91,671'],
-      ['  08 Openings', '$486,606', '$19', '$138,123', '$337,164', '$475,287', '$18', '$11,319'],
-      ['  09 Finishes', '$1,492,321', '$57', '$24,237', '$1,354,001', '$1,378,238', '$52', '$114,083'],
+      ['Rooms', isSampleProject ? '$4,452,553' : '$17,692,497', isSampleProject ? '$171' : '$102', isSampleProject ? '$465,938' : '$1,671,442', isSampleProject ? '$4,121,807' : '$11,037,874', isSampleProject ? '$4,587,745' : '$12,709,316', isSampleProject ? '$174' : '$88', isSampleProject ? '-$135,192' : '($4,983,181)'],
+      ['  06 Wood & Plastics', isSampleProject ? '$1,982,860' : '$8,643,831', isSampleProject ? '$76' : '$50', isSampleProject ? '$14,171' : '$41,318', isSampleProject ? '$2,137,612' : '$6,378,393', isSampleProject ? '$2,151,783' : '$6,419,712', isSampleProject ? '$82' : '$45', isSampleProject ? '-$168,923' : '($2,224,120)'],
+      ['  07 Thermal & Moisture Protection', isSampleProject ? '$490,766' : '$2,325,482', isSampleProject ? '$19' : '$13', isSampleProject ? '$289,407' : '$1,129,942', isSampleProject ? '$293,030' : '$960,368', isSampleProject ? '$582,437' : '$2,090,309', isSampleProject ? '$22' : '$15', isSampleProject ? '-$91,671' : '($235,172)'],
+      ['  08 Openings', isSampleProject ? '$486,606' : '$1,393,966', isSampleProject ? '$19' : '$8', isSampleProject ? '$138,123' : '$440,895', isSampleProject ? '$337,164' : '$792,909', isSampleProject ? '$475,287' : '$1,233,804', isSampleProject ? '$18' : '$9', isSampleProject ? '$11,319' : '($160,163)'],
+      ['  09 Finishes', isSampleProject ? '$1,492,321' : '$5,329,218', isSampleProject ? '$57' : '$31', isSampleProject ? '$24,237' : '$59,288', isSampleProject ? '$1,354,001' : '$2,906,204', isSampleProject ? '$1,378,238' : '$2,965,492', isSampleProject ? '$52' : '$21', isSampleProject ? '$114,083' : '($2,363,726)'],
       
       // Equipment & Special Construction Section
-      ['Equipment & Special Construction', '$221,062', '$9', '$68,827', '$139,859', '$208,686', '$8', '$12,376'],
-      ['  10 Specialties', '$55,363', '$2', '-', '$47,078', '$47,078', '$2', '$8,285'],
-      ['  11 Equipment', '$16,837', '$1', '$16,837', '-', '$16,837', '$1', '$0'],
-      ['  12 Furnishing', '$99,730', '$4', '$2,858', '$92,781', '$95,639', '$4', '$4,091'],
-      ['  13 Special Construction', '$49,132', '$2', '$49,132', '-', '$49,132', '$2', '$0'],
+      ['Equipment & Special Construction', isSampleProject ? '$221,062' : '$656,351', isSampleProject ? '$9' : '$4', isSampleProject ? '$68,827' : '$99,544', isSampleProject ? '$139,859' : '$486,539', isSampleProject ? '$208,686' : '$586,082', isSampleProject ? '$8' : '$4', isSampleProject ? '$12,376' : '($70,269)'],
+      ['  10 Specialties', isSampleProject ? '$55,363' : '$200,836', isSampleProject ? '$2' : '$1', isSampleProject ? '-' : '0', isSampleProject ? '$47,078' : '$161,890', isSampleProject ? '$47,078' : '$161,890', isSampleProject ? '$2' : '$1', isSampleProject ? '$8,285' : '($38,946)'],
+      ['  11 Equipment', isSampleProject ? '$16,837' : '$29,531', isSampleProject ? '$1' : '$0', isSampleProject ? '$16,837' : '$29,531', isSampleProject ? '-' : '0', isSampleProject ? '$16,837' : '$29,531', isSampleProject ? '$1' : '$0', isSampleProject ? '$0' : '$0'],
+      ['  12 Furnishing', isSampleProject ? '$99,730' : '$374,255', isSampleProject ? '$4' : '$2', isSampleProject ? '$2,858' : '$18,284', isSampleProject ? '$92,781' : '$324,648', isSampleProject ? '$95,639' : '$342,932', isSampleProject ? '$4' : '$2', isSampleProject ? '$4,091' : '($31,322)'],
+      ['  13 Special Construction', isSampleProject ? '$49,132' : '$51,729', isSampleProject ? '$2' : '$0', isSampleProject ? '$49,132' : '$51,729', isSampleProject ? '-' : '0', isSampleProject ? '$49,132' : '$51,729', isSampleProject ? '$2' : '$0', isSampleProject ? '$0' : '$0'],
       
       // MEPs Section
-      ['MEPs', '$1,938,147', '$74', '$1,026,490', '$1,323,688', '$2,350,178', '$90', '-$412,031'],
-      ['  21 Fire Suppression', '$234,567', '$9', '$156,789', '$123,456', '$280,245', '$11', '-$45,678'],
-      ['  22 Plumbing', '$456,789', '$18', '$234,567', '$345,678', '$580,245', '$22', '-$123,456'],
-      ['  23 HVAC', '$678,901', '$26', '$345,678', '$456,789', '$802,467', '$31', '-$123,566'],
-      ['  26 Electrical', '$567,890', '$22', '$289,456', '$398,765', '$688,221', '$26', '-$120,331'],
+      ['MEPs', isSampleProject ? '$1,938,147' : '$9,852,336', isSampleProject ? '$74' : '$57', isSampleProject ? '$1,026,490' : '$4,466,118', isSampleProject ? '$1,323,688' : '$3,548,625', isSampleProject ? '$2,350,178' : '$8,014,743', isSampleProject ? '$90' : '$56', isSampleProject ? '-$412,031' : '($1,837,593)'],
+      ['  21 Fire Suppression', isSampleProject ? '$234,567' : '$982,245', isSampleProject ? '$9' : '$6', isSampleProject ? '$156,789' : '$346,948', isSampleProject ? '$123,456' : '$351,524', isSampleProject ? '$280,245' : '$698,472', isSampleProject ? '$11' : '$5', isSampleProject ? '-$45,678' : '($283,774)'],
+      ['  22 Plumbing', isSampleProject ? '$456,789' : '$2,403,740', isSampleProject ? '$18' : '$14', isSampleProject ? '$234,567' : '$1,124,362', isSampleProject ? '$345,678' : '$1,023,475', isSampleProject ? '$580,245' : '$2,147,838', isSampleProject ? '$22' : '$15', isSampleProject ? '-$123,456' : '($255,902)'],
+      ['  23 HVAC', isSampleProject ? '$678,901' : '$2,505,408', isSampleProject ? '$26' : '$14', isSampleProject ? '$345,678' : '$183,153', isSampleProject ? '$456,789' : '$1,297,260', isSampleProject ? '$802,467' : '$1,480,413', isSampleProject ? '$31' : '$10', isSampleProject ? '-$123,566' : '($1,024,994)'],
+      ['  26 Electrical', isSampleProject ? '$567,890' : '$3,960,944', isSampleProject ? '$22' : '$23', isSampleProject ? '$289,456' : '$2,811,655', isSampleProject ? '$398,765' : '$876,365', isSampleProject ? '$688,221' : '$3,688,021', isSampleProject ? '$26' : '$26', isSampleProject ? '-$120,331' : '($272,923)'],
       
       // Site Work Section
-      ['Site Work', '$1,247,892', '$48', '$1,247,892', '$0', '$1,247,892', '$48', '$0'],
-      ['  02 Existing Conditions', '$124,789', '$5', '$124,789', '$0', '$124,789', '$5', '$0'],
-      ['  31 Earthwork', '$456,123', '$17', '$456,123', '$0', '$456,123', '$17', '$0'],
-      ['  32 Exterior Improvements', '$332,456', '$13', '$332,456', '$0', '$332,456', '$13', '$0'],
-      ['  33 Utilities', '$334,524', '$13', '$334,524', '$0', '$334,524', '$13', '$0'],
+      ['Site Work', isSampleProject ? '$1,247,892' : '$4,233,670', isSampleProject ? '$48' : '$24', isSampleProject ? '$1,247,892' : '$4,239,520', '$0', isSampleProject ? '$1,247,892' : '$4,239,520', isSampleProject ? '$48' : '$30', isSampleProject ? '$0' : '$5,851'],
+      ['  02 Existing Conditions', isSampleProject ? '$124,789' : '$0', isSampleProject ? '$5' : '$0', isSampleProject ? '$124,789' : '$0', '$0', isSampleProject ? '$124,789' : '$0', isSampleProject ? '$5' : '$0', '$0'],
+      ['  31 Earthwork', isSampleProject ? '$456,123' : '$1,146,618', isSampleProject ? '$17' : '$7', isSampleProject ? '$456,123' : '$1,152,469', '$0', isSampleProject ? '$456,123' : '$1,152,469', isSampleProject ? '$17' : '$8', isSampleProject ? '$0' : '$5,851'],
+      ['  32 Exterior Improvements', isSampleProject ? '$332,456' : '$1,521,663', isSampleProject ? '$13' : '$9', isSampleProject ? '$332,456' : '$1,521,663', '$0', isSampleProject ? '$332,456' : '$1,521,663', isSampleProject ? '$13' : '$11', '$0'],
+      ['  33 Utilities', isSampleProject ? '$334,524' : '$1,565,388', isSampleProject ? '$13' : '$9', isSampleProject ? '$334,524' : '$1,565,388', '$0', isSampleProject ? '$334,524' : '$1,565,388', isSampleProject ? '$13' : '$11', '$0'],
       
       // GC Charges Section
-      ['GC Charges', '$892,345', '$34', '$456,789', '$234,567', '$691,356', '$26', '$200,989'],
-      ['  01 General Requirements', '$692,345', '$27', '$356,789', '$134,567', '$491,356', '$19', '$200,989'],
-      ['  00 Fees', '$200,000', '$8', '$100,000', '$100,000', '$200,000', '$8', '$0'],
+      ['GC Charges', isSampleProject ? '$892,345' : '$7,232,941', isSampleProject ? '$34' : '$42', isSampleProject ? '$456,789' : '$2,824,374', isSampleProject ? '$234,567' : '$1,652,873', isSampleProject ? '$691,356' : '$4,477,246', isSampleProject ? '$26' : '$31', isSampleProject ? '$200,989' : '($2,755,695)'],
+      ['  01 General Requirements', isSampleProject ? '$692,345' : '$2,443,868', isSampleProject ? '$27' : '$14', isSampleProject ? '$356,789' : '$959,509', isSampleProject ? '$134,567' : '$1,012,388', isSampleProject ? '$491,356' : '$1,971,897', isSampleProject ? '$19' : '$14', isSampleProject ? '$200,989' : '($471,972)'],
+      ['  00 Fees', isSampleProject ? '$200,000' : '$4,789,073', isSampleProject ? '$8' : '$28', isSampleProject ? '$100,000' : '$1,864,865', isSampleProject ? '$100,000' : '$640,485', isSampleProject ? '$200,000' : '$2,505,350', isSampleProject ? '$8' : '$17', isSampleProject ? '$0' : '($2,283,723)'],
       
       // Project Total
       ['', '', '', '', '', '', '', ''], // Empty row for spacing
-      ['PROJECT TOTAL', isSampleProject ? '$10,060,303' : '$35,700,000', isSampleProject ? '$387' : '$248', 
-       isSampleProject ? '$4,777,945' : '$17,850,000', isSampleProject ? '$6,462,156' : '$17,850,000', 
-       isSampleProject ? '$11,240,101' : '$46,000,000', isSampleProject ? '$432' : '$319', 
-       isSampleProject ? '-$179,798' : '-$10,300,000']
+      ['PROJECT TOTAL', isSampleProject ? '$10,060,303' : '$46,221,006', isSampleProject ? '$387' : '$266', 
+       isSampleProject ? '$4,777,945' : '$18,091,784', isSampleProject ? '$6,462,156' : '$17,593,094', 
+       isSampleProject ? '$11,240,101' : '$35,684,879', isSampleProject ? '$432' : '$248', 
+       isSampleProject ? '-$179,798' : '($10,536,128)']
     ];
     
     // Convert to CSV
@@ -1217,211 +1217,211 @@ export default function ModularFeasibility() {
                           {/* Concrete, Masonry & Metals Section */}
                           <tr className="bg-blue-50">
                             <td className="px-3 py-2 font-semibold text-blue-800">Concrete, Masonry & Metals</td>
-                            <td className="px-3 py-2 text-right font-semibold">$1,311,770</td>
-                            <td className="px-3 py-2 text-right">$50</td>
-                            <td className="px-3 py-2 text-right">$1,147,404</td>
-                            <td className="px-3 py-2 text-right">$281,220</td>
-                            <td className="px-3 py-2 text-right font-semibold">$1,428,623</td>
-                            <td className="px-3 py-2 text-right">$54</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">-$116,853</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$1,311,770' : '$6,553,211'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$50' : '$38'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,147,404' : '$4,790,786'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$281,220' : '$867,184'}</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$1,428,623' : '$5,657,970'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$54' : '$39'}</td>
+                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject ? '-$116,853' : '($895,241)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">03 Concrete</td>
-                            <td className="px-3 py-2 text-right">$407,021</td>
-                            <td className="px-3 py-2 text-right">$16</td>
-                            <td className="px-3 py-2 text-right">$285,136</td>
-                            <td className="px-3 py-2 text-right">$164,393</td>
-                            <td className="px-3 py-2 text-right">$449,528</td>
-                            <td className="px-3 py-2 text-right">$17</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$42,507</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$407,021' : '$2,533,115'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$16' : '$15'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$285,136' : '$1,373,299'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$164,393' : '$625,628'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$449,528' : '$1,998,927'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$17' : '$14'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$42,507' : '($534,188)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">04 Masonry</td>
-                            <td className="px-3 py-2 text-right">$233,482</td>
-                            <td className="px-3 py-2 text-right">$9</td>
-                            <td className="px-3 py-2 text-right">$260,237</td>
-                            <td className="px-3 py-2 text-right">-</td>
-                            <td className="px-3 py-2 text-right">$260,237</td>
-                            <td className="px-3 py-2 text-right">$10</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$26,755</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$233,482' : '$916,443'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$9' : '$5'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$260,237' : '$845,392'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '-' : '0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$260,237' : '$845,392'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$10' : '$6'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$26,755' : '($71,051)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">05 Metal</td>
-                            <td className="px-3 py-2 text-right">$671,267</td>
-                            <td className="px-3 py-2 text-right">$26</td>
-                            <td className="px-3 py-2 text-right">$602,031</td>
-                            <td className="px-3 py-2 text-right">$116,827</td>
-                            <td className="px-3 py-2 text-right">$718,859</td>
-                            <td className="px-3 py-2 text-right">$27</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$47,592</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$671,267' : '$3,103,653'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$26' : '$18'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$602,031' : '$2,572,095'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$116,827' : '$241,556'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$718,859' : '$2,813,651'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$27' : '$20'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$47,592' : '($290,003)'}</td>
                           </tr>
 
                           {/* Rooms Section */}
                           <tr className="bg-green-50">
                             <td className="px-3 py-2 font-semibold text-green-800">Rooms</td>
-                            <td className="px-3 py-2 text-right font-semibold">$4,452,553</td>
-                            <td className="px-3 py-2 text-right">$171</td>
-                            <td className="px-3 py-2 text-right">$465,938</td>
-                            <td className="px-3 py-2 text-right">$4,121,807</td>
-                            <td className="px-3 py-2 text-right font-semibold">$4,587,745</td>
-                            <td className="px-3 py-2 text-right">$174</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">-$135,192</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$4,452,553' : '$17,692,497'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$171' : '$102'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$465,938' : '$1,671,442'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$4,121,807' : '$11,037,874'}</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$4,587,745' : '$12,709,316'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$174' : '$88'}</td>
+                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject ? '-$135,192' : '($4,983,181)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">06 Wood & Plastics</td>
-                            <td className="px-3 py-2 text-right">$1,982,860</td>
-                            <td className="px-3 py-2 text-right">$76</td>
-                            <td className="px-3 py-2 text-right">$14,171</td>
-                            <td className="px-3 py-2 text-right">$2,137,612</td>
-                            <td className="px-3 py-2 text-right">$2,151,783</td>
-                            <td className="px-3 py-2 text-right">$82</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$168,923</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,982,860' : '$8,643,831'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$76' : '$50'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$14,171' : '$41,318'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2,137,612' : '$6,378,393'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2,151,783' : '$6,419,712'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$82' : '$45'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$168,923' : '($2,224,120)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">07 Thermal & Moisture Protection</td>
-                            <td className="px-3 py-2 text-right">$490,766</td>
-                            <td className="px-3 py-2 text-right">$19</td>
-                            <td className="px-3 py-2 text-right">$289,407</td>
-                            <td className="px-3 py-2 text-right">$293,030</td>
-                            <td className="px-3 py-2 text-right">$582,437</td>
-                            <td className="px-3 py-2 text-right">$22</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$91,671</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$490,766' : '$2,325,482'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$19' : '$13'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$289,407' : '$1,129,942'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$293,030' : '$960,368'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$582,437' : '$2,090,309'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$22' : '$15'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$91,671' : '($235,172)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">08 Openings</td>
-                            <td className="px-3 py-2 text-right">$486,606</td>
-                            <td className="px-3 py-2 text-right">$19</td>
-                            <td className="px-3 py-2 text-right">$138,123</td>
-                            <td className="px-3 py-2 text-right">$337,164</td>
-                            <td className="px-3 py-2 text-right">$475,287</td>
-                            <td className="px-3 py-2 text-right">$18</td>
-                            <td className="px-3 py-2 text-right text-green-600">$11,319</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$486,606' : '$1,393,966'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$19' : '$8'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$138,123' : '$440,895'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$337,164' : '$792,909'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$475,287' : '$1,233,804'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$18' : '$9'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$11,319' : '($160,163)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">09 Finishes</td>
-                            <td className="px-3 py-2 text-right">$1,492,321</td>
-                            <td className="px-3 py-2 text-right">$57</td>
-                            <td className="px-3 py-2 text-right">$24,237</td>
-                            <td className="px-3 py-2 text-right">$1,354,001</td>
-                            <td className="px-3 py-2 text-right">$1,378,238</td>
-                            <td className="px-3 py-2 text-right">$52</td>
-                            <td className="px-3 py-2 text-right text-green-600">$114,083</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,492,321' : '$5,329,218'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$57' : '$31'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$24,237' : '$59,288'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,354,001' : '$2,906,204'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,378,238' : '$2,965,492'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$52' : '$21'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$114,083' : '($2,363,726)'}</td>
                           </tr>
 
                           {/* Equipment & Special Construction Section */}
                           <tr className="bg-orange-50">
                             <td className="px-3 py-2 font-semibold text-orange-800">Equipment & Special Construction</td>
-                            <td className="px-3 py-2 text-right font-semibold">$221,062</td>
-                            <td className="px-3 py-2 text-right">$9</td>
-                            <td className="px-3 py-2 text-right">$68,827</td>
-                            <td className="px-3 py-2 text-right">$139,859</td>
-                            <td className="px-3 py-2 text-right font-semibold">$208,686</td>
-                            <td className="px-3 py-2 text-right">$8</td>
-                            <td className="px-3 py-2 text-right text-green-600 font-semibold">$12,376</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$221,062' : '$656,351'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$9' : '$4'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$68,827' : '$99,544'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$139,859' : '$486,539'}</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$208,686' : '$586,082'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$8' : '$4'}</td>
+                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject ? '$12,376' : '($70,269)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">10 Specialties</td>
-                            <td className="px-3 py-2 text-right">$55,363</td>
-                            <td className="px-3 py-2 text-right">$2</td>
-                            <td className="px-3 py-2 text-right">-</td>
-                            <td className="px-3 py-2 text-right">$47,078</td>
-                            <td className="px-3 py-2 text-right">$47,078</td>
-                            <td className="px-3 py-2 text-right">$2</td>
-                            <td className="px-3 py-2 text-right text-green-600">$8,285</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$55,363' : '$200,836'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2' : '$1'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '-' : '0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$47,078' : '$161,890'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$47,078' : '$161,890'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2' : '$1'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$8,285' : '($38,946)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">11 Equipment</td>
-                            <td className="px-3 py-2 text-right">$16,837</td>
-                            <td className="px-3 py-2 text-right">$1</td>
-                            <td className="px-3 py-2 text-right">$16,837</td>
-                            <td className="px-3 py-2 text-right">-</td>
-                            <td className="px-3 py-2 text-right">$16,837</td>
-                            <td className="px-3 py-2 text-right">$1</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$16,837' : '$29,531'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1' : '$0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$16,837' : '$29,531'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '-' : '0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$16,837' : '$29,531'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1' : '$0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$0' : '$0'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">12 Furnishing</td>
-                            <td className="px-3 py-2 text-right">$99,730</td>
-                            <td className="px-3 py-2 text-right">$4</td>
-                            <td className="px-3 py-2 text-right">$2,858</td>
-                            <td className="px-3 py-2 text-right">$92,781</td>
-                            <td className="px-3 py-2 text-right">$95,639</td>
-                            <td className="px-3 py-2 text-right">$4</td>
-                            <td className="px-3 py-2 text-right text-green-600">$4,091</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$99,730' : '$374,255'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$4' : '$2'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2,858' : '$18,284'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$92,781' : '$324,648'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$95,639' : '$342,932'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$4' : '$2'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$4,091' : '($31,322)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">13 Special Construction</td>
-                            <td className="px-3 py-2 text-right">$49,132</td>
-                            <td className="px-3 py-2 text-right">$2</td>
-                            <td className="px-3 py-2 text-right">$49,132</td>
-                            <td className="px-3 py-2 text-right">-</td>
-                            <td className="px-3 py-2 text-right">$49,132</td>
-                            <td className="px-3 py-2 text-right">$2</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$49,132' : '$51,729'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2' : '$0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$49,132' : '$51,729'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '-' : '0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$49,132' : '$51,729'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$2' : '$0'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$0' : '$0'}</td>
                           </tr>
 
                           {/* MEPs Section */}
                           <tr className="bg-purple-50">
                             <td className="px-3 py-2 font-semibold text-purple-800">MEPs</td>
-                            <td className="px-3 py-2 text-right font-semibold">$1,938,147</td>
-                            <td className="px-3 py-2 text-right">$74</td>
-                            <td className="px-3 py-2 text-right">$1,026,490</td>
-                            <td className="px-3 py-2 text-right">$1,323,688</td>
-                            <td className="px-3 py-2 text-right font-semibold">$2,350,178</td>
-                            <td className="px-3 py-2 text-right">$90</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">-$412,031</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$1,938,147' : '$9,852,336'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$74' : '$57'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,026,490' : '$4,466,118'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,323,688' : '$3,548,625'}</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$2,350,178' : '$8,014,743'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$90' : '$56'}</td>
+                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject ? '-$412,031' : '($1,837,593)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">21 Fire Suppression</td>
-                            <td className="px-3 py-2 text-right">$234,567</td>
-                            <td className="px-3 py-2 text-right">$9</td>
-                            <td className="px-3 py-2 text-right">$156,789</td>
-                            <td className="px-3 py-2 text-right">$123,456</td>
-                            <td className="px-3 py-2 text-right">$280,245</td>
-                            <td className="px-3 py-2 text-right">$11</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$45,678</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$234,567' : '$982,245'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$9' : '$6'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$156,789' : '$346,948'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$123,456' : '$351,524'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$280,245' : '$698,472'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$11' : '$5'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$45,678' : '($283,774)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">22 Plumbing</td>
-                            <td className="px-3 py-2 text-right">$456,789</td>
-                            <td className="px-3 py-2 text-right">$18</td>
-                            <td className="px-3 py-2 text-right">$234,567</td>
-                            <td className="px-3 py-2 text-right">$345,678</td>
-                            <td className="px-3 py-2 text-right">$580,245</td>
-                            <td className="px-3 py-2 text-right">$22</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$123,456</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,789' : '$2,403,740'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$18' : '$14'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$234,567' : '$1,124,362'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$345,678' : '$1,023,475'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$580,245' : '$2,147,838'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$22' : '$15'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$123,456' : '($255,902)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">23 HVAC</td>
-                            <td className="px-3 py-2 text-right">$678,901</td>
-                            <td className="px-3 py-2 text-right">$26</td>
-                            <td className="px-3 py-2 text-right">$345,678</td>
-                            <td className="px-3 py-2 text-right">$456,789</td>
-                            <td className="px-3 py-2 text-right">$802,467</td>
-                            <td className="px-3 py-2 text-right">$31</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$123,566</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$678,901' : '$2,505,408'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$26' : '$14'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$345,678' : '$183,153'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,789' : '$1,297,260'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$802,467' : '$1,480,413'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$31' : '$10'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$123,566' : '($1,024,994)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">26 Electrical</td>
-                            <td className="px-3 py-2 text-right">$567,890</td>
-                            <td className="px-3 py-2 text-right">$22</td>
-                            <td className="px-3 py-2 text-right">$289,456</td>
-                            <td className="px-3 py-2 text-right">$398,765</td>
-                            <td className="px-3 py-2 text-right">$688,221</td>
-                            <td className="px-3 py-2 text-right">$26</td>
-                            <td className="px-3 py-2 text-right text-red-600">-$120,331</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$567,890' : '$3,960,944'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$22' : '$23'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$289,456' : '$2,811,655'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$398,765' : '$876,365'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$688,221' : '$3,688,021'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$26' : '$26'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '-$120,331' : '($272,923)'}</td>
                           </tr>
 
                           {/* Site Work Section */}
                           <tr className="bg-brown-50 border-gray-300 border-t-2">
                             <td className="px-3 py-2 font-semibold text-yellow-900">Site Work</td>
-                            <td className="px-3 py-2 text-right font-semibold">$1,247,892</td>
-                            <td className="px-3 py-2 text-right">$48</td>
-                            <td className="px-3 py-2 text-right">$1,247,892</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$1,247,892' : '$4,233,670'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$48' : '$24'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$1,247,892' : '$4,239,520'}</td>
                             <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right font-semibold">$1,247,892</td>
-                            <td className="px-3 py-2 text-right">$48</td>
-                            <td className="px-3 py-2 text-right text-gray-600 font-semibold">$0</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$1,247,892' : '$4,239,520'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$48' : '$30'}</td>
+                            <td className="px-3 py-2 text-right text-green-600 font-semibold">{isSampleProject ? '$0' : '$5,851'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">02 Existing Conditions</td>
@@ -1435,77 +1435,77 @@ export default function ModularFeasibility() {
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">31 Earthwork</td>
-                            <td className="px-3 py-2 text-right">$456,123</td>
-                            <td className="px-3 py-2 text-right">$17</td>
-                            <td className="px-3 py-2 text-right">$456,123</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,123' : '$1,146,618'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$17' : '$7'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,123' : '$1,152,469'}</td>
                             <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">$456,123</td>
-                            <td className="px-3 py-2 text-right">$17</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,123' : '$1,152,469'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$17' : '$8'}</td>
+                            <td className="px-3 py-2 text-right text-green-600">{isSampleProject ? '$0' : '$5,851'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">32 Exterior Improvements</td>
-                            <td className="px-3 py-2 text-right">$332,456</td>
-                            <td className="px-3 py-2 text-right">$13</td>
-                            <td className="px-3 py-2 text-right">$332,456</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$332,456' : '$1,521,663'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$13' : '$9'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$332,456' : '$1,521,663'}</td>
                             <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">$332,456</td>
-                            <td className="px-3 py-2 text-right">$13</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$332,456' : '$1,521,663'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$13' : '$11'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$0' : '$0'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">33 Utilities</td>
-                            <td className="px-3 py-2 text-right">$334,524</td>
-                            <td className="px-3 py-2 text-right">$13</td>
-                            <td className="px-3 py-2 text-right">$334,524</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$334,524' : '$1,565,388'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$13' : '$9'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$334,524' : '$1,565,388'}</td>
                             <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">$334,524</td>
-                            <td className="px-3 py-2 text-right">$13</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$334,524' : '$1,565,388'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$13' : '$11'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$0' : '$0'}</td>
                           </tr>
 
                           {/* GC Charges Section */}
                           <tr className="bg-gray-100">
                             <td className="px-3 py-2 font-semibold text-gray-800">GC Charges</td>
-                            <td className="px-3 py-2 text-right font-semibold">$892,345</td>
-                            <td className="px-3 py-2 text-right">$34</td>
-                            <td className="px-3 py-2 text-right">$456,789</td>
-                            <td className="px-3 py-2 text-right">$234,567</td>
-                            <td className="px-3 py-2 text-right font-semibold">$691,356</td>
-                            <td className="px-3 py-2 text-right">$26</td>
-                            <td className="px-3 py-2 text-right text-green-600 font-semibold">$200,989</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$892,345' : '$7,232,941'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$34' : '$42'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$456,789' : '$2,824,374'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$234,567' : '$1,652,873'}</td>
+                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject ? '$691,356' : '$4,477,246'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$26' : '$31'}</td>
+                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject ? '$200,989' : '($2,755,695)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">01 General Requirements</td>
-                            <td className="px-3 py-2 text-right">$692,345</td>
-                            <td className="px-3 py-2 text-right">$27</td>
-                            <td className="px-3 py-2 text-right">$356,789</td>
-                            <td className="px-3 py-2 text-right">$134,567</td>
-                            <td className="px-3 py-2 text-right">$491,356</td>
-                            <td className="px-3 py-2 text-right">$19</td>
-                            <td className="px-3 py-2 text-right text-green-600">$200,989</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$692,345' : '$2,443,868'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$27' : '$14'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$356,789' : '$959,509'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$134,567' : '$1,012,388'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$491,356' : '$1,971,897'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$19' : '$14'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$200,989' : '($471,972)'}</td>
                           </tr>
                           <tr>
                             <td className="px-3 py-2 pl-6">00 Fees</td>
-                            <td className="px-3 py-2 text-right">$200,000</td>
-                            <td className="px-3 py-2 text-right">$8</td>
-                            <td className="px-3 py-2 text-right">$100,000</td>
-                            <td className="px-3 py-2 text-right">$100,000</td>
-                            <td className="px-3 py-2 text-right">$200,000</td>
-                            <td className="px-3 py-2 text-right">$8</td>
-                            <td className="px-3 py-2 text-right">$0</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$200,000' : '$4,789,073'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$8' : '$28'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$100,000' : '$1,864,865'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$100,000' : '$640,485'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$200,000' : '$2,505,350'}</td>
+                            <td className="px-3 py-2 text-right">{isSampleProject ? '$8' : '$17'}</td>
+                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject ? '$0' : '($2,283,723)'}</td>
                           </tr>
 
                           {/* Total Row */}
                           <tr className="bg-gray-700 text-white font-bold text-base">
                             <td className="px-3 py-3">PROJECT TOTAL</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$10,060,303' : '$35,700,000'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$387' : '$248'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$4,777,945' : '$17,850,000'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$6,462,156' : '$17,850,000'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$11,240,101' : '$46,000,000'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject ? '$432' : '$319'}</td>
-                            <td className="px-3 py-3 text-right text-red-400">{isSampleProject ? '-$179,798' : '-$10,300,000'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$10,060,303' : '$46,221,006'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$387' : '$266'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$4,777,945' : '$18,091,784'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$6,462,156' : '$17,593,094'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$11,240,101' : '$35,684,879'}</td>
+                            <td className="px-3 py-3 text-right">{isSampleProject ? '$432' : '$248'}</td>
+                            <td className="px-3 py-3 text-right text-red-400">{isSampleProject ? '-$179,798' : '($10,536,128)'}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -1519,21 +1519,21 @@ export default function ModularFeasibility() {
                         <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
-                            <div className="font-semibold text-blue-600">{isSampleProject ? '$10,821,565' : '$35,700,000'}</div>
+                            <div className="font-semibold text-blue-600">{isSampleProject ? '$10,821,565' : '$35,684,879'}</div>
                             <div className="text-sm text-gray-600">{isSampleProject ? '$411/sf • 9 Months' : '$248/sf • 30.5 Months'}</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
-                            <div className="font-semibold">{isSampleProject ? '$10,960,303' : '$46,000,000'}</div>
+                            <div className="font-semibold">{isSampleProject ? '$10,960,303' : '$46,221,006'}</div>
                             <div className="text-sm text-gray-600">{isSampleProject ? '$422/sf • 13 Months' : '$319/sf • 41 Months'}</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
                           <span>Cost Savings</span>
                           <div className="text-right">
-                            <div className="font-semibold text-green-600">{isSampleProject ? '$138,738' : '$10,300,000'}</div>
+                            <div className="font-semibold text-green-600">{isSampleProject ? '$138,738' : '$10,536,128'}</div>
                             <div className="text-sm text-gray-600">{isSampleProject ? '1.2% savings' : '30% savings'}</div>
                           </div>
                         </div>
