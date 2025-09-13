@@ -76,9 +76,9 @@ export const projects = pgTable("projects", {
   costSavingsPercent: decimal("cost_savings_percent", { precision: 5, scale: 2 }),
   
   // Timeline analysis
-  modularTimelineMonths: integer("modular_timeline_months"),
-  siteBuiltTimelineMonths: integer("site_built_timeline_months"),
-  timeSavingsMonths: integer("time_savings_months"),
+  modularTimelineMonths: decimal("modular_timeline_months", { precision: 4, scale: 1 }),
+  siteBuiltTimelineMonths: decimal("site_built_timeline_months", { precision: 4, scale: 1 }),
+  timeSavingsMonths: decimal("time_savings_months", { precision: 4, scale: 1 }),
   
   // Zoning details
   zoningDistrict: varchar("zoning_district"),
