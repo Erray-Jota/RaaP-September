@@ -701,10 +701,12 @@ function ProjectDetail() {
                             <h4 className="font-semibold text-raap-dark mb-3">Building Specifications</h4>
                             <div className="bg-white border rounded-lg p-4">
                               <div className="space-y-2">
-                                <p><strong>Overall Dimensions:</strong> 146' × 66'</p>
+                                <p><strong>Overall Dimensions:</strong> 519' × 67' × 57'</p>
                                 <p><strong>Stories:</strong> 3 Story</p>
-                                <p><strong>Construction Type:</strong> Type VA Construction</p>
-                                <p><strong>Total Units:</strong> 24 Units</p>
+                                <p><strong>Construction Type:</strong> Type III-A Construction</p>
+                                <p><strong>Structural System:</strong> Wood structural</p>
+                                <p><strong>Total Units:</strong> 103 Units</p>
+                                <p><strong>Total Modules:</strong> 60 modules</p>
                                 <p><strong>Total Gross Site Area:</strong> ±4.12 acres</p>
                                 <p><strong>Gross Density:</strong> ±30.0 DU/acre</p>
                               </div>
@@ -716,21 +718,21 @@ function ProjectDetail() {
                             <div className="bg-white border rounded-lg p-4">
                               <div className="space-y-3">
                                 <div className="flex justify-between items-center">
+                                  <span>Studio Units</span>
+                                  <span className="font-semibold text-raap-green">14 units (14%)</span>
+                                </div>
+                                <div className="flex justify-between items-center">
                                   <span>1-Bedroom Units</span>
-                                  <span className="font-semibold text-raap-green">6 units (25%)</span>
+                                  <span className="font-semibold text-raap-green">67 units (65%)</span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                   <span>2-Bedroom Units</span>
-                                  <span className="font-semibold text-raap-green">12 units (50%)</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                  <span>3-Bedroom Units</span>
-                                  <span className="font-semibold text-raap-green">6 units (25%)</span>
+                                  <span className="font-semibold text-raap-green">22 units (21%)</span>
                                 </div>
                                 <hr className="my-2" />
                                 <div className="flex justify-between items-center font-semibold">
                                   <span>Total Units</span>
-                                  <span className="text-raap-dark">24 units</span>
+                                  <span className="text-raap-dark">103 units</span>
                                 </div>
                               </div>
                             </div>
@@ -777,21 +779,21 @@ function ProjectDetail() {
                         {/* Unit Mix Summary - First */}
                         <div className="bg-raap-green/5 border border-raap-green rounded-lg p-6">
                           <h4 className="font-bold text-raap-dark text-lg mb-3">Unit Mix Summary</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                             <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-raap-green">6</div>
+                              <div className="text-2xl font-bold text-purple-600">14</div>
+                              <div className="text-sm text-gray-600">Studio Units</div>
+                              <div className="text-xs text-gray-500">450 SF Average</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 border">
+                              <div className="text-2xl font-bold text-raap-green">67</div>
                               <div className="text-sm text-gray-600">1-Bedroom Units</div>
                               <div className="text-xs text-gray-500">563 SF Average</div>
                             </div>
                             <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-blue-600">12</div>
+                              <div className="text-2xl font-bold text-blue-600">22</div>
                               <div className="text-sm text-gray-600">2-Bedroom Units</div>
                               <div className="text-xs text-gray-500">813 SF Average</div>
-                            </div>
-                            <div className="bg-white rounded-lg p-4 border">
-                              <div className="text-2xl font-bold text-orange-600">6</div>
-                              <div className="text-sm text-gray-600">3-Bedroom Units</div>
-                              <div className="text-xs text-gray-500">980 SF Average</div>
                             </div>
                           </div>
                         </div>

@@ -623,7 +623,7 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Total Modules</span>
-                                  <span className="font-semibold">24 modules</span>
+                                  <span className="font-semibold">60 modules</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Construction Type</span>
