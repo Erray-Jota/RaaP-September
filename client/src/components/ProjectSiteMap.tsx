@@ -163,7 +163,7 @@ export default function ProjectSiteMap({
     }
     
     initializeMap();
-  }, [trigger, address]);
+  }, trigger !== undefined ? [trigger] : [trigger, address]); // In manual mode, only respond to trigger changes
 
   if (loadError) {
     return (
