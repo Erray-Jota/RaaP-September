@@ -153,17 +153,15 @@ export default function CreateProject() {
                   </div>
                   
                   {/* Site Preview Map */}
-                  {form.watch("address") && (
-                    <div className="mt-6">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-3">Site Preview</h4>
-                      <ProjectSiteMap 
-                        address={form.watch("address")}
-                        projectName={form.watch("name") || "Project Site"}
-                        height="300px"
-                        className="border rounded-lg"
-                      />
-                    </div>
-                  )}
+                  <div className="mt-6">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Site Preview</h4>
+                    <ProjectSiteMap 
+                      address={form.watch("address") || ""}
+                      projectName={form.watch("name") || "Project Site"}
+                      height="300px"
+                      className="border rounded-lg"
+                    />
+                  </div>
                 </div>
 
                 {/* Project Type */}
