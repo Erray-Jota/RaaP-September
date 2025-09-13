@@ -405,10 +405,10 @@ function ProjectDetail() {
                   <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-blue-800">Zoning Assessment</h3>
-                      <div className="text-3xl font-bold text-blue-600">4/5</div>
+                      <div className="text-3xl font-bold text-blue-600">{(project as Project).zoningScore || "0.0"}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of 4/5:</strong> Concessions are required to reduce open space and parking requirements. 
+                      <strong>Score of {(project as Project).zoningScore || "0.0"}/5:</strong> Concessions are required to reduce open space and parking requirements. 
                       Modular construction does not introduce any additional waivers or restrictions for this site. 
                       The project qualifies for density bonus provisions under AB 1287 due to affordable unit mix.
                     </p>
@@ -441,8 +441,8 @@ function ProjectDetail() {
                       <div className="bg-white border rounded-lg p-4">
                         <div className="space-y-2">
                           <p><strong>Total Site Area:</strong> ±4.12 acres</p>
-                          <p><strong>Target Units:</strong> 24 units</p>
-                          <p><strong>Parking:</strong> 24 spaces (1.0 ratio)</p>
+                          <p><strong>Target Units:</strong> 103 units</p>
+                          <p><strong>Parking:</strong> 100 spaces (1.0 required, 0.97 proposed)</p>
                         </div>
                       </div>
                     </div>
