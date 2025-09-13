@@ -316,11 +316,10 @@ export function calculateFeasibilityScores(projectData: any) {
   const costSavingsPercent = 30.0; // 30% savings consistently
   const siteBuiltTotalCost = modularTotalCost / (1 - costSavingsPercent / 100);
   
-  // Timeline estimates
-  const baseModularTime = 9;
-  const modularTime = projectData.targetFloors >= 5 ? baseModularTime + 2 : baseModularTime;
-  const timeSavings = buildTimeScore >= 4.5 ? 6 : buildTimeScore >= 4.0 ? 4 : 3;
-  const siteBuiltTime = modularTime + timeSavings;
+  // Timeline estimates - fixed targets
+  const modularTime = 30.5; // Fixed modular timeline
+  const timeSavings = 10.5; // Fixed time savings (25% of 41 months)
+  const siteBuiltTime = 41.0; // Fixed site-built timeline
 
   return {
     zoningScore: zoningScore.toFixed(1),
