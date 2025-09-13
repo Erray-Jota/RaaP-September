@@ -543,8 +543,8 @@ export default function ModularFeasibility() {
                         <tbody className="divide-y divide-gray-200">
                           <tr>
                             <td className="px-4 py-3">Height Limit</td>
-                            <td className="px-4 py-3">65 ft max</td>
-                            <td className="px-4 py-3">57 ft</td>
+                            <td className="px-4 py-3">{isSampleProject(project.name) ? '40 ft max' : '65 ft max'}</td>
+                            <td className="px-4 py-3">{isSampleProject(project.name) ? '36 ft' : '57 ft'}</td>
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
@@ -573,8 +573,8 @@ export default function ModularFeasibility() {
                           </tr>
                           <tr>
                             <td className="px-4 py-3">Parking</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '2.0 spaces/unit' : '1.0 spaces/unit'}</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '1.5 spaces/unit' : '0.97 spaces/unit'}</td>
+                            <td className="px-4 py-3">{isSampleProject(project.name) ? '1.5 spaces/unit' : '1.0 spaces/unit'}</td>
+                            <td className="px-4 py-3">{isSampleProject(project.name) ? '1 space/unit' : '0.97 spaces/unit'}</td>
                             <td className="px-4 py-3"><span className="text-orange-600 font-semibold">⚠ Variance Required</span></td>
                           </tr>
                         </tbody>
