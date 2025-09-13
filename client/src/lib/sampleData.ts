@@ -308,13 +308,13 @@ export function calculateFeasibilityScores(projectData: any) {
   );
 
   // Calculate cost estimates
-  const baseCostPerUnit = projectData.projectType === 'affordable' ? 451000 : 
-                         projectData.projectType === 'senior' ? 515000 :
-                         projectData.projectType === 'workforce' ? 480000 : 512000;
+  const baseCostPerUnit = projectData.projectType === 'affordable' ? 321621 : 
+                         projectData.projectType === 'senior' ? 365000 :
+                         projectData.projectType === 'workforce' ? 340000 : 350000;
   
   const modularTotalCost = totalUnits * baseCostPerUnit;
-  const costSavingsPercent = costScore >= 4.5 ? 4.5 : costScore >= 4.0 ? 1.2 : 0.8;
-  const siteBuiltTotalCost = modularTotalCost * (1 + costSavingsPercent / 100);
+  const costSavingsPercent = 30.0; // 30% savings consistently
+  const siteBuiltTotalCost = modularTotalCost / (1 - costSavingsPercent / 100);
   
   // Timeline estimates
   const baseModularTime = 9;
