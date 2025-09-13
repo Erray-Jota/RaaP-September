@@ -6,13 +6,15 @@ interface ProjectSiteMapProps {
   projectName: string;
   height?: string;
   className?: string;
+  trigger?: number; // When this changes, it triggers a new map lookup
 }
 
 export default function ProjectSiteMap({
   address,
   projectName,
   height = '400px',
-  className = ''
+  className = '',
+  trigger = 0
 }: ProjectSiteMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,8 +27,8 @@ export default function ProjectSiteMap({
       try {
         await googleMapsLoader.loadGoogleMaps();
         
-        // If no address provided, show default US map view
-        if (!address || address.trim() === '') {
+        // If trigger is 0 or no address provided, show default US map view
+        if (trigger === 0 || !address || address.trim() === '') {
           // Default center of the United States (approximately Kansas)
           const defaultCenter = { lat: 39.8283, lng: -98.5795 };
           
@@ -51,7 +53,7 @@ export default function ProjectSiteMap({
           return;
         }
 
-        // If address is provided, geocode it and zoom to location
+        // If trigger > 0 and address is provided, geocode it and zoom to location
         const geocoder = new (window as any).google.maps.Geocoder();
         
         geocoder.geocode({ address: address }, (results: any, status: any) => {
@@ -133,11 +135,11 @@ export default function ProjectSiteMap({
       }
     };
 
-    // Reset error and loading state when address changes
+    // Reset error and loading state when trigger changes
     setLoadError(null);
     setIsLoaded(false);
     initializeMap();
-  }, [address, projectName]);
+  }, [trigger, address, projectName]);
 
   if (loadError) {
     return (

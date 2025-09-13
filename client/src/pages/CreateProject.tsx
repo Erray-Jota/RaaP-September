@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MapPin } from "lucide-react";
 import { insertProjectSchema } from "@shared/schema";
 import ProjectSiteMap from "@/components/ProjectSiteMap";
 
@@ -32,6 +32,7 @@ type CreateProjectForm = z.infer<typeof createProjectSchema>;
 export default function CreateProject() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const [mapTrigger, setMapTrigger] = useState(0); // Used to trigger map lookup
 
   const form = useForm<CreateProjectForm>({
     resolver: zodResolver(createProjectSchema),
@@ -83,6 +84,26 @@ export default function CreateProject() {
 
   const onSubmit = (data: CreateProjectForm) => {
     createProject.mutate(data);
+  };
+
+  const handleMapLookup = () => {
+    const address = form.getValues("address");
+    if (address && address.trim()) {
+      setMapTrigger(prev => prev + 1); // Increment to trigger map update
+    } else {
+      toast({
+        title: "Address Required",
+        description: "Please enter an address before looking up the location.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleAddressKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleMapLookup();
+    }
   };
 
   const projectTypes = [
@@ -144,7 +165,24 @@ export default function CreateProject() {
                         <FormItem>
                           <FormLabel>Site Address</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter full address" {...field} />
+                            <div className="flex gap-2">
+                              <Input 
+                                placeholder="Enter full address" 
+                                {...field} 
+                                onKeyDown={handleAddressKeyDown}
+                                data-testid="input-address"
+                              />
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={handleMapLookup}
+                                className="flex items-center gap-2 whitespace-nowrap"
+                                data-testid="button-map-lookup"
+                              >
+                                <MapPin className="h-4 w-4" />
+                                Locate
+                              </Button>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -160,6 +198,7 @@ export default function CreateProject() {
                       projectName={form.watch("name") || "Project Site"}
                       height="300px"
                       className="border rounded-lg"
+                      trigger={mapTrigger}
                     />
                   </div>
                 </div>
