@@ -1060,8 +1060,8 @@ export default function ModularFeasibility() {
                       <div className="text-3xl font-bold text-green-600">{randomScores.cost}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.cost}/5:</strong> $35.7M ($248/sf; $346,455/unit) with Prevailing Wage. 
-                      22.4% savings over site-built ($10.3M total savings). Modular ($35.7M) vs Site-built ($46M).
+                      <strong>Score of {randomScores.cost}/5:</strong> ${(parseFloat(project.modularTotalCost || '0') / 1000000).toFixed(1)}M (${project.modularCostPerSf || '0'}/sf; ${project.modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
+                      {project.costSavingsPercent || '0'}% savings over site-built. Modular construction provides cost advantages.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 20% of overall feasibility score

@@ -1233,8 +1233,8 @@ function ProjectDetail() {
                       <div className="text-3xl font-bold text-green-600">{(project as Project).costScore || "0.0"}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {(project as Project).costScore || "0.0"}/5:</strong> $35.7M ($248/sf; $346,455/unit) with Prevailing Wage. 
-                      22.4% savings over site-built ($10.3M total savings). Modular ($35.7M) vs Site-built ($46M).
+                      <strong>Score of {(project as Project).costScore || "0.0"}/5:</strong> ${(parseFloat((project as Project).modularTotalCost || '0') / 1000000).toFixed(1)}M (${(project as Project).modularCostPerSf || '0'}/sf; ${(project as Project).modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
+                      {(project as Project).costSavingsPercent || '0'}% savings over site-built. Modular construction provides cost advantages.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 20% of overall feasibility score

@@ -175,7 +175,7 @@ export default function CreateProject() {
                                 />
                                 <Label
                                   htmlFor={type.value}
-                                  className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-raap-green transition-colors peer-checked:border-raap-green peer-checked:bg-raap-green peer-checked:text-white"
+                                  className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-raap-green transition-colors peer-data-[state=checked]:border-raap-green peer-data-[state=checked]:bg-raap-green peer-data-[state=checked]:text-white"
                                 >
                                   <span className="text-sm font-medium">{type.label}</span>
                                 </Label>

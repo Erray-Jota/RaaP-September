@@ -5,14 +5,14 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     name: "Serenity Village",
     address: "5224 Chestnut Road, Olivehurst, CA",
     projectType: "affordable",
-    targetFloors: 5,
-    studioUnits: 14,
-    oneBedUnits: 67,
-    twoBedUnits: 22,
-    threeBedUnits: 0,
+    targetFloors: 3,
+    studioUnits: 0,
+    oneBedUnits: 6,
+    twoBedUnits: 12,
+    threeBedUnits: 6,
     targetParkingSpaces: 24,
-    buildingDimensions: "519' X 67' X 57'",
-    constructionType: "Type III-A",
+    buildingDimensions: "146' X 66'",
+    constructionType: "Type V-A",
     
     // Feasibility scoring - Serenity Village from the document
     zoningScore: "4.0",
@@ -30,13 +30,13 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
     overallScore: "4.4",
     
     // Cost analysis - from the document
-    modularTotalCost: "35700000",
-    modularCostPerSf: "248",
-    modularCostPerUnit: "346455",
-    siteBuiltTotalCost: "46000000",
-    siteBuiltCostPerSf: "320",
-    siteBuiltCostPerUnit: "446602",
-    costSavingsPercent: "22",
+    modularTotalCost: "10821565",
+    modularCostPerSf: "411",
+    modularCostPerUnit: "450899",
+    siteBuiltTotalCost: "10960303",
+    siteBuiltCostPerSf: "422",
+    siteBuiltCostPerUnit: "456679",
+    costSavingsPercent: "1",
     
     // Timeline analysis
     modularTimelineMonths: "9",
