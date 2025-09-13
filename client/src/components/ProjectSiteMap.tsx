@@ -25,7 +25,33 @@ export default function ProjectSiteMap({
       try {
         await googleMapsLoader.loadGoogleMaps();
         
-        // Geocode the address to get coordinates
+        // If no address provided, show default US map view
+        if (!address || address.trim() === '') {
+          // Default center of the United States (approximately Kansas)
+          const defaultCenter = { lat: 39.8283, lng: -98.5795 };
+          
+          const map = new (window as any).google.maps.Map(mapRef.current, {
+            center: defaultCenter,
+            zoom: 4, // Show most of the US
+            mapTypeId: (window as any).google.maps.MapTypeId.ROADMAP,
+            styles: [
+              {
+                featureType: 'poi.business',
+                elementType: 'labels',
+                stylers: [{ visibility: 'off' }]
+              }
+            ],
+            mapTypeControl: true,
+            streetViewControl: true,
+            fullscreenControl: true,
+            zoomControl: true
+          });
+
+          setIsLoaded(true);
+          return;
+        }
+
+        // If address is provided, geocode it and zoom to location
         const geocoder = new (window as any).google.maps.Geocoder();
         
         geocoder.geocode({ address: address }, (results: any, status: any) => {
@@ -107,6 +133,9 @@ export default function ProjectSiteMap({
       }
     };
 
+    // Reset error and loading state when address changes
+    setLoadError(null);
+    setIsLoaded(false);
     initializeMap();
   }, [address, projectName]);
 
