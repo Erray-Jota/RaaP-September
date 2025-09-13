@@ -14,7 +14,7 @@ export default function ProjectSiteMap({
   projectName,
   height = '400px',
   className = '',
-  trigger = 0
+  trigger
 }: ProjectSiteMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
