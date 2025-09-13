@@ -358,7 +358,7 @@ export default function ModularFeasibility() {
                       <h4 className="font-semibold text-gray-800 mb-2">Assessment Summary</h4>
                       <p className="text-sm text-gray-700">
                         {isSampleProject(project.name) ? (
-                          '24 units of Affordable Housing, 6 X 1BR, 12 X 2BR, 6 X 3BR. Dimensions 142 (L) X 61 (W) X 36 (H). Construction Type: V-A. 24 Parking Spaces.'
+                          '24 units of Affordable Housing, 6 X 1BR, 12 X 2BR, 6 X 3BR. Dimensions 146 (L) X 66 (W) X 36 (H). Construction Type: V-A. 24 Parking Spaces.'
                         ) : (
                           `103 units of ${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing, 14 X Studios, 67 X 1BR, 22 X 2BR. Dimensions 519 (L) X 67 (W) X 57 (H). Construction Type: III-A. 100 Parking Spaces.`
                         )}
