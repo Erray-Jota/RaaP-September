@@ -166,6 +166,76 @@ export default function ModularFeasibility() {
   const sampleProjectNames = ["Serenity Village", "Mountain View Apartments", "University Housing Complex", "Workforce Commons"];
   const isSampleProject = sampleProjectNames.includes(project.name);
 
+  // Function to download cost breakdown as CSV
+  const downloadCostBreakdown = () => {
+    const costBreakdownData = [
+      // Header
+      ['MasterFormat Division', 'Site Built Total', 'Site Built $/sf', 'RaaP GC', 'RaaP Fab', 'RaaP Total', 'RaaP $/sf', 'Savings'],
+      
+      // Concrete, Masonry & Metals Section
+      ['Concrete, Masonry & Metals', '$1,311,770', '$50', '$1,147,404', '$281,220', '$1,428,623', '$54', '-$116,853'],
+      ['  03 Concrete', '$407,021', '$16', '$285,136', '$164,393', '$449,528', '$17', '-$42,507'],
+      ['  04 Masonry', '$233,482', '$9', '$260,237', '-', '$260,237', '$10', '-$26,755'],
+      ['  05 Metal', '$671,267', '$26', '$602,031', '$116,827', '$718,859', '$27', '-$47,592'],
+      
+      // Rooms Section
+      ['Rooms', '$4,452,553', '$171', '$465,938', '$4,121,807', '$4,587,745', '$174', '-$135,192'],
+      ['  06 Wood & Plastics', '$1,982,860', '$76', '$14,171', '$2,137,612', '$2,151,783', '$82', '-$168,923'],
+      ['  07 Thermal & Moisture Protection', '$490,766', '$19', '$289,407', '$293,030', '$582,437', '$22', '-$91,671'],
+      ['  08 Openings', '$486,606', '$19', '$138,123', '$337,164', '$475,287', '$18', '$11,319'],
+      ['  09 Finishes', '$1,492,321', '$57', '$24,237', '$1,354,001', '$1,378,238', '$52', '$114,083'],
+      
+      // Equipment & Special Construction Section
+      ['Equipment & Special Construction', '$221,062', '$9', '$68,827', '$139,859', '$208,686', '$8', '$12,376'],
+      ['  10 Specialties', '$55,363', '$2', '-', '$47,078', '$47,078', '$2', '$8,285'],
+      ['  11 Equipment', '$16,837', '$1', '$16,837', '-', '$16,837', '$1', '$0'],
+      ['  12 Furnishing', '$99,730', '$4', '$2,858', '$92,781', '$95,639', '$4', '$4,091'],
+      ['  13 Special Construction', '$49,132', '$2', '$49,132', '-', '$49,132', '$2', '$0'],
+      
+      // MEPs Section
+      ['MEPs', '$1,938,147', '$74', '$1,026,490', '$1,323,688', '$2,350,178', '$90', '-$412,031'],
+      ['  21 Fire Suppression', '$234,567', '$9', '$156,789', '$123,456', '$280,245', '$11', '-$45,678'],
+      ['  22 Plumbing', '$456,789', '$18', '$234,567', '$345,678', '$580,245', '$22', '-$123,456'],
+      ['  23 HVAC', '$678,901', '$26', '$345,678', '$456,789', '$802,467', '$31', '-$123,566'],
+      ['  26 Electrical', '$567,890', '$22', '$289,456', '$398,765', '$688,221', '$26', '-$120,331'],
+      
+      // Site Work Section
+      ['Site Work', '$1,247,892', '$48', '$1,247,892', '$0', '$1,247,892', '$48', '$0'],
+      ['  02 Existing Conditions', '$124,789', '$5', '$124,789', '$0', '$124,789', '$5', '$0'],
+      ['  31 Earthwork', '$456,123', '$17', '$456,123', '$0', '$456,123', '$17', '$0'],
+      ['  32 Exterior Improvements', '$332,456', '$13', '$332,456', '$0', '$332,456', '$13', '$0'],
+      ['  33 Utilities', '$334,524', '$13', '$334,524', '$0', '$334,524', '$13', '$0'],
+      
+      // GC Charges Section
+      ['GC Charges', '$892,345', '$34', '$456,789', '$234,567', '$691,356', '$26', '$200,989'],
+      ['  01 General Requirements', '$692,345', '$27', '$356,789', '$134,567', '$491,356', '$19', '$200,989'],
+      ['  00 Fees', '$200,000', '$8', '$100,000', '$100,000', '$200,000', '$8', '$0'],
+      
+      // Project Total
+      ['', '', '', '', '', '', '', ''], // Empty row for spacing
+      ['PROJECT TOTAL', isSampleProject ? '$10,060,303' : '$35,700,000', isSampleProject ? '$387' : '$248', 
+       isSampleProject ? '$4,777,945' : '$17,850,000', isSampleProject ? '$6,462,156' : '$17,850,000', 
+       isSampleProject ? '$11,240,101' : '$46,000,000', isSampleProject ? '$432' : '$319', 
+       isSampleProject ? '-$179,798' : '-$10,300,000']
+    ];
+    
+    // Convert to CSV
+    const csvContent = costBreakdownData.map(row => 
+      row.map(cell => `"${cell}"`).join(',')
+    ).join('\n');
+    
+    // Create and download file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${project.name}_MasterFormat_Cost_Breakdown.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // Use original scores for sample projects, randomized for new projects
   const scores = useMemo(() => {
     if (isSampleProject) {
@@ -1114,7 +1184,19 @@ export default function ModularFeasibility() {
 
                   {/* Detailed MasterFormat Cost Breakdown */}
                   <div>
-                    <h4 className="font-semibold text-raap-dark mb-4">Detailed MasterFormat Cost Breakdown</h4>
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="font-semibold text-raap-dark">Detailed MasterFormat Cost Breakdown</h4>
+                      <button
+                        onClick={downloadCostBreakdown}
+                        className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        data-testid="button-download-cost-breakdown"
+                      >
+                        <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Download CSV
+                      </button>
+                    </div>
                     <div className="bg-white border rounded-lg overflow-hidden">
                       <table className="w-full text-sm">
                         <thead className="bg-gray-700 text-white">
