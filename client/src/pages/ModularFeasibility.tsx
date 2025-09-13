@@ -162,28 +162,50 @@ export default function ModularFeasibility() {
     return "text-red-600";
   };
 
-  // Generate randomized scores between 4.4-5.0 using useMemo for consistency across renders
-  const randomScores = useMemo(() => {
-    const generateRandomScore = () => (Math.random() * 0.6 + 4.4).toFixed(1);
-    return {
-      overall: generateRandomScore(),
-      zoning: generateRandomScore(), 
-      massing: generateRandomScore(),
-      sustainability: generateRandomScore(),
-      cost: generateRandomScore(),
-      logistics: generateRandomScore(),
-      buildTime: generateRandomScore()
-    };
-  }, [projectId]); // Regenerate only when project changes
+  // Sample project names to identify existing projects
+  const sampleProjectNames = ["Serenity Village", "Mountain View Apartments", "University Housing Complex", "Workforce Commons"];
+  const isSampleProject = sampleProjectNames.includes(project.name);
+
+  // Use original scores for sample projects, randomized for new projects
+  const scores = useMemo(() => {
+    if (isSampleProject) {
+      // Use original stored scores for sample projects
+      return {
+        overall: project.overallScore || "4.0",
+        zoning: project.zoningScore || "4.0",
+        massing: project.massingScore || "4.0",
+        sustainability: project.sustainabilityScore || "4.0",
+        cost: project.costScore || "4.0",
+        logistics: project.logisticsScore || "4.0",
+        buildTime: project.buildTimeScore || "4.0"
+      };
+    } else {
+      // Generate randomized scores for new projects
+      const generateRandomScore = () => (Math.random() * 0.6 + 4.4).toFixed(1);
+      return {
+        overall: generateRandomScore(),
+        zoning: generateRandomScore(), 
+        massing: generateRandomScore(),
+        sustainability: generateRandomScore(),
+        cost: generateRandomScore(),
+        logistics: generateRandomScore(),
+        buildTime: generateRandomScore()
+      };
+    }
+  }, [projectId, project.name, isSampleProject]); // Regenerate only when project changes
   
-  const overallScore = useMemo(() => 
-    ((parseFloat(randomScores.zoning) * 0.2) + 
-     (parseFloat(randomScores.massing) * 0.15) + 
-     (parseFloat(randomScores.sustainability) * 0.2) + 
-     (parseFloat(randomScores.cost) * 0.2) + 
-     (parseFloat(randomScores.logistics) * 0.15) + 
-     (parseFloat(randomScores.buildTime) * 0.1)).toFixed(1)
-  , [randomScores]);
+  const overallScore = useMemo(() => {
+    if (isSampleProject) {
+      return scores.overall;
+    } else {
+      return ((parseFloat(scores.zoning) * 0.2) + 
+             (parseFloat(scores.massing) * 0.15) + 
+             (parseFloat(scores.sustainability) * 0.2) + 
+             (parseFloat(scores.cost) * 0.2) + 
+             (parseFloat(scores.logistics) * 0.15) + 
+             (parseFloat(scores.buildTime) * 0.1)).toFixed(1);
+    }
+  }, [scores, isSampleProject]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -300,43 +322,43 @@ export default function ModularFeasibility() {
                   {/* 6 Assessment Criteria Tiles */}
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.zoning)}`}>
-                        {randomScores.zoning}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.zoning)}`}>
+                        {scores.zoning}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Zoning</div>
                       <div className="text-xs text-gray-400">20% weight</div>
                     </div>
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.massing)}`}>
-                        {randomScores.massing}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.massing)}`}>
+                        {scores.massing}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Massing</div>
                       <div className="text-xs text-gray-400">15% weight</div>
                     </div>
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.sustainability)}`}>
-                        {randomScores.sustainability}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.sustainability)}`}>
+                        {scores.sustainability}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Sustainability</div>
                       <div className="text-xs text-gray-400">20% weight</div>
                     </div>
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.cost)}`}>
-                        {randomScores.cost}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.cost)}`}>
+                        {scores.cost}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Cost</div>
                       <div className="text-xs text-gray-400">20% weight</div>
                     </div>
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.logistics)}`}>
-                        {randomScores.logistics}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.logistics)}`}>
+                        {scores.logistics}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Logistics</div>
                       <div className="text-xs text-gray-400">15% weight</div>
                     </div>
                     <div className="text-center p-4 bg-white rounded-lg border">
-                      <div className={`text-2xl font-bold ${getScoreColor(randomScores.buildTime)}`}>
-                        {randomScores.buildTime}
+                      <div className={`text-2xl font-bold ${getScoreColor(scores.buildTime)}`}>
+                        {scores.buildTime}
                       </div>
                       <div className="text-sm text-gray-500 font-medium">Build Time</div>
                       <div className="text-xs text-gray-400">10% weight</div>
@@ -405,7 +427,7 @@ export default function ModularFeasibility() {
                   <MapPin className="h-5 w-5" />
                   <span>Site & Zoning</span>
                   <Badge variant="outline" className="ml-auto bg-blue-100 text-blue-700 border-blue-300">
-                    Score: {randomScores.zoning}/5.0
+                    Score: {scores.zoning}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -415,10 +437,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-blue-800">Zoning Assessment</h3>
-                      <div className="text-3xl font-bold text-blue-600">{randomScores.zoning}/5</div>
+                      <div className="text-3xl font-bold text-blue-600">{scores.zoning}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.zoning}/5:</strong> Concessions are required to reduce open space and parking requirements. 
+                      <strong>Score of {scores.zoning}/5:</strong> Concessions are required to reduce open space and parking requirements. 
                       Modular construction does not introduce any additional waivers or restrictions for this site. 
                       The project qualifies for density bonus provisions under AB 1287 due to affordable unit mix.
                     </p>
@@ -524,7 +546,7 @@ export default function ModularFeasibility() {
                   <Building className="h-5 w-5" />
                   <span>Massing</span>
                   <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
-                    Score: {randomScores.massing}/5.0
+                    Score: {scores.massing}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -534,10 +556,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-green-800">Massing Assessment</h3>
-                      <div className="text-3xl font-bold text-green-600">{randomScores.massing}/5</div>
+                      <div className="text-3xl font-bold text-green-600">{scores.massing}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.massing}/5:</strong> No additional constraints caused by modular structure. 
+                      <strong>Score of {scores.massing}/5:</strong> No additional constraints caused by modular structure. 
                       We can achieve the goal of 103 units and unit mix as the traditional original design.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
@@ -902,7 +924,7 @@ export default function ModularFeasibility() {
                   <Leaf className="h-5 w-5" />
                   <span>Sustainability</span>
                   <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
-                    Score: {randomScores.sustainability}/5.0
+                    Score: {scores.sustainability}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -912,10 +934,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-green-800">Sustainability Assessment</h3>
-                      <div className="text-3xl font-bold text-green-600">{randomScores.sustainability}/5</div>
+                      <div className="text-3xl font-bold text-green-600">{scores.sustainability}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.sustainability}/5:</strong> Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. 
+                      <strong>Score of {scores.sustainability}/5:</strong> Project readily supports Net Zero Energy (NZE) and PHIUS with minimal site-built upgrades. 
                       Will require enhancements to foundation, walls, roof, windows, HVAC & lighting in addition to investment in batteries & solar power. 
                       Modular construction can reduce waste generation and increase installation quality.
                     </p>
@@ -1047,7 +1069,7 @@ export default function ModularFeasibility() {
                   <DollarSign className="h-5 w-5" />
                   <span>Cost Analysis</span>
                   <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
-                    Score: {randomScores.cost}/5.0
+                    Score: {scores.cost}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -1057,10 +1079,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-green-800">Cost Assessment</h3>
-                      <div className="text-3xl font-bold text-green-600">{randomScores.cost}/5</div>
+                      <div className="text-3xl font-bold text-green-600">{scores.cost}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.cost}/5:</strong> ${(parseFloat(project.modularTotalCost || '0') / 1000000).toFixed(1)}M (${project.modularCostPerSf || '0'}/sf; ${project.modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
+                      <strong>Score of {scores.cost}/5:</strong> ${(parseFloat(project.modularTotalCost || '0') / 1000000).toFixed(1)}M (${project.modularCostPerSf || '0'}/sf; ${project.modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
                       {project.costSavingsPercent || '0'}% savings over site-built. Modular construction provides cost advantages.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
@@ -1449,7 +1471,7 @@ export default function ModularFeasibility() {
                   <Truck className="h-5 w-5" />
                   <span>Logistics</span>
                   <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
-                    Score: {randomScores.logistics}/5.0
+                    Score: {scores.logistics}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -1459,10 +1481,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-green-800">Logistics Assessment</h3>
-                      <div className="text-3xl font-bold text-green-600">{randomScores.logistics}/5</div>
+                      <div className="text-3xl font-bold text-green-600">{scores.logistics}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.logistics}/5:</strong> The site presents ideal logistics conditions for modular construction with excellent highway access, ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward route from the Tracy fabrication facility ensures efficient module transportation and installation.
+                      <strong>Score of {scores.logistics}/5:</strong> The site presents ideal logistics conditions for modular construction with excellent highway access, ample staging space, and minimal delivery constraints. The proximity to Highway 70 and straightforward route from the Tracy fabrication facility ensures efficient module transportation and installation.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 15% of overall feasibility score
@@ -1620,7 +1642,7 @@ export default function ModularFeasibility() {
                   <Clock className="h-5 w-5" />
                   <span>Build Time</span>
                   <Badge variant="outline" className="ml-auto bg-green-100 text-green-700 border-green-300">
-                    Score: {randomScores.buildTime}/5.0
+                    Score: {scores.buildTime}/5.0
                   </Badge>
                 </CardTitle>
               </CardHeader>
@@ -1630,10 +1652,10 @@ export default function ModularFeasibility() {
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-green-800">Build Time Assessment</h3>
-                      <div className="text-3xl font-bold text-green-600">{randomScores.buildTime}/5</div>
+                      <div className="text-3xl font-bold text-green-600">{scores.buildTime}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {randomScores.buildTime}/5:</strong> 30.5 months total project delivery using modular approach vs 41 months for site built. 
+                      <strong>Score of {scores.buildTime}/5:</strong> 30.5 months total project delivery using modular approach vs 41 months for site built. 
                       Savings of 10.5 months (25% timeline reduction).
                     </p>
                     <div className="text-xs text-green-600 font-medium">
