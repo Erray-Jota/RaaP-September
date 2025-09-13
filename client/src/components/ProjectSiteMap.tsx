@@ -27,8 +27,8 @@ export default function ProjectSiteMap({
       try {
         await googleMapsLoader.loadGoogleMaps();
         
-        // If trigger is 0 or no address provided, show default US map view
-        if (trigger === 0 || !address || address.trim() === '') {
+        // Show US map if no address provided 
+        if (!address || address.trim() === '') {
           // Default center of the United States (approximately Kansas)
           const defaultCenter = { lat: 39.8283, lng: -98.5795 };
           
@@ -53,7 +53,14 @@ export default function ProjectSiteMap({
           return;
         }
 
-        // If trigger > 0 and address is provided, geocode it and zoom to location
+        // If address is provided, geocode it and zoom to location
+        // For CreateProject: only geocode when trigger > 0 (manual trigger system)
+        // For other components: geocode automatically when address exists (trigger undefined)
+        if (trigger !== undefined && trigger === 0) {
+          // This is from CreateProject with manual trigger system - don't geocode until triggered
+          return;
+        }
+        
         const geocoder = new (window as any).google.maps.Geocoder();
         
         geocoder.geocode({ address: address }, (results: any, status: any) => {
