@@ -585,19 +585,19 @@ export default function ModularFeasibility() {
                           <h4 className="font-semibold text-gray-800 mb-6">Unit Mix Summary</h4>
                           <div className="grid grid-cols-3 gap-6">
                             <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-green-600 mb-2">6</div>
+                              <div className="text-4xl font-bold text-purple-600 mb-2">{isSampleProject ? '0' : '14'}</div>
+                              <div className="font-semibold text-gray-700">Studio Units</div>
+                              <div className="text-sm text-gray-500">{isSampleProject ? '— SF Average' : '450 SF Average'}</div>
+                            </div>
+                            <div className="text-center p-6 bg-gray-50 rounded-lg">
+                              <div className="text-4xl font-bold text-green-600 mb-2">{isSampleProject ? '6' : '67'}</div>
                               <div className="font-semibold text-gray-700">1-Bedroom Units</div>
-                              <div className="text-sm text-gray-500">563 SF Average</div>
+                              <div className="text-sm text-gray-500">{isSampleProject ? '563 SF Average' : '600 SF Average'}</div>
                             </div>
                             <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-blue-600 mb-2">12</div>
+                              <div className="text-4xl font-bold text-blue-600 mb-2">{isSampleProject ? '12' : '22'}</div>
                               <div className="font-semibold text-gray-700">2-Bedroom Units</div>
-                              <div className="text-sm text-gray-500">813 SF Average</div>
-                            </div>
-                            <div className="text-center p-6 bg-gray-50 rounded-lg">
-                              <div className="text-4xl font-bold text-orange-600 mb-2">6</div>
-                              <div className="font-semibold text-gray-700">3-Bedroom Units</div>
-                              <div className="text-sm text-gray-500">980 SF Average</div>
+                              <div className="text-sm text-gray-500">{isSampleProject ? '813 SF Average' : '850 SF Average'}</div>
                             </div>
                           </div>
                         </div>
@@ -609,7 +609,7 @@ export default function ModularFeasibility() {
                               <div className="space-y-3">
                                 <div className="flex justify-between">
                                   <span>Total Units</span>
-                                  <span className="font-semibold">24 units</span>
+                                  <span className="font-semibold">{isSampleProject ? '24 units' : '103 units'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Stories</span>
@@ -649,11 +649,11 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Construction Type</span>
-                                  <span className="font-semibold">V-A</span>
+                                  <span className="font-semibold">{isSampleProject ? 'V-A' : 'III-A'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Structural System</span>
-                                  <span className="font-semibold">Light Frame</span>
+                                  <span className="font-semibold">{isSampleProject ? 'Light Frame' : 'Wood'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Foundation</span>
