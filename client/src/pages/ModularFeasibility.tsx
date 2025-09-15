@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRoute, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -65,29 +65,6 @@ export default function ModularFeasibility() {
     enabled: !!projectId,
   });
 
-  // Handle authentication errors
-  if (error && isUnauthorizedError(error)) {
-    toast({
-      title: "Unauthorized",
-      description: "You are logged out. Logging in again...",
-      variant: "destructive",
-    });
-    setTimeout(() => {
-      window.location.href = "/api/login";
-    }, 500);
-  }
-
-  if (costError && isUnauthorizedError(costError)) {
-    toast({
-      title: "Unauthorized",
-      description: "You are logged out. Logging in again...",
-      variant: "destructive",
-    });
-    setTimeout(() => {
-      window.location.href = "/api/login";
-    }, 500);
-  }
-
   const markAsComplete = useMutation({
     mutationFn: async () => {
       const response = await apiRequest("PATCH", `/api/projects/${projectId}`, {
@@ -116,6 +93,33 @@ export default function ModularFeasibility() {
       }
     },
   });
+
+  // Handle authentication errors using useEffect to avoid violating rules of hooks
+  useEffect(() => {
+    if (error && isUnauthorizedError(error)) {
+      toast({
+        title: "Unauthorized",
+        description: "You are logged out. Logging in again...",
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.href = "/api/login";
+      }, 500);
+    }
+  }, [error, toast]);
+
+  useEffect(() => {
+    if (costError && isUnauthorizedError(costError)) {
+      toast({
+        title: "Unauthorized",
+        description: "You are logged out. Logging in again...",
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.href = "/api/login";
+      }, 500);
+    }
+  }, [costError, toast]);
 
   const handleDownloadReport = () => {
     if (project) {
