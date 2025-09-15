@@ -32,6 +32,34 @@ import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
 import { calculateProjectScores, isSampleProject } from "@/lib/scoring";
 
+// Helper function to format currency values
+function formatCurrency(value: number | string | null | undefined): string {
+  if (!value) return '$0';
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(numValue)) return '$0';
+  return numValue.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+}
+
+// Helper function to format numbers
+function formatNumber(value: number | string | null | undefined): string {
+  if (!value) return '0';
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(numValue)) return '0';
+  return numValue.toLocaleString('en-US');
+}
+
+// Helper function to calculate cost savings amount
+function calculateCostSavings(siteBuilt: number | string | null | undefined, modular: number | string | null | undefined): number {
+  const siteBuiltNum = typeof siteBuilt === 'string' ? parseFloat(siteBuilt) : (siteBuilt || 0);
+  const modularNum = typeof modular === 'string' ? parseFloat(modular) : (modular || 0);
+  return Math.max(0, siteBuiltNum - modularNum);
+}
+
 // Import generated images for Massing tab
 import vallejoFloorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
 import vallejoBuildingRenderingImage from "@assets/Vallejo Building 2_1757773134770.png";
@@ -1505,22 +1533,22 @@ export default function ModularFeasibility() {
                         <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
-                            <div className="font-semibold text-blue-600">{isSampleProject(project.name) ? '$10,821,565' : '$35,684,879'}</div>
-                            <div className="text-sm text-gray-600">{isSampleProject(project.name) ? '$411/sf • 9 Months' : '$248/sf • 30.5 Months'}</div>
+                            <div className="font-semibold text-blue-600">{formatCurrency(project.modularTotalCost)}</div>
+                            <div className="text-sm text-gray-600">{formatCurrency(project.modularCostPerSf)}/sf • {formatNumber(project.modularTimelineMonths)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
-                            <div className="font-semibold">{isSampleProject(project.name) ? '$10,960,303' : '$46,221,006'}</div>
-                            <div className="text-sm text-gray-600">{isSampleProject(project.name) ? '$422/sf • 13 Months' : '$319/sf • 41 Months'}</div>
+                            <div className="font-semibold">{formatCurrency(project.siteBuiltTotalCost)}</div>
+                            <div className="text-sm text-gray-600">{formatCurrency(project.siteBuiltCostPerSf)}/sf • {formatNumber(project.siteBuiltTimelineMonths)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
                           <span>Cost Savings</span>
                           <div className="text-right">
-                            <div className="font-semibold text-green-600">{isSampleProject(project.name) ? '$138,738' : '$10,536,128'}</div>
-                            <div className="text-sm text-gray-600">{isSampleProject(project.name) ? '1.2% savings' : '30% savings'}</div>
+                            <div className="font-semibold text-green-600">{formatCurrency(calculateCostSavings(project.siteBuiltTotalCost, project.modularTotalCost))}</div>
+                            <div className="text-sm text-gray-600">{formatNumber(project.costSavingsPercent)}% savings</div>
                           </div>
                         </div>
                       </div>
@@ -1532,7 +1560,7 @@ export default function ModularFeasibility() {
                         <div className="space-y-2">
                           <div className="flex justify-between">
                             <span>Number of Units</span>
-                            <span className="font-semibold">{isSampleProject(project.name) ? '24' : '103'}</span>
+                            <span className="font-semibold">{(project.studioUnits || 0) + (project.oneBedUnits || 0) + (project.twoBedUnits || 0) + (project.threeBedUnits || 0)}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Average Unit Area</span>
@@ -1541,11 +1569,11 @@ export default function ModularFeasibility() {
                           <hr className="my-2" />
                           <div className="flex justify-between">
                             <span>Cost per Unit (RaaP)</span>
-                            <span className="font-semibold text-blue-600">{isSampleProject(project.name) ? '$450,899' : '$346,455'}</span>
+                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerUnit)}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Cost per Sq Ft (RaaP)</span>
-                            <span className="font-semibold text-blue-600">{isSampleProject(project.name) ? '$411' : '$248'}</span>
+                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerSf)}</span>
                           </div>
                         </div>
                       </div>
