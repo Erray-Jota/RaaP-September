@@ -1769,17 +1769,17 @@ export default function ModularFeasibility() {
                       <h4 className="font-semibold text-raap-dark mb-3">Timeline Comparison</h4>
                       <div className="grid grid-cols-3 gap-3">
                         <div className="text-center p-4 bg-blue-50 rounded border border-blue-200">
-                          <div className="text-2xl font-bold text-blue-600">30.5</div>
+                          <div className="text-2xl font-bold text-blue-600">{formatNumber(project.modularTimelineMonths)}</div>
                           <div className="font-semibold text-blue-600">RaaP Modular</div>
                           <div className="text-xs text-gray-600">months total</div>
                         </div>
                         <div className="text-center p-4 bg-gray-50 rounded border">
-                          <div className="text-2xl font-bold text-gray-600">41</div>
+                          <div className="text-2xl font-bold text-gray-600">{formatNumber(project.siteBuiltTimelineMonths)}</div>
                           <div className="font-semibold text-gray-600">Site-Built</div>
                           <div className="text-xs text-gray-600">months total</div>
                         </div>
                         <div className="text-center p-4 bg-green-50 rounded border border-green-200">
-                          <div className="text-2xl font-bold text-green-600">25%</div>
+                          <div className="text-2xl font-bold text-green-600">{project.siteBuiltTimelineMonths && project.modularTimelineMonths ? Math.round(((Number(project.siteBuiltTimelineMonths) - Number(project.modularTimelineMonths)) / Number(project.siteBuiltTimelineMonths)) * 100) : 0}%</div>
                           <div className="font-semibold text-green-600">Time Savings</div>
                           <div className="text-xs text-gray-600">reduction</div>
                         </div>
