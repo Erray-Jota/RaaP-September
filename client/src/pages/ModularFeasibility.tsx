@@ -1274,204 +1274,468 @@ export default function ModularFeasibility() {
                               </tr>
                             );
                           })()}
-                          <tr>
-                            <td className="px-3 py-2 pl-6">03 Concrete</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$407,021' : '$2,533,115'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$16' : '$15'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$285,136' : '$1,373,299'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$164,393' : '$625,628'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$449,528' : '$1,998,927'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$17' : '$14'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$42,507' : '($534,188)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">04 Masonry</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$233,482' : '$916,443'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$9' : '$5'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$260,237' : '$845,392'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '-' : '0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$260,237' : '$845,392'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$10' : '$6'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$26,755' : '($71,051)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">05 Metal</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$671,267' : '$3,103,653'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$26' : '$18'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$602,031' : '$2,572,095'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$116,827' : '$241,556'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$718,859' : '$2,813,651'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$27' : '$20'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$47,592' : '($290,003)'}</td>
-                          </tr>
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '03 Concrete');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">03 Concrete</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '04 Masonry');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">04 Masonry</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '05 Metal');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">05 Metal</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* Rooms Section */}
-                          <tr className="bg-green-50">
-                            <td className="px-3 py-2 font-semibold text-green-800">Rooms</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$4,452,553' : '$17,692,497'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$171' : '$102'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$465,938' : '$1,671,442'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$4,121,807' : '$11,037,874'}</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$4,587,745' : '$12,709,316'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$174' : '$88'}</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject(project.name) ? '-$135,192' : '($4,983,181)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">06 Wood & Plastics</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,982,860' : '$8,643,831'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$76' : '$50'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$14,171' : '$41,318'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2,137,612' : '$6,378,393'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2,151,783' : '$6,419,712'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$82' : '$45'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$168,923' : '($2,224,120)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">07 Thermal & Moisture Protection</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$490,766' : '$2,325,482'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$19' : '$13'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$289,407' : '$1,129,942'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$293,030' : '$960,368'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$582,437' : '$2,090,309'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$22' : '$15'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$91,671' : '($235,172)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">08 Openings</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$486,606' : '$1,393,966'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$19' : '$8'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$138,123' : '$440,895'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$337,164' : '$792,909'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$475,287' : '$1,233,804'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$18' : '$9'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$11,319' : '($160,163)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">09 Finishes</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,492,321' : '$5,329,218'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$57' : '$31'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$24,237' : '$59,288'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,354,001' : '$2,906,204'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,378,238' : '$2,965,492'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$52' : '$21'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$114,083' : '($2,363,726)'}</td>
-                          </tr>
+                          {/* Rooms Section - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate totals for the Rooms section
+                            const woodData = getCostBreakdownByCategory(costBreakdowns, '06 Wood & Plastics');
+                            const thermalData = getCostBreakdownByCategory(costBreakdowns, '07 Thermal & Moisture Protection');
+                            const openingsData = getCostBreakdownByCategory(costBreakdowns, '08 Openings');
+                            const finishesData = getCostBreakdownByCategory(costBreakdowns, '09 Finishes');
+                            
+                            const siteBuiltTotal = (parseFloat(woodData?.siteBuiltCost || '0') + 
+                                                   parseFloat(thermalData?.siteBuiltCost || '0') + 
+                                                   parseFloat(openingsData?.siteBuiltCost || '0') + 
+                                                   parseFloat(finishesData?.siteBuiltCost || '0'));
+                            const raapGcTotal = (parseFloat(woodData?.raapGcCost || '0') + 
+                                               parseFloat(thermalData?.raapGcCost || '0') + 
+                                               parseFloat(openingsData?.raapGcCost || '0') + 
+                                               parseFloat(finishesData?.raapGcCost || '0'));
+                            const raapFabTotal = (parseFloat(woodData?.raapFabCost || '0') + 
+                                                 parseFloat(thermalData?.raapFabCost || '0') + 
+                                                 parseFloat(openingsData?.raapFabCost || '0') + 
+                                                 parseFloat(finishesData?.raapFabCost || '0'));
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-green-50">
+                                <td className="px-3 py-2 font-semibold text-green-800">Rooms</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '06 Wood & Plastics');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">06 Wood & Plastics</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '07 Thermal & Moisture Protection');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">07 Thermal & Moisture Protection</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '08 Openings');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">08 Openings</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '09 Finishes');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">09 Finishes</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* Equipment & Special Construction Section */}
-                          <tr className="bg-orange-50">
-                            <td className="px-3 py-2 font-semibold text-orange-800">Equipment & Special Construction</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$221,062' : '$656,351'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$9' : '$4'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$68,827' : '$99,544'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$139,859' : '$486,539'}</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$208,686' : '$586,082'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$8' : '$4'}</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject(project.name) ? '$12,376' : '($70,269)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">10 Specialties</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$55,363' : '$200,836'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2' : '$1'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '-' : '0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$47,078' : '$161,890'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$47,078' : '$161,890'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2' : '$1'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$8,285' : '($38,946)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">11 Equipment</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$16,837' : '$29,531'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1' : '$0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$16,837' : '$29,531'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '-' : '0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$16,837' : '$29,531'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1' : '$0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$0' : '$0'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">12 Furnishing</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$99,730' : '$374,255'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$4' : '$2'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2,858' : '$18,284'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$92,781' : '$324,648'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$95,639' : '$342,932'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$4' : '$2'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$4,091' : '($31,322)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">13 Special Construction</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$49,132' : '$51,729'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2' : '$0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$49,132' : '$51,729'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '-' : '0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$49,132' : '$51,729'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$2' : '$0'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$0' : '$0'}</td>
-                          </tr>
+                          {/* Equipment & Special Construction Section - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate totals for the Equipment & Special Construction section
+                            const specialtiesData = getCostBreakdownByCategory(costBreakdowns, '10 Specialties');
+                            const equipmentData = getCostBreakdownByCategory(costBreakdowns, '11 Equipment');
+                            const furnishingData = getCostBreakdownByCategory(costBreakdowns, '12 Furnishing');
+                            const specialConstructionData = getCostBreakdownByCategory(costBreakdowns, '13 Special Construction');
+                            
+                            const siteBuiltTotal = (parseFloat(specialtiesData?.siteBuiltCost || '0') + 
+                                                   parseFloat(equipmentData?.siteBuiltCost || '0') + 
+                                                   parseFloat(furnishingData?.siteBuiltCost || '0') + 
+                                                   parseFloat(specialConstructionData?.siteBuiltCost || '0'));
+                            const raapGcTotal = (parseFloat(specialtiesData?.raapGcCost || '0') + 
+                                               parseFloat(equipmentData?.raapGcCost || '0') + 
+                                               parseFloat(furnishingData?.raapGcCost || '0') + 
+                                               parseFloat(specialConstructionData?.raapGcCost || '0'));
+                            const raapFabTotal = (parseFloat(specialtiesData?.raapFabCost || '0') + 
+                                                 parseFloat(equipmentData?.raapFabCost || '0') + 
+                                                 parseFloat(furnishingData?.raapFabCost || '0') + 
+                                                 parseFloat(specialConstructionData?.raapFabCost || '0'));
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-orange-50">
+                                <td className="px-3 py-2 font-semibold text-orange-800">Equipment & Special Construction</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '10 Specialties');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">10 Specialties</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{raapGc === 0 ? '$0' : formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '11 Equipment');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">11 Equipment</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '12 Furnishing');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">12 Furnishing</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '13 Special Construction');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">13 Special Construction</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* MEPs Section */}
-                          <tr className="bg-purple-50">
-                            <td className="px-3 py-2 font-semibold text-purple-800">MEPs</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$1,938,147' : '$9,852,336'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$74' : '$57'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,026,490' : '$4,466,118'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,323,688' : '$3,548,625'}</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$2,350,178' : '$8,014,743'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$90' : '$56'}</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject(project.name) ? '-$412,031' : '($1,837,593)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">21 Fire Suppression</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$234,567' : '$982,245'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$9' : '$6'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$156,789' : '$346,948'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$123,456' : '$351,524'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$280,245' : '$698,472'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$11' : '$5'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$45,678' : '($283,774)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">22 Plumbing</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,789' : '$2,403,740'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$18' : '$14'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$234,567' : '$1,124,362'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$345,678' : '$1,023,475'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$580,245' : '$2,147,838'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$22' : '$15'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$123,456' : '($255,902)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">23 HVAC</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$678,901' : '$2,505,408'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$26' : '$14'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$345,678' : '$183,153'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,789' : '$1,297,260'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$802,467' : '$1,480,413'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$31' : '$10'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$123,566' : '($1,024,994)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">26 Electrical</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$567,890' : '$3,960,944'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$22' : '$23'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$289,456' : '$2,811,655'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$398,765' : '$876,365'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$688,221' : '$3,688,021'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$26' : '$26'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '-$120,331' : '($272,923)'}</td>
-                          </tr>
+                          {/* MEPs Section - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate totals for the MEPs section
+                            const fireData = getCostBreakdownByCategory(costBreakdowns, '21 Fire Suppression');
+                            const plumbingData = getCostBreakdownByCategory(costBreakdowns, '22 Plumbing');
+                            const hvacData = getCostBreakdownByCategory(costBreakdowns, '23 HVAC');
+                            const electricalData = getCostBreakdownByCategory(costBreakdowns, '26 Electrical');
+                            
+                            const siteBuiltTotal = (parseFloat(fireData?.siteBuiltCost || '0') + 
+                                                   parseFloat(plumbingData?.siteBuiltCost || '0') + 
+                                                   parseFloat(hvacData?.siteBuiltCost || '0') + 
+                                                   parseFloat(electricalData?.siteBuiltCost || '0'));
+                            const raapGcTotal = (parseFloat(fireData?.raapGcCost || '0') + 
+                                               parseFloat(plumbingData?.raapGcCost || '0') + 
+                                               parseFloat(hvacData?.raapGcCost || '0') + 
+                                               parseFloat(electricalData?.raapGcCost || '0'));
+                            const raapFabTotal = (parseFloat(fireData?.raapFabCost || '0') + 
+                                                 parseFloat(plumbingData?.raapFabCost || '0') + 
+                                                 parseFloat(hvacData?.raapFabCost || '0') + 
+                                                 parseFloat(electricalData?.raapFabCost || '0'));
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-purple-50">
+                                <td className="px-3 py-2 font-semibold text-purple-800">MEPs</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '21 Fire Suppression');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">21 Fire Suppression</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '22 Plumbing');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">22 Plumbing</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '23 HVAC');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">23 HVAC</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '26 Electrical');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">26 Electrical</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* Site Work Section */}
-                          <tr className="bg-brown-50 border-gray-300 border-t-2">
-                            <td className="px-3 py-2 font-semibold text-yellow-900">Site Work</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$1,247,892' : '$4,233,670'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$48' : '$24'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$1,247,892' : '$4,239,520'}</td>
-                            <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$1,247,892' : '$4,239,520'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$48' : '$30'}</td>
-                            <td className="px-3 py-2 text-right text-green-600 font-semibold">{isSampleProject(project.name) ? '$0' : '$5,851'}</td>
-                          </tr>
+                          {/* Site Work Section - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate totals for the Site Work section
+                            const earthworkData = getCostBreakdownByCategory(costBreakdowns, '31 Earthwork');
+                            const exteriorData = getCostBreakdownByCategory(costBreakdowns, '32 Exterior Improvements');
+                            const utilitiesData = getCostBreakdownByCategory(costBreakdowns, '33 Utilities');
+                            // Note: 02 Existing Conditions uses static values, not included in calculations
+                            
+                            const siteBuiltTotal = (parseFloat(earthworkData?.siteBuiltCost || '0') + 
+                                                   parseFloat(exteriorData?.siteBuiltCost || '0') + 
+                                                   parseFloat(utilitiesData?.siteBuiltCost || '0') + 
+                                                   124789); // Static value for 02 Existing Conditions
+                            const raapGcTotal = (parseFloat(earthworkData?.raapGcCost || '0') + 
+                                               parseFloat(exteriorData?.raapGcCost || '0') + 
+                                               parseFloat(utilitiesData?.raapGcCost || '0') + 
+                                               124789); // Static value for 02 Existing Conditions
+                            const raapFabTotal = (parseFloat(earthworkData?.raapFabCost || '0') + 
+                                                 parseFloat(exteriorData?.raapFabCost || '0') + 
+                                                 parseFloat(utilitiesData?.raapFabCost || '0')); // Fab cost is 0 for site work
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-brown-50 border-gray-300 border-t-2">
+                                <td className="px-3 py-2 font-semibold text-yellow-900">Site Work</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-green-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
                           <tr>
                             <td className="px-3 py-2 pl-6">02 Existing Conditions</td>
                             <td className="px-3 py-2 text-right">$124,789</td>
@@ -1482,80 +1746,165 @@ export default function ModularFeasibility() {
                             <td className="px-3 py-2 text-right">$5</td>
                             <td className="px-3 py-2 text-right">$0</td>
                           </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">31 Earthwork</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,123' : '$1,146,618'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$17' : '$7'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,123' : '$1,152,469'}</td>
-                            <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,123' : '$1,152,469'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$17' : '$8'}</td>
-                            <td className="px-3 py-2 text-right text-green-600">{isSampleProject(project.name) ? '$0' : '$5,851'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">32 Exterior Improvements</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$332,456' : '$1,521,663'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$13' : '$9'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$332,456' : '$1,521,663'}</td>
-                            <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$332,456' : '$1,521,663'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$13' : '$11'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$0' : '$0'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">33 Utilities</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$334,524' : '$1,565,388'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$13' : '$9'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$334,524' : '$1,565,388'}</td>
-                            <td className="px-3 py-2 text-right">$0</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$334,524' : '$1,565,388'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$13' : '$11'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$0' : '$0'}</td>
-                          </tr>
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '31 Earthwork');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">31 Earthwork</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-green-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '32 Exterior Improvements');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">32 Exterior Improvements</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '33 Utilities');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">33 Utilities</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* GC Charges Section */}
-                          <tr className="bg-gray-100">
-                            <td className="px-3 py-2 font-semibold text-gray-800">GC Charges</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$892,345' : '$7,232,941'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$34' : '$42'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$456,789' : '$2,824,374'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$234,567' : '$1,652,873'}</td>
-                            <td className="px-3 py-2 text-right font-semibold">{isSampleProject(project.name) ? '$691,356' : '$4,477,246'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$26' : '$31'}</td>
-                            <td className="px-3 py-2 text-right text-red-600 font-semibold">{isSampleProject(project.name) ? '$200,989' : '($2,755,695)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">01 General Requirements</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$692,345' : '$2,443,868'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$27' : '$14'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$356,789' : '$959,509'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$134,567' : '$1,012,388'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$491,356' : '$1,971,897'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$19' : '$14'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$200,989' : '($471,972)'}</td>
-                          </tr>
-                          <tr>
-                            <td className="px-3 py-2 pl-6">00 Fees</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$200,000' : '$4,789,073'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$8' : '$28'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$100,000' : '$1,864,865'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$100,000' : '$640,485'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$200,000' : '$2,505,350'}</td>
-                            <td className="px-3 py-2 text-right">{isSampleProject(project.name) ? '$8' : '$17'}</td>
-                            <td className="px-3 py-2 text-right text-red-600">{isSampleProject(project.name) ? '$0' : '($2,283,723)'}</td>
-                          </tr>
+                          {/* GC Charges Section - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate totals for the GC Charges section
+                            const generalReqData = getCostBreakdownByCategory(costBreakdowns, '01 General Requirements');
+                            const feesData = getCostBreakdownByCategory(costBreakdowns, '00 Fees');
+                            
+                            const siteBuiltTotal = (parseFloat(generalReqData?.siteBuiltCost || '0') + 
+                                                   parseFloat(feesData?.siteBuiltCost || '0'));
+                            const raapGcTotal = (parseFloat(generalReqData?.raapGcCost || '0') + 
+                                               parseFloat(feesData?.raapGcCost || '0'));
+                            const raapFabTotal = (parseFloat(generalReqData?.raapFabCost || '0') + 
+                                                 parseFloat(feesData?.raapFabCost || '0'));
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-gray-100">
+                                <td className="px-3 py-2 font-semibold text-gray-800">GC Charges</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '01 General Requirements');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">01 General Requirements</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
+                          {(() => {
+                            const itemData = getCostBreakdownByCategory(costBreakdowns, '00 Fees');
+                            if (!itemData) return null;
+                            const siteBuilt = parseFloat(itemData.siteBuiltCost || '0');
+                            const raapGc = parseFloat(itemData.raapGcCost || '0');
+                            const raapFab = parseFloat(itemData.raapFabCost || '0');
+                            const raapTotal = raapGc + raapFab;
+                            const savings = siteBuilt - raapTotal;
+                            return (
+                              <tr>
+                                <td className="px-3 py-2 pl-6">00 Fees</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
+                                <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
 
-                          {/* Total Row */}
-                          <tr className="bg-gray-700 text-white font-bold text-base">
-                            <td className="px-3 py-3">PROJECT TOTAL</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$10,060,303' : '$46,221,006'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$387' : '$266'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$4,777,945' : '$18,091,784'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$6,462,156' : '$17,593,094'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$11,240,101' : '$35,684,879'}</td>
-                            <td className="px-3 py-3 text-right">{isSampleProject(project.name) ? '$432' : '$248'}</td>
-                            <td className="px-3 py-3 text-right text-red-400">{isSampleProject(project.name) ? '-$179,798' : '($10,536,128)'}</td>
-                          </tr>
+                          {/* Total Row - Using real cost breakdown data */}
+                          {(() => {
+                            // Calculate project totals from all cost breakdowns
+                            const allCosts = costBreakdowns || [];
+                            
+                            const siteBuiltTotal = allCosts.reduce((sum, item) => sum + parseFloat(item.siteBuiltCost || '0'), 0);
+                            const raapGcTotal = allCosts.reduce((sum, item) => sum + parseFloat(item.raapGcCost || '0'), 0);
+                            const raapFabTotal = allCosts.reduce((sum, item) => sum + parseFloat(item.raapFabCost || '0'), 0);
+                            const raapTotal = raapGcTotal + raapFabTotal;
+                            const savings = siteBuiltTotal - raapTotal;
+                            
+                            return (
+                              <tr className="bg-gray-700 text-white font-bold text-base">
+                                <td className="px-3 py-3">PROJECT TOTAL</td>
+                                <td className="px-3 py-3 text-right">{formatCurrency(siteBuiltTotal)}</td>
+                                <td className="px-3 py-3 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-3 text-right">{formatCurrency(raapGcTotal)}</td>
+                                <td className="px-3 py-3 text-right">{formatCurrency(raapFabTotal)}</td>
+                                <td className="px-3 py-3 text-right">{formatCurrency(raapTotal)}</td>
+                                <td className="px-3 py-3 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-3 text-right text-red-400">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                              </tr>
+                            );
+                          })()}
                         </tbody>
                       </table>
                     </div>
