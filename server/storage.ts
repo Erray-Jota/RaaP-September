@@ -135,29 +135,132 @@ export class DatabaseStorage implements IStorage {
     await db.delete(projects).where(eq(projects.id, id));
   }
 
-  // Cost breakdown operations
+  // Cost breakdown operations - Now reads from unified JSON structure
   async getProjectCostBreakdowns(projectId: string): Promise<CostBreakdown[]> {
-    return await db
-      .select()
-      .from(costBreakdowns)
-      .where(eq(costBreakdowns.projectId, projectId));
+    // Get project with costAnalysis data
+    const [project] = await db
+      .select({ costAnalysis: projects.costAnalysis })
+      .from(projects)
+      .where(eq(projects.id, projectId));
+    
+    if (!project?.costAnalysis?.masterFormatBreakdown) {
+      // Fallback to legacy costBreakdowns table for backward compatibility
+      return await db
+        .select()
+        .from(costBreakdowns)
+        .where(eq(costBreakdowns.projectId, projectId));
+    }
+    
+    // Transform unified data back to legacy CostBreakdown format for API compatibility
+    return project.costAnalysis.masterFormatBreakdown.map((item, index) => ({
+      id: `${projectId}-${index}`, // Generate consistent ID
+      projectId,
+      category: item.category,
+      siteBuiltCost: item.siteBuiltCost?.toString() || null,
+      raapGcCost: item.modularGcCost?.toString() || null, 
+      raapFabCost: item.modularFabCost?.toString() || null,
+      raapTotalCost: item.modularTotalCost?.toString() || null
+    }));
   }
 
   async createCostBreakdown(breakdown: InsertCostBreakdown): Promise<CostBreakdown> {
-    const [newBreakdown] = await db
-      .insert(costBreakdowns)
-      .values(breakdown)
-      .returning();
-    return newBreakdown;
+    // Get current project costAnalysis
+    const [project] = await db
+      .select({ costAnalysis: projects.costAnalysis })
+      .from(projects)
+      .where(eq(projects.id, breakdown.projectId));
+    
+    // Initialize costAnalysis if it doesn't exist
+    const currentCostAnalysis = project?.costAnalysis || {
+      masterFormatBreakdown: [],
+      detailedMetrics: {
+        modularConstruction: { designPhaseMonths: 0, fabricationMonths: 0, siteWorkMonths: 0 },
+        siteBuiltConstruction: { designPhaseMonths: 0, constructionMonths: 0 },
+        comparison: { costSavingsAmount: 0, timeSavingsMonths: 0, timeSavingsPercent: 0 }
+      },
+      pricingValidation: { isComplete: false, validatedBy: "", validatedAt: "", notes: "" }
+    };
+    
+    // Add new breakdown to masterFormatBreakdown array
+    const newBreakdownItem = {
+      category: breakdown.category,
+      categoryCode: breakdown.category.split(' - ')[0] || breakdown.category,
+      siteBuiltCost: parseFloat(breakdown.siteBuiltCost || "0"),
+      modularGcCost: parseFloat(breakdown.raapGcCost || "0"),
+      modularFabCost: parseFloat(breakdown.raapFabCost || "0"),
+      modularTotalCost: parseFloat(breakdown.raapTotalCost || "0"),
+      modularCostPerSf: 0
+    };
+    
+    currentCostAnalysis.masterFormatBreakdown.push(newBreakdownItem);
+    
+    // Update project with new costAnalysis
+    await db
+      .update(projects)
+      .set({ costAnalysis: currentCostAnalysis })
+      .where(eq(projects.id, breakdown.projectId));
+    
+    // Return in legacy format for API compatibility
+    return {
+      id: `${breakdown.projectId}-${currentCostAnalysis.masterFormatBreakdown.length - 1}`,
+      projectId: breakdown.projectId,
+      category: breakdown.category,
+      siteBuiltCost: breakdown.siteBuiltCost || null,
+      raapGcCost: breakdown.raapGcCost || null,
+      raapFabCost: breakdown.raapFabCost || null,
+      raapTotalCost: breakdown.raapTotalCost || null
+    };
   }
 
   async updateCostBreakdown(id: string, breakdown: Partial<InsertCostBreakdown>): Promise<CostBreakdown> {
-    const [updatedBreakdown] = await db
-      .update(costBreakdowns)
-      .set(breakdown)
-      .where(eq(costBreakdowns.id, id))
-      .returning();
-    return updatedBreakdown;
+    // Extract projectId and index from composite ID (format: projectId-index)
+    const [projectId, indexStr] = id.split('-');
+    const index = parseInt(indexStr);
+    
+    if (!projectId || isNaN(index)) {
+      throw new Error(`Invalid cost breakdown ID format: ${id}`);
+    }
+    
+    // Get current project costAnalysis
+    const [project] = await db
+      .select({ costAnalysis: projects.costAnalysis })
+      .from(projects)
+      .where(eq(projects.id, projectId));
+    
+    if (!project?.costAnalysis?.masterFormatBreakdown?.[index]) {
+      throw new Error(`Cost breakdown not found at index ${index} for project ${projectId}`);
+    }
+    
+    // Update the specific breakdown item
+    const updatedBreakdown = {
+      ...project.costAnalysis.masterFormatBreakdown[index],
+      ...(breakdown.category && { category: breakdown.category }),
+      ...(breakdown.category && { categoryCode: breakdown.category.split(' - ')[0] || breakdown.category }),
+      ...(breakdown.siteBuiltCost && { siteBuiltCost: parseFloat(breakdown.siteBuiltCost) }),
+      ...(breakdown.raapGcCost && { modularGcCost: parseFloat(breakdown.raapGcCost) }),
+      ...(breakdown.raapFabCost && { modularFabCost: parseFloat(breakdown.raapFabCost) }),
+      ...(breakdown.raapTotalCost && { modularTotalCost: parseFloat(breakdown.raapTotalCost) })
+    };
+    
+    // Update the array
+    project.costAnalysis.masterFormatBreakdown[index] = updatedBreakdown;
+    
+    // Save updated costAnalysis back to database
+    await db
+      .update(projects)
+      .set({ costAnalysis: project.costAnalysis })
+      .where(eq(projects.id, projectId));
+    
+    // Return in legacy format for API compatibility
+    return {
+      id,
+      projectId,
+      category: updatedBreakdown.category,
+      siteBuiltCost: updatedBreakdown.siteBuiltCost?.toString() || null,
+      raapGcCost: updatedBreakdown.modularGcCost?.toString() || null,
+      raapFabCost: updatedBreakdown.modularFabCost?.toString() || null,
+      raapTotalCost: updatedBreakdown.modularTotalCost?.toString() || null
+    };
   }
 
   // Partner operations
