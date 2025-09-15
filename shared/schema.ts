@@ -35,8 +35,9 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Projects table
+// Projects table - Enhanced with unified JSON fields for single source of truth
 export const projects = pgTable("projects", {
+  // Core Project Information (keep existing column names for compatibility)
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
   name: varchar("name").notNull(),
@@ -51,7 +52,7 @@ export const projects = pgTable("projects", {
   buildingDimensions: varchar("building_dimensions"),
   constructionType: varchar("construction_type"),
   
-  // Feasibility scoring
+  // Feasibility scoring (keep existing for compatibility)
   zoningScore: decimal("zoning_score", { precision: 3, scale: 1 }),
   zoningJustification: text("zoning_justification"),
   massingScore: decimal("massing_score", { precision: 3, scale: 1 }),
@@ -66,7 +67,7 @@ export const projects = pgTable("projects", {
   buildTimeJustification: text("build_time_justification"),
   overallScore: decimal("overall_score", { precision: 3, scale: 1 }),
   
-  // Cost analysis
+  // Cost analysis (keep existing for compatibility)
   modularTotalCost: decimal("modular_total_cost", { precision: 12, scale: 2 }),
   modularCostPerSf: decimal("modular_cost_per_sf", { precision: 8, scale: 2 }),
   modularCostPerUnit: decimal("modular_cost_per_unit", { precision: 10, scale: 2 }),
@@ -75,28 +76,28 @@ export const projects = pgTable("projects", {
   siteBuiltCostPerUnit: decimal("site_built_cost_per_unit", { precision: 10, scale: 2 }),
   costSavingsPercent: decimal("cost_savings_percent", { precision: 5, scale: 2 }),
   
-  // Timeline analysis
+  // Timeline analysis (keep existing for compatibility)
   modularTimelineMonths: decimal("modular_timeline_months", { precision: 4, scale: 1 }),
   siteBuiltTimelineMonths: decimal("site_built_timeline_months", { precision: 4, scale: 1 }),
   timeSavingsMonths: decimal("time_savings_months", { precision: 4, scale: 1 }),
   
-  // Zoning details
+  // Zoning details (keep existing for compatibility)
   zoningDistrict: varchar("zoning_district"),
   densityBonusEligible: boolean("density_bonus_eligible").default(false),
   requiredWaivers: text("required_waivers"),
   
-  // Logistics details
+  // Logistics details (keep existing for compatibility)
   factoryLocation: varchar("factory_location"),
   transportationNotes: text("transportation_notes"),
   stagingNotes: text("staging_notes"),
   
-  // Application workflow progress tracking
+  // Application workflow progress tracking (keep existing for compatibility)
   modularFeasibilityComplete: boolean("modular_feasibility_complete").default(false),
   smartStartComplete: boolean("smart_start_complete").default(false),
   fabAssureComplete: boolean("fab_assure_complete").default(false),
   easyDesignComplete: boolean("easy_design_complete").default(false),
   
-  // SmartStart application fields
+  // SmartStart application fields (keep existing for compatibility)
   entitlementStatus: varchar("entitlement_status"),
   entitlementNotes: text("entitlement_notes"),
   planningSdkSubmitted: boolean("planning_sdk_submitted").default(false),
@@ -105,26 +106,26 @@ export const projects = pgTable("projects", {
   permitStatus: varchar("permit_status"),
   permitNotes: text("permit_notes"),
   
-  // Design Package fields
+  // Design Package fields (keep existing for compatibility)
   buildingLayoutComplete: boolean("building_layout_complete").default(false),
   unitDesignsComplete: boolean("unit_designs_complete").default(false),
   buildingRenderingsComplete: boolean("building_renderings_complete").default(false),
-  designPackageStatus: varchar("design_package_status"), // "draft", "review", "approved"
-  buildingRenderingUrls: text("building_rendering_urls"), // JSON array of image URLs
-  unitLayoutData: text("unit_layout_data"), // JSON data for unit layouts
-  buildingLayoutData: text("building_layout_data"), // JSON data for building layout
+  designPackageStatus: varchar("design_package_status"),
+  buildingRenderingUrls: text("building_rendering_urls"),
+  unitLayoutData: text("unit_layout_data"),
+  buildingLayoutData: text("building_layout_data"),
   
-  // AOR Collaboration fields
-  aorPartner: varchar("aor_partner"), // Architect of Record firm name
-  aorContactInfo: text("aor_contact_info"), // JSON contact details
+  // AOR Collaboration fields (keep existing for compatibility)
+  aorPartner: varchar("aor_partner"),
+  aorContactInfo: text("aor_contact_info"),
   designHandoffComplete: boolean("design_handoff_complete").default(false),
-  aorReviewStatus: varchar("aor_review_status"), // "pending", "reviewing", "approved", "revisions_requested"
+  aorReviewStatus: varchar("aor_review_status"),
   aorFeedback: text("aor_feedback"),
-  entitlementPackageStatus: varchar("entitlement_package_status"), // "planning", "in_progress", "submitted", "approved"
+  entitlementPackageStatus: varchar("entitlement_package_status"),
   
-  // Refined Pricing Package fields
+  // Refined Pricing Package fields (keep existing for compatibility)
   fabricatorPartner1: varchar("fabricator_partner_1"),
-  fabricatorPartner2: varchar("fabricator_partner_2"), 
+  fabricatorPartner2: varchar("fabricator_partner_2"),
   fabricatorPartner3: varchar("fabricator_partner_3"),
   gcPartner1: varchar("gc_partner_1"),
   gcPartner2: varchar("gc_partner_2"),
@@ -138,9 +139,9 @@ export const projects = pgTable("projects", {
   pricingValidationComplete: boolean("pricing_validation_complete").default(false),
   refinedCostingComplete: boolean("refined_costing_complete").default(false),
   
-  // Cost Collaboration fields
-  fabricatorNegotiationStatus: varchar("fabricator_negotiation_status"), // "pending", "negotiating", "finalized"
-  gcNegotiationStatus: varchar("gc_negotiation_status"), // "pending", "negotiating", "finalized"
+  // Cost Collaboration fields (keep existing for compatibility)
+  fabricatorNegotiationStatus: varchar("fabricator_negotiation_status"),
+  gcNegotiationStatus: varchar("gc_negotiation_status"),
   costFinalizationComplete: boolean("cost_finalization_complete").default(false),
   finalSelectedFabricator: varchar("final_selected_fabricator"),
   finalSelectedGc: varchar("final_selected_gc"),
@@ -148,7 +149,7 @@ export const projects = pgTable("projects", {
   finalGcCost: decimal("final_gc_cost", { precision: 12, scale: 2 }),
   costCollaborationNotes: text("cost_collaboration_notes"),
   
-  // FabAssure application fields
+  // FabAssure application fields (keep existing for compatibility)
   factoryPartner: varchar("factory_partner"),
   factorySchedulingComplete: boolean("factory_scheduling_complete").default(false),
   qualityAssurancePlan: text("quality_assurance_plan"),
@@ -158,7 +159,7 @@ export const projects = pgTable("projects", {
   shippingPlan: text("shipping_plan"),
   factoryInspectionScheduled: boolean("factory_inspection_scheduled").default(false),
   
-  // EasyDesign application fields
+  // EasyDesign application fields (keep existing for compatibility)
   designCustomizationLevel: varchar("design_customization_level"),
   architecturalPlansFinalized: boolean("architectural_plans_finalized").default(false),
   interiorDesignComplete: boolean("interior_design_complete").default(false),
@@ -167,11 +168,50 @@ export const projects = pgTable("projects", {
   finalDesignApproval: boolean("final_design_approval").default(false),
   designNotes: text("design_notes"),
   
+  // NEW: Unified JSON fields for enhanced data organization (additive approach)
+  // These provide a single source of truth while maintaining backward compatibility
+  
+  // Comprehensive Cost Analysis (replaces separate costBreakdowns table)
+  costAnalysis: jsonb("cost_analysis").$type<{
+    masterFormatBreakdown: Array<{
+      category: string;
+      categoryCode: string;
+      siteBuiltCost: number;
+      modularGcCost: number;
+      modularFabCost: number;
+      modularTotalCost: number;
+      modularCostPerSf: number;
+    }>;
+    detailedMetrics: {
+      modularConstruction: {
+        designPhaseMonths: number;
+        fabricationMonths: number;
+        siteWorkMonths: number;
+      };
+      siteBuiltConstruction: {
+        designPhaseMonths: number;
+        constructionMonths: number;
+      };
+      comparison: {
+        costSavingsAmount: number;
+        timeSavingsMonths: number;
+        timeSavingsPercent: number;
+      };
+    };
+    pricingValidation: {
+      isComplete: boolean;
+      validatedBy: string;
+      validatedAt: string; // ISO string
+      notes: string;
+    };
+  }>(),
+  
+  // Timestamps
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Cost breakdown table (MasterFormat categories)
+// Cost breakdown table (MasterFormat categories) - Keep existing for backward compatibility
 export const costBreakdowns = pgTable("cost_breakdowns", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   projectId: varchar("project_id").references(() => projects.id).notNull(),
@@ -182,9 +222,15 @@ export const costBreakdowns = pgTable("cost_breakdowns", {
   raapTotalCost: decimal("raap_total_cost", { precision: 10, scale: 2 }),
 });
 
+// Type definitions
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type Project = typeof projects.$inferSelect;
+export type InsertProject = typeof projects.$inferInsert;
+export type CostBreakdown = typeof costBreakdowns.$inferSelect;
+export type InsertCostBreakdown = typeof costBreakdowns.$inferInsert;
 
+// Schema validation for the unified project structure
 export const insertProjectSchema = createInsertSchema(projects).omit({
   id: true,
   userId: true,
@@ -195,6 +241,86 @@ export const insertProjectSchema = createInsertSchema(projects).omit({
 export const insertCostBreakdownSchema = createInsertSchema(costBreakdowns).omit({
   id: true,
 });
+
+// Helper schemas for structured data validation
+export const buildingConfigurationSchema = z.object({
+  floors: z.number().min(1),
+  buildingDimensions: z.string(),
+  constructionType: z.string(),
+  unitMix: z.object({
+    studio: z.number().min(0),
+    oneBedroom: z.number().min(0),
+    twoBedroom: z.number().min(0),
+    threeBedroom: z.number().min(0),
+  }),
+  parking: z.object({
+    targetSpaces: z.number().min(0),
+    parkingType: z.enum(['surface', 'garage', 'mixed']),
+  }),
+  buildingSpecs: z.object({
+    grossSquareFootage: z.number().min(1),
+    unitAverageSize: z.number().min(1),
+    commonAreaSize: z.number().min(0),
+  }),
+});
+
+export const feasibilityAssessmentSchema = z.object({
+  scoringWeights: z.object({
+    zoning: z.number(),
+    massing: z.number(),
+    sustainability: z.number(),
+    cost: z.number(),
+    logistics: z.number(),
+    buildTime: z.number(),
+  }),
+  criteriaScores: z.object({
+    zoning: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+    massing: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+    sustainability: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+    cost: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+    logistics: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+    buildTime: z.object({
+      score: z.number().min(1).max(5),
+      justification: z.string(),
+      details: z.string(),
+    }),
+  }),
+});
+
+export const masterFormatCategorySchema = z.object({
+  category: z.string(),
+  categoryCode: z.string(),
+  siteBuiltCost: z.number(),
+  modularGcCost: z.number(),
+  modularFabCost: z.number(),
+  modularTotalCost: z.number(),
+  modularCostPerSf: z.number(),
+});
+
+// Type exports for structured data
+export type BuildingConfiguration = z.infer<typeof buildingConfigurationSchema>;
+export type FeasibilityAssessment = z.infer<typeof feasibilityAssessmentSchema>;
+export type MasterFormatCategory = z.infer<typeof masterFormatCategorySchema>;
 
 // Partners table for FabAssure marketplace
 export const partners = pgTable("partners", {
@@ -369,7 +495,3 @@ export type InsertDesignWorkflow = typeof designWorkflows.$inferInsert;
 export type EngineeringDetail = typeof engineeringDetails.$inferSelect;
 export type InsertEngineeringDetail = typeof engineeringDetails.$inferInsert;
 
-export type InsertProject = z.infer<typeof insertProjectSchema>;
-export type Project = typeof projects.$inferSelect;
-export type InsertCostBreakdown = z.infer<typeof insertCostBreakdownSchema>;
-export type CostBreakdown = typeof costBreakdowns.$inferSelect;
