@@ -153,7 +153,7 @@ export class DatabaseStorage implements IStorage {
     
     // Transform unified data back to legacy CostBreakdown format for API compatibility
     return project.costAnalysis.masterFormatBreakdown.map((item, index) => ({
-      id: `${projectId}-${index}`, // Generate consistent ID
+      id: `${projectId}::${index}`, // Use :: delimiter to avoid UUID conflicts
       projectId,
       category: item.category,
       siteBuiltCost: item.siteBuiltCost?.toString() || null,
@@ -202,7 +202,7 @@ export class DatabaseStorage implements IStorage {
     
     // Return in legacy format for API compatibility
     return {
-      id: `${breakdown.projectId}-${currentCostAnalysis.masterFormatBreakdown.length - 1}`,
+      id: `${breakdown.projectId}::${currentCostAnalysis.masterFormatBreakdown.length - 1}`,
       projectId: breakdown.projectId,
       category: breakdown.category,
       siteBuiltCost: breakdown.siteBuiltCost || null,
@@ -213,12 +213,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateCostBreakdown(id: string, breakdown: Partial<InsertCostBreakdown>): Promise<CostBreakdown> {
-    // Extract projectId and index from composite ID (format: projectId-index)
-    const [projectId, indexStr] = id.split('-');
+    // Extract projectId and index from composite ID (format: projectId::index)
+    const lastDelimiter = id.lastIndexOf('::');
+    if (lastDelimiter === -1) {
+      throw new Error(`Invalid cost breakdown ID format: ${id}. Expected format: projectId::index`);
+    }
+    
+    const projectId = id.substring(0, lastDelimiter);
+    const indexStr = id.substring(lastDelimiter + 2);
     const index = parseInt(indexStr);
     
     if (!projectId || isNaN(index)) {
-      throw new Error(`Invalid cost breakdown ID format: ${id}`);
+      throw new Error(`Invalid cost breakdown ID format: ${id}. ProjectId: '${projectId}', Index: '${indexStr}'`);
     }
     
     // Get current project costAnalysis

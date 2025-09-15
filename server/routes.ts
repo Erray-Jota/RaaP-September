@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
-import { insertProjectSchema, insertCostBreakdownSchema } from "@shared/schema";
+import { insertProjectSchema, insertCostBreakdownSchema, projects, type InsertProject } from "@shared/schema";
 import { z } from "zod";
 import googleSheetsService, { type SimulatorParams } from "./googleSheetsService";
 
@@ -73,13 +73,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertProjectSchema.parse(req.body);
       
       // Calculate feasibility scores for new user projects
-      const scores = calculateFeasibilityScores(validatedData, true);
+      const scores: FeasibilityScoreResult = calculateFeasibilityScores(validatedData, true);
       
-      const project = await storage.createProject({
+      const payload: NewProjectPayload = {
         ...validatedData,
         ...scores,
         userId,
-      });
+      };
+      
+      const project = await storage.createProject(payload);
 
       // Create sample cost breakdowns for the project
       const costBreakdowns = await createSampleCostBreakdowns(project.id);
@@ -111,12 +113,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertProjectSchema.partial().parse(req.body);
       
       // Recalculate scores if project details changed (preserve existing logic)
-      const scores = calculateFeasibilityScores({ ...project, ...validatedData }, false);
+      const scores: FeasibilityScoreResult = calculateFeasibilityScores({ ...project, ...validatedData }, false);
       
-      const updatedProject = await storage.updateProject(id, {
+      const updatePayload: Partial<NewProjectPayload> = {
         ...validatedData,
         ...scores,
-      });
+      };
+      
+      const updatedProject = await storage.updateProject(id, updatePayload);
 
       res.json(updatedProject);
     } catch (error) {
@@ -461,7 +465,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
 }
 
 // Helper function to calculate feasibility scores based on project data
-function calculateFeasibilityScores(projectData: any, isNewProject: boolean = true) {
+// Define typed payloads for project operations
+type NewProjectPayload = Omit<InsertProject, 'id' | 'createdAt' | 'updatedAt'>;
+
+// Define the exact return type for feasibility scores - only scalar fields that map to existing columns
+type FeasibilityScoreResult = Pick<InsertProject, 
+  'zoningScore' | 'zoningJustification' | 'massingScore' | 'massingJustification' | 
+  'costScore' | 'costJustification' | 'sustainabilityScore' | 'sustainabilityJustification' | 
+  'logisticsScore' | 'logisticsJustification' | 'buildTimeScore' | 'buildTimeJustification' | 
+  'overallScore' | 'modularTotalCost' | 'modularCostPerUnit' | 'modularCostPerSf' | 
+  'siteBuiltTotalCost' | 'siteBuiltCostPerUnit' | 'siteBuiltCostPerSf' | 'costSavingsPercent' | 
+  'modularTimelineMonths' | 'siteBuiltTimelineMonths' | 'timeSavingsMonths' | 'factoryLocation' | 
+  'zoningDistrict' | 'densityBonusEligible'
+>;
+
+function calculateFeasibilityScores(projectData: any, isNewProject: boolean = true): FeasibilityScoreResult {
   // Implement scoring algorithm based on RaaP's methodology
   const totalUnits = (projectData.studioUnits || 0) + (projectData.oneBedUnits || 0) + 
                     (projectData.twoBedUnits || 0) + (projectData.threeBedUnits || 0);
@@ -524,6 +542,7 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
     modularCostPerSf: costPerSf.toString(),
     siteBuiltTotalCost: siteBuiltTotalCost.toString(),
     siteBuiltCostPerUnit: (siteBuiltTotalCost / (isNewProject ? 103 : totalUnits)).toString(),
+    siteBuiltCostPerSf: Math.round(siteBuiltTotalCost / (totalUnits * 800)).toString(),
     costSavingsPercent: costSavingsPercent.toFixed(1),
     modularTimelineMonths: "30.5", // Fixed modular timeline
     siteBuiltTimelineMonths: "41.0", // Fixed site-built timeline  

@@ -231,7 +231,44 @@ export type CostBreakdown = typeof costBreakdowns.$inferSelect;
 export type InsertCostBreakdown = typeof costBreakdowns.$inferInsert;
 
 // Schema validation for the unified project structure
-export const insertProjectSchema = createInsertSchema(projects).omit({
+// Zod schema that mirrors the costAnalysis JSON structure
+export const costAnalysisSchema = z.object({
+  masterFormatBreakdown: z.array(z.object({
+    category: z.string(),
+    categoryCode: z.string(),
+    siteBuiltCost: z.number(),
+    modularGcCost: z.number(),
+    modularFabCost: z.number(),
+    modularTotalCost: z.number(),
+    modularCostPerSf: z.number(),
+  })),
+  detailedMetrics: z.object({
+    modularConstruction: z.object({
+      designPhaseMonths: z.number(),
+      fabricationMonths: z.number(),
+      siteWorkMonths: z.number()
+    }),
+    siteBuiltConstruction: z.object({
+      designPhaseMonths: z.number(),
+      constructionMonths: z.number()
+    }),
+    comparison: z.object({
+      costSavingsAmount: z.number(),
+      timeSavingsMonths: z.number(),
+      timeSavingsPercent: z.number()
+    })
+  }),
+  pricingValidation: z.object({
+    isComplete: z.boolean(),
+    validatedBy: z.string(),
+    validatedAt: z.string(),
+    notes: z.string()
+  })
+});
+
+export const insertProjectSchema = createInsertSchema(projects, {
+  costAnalysis: costAnalysisSchema.optional()
+}).omit({
   id: true,
   userId: true,
   createdAt: true,
