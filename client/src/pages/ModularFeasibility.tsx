@@ -107,6 +107,12 @@ export default function ModularFeasibility() {
     enabled: !!projectId,
   });
 
+  // Move hooks before early returns to avoid React hooks rule violation
+  const projectScores = useMemo(() => {
+    if (!project) return { overall: "0.0", individual: { zoning: "0.0", massing: "0.0", sustainability: "0.0", cost: "0.0", logistics: "0.0", buildTime: "0.0" } };
+    return calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined);
+  }, [project?.id, project?.name, project?.overallScore]);
+
   const markAsComplete = useMutation({
     mutationFn: async () => {
       const response = await apiRequest("PATCH", `/api/projects/${projectId}`, {
@@ -719,10 +725,6 @@ export default function ModularFeasibility() {
   };
 
   // Use deterministic scores that match ProjectCard exactly
-  const projectScores = useMemo(() => {
-    return calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined);
-  }, [project.id, project.name, project.overallScore]);
-  
   const scores = {
     overall: projectScores.overall,
     zoning: projectScores.individual.zoning,
