@@ -292,7 +292,7 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Summary tab
+  // CSV download function for Summary tab - raw input data only
   const downloadSummaryData = () => {
     const summaryData = [
       ['Field', 'Value'],
@@ -300,13 +300,11 @@ export default function ModularFeasibility() {
       ['Address', project.address || ''],
       ['Project Type', project.projectType || ''],
       ['Target Floors', project.targetFloors || ''],
-      ['Total Square Feet', project.totalSquareFeet || ''],
       ['Studio Units', project.studioUnits || ''],
       ['One Bedroom Units', project.oneBedUnits || ''],
       ['Two Bedroom Units', project.twoBedUnits || ''],
       ['Three Bedroom Units', project.threeBedUnits || ''],
-      ['Total Parking Spaces', project.totalParkingSpaces || ''],
-      ['ADA Parking Spaces', project.adaParkingSpaces || ''],
+      ['Target Parking Spaces', project.targetParkingSpaces || ''],
       ['Overall Score', scores.overall || ''],
       ['Zoning Score', scores.zoning || ''],
       ['Massing Score', scores.massing || ''],
@@ -331,24 +329,13 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Zoning tab
+  // CSV download function for Zoning tab - raw zoning input data only
   const downloadZoningData = () => {
     const zoningData = [
       ['Field', 'Value'],
       ['Zoning District', project.zoningDistrict || ''],
-      ['Max Density Units/Acre', project.maxDensityUnitsPerAcre || ''],
-      ['Max Height Stories', project.maxHeightStories || ''],
-      ['Max Height Feet', project.maxHeightFeet || ''],
-      ['Min Setback Front', project.minSetbackFront || ''],
-      ['Min Setback Side', project.minSetbackSide || ''],
-      ['Min Setback Rear', project.minSetbackRear || ''],
-      ['Max Lot Coverage Percent', project.maxLotCoveragePercent || ''],
-      ['Min Open Space Percent', project.minOpenSpacePercent || ''],
-      ['Parking Ratio Per Unit', project.parkingRatioPerUnit || ''],
       ['Density Bonus Eligible', project.densityBonusEligible || ''],
-      ['Required Waivers', project.requiredWaivers || ''],
-      ['Site Area Acres', project.siteAreaAcres || ''],
-      ['Buildable Area SqFt', project.buildableAreaSqFt || '']
+      ['Required Waivers', project.requiredWaivers || '']
     ];
     
     const csvContent = zoningData.map(row => 
@@ -366,28 +353,17 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Massing tab
+  // CSV download function for Massing tab - raw massing input data only
   const downloadMassingData = () => {
     const massingData = [
       ['Field', 'Value'],
-      ['Building Type', project.buildingType || ''],
       ['Construction Type', project.constructionType || ''],
       ['Target Floors', project.targetFloors || ''],
-      ['Total Square Feet', project.totalSquareFeet || ''],
-      ['Building Footprint SqFt', project.buildingFootprintSqFt || ''],
-      ['Floor to Floor Height', project.floorToFloorHeight || ''],
-      ['Total Building Height', project.totalBuildingHeight || ''],
       ['Studio Units', project.studioUnits || ''],
-      ['Studio Unit Size SqFt', project.studioUnitSizeSqFt || ''],
       ['One Bedroom Units', project.oneBedUnits || ''],
-      ['One Bedroom Unit Size SqFt', project.oneBedUnitSizeSqFt || ''],
       ['Two Bedroom Units', project.twoBedUnits || ''],
-      ['Two Bedroom Unit Size SqFt', project.twoBedUnitSizeSqFt || ''],
       ['Three Bedroom Units', project.threeBedUnits || ''],
-      ['Three Bedroom Unit Size SqFt', project.threeBedUnitSizeSqFt || ''],
-      ['Common Area SqFt', project.commonAreaSqFt || ''],
-      ['Mechanical SqFt', project.mechanicalSqFt || ''],
-      ['Circulation SqFt', project.circulationSqFt || '']
+      ['Building Dimensions', project.buildingDimensions || '']
     ];
     
     const csvContent = massingData.map(row => 
@@ -405,10 +381,10 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Sustainability tab
+  // CSV download function for Sustainability tab - assessment results only (read-only)
   const downloadSustainabilityData = () => {
     const sustainabilityData = [
-      ['Field', 'Value'],
+      ['Field', 'Assessment Result'],
       ['Solar PV Ready', 'Yes'],
       ['Battery Storage Prep', 'Included'],
       ['High Performance Envelope', 'Upgrade Required'],
@@ -418,11 +394,7 @@ export default function ModularFeasibility() {
       ['Thermal Bridge Reduction', 'Optimized'],
       ['Window Performance', 'Upgrade Required'],
       ['Ventilation System', 'HRV Required'],
-      ['Quality Assurance', 'Factory QC'],
-      ['Wall Enhancement Cost', '$8,000'],
-      ['Window Enhancement Cost', '$25,000'],
-      ['HVAC Enhancement Cost', '$35,000'],
-      ['Solar Battery Cost', '$180,000']
+      ['Quality Assurance', 'Factory QC']
     ];
     
     const csvContent = sustainabilityData.map(row => 
@@ -440,27 +412,13 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Logistics tab
+  // CSV download function for Logistics tab - raw logistics input data only
   const downloadLogisticsData = () => {
     const logisticsData = [
       ['Field', 'Value'],
-      ['Highway Access', 'Excellent'],
-      ['Route Complexity', 'Simple'],
-      ['Street Width', 'Adequate'],
-      ['Turning Radius', 'Sufficient'],
-      ['Bridge Clearances', 'No Issues'],
-      ['Staging Area', 'Ample Space'],
-      ['Crane Access', 'Multiple Points'],
-      ['Utility Coordination', 'Straightforward'],
-      ['Traffic Impact', 'Minimal'],
-      ['Neighbor Impact', 'Low'],
-      ['Foundation Prep Duration', '4 weeks'],
-      ['Ground Floor Modules', '8'],
-      ['Ground Floor Duration', '1 week'],
-      ['Second Floor Modules', '8'],
-      ['Second Floor Duration', '1 week'],
-      ['Third Floor Modules', '8'],
-      ['Third Floor Duration', '1 week']
+      ['Factory Location', project.factoryLocation || ''],
+      ['Transportation Notes', project.transportationNotes || ''],
+      ['Staging Notes', project.stagingNotes || '']
     ];
     
     const csvContent = logisticsData.map(row => 
@@ -478,16 +436,12 @@ export default function ModularFeasibility() {
     document.body.removeChild(link);
   };
 
-  // CSV download function for Build Time tab
+  // CSV download function for Build Time tab - raw timeline input data only
   const downloadBuildTimeData = () => {
     const buildTimeData = [
-      ['Phase', 'Site Built Duration (months)', 'RaaP Modular Duration (months)', 'Time Savings (months)'],
-      ['Pre-Construction', '8', '8', '0'],
-      ['Foundation & Site', '4', '4', '0'],
-      ['Structure & MEP', '18', '8', '10'],
-      ['Finishes & MEP', '8', '7.5', '0.5'],
-      ['Final Inspections', '3', '3', '0'],
-      ['Total Duration', project.siteBuiltTimelineMonths || '41', project.modularTimelineMonths || '30.5', ((Number(project.siteBuiltTimelineMonths || 41) - Number(project.modularTimelineMonths || 30.5))).toString()]
+      ['Field', 'Value'],
+      ['Modular Timeline Months', project.modularTimelineMonths || ''],
+      ['Site Built Timeline Months', project.siteBuiltTimelineMonths || '']
     ];
     
     const csvContent = buildTimeData.map(row => 
@@ -522,20 +476,18 @@ export default function ModularFeasibility() {
           }
         }
         
-        // Update project with uploaded data
+        // Update project with uploaded data - core fields and scores only
         const updateData = {
           name: data['Project Name'] || project.name,
           address: data['Address'] || project.address,
           projectType: data['Project Type'] || project.projectType,
           targetFloors: data['Target Floors'] || project.targetFloors,
-          totalSquareFeet: data['Total Square Feet'] || project.totalSquareFeet,
           studioUnits: data['Studio Units'] || project.studioUnits,
           oneBedUnits: data['One Bedroom Units'] || project.oneBedUnits,
           twoBedUnits: data['Two Bedroom Units'] || project.twoBedUnits,
           threeBedUnits: data['Three Bedroom Units'] || project.threeBedUnits,
-          totalParkingSpaces: data['Total Parking Spaces'] || project.totalParkingSpaces,
-          adaParkingSpaces: data['ADA Parking Spaces'] || project.adaParkingSpaces,
-          // Add score fields
+          targetParkingSpaces: data['Target Parking Spaces'] || project.targetParkingSpaces,
+          // Score fields - single source of truth
           overallScore: data['Overall Score'] || project.overallScore,
           zoningScore: data['Zoning Score'] || project.zoningScore,
           massingScore: data['Massing Score'] || project.massingScore,
@@ -572,19 +524,8 @@ export default function ModularFeasibility() {
         
         const updateData = {
           zoningDistrict: data['Zoning District'] || project.zoningDistrict,
-          maxDensityUnitsPerAcre: data['Max Density Units/Acre'] || project.maxDensityUnitsPerAcre,
-          maxHeightStories: data['Max Height Stories'] || project.maxHeightStories,
-          maxHeightFeet: data['Max Height Feet'] || project.maxHeightFeet,
-          minSetbackFront: data['Min Setback Front'] || project.minSetbackFront,
-          minSetbackSide: data['Min Setback Side'] || project.minSetbackSide,
-          minSetbackRear: data['Min Setback Rear'] || project.minSetbackRear,
-          maxLotCoveragePercent: data['Max Lot Coverage Percent'] || project.maxLotCoveragePercent,
-          minOpenSpacePercent: data['Min Open Space Percent'] || project.minOpenSpacePercent,
-          parkingRatioPerUnit: data['Parking Ratio Per Unit'] || project.parkingRatioPerUnit,
           densityBonusEligible: data['Density Bonus Eligible'] || project.densityBonusEligible,
-          requiredWaivers: data['Required Waivers'] || project.requiredWaivers,
-          siteAreaAcres: data['Site Area Acres'] || project.siteAreaAcres,
-          buildableAreaSqFt: data['Buildable Area SqFt'] || project.buildableAreaSqFt
+          requiredWaivers: data['Required Waivers'] || project.requiredWaivers
         };
         
         await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
@@ -613,24 +554,13 @@ export default function ModularFeasibility() {
         }
         
         const updateData = {
-          buildingType: data['Building Type'] || project.buildingType,
           constructionType: data['Construction Type'] || project.constructionType,
           targetFloors: data['Target Floors'] || project.targetFloors,
-          totalSquareFeet: data['Total Square Feet'] || project.totalSquareFeet,
-          buildingFootprintSqFt: data['Building Footprint SqFt'] || project.buildingFootprintSqFt,
-          floorToFloorHeight: data['Floor to Floor Height'] || project.floorToFloorHeight,
-          totalBuildingHeight: data['Total Building Height'] || project.totalBuildingHeight,
           studioUnits: data['Studio Units'] || project.studioUnits,
-          studioUnitSizeSqFt: data['Studio Unit Size SqFt'] || project.studioUnitSizeSqFt,
           oneBedUnits: data['One Bedroom Units'] || project.oneBedUnits,
-          oneBedUnitSizeSqFt: data['One Bedroom Unit Size SqFt'] || project.oneBedUnitSizeSqFt,
           twoBedUnits: data['Two Bedroom Units'] || project.twoBedUnits,
-          twoBedUnitSizeSqFt: data['Two Bedroom Unit Size SqFt'] || project.twoBedUnitSizeSqFt,
           threeBedUnits: data['Three Bedroom Units'] || project.threeBedUnits,
-          threeBedUnitSizeSqFt: data['Three Bedroom Unit Size SqFt'] || project.threeBedUnitSizeSqFt,
-          commonAreaSqFt: data['Common Area SqFt'] || project.commonAreaSqFt,
-          mechanicalSqFt: data['Mechanical SqFt'] || project.mechanicalSqFt,
-          circulationSqFt: data['Circulation SqFt'] || project.circulationSqFt
+          buildingDimensions: data['Building Dimensions'] || project.buildingDimensions
         };
         
         await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
@@ -644,28 +574,8 @@ export default function ModularFeasibility() {
   };
 
   const uploadSustainabilityData = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const csv = e.target?.result as string;
-        const lines = csv.split('\n');
-        const data: Record<string, string> = {};
-        
-        for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
-          }
-        }
-        
-        // For sustainability data, most are static values showing capabilities
-        // Only some costs might be updatable project-specific values
-        toast({ title: "Success", description: "Sustainability data uploaded successfully" });
-      } catch (error) {
-        toast({ title: "Error", description: "Failed to upload sustainability data", variant: "destructive" });
-      }
-    };
-    reader.readAsText(file);
+    // Sustainability data is read-only assessment results, not user input
+    toast({ title: "Info", description: "Sustainability data is assessment results and cannot be modified via upload" });
   };
 
   const uploadLogisticsData = (file: File) => {
@@ -683,8 +593,14 @@ export default function ModularFeasibility() {
           }
         }
         
-        // Most logistics data is site-specific assessment results
-        // Could update project delivery timeline if needed
+        const updateData = {
+          factoryLocation: data['Factory Location'] || project.factoryLocation,
+          transportationNotes: data['Transportation Notes'] || project.transportationNotes,
+          stagingNotes: data['Staging Notes'] || project.stagingNotes
+        };
+        
+        await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
+        queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
         toast({ title: "Success", description: "Logistics data uploaded successfully" });
       } catch (error) {
         toast({ title: "Error", description: "Failed to upload logistics data", variant: "destructive" });
@@ -708,22 +624,13 @@ export default function ModularFeasibility() {
           }
         }
         
-        // Update timeline data from uploaded CSV
-        const updateData: any = {};
-        if (data['RaaP Modular Duration (months)'] && lines.find(line => line.includes('Total Duration'))) {
-          const totalLine = lines.find(line => line.includes('Total Duration'));
-          if (totalLine) {
-            const [, siteBuilt, modular] = totalLine.split(',').map(cell => cell.replace(/"/g, ''));
-            updateData.siteBuiltTimelineMonths = siteBuilt;
-            updateData.modularTimelineMonths = modular;
-          }
-        }
+        const updateData = {
+          modularTimelineMonths: data['Modular Timeline Months'] || project.modularTimelineMonths,
+          siteBuiltTimelineMonths: data['Site Built Timeline Months'] || project.siteBuiltTimelineMonths
+        };
         
-        if (Object.keys(updateData).length > 0) {
-          await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
-          queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
-        }
-        
+        await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
+        queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
         toast({ title: "Success", description: "Build time data uploaded successfully" });
       } catch (error) {
         toast({ title: "Error", description: "Failed to upload build time data", variant: "destructive" });
