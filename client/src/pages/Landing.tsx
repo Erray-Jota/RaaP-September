@@ -4,9 +4,6 @@ import { Building, Calculator, FileText, MapPin, Users, Wrench, Palette, ArrowRi
 import raapLogoPath from "@assets/raap-logo-new.png";
 
 export default function Landing() {
-  const handleLogin = () => {
-    window.location.href = "/api/login";
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -20,9 +17,6 @@ export default function Landing() {
               <h1 className="text-lg font-medium text-raap-dark">Rooms as a Product Workflow</h1>
             </div>
             
-            <Button onClick={handleLogin} size="sm" className="bg-raap-green hover:bg-green-700 text-sm px-4 py-2">
-              Sign In
-            </Button>
           </div>
         </div>
       </header>
@@ -38,11 +32,11 @@ export default function Landing() {
             Navigate seamlessly through ModularFeasibility → SmartStart → FabAssure → EasyDesign with integrated project data flow.
           </p>
           <Button 
-            onClick={handleLogin}
+            onClick={() => window.location.href = '/'}
             size="lg" 
             className="bg-raap-green hover:bg-green-700 text-lg px-8 py-3"
           >
-            Get Started - Sign In
+            Get Started
           </Button>
         </div>
 
@@ -227,11 +221,11 @@ export default function Landing() {
             Join multifamily developers using our complete 4-application workflow system to navigate modular construction from feasibility through design
           </p>
           <Button 
-            onClick={handleLogin}
+            onClick={() => window.location.href = '/'}
             size="lg" 
             className="bg-raap-green hover:bg-green-700 text-lg px-8 py-3"
           >
-            Begin Workflow - Sign In
+            Begin Workflow
           </Button>
         </div>
       </main>

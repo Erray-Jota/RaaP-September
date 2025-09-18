@@ -1,15 +1,9 @@
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import raapLogoPath from "@assets/raap-logo-new.png";
 
 export default function Header() {
   const [location, navigate] = useLocation();
-  const { user } = useAuth();
-
-  const handleLogout = () => {
-    window.location.href = "/api/logout";
-  };
 
   const isActive = (path: string) => {
     return location === path;
@@ -56,26 +50,12 @@ export default function Header() {
           </nav>
           
           <div className="flex items-center space-x-4">
-            {user ? (
-              <div className="hidden md:flex items-center space-x-2">
-                {(user as any)?.profileImageUrl && (
-                  <img 
-                    src={(user as any).profileImageUrl} 
-                    alt="Profile" 
-                    className="h-8 w-8 rounded-full object-cover"
-                  />
-                )}
-                <span className="text-sm text-gray-600">
-                  {(user as any)?.firstName || (user as any)?.email || 'User'}
-                </span>
-              </div>
-            ) : null}
             <Button 
-              onClick={handleLogout}
+              onClick={() => navigate('/landing')}
               variant="outline"
               size="sm"
             >
-              Sign Out
+              About
             </Button>
           </div>
         </div>
