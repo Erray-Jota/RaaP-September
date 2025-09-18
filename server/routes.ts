@@ -86,13 +86,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = insertProjectSchema.partial().parse(req.body);
       
-      // Recalculate scores using database isSample field for proper logic path
-      const scores: FeasibilityScoreResult = calculateFeasibilityScores({ ...project, ...validatedData }, !project.isSample);
-      
-      const updatePayload: Partial<NewProjectPayload> = {
-        ...validatedData,
-        ...scores,
-      };
+      // Protect sample project scores from being overwritten - only recalculate for non-sample projects
+      const updatePayload: Partial<NewProjectPayload> = project.isSample 
+        ? validatedData  // Sample projects: use only provided data, preserve existing scores
+        : {             // Non-sample projects: recalculate scores
+            ...validatedData,
+            ...calculateFeasibilityScores({ ...project, ...validatedData }, true)
+          };
       
       const updatedProject = await storage.updateProject(id, updatePayload);
 

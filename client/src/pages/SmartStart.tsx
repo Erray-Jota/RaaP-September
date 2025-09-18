@@ -38,7 +38,7 @@ import {
 } from "lucide-react";
 import type { Project } from "@shared/schema";
 import { useSimulator } from "@/hooks/useSimulator";
-import { isSampleProject } from "@/lib/scoring";
+// Removed isSampleProject import - using database field directly
 
 // Import visual assets for Design tab
 import vallejoFloorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
@@ -71,11 +71,11 @@ export default function SmartStart() {
   });
 
   // Get conditional images based on project type
-  const floorPlanImage = project && isSampleProject(project.name) 
+  const floorPlanImage = project && project.isSample 
     ? serenityFloorPlanImage 
     : vallejoFloorPlanImage;
   
-  const buildingRenderingImage = project && isSampleProject(project.name) 
+  const buildingRenderingImage = project && project.isSample 
     ? serenityBuildingRenderingImage 
     : vallejoBuildingRenderingImage;
 

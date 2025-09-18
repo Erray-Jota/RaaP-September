@@ -20,7 +20,7 @@ import {
   Clock
 } from "lucide-react";
 import type { Project } from "@shared/schema";
-import { isSampleProject } from "@/lib/scoring";
+// Removed isSampleProject import - using database field directly
 
 interface ApplicationStep {
   id: string;
@@ -137,8 +137,8 @@ export default function WorkflowOverview() {
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
 
   const getStepStatus = (step: ApplicationStep) => {
-    // For sample projects like Serenity Village, override FabAssure and EasyDesign status
-    if (isSampleProject(project.name)) {
+    // For sample projects, override FabAssure and EasyDesign status
+    if (project.isSample) {
       if (step.id === "fab-assure" || step.id === "easy-design") {
         return "in_progress";
       }
