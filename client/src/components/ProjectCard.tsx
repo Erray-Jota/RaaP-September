@@ -34,6 +34,19 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
+  // Format large numbers as $xM for mobile display
+  const formatCostForMobile = (cost: string | null): string => {
+    if (!cost) return "N/A";
+    const numericValue = parseFloat(cost);
+    if (numericValue >= 1000000) {
+      return `$${(numericValue / 1000000).toFixed(1)}M`;
+    }
+    if (numericValue >= 1000) {
+      return `$${(numericValue / 1000).toFixed(0)}K`;
+    }
+    return `$${numericValue.toFixed(0)}`;
+  };
+
   const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
 
@@ -204,7 +217,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="flex items-center justify-between sm:space-x-4">
           <div className="text-center">
             <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
-              {displayScore}
+              <span className="sm:hidden">{Math.round(parseFloat(displayScore))}</span>
+              <span className="hidden sm:inline">{displayScore}</span>
             </div>
             <div className="text-xs text-gray-500">Score</div>
           </div>
@@ -212,12 +226,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {project.modularTotalCost && (
             <div className="text-center">
               <div className="text-sm sm:text-lg font-semibold text-raap-green">
-                ${parseFloat(project.modularTotalCost).toLocaleString()}
+                <span className="sm:hidden">{formatCostForMobile(project.modularTotalCost)}</span>
+                <span className="hidden sm:inline">${parseFloat(project.modularTotalCost).toLocaleString()}</span>
               </div>
               <div className="text-xs text-gray-500">RaaP Cost</div>
               {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
                 <div className="text-xs text-green-600">
-                  ({project.costSavingsPercent}% savings)
+                  ({Math.round(parseFloat(project.costSavingsPercent))}% savings)
                 </div>
               )}
             </div>
@@ -226,12 +241,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {project.modularTimelineMonths && (
             <div className="text-center">
               <div className="text-sm sm:text-lg font-semibold text-blue-600">
-                {project.modularTimelineMonths} mo
+                {Math.round(parseFloat(project.modularTimelineMonths))} mo
               </div>
               <div className="text-xs text-gray-500">RaaP Build Time</div>
               {project.timeSavingsMonths && (
                 <div className="text-xs text-blue-600">
-                  ({project.timeSavingsMonths} mo savings)
+                  ({Math.round(parseFloat(project.timeSavingsMonths))} mo savings)
                 </div>
               )}
             </div>
