@@ -534,7 +534,15 @@ export default function ModularFeasibility() {
           twoBedUnits: data['Two Bedroom Units'] || project.twoBedUnits,
           threeBedUnits: data['Three Bedroom Units'] || project.threeBedUnits,
           totalParkingSpaces: data['Total Parking Spaces'] || project.totalParkingSpaces,
-          adaParkingSpaces: data['ADA Parking Spaces'] || project.adaParkingSpaces
+          adaParkingSpaces: data['ADA Parking Spaces'] || project.adaParkingSpaces,
+          // Add score fields
+          overallScore: data['Overall Score'] || project.overallScore,
+          zoningScore: data['Zoning Score'] || project.zoningScore,
+          massingScore: data['Massing Score'] || project.massingScore,
+          sustainabilityScore: data['Sustainability Score'] || project.sustainabilityScore,
+          costScore: data['Cost Score'] || project.costScore,
+          logisticsScore: data['Logistics Score'] || project.logisticsScore,
+          buildTimeScore: data['Build Time Score'] || project.buildTimeScore
         };
         
         await apiRequest("PATCH", `/api/projects/${projectId}`, updateData);
