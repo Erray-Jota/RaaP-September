@@ -1,29 +1,15 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertProjectSchema, insertCostBreakdownSchema, projects, type InsertProject } from "@shared/schema";
 import { z } from "zod";
 import googleSheetsService, { type SimulatorParams } from "./googleSheetsService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
 
   // API configuration endpoint
-  app.get('/api/config/maps', isAuthenticated, async (req: any, res) => {
+  app.get('/api/config/maps', async (req: any, res) => {
     try {
       res.json({ 
         apiKey: process.env.GOOGLE_MAPS_API_KEY || ''
@@ -35,10 +21,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Project routes
-  app.get('/api/projects', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const projects = await storage.getUserProjects(userId);
+      const projects = await storage.getAllProjects();
       res.json(projects);
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -46,18 +31,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:id', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:id', async (req: any, res) => {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
       
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
-      }
-
-      // Verify ownership
-      if (project.userId !== req.user.claims.sub) {
-        return res.status(403).json({ message: "Access denied" });
       }
 
       res.json(project);
@@ -67,9 +47,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
       const validatedData = insertProjectSchema.parse(req.body);
       
       // Calculate feasibility scores for new user projects
@@ -78,7 +57,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const payload: NewProjectPayload = {
         ...validatedData,
         ...scores,
-        userId,
+        userId: 'default-user',
       };
       
       const project = await storage.createProject(payload);
@@ -96,18 +75,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/projects/:id', isAuthenticated, async (req: any, res) => {
+  app.put('/api/projects/:id', async (req: any, res) => {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
       
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
-      }
-
-      // Verify ownership
-      if (project.userId !== req.user.claims.sub) {
-        return res.status(403).json({ message: "Access denied" });
       }
 
       const validatedData = insertProjectSchema.partial().parse(req.body);
@@ -132,18 +106,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/projects/:id', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/projects/:id', async (req: any, res) => {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
       
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
-      }
-
-      // Verify ownership
-      if (project.userId !== req.user.claims.sub) {
-        return res.status(403).json({ message: "Access denied" });
       }
 
       await storage.deleteProject(id);
@@ -155,18 +124,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // PATCH route for updating application completion status
-  app.patch('/api/projects/:id', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/projects/:id', async (req: any, res) => {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
       
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
-      }
-
-      // Verify ownership
-      if (project.userId !== req.user.claims.sub) {
-        return res.status(403).json({ message: "Access denied" });
       }
 
       // Define schema for application completion updates
@@ -192,18 +156,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Cost breakdown routes
-  app.get('/api/projects/:id/cost-breakdowns', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:id/cost-breakdowns', async (req: any, res) => {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
       
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
-      }
-
-      // Verify ownership
-      if (project.userId !== req.user.claims.sub) {
-        return res.status(403).json({ message: "Access denied" });
       }
 
       const costBreakdowns = await storage.getProjectCostBreakdowns(id);
@@ -215,16 +174,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Sample projects initialization route
-  app.post('/api/initialize-sample-projects', isAuthenticated, async (req: any, res) => {
+  app.post('/api/initialize-sample-projects', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const existingProjects = await storage.getUserProjects(userId);
+      const existingProjects = await storage.getAllProjects();
       
       if (existingProjects.length > 0) {
         return res.json({ message: "Sample projects already exist" });
       }
 
-      const sampleProjects = await createSampleProjects(userId);
+      const sampleProjects = await createSampleProjects('default-user');
       res.json(sampleProjects);
     } catch (error) {
       console.error("Error initializing sample projects:", error);
@@ -233,7 +191,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Partner routes for FabAssure marketplace
-  app.get('/api/partners', isAuthenticated, async (req: any, res) => {
+  app.get('/api/partners', async (req: any, res) => {
     try {
       const partners = await storage.getAllPartners();
       res.json(partners);
@@ -243,7 +201,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/partners/:type', isAuthenticated, async (req: any, res) => {
+  app.get('/api/partners/:type', async (req: any, res) => {
     try {
       const { type } = req.params;
       const partners = await storage.getPartnersByType(type);
@@ -254,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/partner-evaluations', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/partner-evaluations', async (req: any, res) => {
     try {
       const { projectId } = req.params;
       const evaluations = await storage.getPartnerEvaluations(projectId);
@@ -265,7 +223,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/partner-evaluations', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/partner-evaluations', async (req: any, res) => {
     try {
       const { projectId } = req.params;
       const evaluation = await storage.createPartnerEvaluation({
@@ -279,7 +237,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/partner-contracts', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/partner-contracts', async (req: any, res) => {
     try {
       const { projectId } = req.params;
       const contracts = await storage.getPartnerContracts(projectId);
@@ -290,7 +248,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/partner-contracts', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/partner-contracts', async (req: any, res) => {
     try {
       const { projectId } = req.params;
       const contract = await storage.createPartnerContract({
@@ -305,7 +263,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Seed sample partners for marketplace
-  app.post('/api/seed-partners', isAuthenticated, async (req: any, res) => {
+  app.post('/api/seed-partners', async (req: any, res) => {
     try {
       const samplePartners = await createSamplePartners();
       res.json({ message: "Sample partners created", count: samplePartners.length });
@@ -316,7 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Simulator API route for Google Sheets integration
-  app.post('/api/simulator/calculate', isAuthenticated, async (req: any, res) => {
+  app.post('/api/simulator/calculate', async (req: any, res) => {
     try {
       const simulatorParamsSchema = z.object({
         oneBedUnits: z.number().min(0).max(20),
@@ -344,7 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // EasyDesign API routes
-  app.get('/api/projects/:projectId/design-documents', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/design-documents', async (req: any, res) => {
     try {
       const documents = await storage.getDesignDocuments(req.params.projectId);
       res.json(documents);
@@ -354,12 +312,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/design-documents', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/design-documents', async (req: any, res) => {
     try {
       const document = await storage.createDesignDocument({
         ...req.body,
         projectId: req.params.projectId,
-        createdBy: req.user?.claims?.sub,
+        createdBy: 'default-user',
       });
       res.status(201).json(document);
     } catch (error) {
@@ -368,7 +326,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/material-specifications', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/material-specifications', async (req: any, res) => {
     try {
       const specs = await storage.getMaterialSpecifications(req.params.projectId);
       res.json(specs);
@@ -378,7 +336,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/material-specifications', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/material-specifications', async (req: any, res) => {
     try {
       const spec = await storage.createMaterialSpecification({
         ...req.body,
@@ -391,7 +349,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/door-schedule', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/door-schedule', async (req: any, res) => {
     try {
       const doorItems = await storage.getDoorSchedule(req.params.projectId);
       res.json(doorItems);
@@ -401,7 +359,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/door-schedule', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/door-schedule', async (req: any, res) => {
     try {
       const doorItem = await storage.createDoorScheduleItem({
         ...req.body,
@@ -414,7 +372,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/design-workflows', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/design-workflows', async (req: any, res) => {
     try {
       const workflows = await storage.getDesignWorkflows(req.params.projectId);
       res.json(workflows);
@@ -424,7 +382,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/design-workflows', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/design-workflows', async (req: any, res) => {
     try {
       const workflow = await storage.createDesignWorkflow({
         ...req.body,
@@ -437,7 +395,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/projects/:projectId/engineering-details', isAuthenticated, async (req: any, res) => {
+  app.get('/api/projects/:projectId/engineering-details', async (req: any, res) => {
     try {
       const details = await storage.getEngineeringDetails(req.params.projectId);
       res.json(details);
@@ -447,7 +405,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/projects/:projectId/engineering-details', isAuthenticated, async (req: any, res) => {
+  app.post('/api/projects/:projectId/engineering-details', async (req: any, res) => {
     try {
       const detail = await storage.createEngineeringDetail({
         ...req.body,

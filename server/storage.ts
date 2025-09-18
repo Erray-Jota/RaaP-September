@@ -42,6 +42,7 @@ export interface IStorage {
   upsertUser(user: UpsertUser): Promise<User>;
   
   // Project operations
+  getAllProjects(): Promise<Project[]>;
   getUserProjects(userId: string): Promise<Project[]>;
   getProject(id: string): Promise<Project | undefined>;
   createProject(project: InsertProject & { userId: string }): Promise<Project>;
@@ -98,6 +99,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Project operations
+  async getAllProjects(): Promise<Project[]> {
+    return await db
+      .select()
+      .from(projects)
+      .orderBy(desc(projects.updatedAt));
+  }
+
   async getUserProjects(userId: string): Promise<Project[]> {
     return await db
       .select()
