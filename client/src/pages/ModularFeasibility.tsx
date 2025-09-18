@@ -74,6 +74,38 @@ function calculateCostPerSf(totalCost: string | null | undefined, totalSqFt: num
   return `$${Math.round(cost / totalSqFt)}`;
 }
 
+// Helper function to format cost values for mobile display
+function formatCostForMobile(costStr: string): string {
+  // Remove currency symbols and parentheses
+  const cleanStr = costStr.replace(/[\$,()]/g, '');
+  const isNegative = costStr.includes('(') || costStr.includes('-');
+  const numValue = parseFloat(cleanStr);
+  
+  if (isNaN(numValue)) return costStr;
+  
+  let formatted;
+  if (Math.abs(numValue) >= 1000000) {
+    formatted = `$${(numValue / 1000000).toFixed(1)}M`;
+  } else if (Math.abs(numValue) >= 1000) {
+    formatted = `$${Math.round(numValue / 1000)}K`;
+  } else {
+    formatted = `$${Math.round(numValue)}`;
+  }
+  
+  return isNegative ? `(${formatted})` : formatted;
+}
+
+// Mobile responsive currency cell component
+const MobileCurrencyCell: React.FC<{ amount: number | string; className?: string }> = ({ amount, className = "" }) => {
+  const formatted = formatCurrency(amount);
+  return (
+    <td className={`px-3 py-2 text-right ${className}`}>
+      <span className="sm:hidden">{formatCostForMobile(formatted)}</span>
+      <span className="hidden sm:inline">{formatted}</span>
+    </td>
+  );
+};
+
 // Import generated images for Massing tab
 import vallejoFloorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
 import vallejoBuildingRenderingImage from "@assets/Vallejo Building 2_1757773134770.png";
@@ -1765,13 +1797,16 @@ export default function ModularFeasibility() {
                             return (
                               <tr className="bg-blue-50">
                                 <td className="px-3 py-2 font-semibold text-blue-800">Concrete, Masonry & Metals</td>
-                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
+                                <MobileCurrencyCell amount={siteBuiltTotal} className="font-semibold" />
                                 <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
-                                <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
-                                <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
-                                <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
+                                <MobileCurrencyCell amount={raapGcTotal} />
+                                <MobileCurrencyCell amount={raapFabTotal} />
+                                <MobileCurrencyCell amount={raapTotal} className="font-semibold" />
                                 <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
-                                <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
+                                <td className="px-3 py-2 text-right text-red-600 font-semibold">
+                                  <span className="sm:hidden">{savings >= 0 ? formatCostForMobile(formatCurrency(savings)) : `(${formatCostForMobile(formatCurrency(Math.abs(savings)))})`}</span>
+                                  <span className="hidden sm:inline">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</span>
+                                </td>
                               </tr>
                             );
                           })()}
