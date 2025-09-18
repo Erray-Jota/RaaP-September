@@ -463,6 +463,9 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
   // Calculate cost estimates - use NEW specifications only for new projects
   let modularTotalCost, costPerUnit, costPerSf, costSavingsPercent, siteBuiltTotalCost;
   
+  // Prevent division by zero - use minimum of 1 unit if totalUnits is 0
+  const safeUnits = Math.max(totalUnits, 1);
+  
   if (isNewProject) {
     // NEW project specifications
     modularTotalCost = 35700000; // $35.7M for new projects
@@ -475,10 +478,19 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
     costPerUnit = projectData.projectType === 'affordable' ? 321621 : 
                   projectData.projectType === 'senior' ? 365000 :
                   projectData.projectType === 'workforce' ? 340000 : 350000;
-    modularTotalCost = totalUnits * costPerUnit;
+    modularTotalCost = safeUnits * costPerUnit;
     costSavingsPercent = 30.0; // 30% savings consistently
-    siteBuiltTotalCost = modularTotalCost / (1 - costSavingsPercent / 100);
-    costPerSf = Math.round(modularTotalCost / (totalUnits * 800)); // Approximate sq ft calculation
+    
+    // Prevent infinite values in division - ensure denominator is not zero or negative
+    const savingsRatio = costSavingsPercent / 100;
+    if (savingsRatio >= 1) {
+      siteBuiltTotalCost = modularTotalCost * 1.3; // Fallback to 30% higher
+    } else {
+      siteBuiltTotalCost = modularTotalCost / (1 - savingsRatio);
+    }
+    
+    // Prevent division by zero in cost per sq ft calculation
+    costPerSf = Math.round(modularTotalCost / (safeUnits * 800)); // Approximate sq ft calculation
   }
 
   return {
@@ -499,8 +511,8 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
     modularCostPerUnit: costPerUnit.toString(), 
     modularCostPerSf: costPerSf.toString(),
     siteBuiltTotalCost: siteBuiltTotalCost.toString(),
-    siteBuiltCostPerUnit: (siteBuiltTotalCost / (isNewProject ? 103 : totalUnits)).toString(),
-    siteBuiltCostPerSf: Math.round(siteBuiltTotalCost / (totalUnits * 800)).toString(),
+    siteBuiltCostPerUnit: (siteBuiltTotalCost / (isNewProject ? 103 : safeUnits)).toString(),
+    siteBuiltCostPerSf: Math.round(siteBuiltTotalCost / (safeUnits * 800)).toString(),
     costSavingsPercent: costSavingsPercent.toFixed(1),
     modularTimelineMonths: "30.5", // Fixed modular timeline
     siteBuiltTimelineMonths: "41.0", // Fixed site-built timeline  
