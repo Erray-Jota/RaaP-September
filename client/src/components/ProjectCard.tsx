@@ -209,21 +209,31 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <div className="text-xs text-gray-500">Score</div>
           </div>
           
-          {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
+          {project.modularTotalCost && (
             <div className="text-center">
-              <div className="text-sm sm:text-lg font-semibold text-green-600">
-                {project.costSavingsPercent}%
+              <div className="text-sm sm:text-lg font-semibold text-raap-green">
+                ${parseFloat(project.modularTotalCost).toLocaleString()}
               </div>
-              <div className="text-xs text-gray-500">Cost Savings</div>
+              <div className="text-xs text-gray-500">RaaP Cost</div>
+              {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
+                <div className="text-xs text-green-600">
+                  ({project.costSavingsPercent}% savings)
+                </div>
+              )}
             </div>
           )}
           
-          {project.timeSavingsMonths && (
+          {project.modularTimelineMonths && (
             <div className="text-center">
               <div className="text-sm sm:text-lg font-semibold text-blue-600">
-                {project.timeSavingsMonths} mo
+                {project.modularTimelineMonths} mo
               </div>
-              <div className="text-xs text-gray-500">Time Savings</div>
+              <div className="text-xs text-gray-500">RaaP Build Time</div>
+              {project.timeSavingsMonths && (
+                <div className="text-xs text-blue-600">
+                  ({project.timeSavingsMonths} mo savings)
+                </div>
+              )}
             </div>
           )}
           
