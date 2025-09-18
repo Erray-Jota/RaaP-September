@@ -18,10 +18,11 @@ export default function Header() {
               <img src={raapLogoPath} alt="RaaP Logo" className="h-12 w-auto" />
               <div className="text-gray-400">|</div>
               <h1 
-                className="text-lg font-medium text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
+                className="text-sm sm:text-lg font-medium text-raap-dark cursor-pointer hover:text-raap-green transition-colors"
                 onClick={() => navigate("/")}
               >
-                Rooms as a Product Workflow
+                <span className="sm:hidden">RaaP Workflow</span>
+                <span className="hidden sm:inline">Rooms as a Product Workflow</span>
               </h1>
             </div>
           </div>
