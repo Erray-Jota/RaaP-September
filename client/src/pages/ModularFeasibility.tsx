@@ -468,11 +468,21 @@ export default function ModularFeasibility() {
         const lines = csv.split('\n');
         const data: Record<string, string> = {};
         
-        // Skip header, parse data
+        // Skip header, parse data with proper CSV handling
         for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex);
+          
+          if (parts.length >= 2) {
+            const field = parts[0].replace(/"/g, '').trim();
+            const value = parts[1].replace(/"/g, '').trim();
+            if (field && value) {
+              data[field] = value;
+            }
           }
         }
         
@@ -516,9 +526,19 @@ export default function ModularFeasibility() {
         const data: Record<string, string> = {};
         
         for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex);
+          
+          if (parts.length >= 2) {
+            const field = parts[0].replace(/"/g, '').trim();
+            const value = parts[1].replace(/"/g, '').trim();
+            if (field && value) {
+              data[field] = value;
+            }
           }
         }
         
@@ -547,9 +567,19 @@ export default function ModularFeasibility() {
         const data: Record<string, string> = {};
         
         for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex);
+          
+          if (parts.length >= 2) {
+            const field = parts[0].replace(/"/g, '').trim();
+            const value = parts[1].replace(/"/g, '').trim();
+            if (field && value) {
+              data[field] = value;
+            }
           }
         }
         
@@ -587,9 +617,19 @@ export default function ModularFeasibility() {
         const data: Record<string, string> = {};
         
         for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex);
+          
+          if (parts.length >= 2) {
+            const field = parts[0].replace(/"/g, '').trim();
+            const value = parts[1].replace(/"/g, '').trim();
+            if (field && value) {
+              data[field] = value;
+            }
           }
         }
         
@@ -618,9 +658,19 @@ export default function ModularFeasibility() {
         const data: Record<string, string> = {};
         
         for (let i = 1; i < lines.length; i++) {
-          const [field, value] = lines[i].split(',').map(cell => cell.replace(/"/g, ''));
-          if (field && value) {
-            data[field] = value;
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex);
+          
+          if (parts.length >= 2) {
+            const field = parts[0].replace(/"/g, '').trim();
+            const value = parts[1].replace(/"/g, '').trim();
+            if (field && value) {
+              data[field] = value;
+            }
           }
         }
         
