@@ -30,7 +30,7 @@ import ProjectSiteMap from "@/components/ProjectSiteMap";
 import RouteMap from "@/components/RouteMap";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
-import { calculateProjectScores, isSampleProject } from "@/lib/scoring";
+// Removed calculateProjectScores import - using database values directly
 
 // Helper function to format currency values
 function formatCurrency(value: number | string | null | undefined): string {
@@ -107,11 +107,21 @@ export default function ModularFeasibility() {
     enabled: !!projectId,
   });
 
-  // Move hooks before early returns to avoid React hooks rule violation
+  // Direct database values - single source of truth
   const projectScores = useMemo(() => {
     if (!project) return { overall: "0.0", individual: { zoning: "0.0", massing: "0.0", sustainability: "0.0", cost: "0.0", logistics: "0.0", buildTime: "0.0" } };
-    return calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined, project);
-  }, [project?.id, project?.name, project?.overallScore, project?.zoningScore, project?.massingScore, project?.sustainabilityScore, project?.costScore, project?.logisticsScore, project?.buildTimeScore]);
+    return {
+      overall: project.overallScore || "0.0",
+      individual: {
+        zoning: project.zoningScore || "0.0",
+        massing: project.massingScore || "0.0",
+        sustainability: project.sustainabilityScore || "0.0",
+        cost: project.costScore || "0.0", 
+        logistics: project.logisticsScore || "0.0",
+        buildTime: project.buildTimeScore || "0.0"
+      }
+    };
+  }, [project?.overallScore, project?.zoningScore, project?.massingScore, project?.sustainabilityScore, project?.costScore, project?.logisticsScore, project?.buildTimeScore]);
 
   const markAsComplete = useMutation({
     mutationFn: async () => {

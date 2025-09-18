@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { MapPin, ChevronRight, Trash2, Building, FileText, Truck, Palette } from "lucide-react";
 import type { Project } from "@shared/schema";
-import { calculateProjectScores, isSampleProject } from "@/lib/scoring";
+// Removed calculateProjectScores import - using database values directly
 import serenityBuildingImage from "@assets/generated_images/Modern_multifamily_building_rendering_3456504f.png";
 import workforceBuildingImage from "@assets/Building 2_1754894840186.jpg";
 import universityBuildingImage from "@assets/Building 4_1754895114379.jpg";
@@ -37,11 +37,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
 
-  // Generate deterministic score that matches ModularFeasibility exactly
-  const displayScore = useMemo(() => {
-    const scores = calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined);
-    return scores.overall;
-  }, [project.id, project.name, project.overallScore]);
+  // Use database score directly - single source of truth
+  const displayScore = project.overallScore || "0.0";
 
   const getScoreColor = (score: string) => {
     const numScore = parseFloat(score);
@@ -84,8 +81,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   // Get application status (simplified tri-state: completed, in_progress, not_started)
   const getApplicationStatus = (step: typeof applicationSteps[0]) => {
-    // For sample projects like Serenity Village, override FabAssure and EasyDesign status
-    if (isSampleProject(project.name)) {
+    // For sample projects, override FabAssure and EasyDesign status
+    if (project.isSample) {
       if (step.id === "fab-assure" || step.id === "easy-design") {
         return "in_progress";
       }
