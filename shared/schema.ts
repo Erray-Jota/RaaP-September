@@ -51,6 +51,7 @@ export const projects = pgTable("projects", {
   targetParkingSpaces: integer("target_parking_spaces").notNull(),
   buildingDimensions: varchar("building_dimensions"),
   constructionType: varchar("construction_type"),
+  isSample: boolean("is_sample").default(false),
   
   // Feasibility scoring (keep existing for compatibility)
   zoningScore: decimal("zoning_score", { precision: 3, scale: 1 }),
