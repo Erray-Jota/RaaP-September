@@ -28,18 +28,18 @@ export function generateDeterministicScore(projectId: number): string {
 }
 
 // Calculate feasibility scores for a project (deterministic for NEW projects)
-export function calculateProjectScores(projectId: number, projectName: string, storedOverallScore?: string) {
+export function calculateProjectScores(projectId: number, projectName: string, storedOverallScore?: string, projectData?: any) {
   if (isSampleProject(projectName)) {
-    // Use original stored scores for sample projects
+    // Use stored scores from database if available, otherwise fallback to defaults
     return {
       overall: storedOverallScore || "4.0",
       individual: {
-        zoning: "4.0",
-        massing: "4.0", 
-        sustainability: "4.0",
-        cost: "4.0",
-        logistics: "4.0",
-        buildTime: "4.0"
+        zoning: projectData?.zoningScore || "4.0",
+        massing: projectData?.massingScore || "4.0", 
+        sustainability: projectData?.sustainabilityScore || "4.0",
+        cost: projectData?.costScore || "4.0",
+        logistics: projectData?.logisticsScore || "4.0",
+        buildTime: projectData?.buildTimeScore || "4.0"
       }
     };
   } else {

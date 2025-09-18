@@ -110,8 +110,8 @@ export default function ModularFeasibility() {
   // Move hooks before early returns to avoid React hooks rule violation
   const projectScores = useMemo(() => {
     if (!project) return { overall: "0.0", individual: { zoning: "0.0", massing: "0.0", sustainability: "0.0", cost: "0.0", logistics: "0.0", buildTime: "0.0" } };
-    return calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined);
-  }, [project?.id, project?.name, project?.overallScore]);
+    return calculateProjectScores(Number(project.id), project.name, project.overallScore || undefined, project);
+  }, [project?.id, project?.name, project?.overallScore, project?.zoningScore, project?.massingScore, project?.sustainabilityScore, project?.costScore, project?.logisticsScore, project?.buildTimeScore]);
 
   const markAsComplete = useMutation({
     mutationFn: async () => {
