@@ -215,8 +215,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
         
         <div className="flex items-center justify-between sm:space-x-4">
-          <div className="text-center">
-            <div className={`text-xl sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
+          <div className="text-center flex-shrink-0">
+            <div className={`text-lg sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
               <span className="sm:hidden">{Math.round(parseFloat(displayScore))}</span>
               <span className="hidden sm:inline">{displayScore}</span>
             </div>
