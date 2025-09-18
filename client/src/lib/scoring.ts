@@ -31,16 +31,26 @@ export function generateDeterministicScore(projectId: number): string {
 export function calculateProjectScores(projectId: number, projectName: string, storedOverallScore?: string, projectData?: any) {
   if (isSampleProject(projectName)) {
     // Use stored scores from database if available, otherwise fallback to defaults
+    const individualScores = {
+      zoning: projectData?.zoningScore || "4.0",
+      massing: projectData?.massingScore || "4.0", 
+      sustainability: projectData?.sustainabilityScore || "4.0",
+      cost: projectData?.costScore || "4.0",
+      logistics: projectData?.logisticsScore || "4.0",
+      buildTime: projectData?.buildTimeScore || "4.0"
+    };
+    
+    // Calculate weighted overall score from individual scores
+    const overall = ((parseFloat(individualScores.zoning) * 0.2) + 
+                    (parseFloat(individualScores.massing) * 0.15) + 
+                    (parseFloat(individualScores.sustainability) * 0.2) + 
+                    (parseFloat(individualScores.cost) * 0.2) + 
+                    (parseFloat(individualScores.logistics) * 0.15) + 
+                    (parseFloat(individualScores.buildTime) * 0.1)).toFixed(1);
+    
     return {
-      overall: storedOverallScore || "4.0",
-      individual: {
-        zoning: projectData?.zoningScore || "4.0",
-        massing: projectData?.massingScore || "4.0", 
-        sustainability: projectData?.sustainabilityScore || "4.0",
-        cost: projectData?.costScore || "4.0",
-        logistics: projectData?.logisticsScore || "4.0",
-        buildTime: projectData?.buildTimeScore || "4.0"
-      }
+      overall,
+      individual: individualScores
     };
   } else {
     // Generate deterministic scores for NEW projects using seeded random
