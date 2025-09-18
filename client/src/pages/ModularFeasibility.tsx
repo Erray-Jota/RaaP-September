@@ -239,50 +239,50 @@ export default function ModularFeasibility() {
       ['MasterFormat Division', 'Site Built Total', 'Site Built $/sf', 'RaaP GC', 'RaaP Fab', 'RaaP Total', 'RaaP $/sf', 'Savings'],
       
       // Concrete, Masonry & Metals Section
-      ['Concrete, Masonry & Metals', isSampleProject(project.name) ? '$1,311,770' : '$6,553,211', isSampleProject(project.name) ? '$50' : '$38', isSampleProject(project.name) ? '$1,147,404' : '$4,790,786', isSampleProject(project.name) ? '$281,220' : '$867,184', isSampleProject(project.name) ? '$1,428,623' : '$5,657,970', isSampleProject(project.name) ? '$54' : '$39', isSampleProject(project.name) ? '-$116,853' : '($895,241)'],
-      ['  03 Concrete', isSampleProject(project.name) ? '$407,021' : '$2,533,115', isSampleProject(project.name) ? '$16' : '$15', isSampleProject(project.name) ? '$285,136' : '$1,373,299', isSampleProject(project.name) ? '$164,393' : '$625,628', isSampleProject(project.name) ? '$449,528' : '$1,998,927', isSampleProject(project.name) ? '$17' : '$14', isSampleProject(project.name) ? '-$42,507' : '($534,188)'],
-      ['  04 Masonry', isSampleProject(project.name) ? '$233,482' : '$916,443', isSampleProject(project.name) ? '$9' : '$5', isSampleProject(project.name) ? '$260,237' : '$845,392', isSampleProject(project.name) ? '-' : '0', isSampleProject(project.name) ? '$260,237' : '$845,392', isSampleProject(project.name) ? '$10' : '$6', isSampleProject(project.name) ? '-$26,755' : '($71,051)'],
-      ['  05 Metal', isSampleProject(project.name) ? '$671,267' : '$3,103,653', isSampleProject(project.name) ? '$26' : '$18', isSampleProject(project.name) ? '$602,031' : '$2,572,095', isSampleProject(project.name) ? '$116,827' : '$241,556', isSampleProject(project.name) ? '$718,859' : '$2,813,651', isSampleProject(project.name) ? '$27' : '$20', isSampleProject(project.name) ? '-$47,592' : '($290,003)'],
+      ['Concrete, Masonry & Metals', project.isSample ? '$1,311,770' : '$6,553,211', project.isSample ? '$50' : '$38', project.isSample ? '$1,147,404' : '$4,790,786', project.isSample ? '$281,220' : '$867,184', project.isSample ? '$1,428,623' : '$5,657,970', project.isSample ? '$54' : '$39', project.isSample ? '-$116,853' : '($895,241)'],
+      ['  03 Concrete', project.isSample ? '$407,021' : '$2,533,115', project.isSample ? '$16' : '$15', project.isSample ? '$285,136' : '$1,373,299', project.isSample ? '$164,393' : '$625,628', project.isSample ? '$449,528' : '$1,998,927', project.isSample ? '$17' : '$14', project.isSample ? '-$42,507' : '($534,188)'],
+      ['  04 Masonry', project.isSample ? '$233,482' : '$916,443', project.isSample ? '$9' : '$5', project.isSample ? '$260,237' : '$845,392', project.isSample ? '-' : '0', project.isSample ? '$260,237' : '$845,392', project.isSample ? '$10' : '$6', project.isSample ? '-$26,755' : '($71,051)'],
+      ['  05 Metal', project.isSample ? '$671,267' : '$3,103,653', project.isSample ? '$26' : '$18', project.isSample ? '$602,031' : '$2,572,095', project.isSample ? '$116,827' : '$241,556', project.isSample ? '$718,859' : '$2,813,651', project.isSample ? '$27' : '$20', project.isSample ? '-$47,592' : '($290,003)'],
       
       // Rooms Section
-      ['Rooms', isSampleProject(project.name) ? '$4,452,553' : '$17,692,497', isSampleProject(project.name) ? '$171' : '$102', isSampleProject(project.name) ? '$465,938' : '$1,671,442', isSampleProject(project.name) ? '$4,121,807' : '$11,037,874', isSampleProject(project.name) ? '$4,587,745' : '$12,709,316', isSampleProject(project.name) ? '$174' : '$88', isSampleProject(project.name) ? '-$135,192' : '($4,983,181)'],
-      ['  06 Wood & Plastics', isSampleProject(project.name) ? '$1,982,860' : '$8,643,831', isSampleProject(project.name) ? '$76' : '$50', isSampleProject(project.name) ? '$14,171' : '$41,318', isSampleProject(project.name) ? '$2,137,612' : '$6,378,393', isSampleProject(project.name) ? '$2,151,783' : '$6,419,712', isSampleProject(project.name) ? '$82' : '$45', isSampleProject(project.name) ? '-$168,923' : '($2,224,120)'],
-      ['  07 Thermal & Moisture Protection', isSampleProject(project.name) ? '$490,766' : '$2,325,482', isSampleProject(project.name) ? '$19' : '$13', isSampleProject(project.name) ? '$289,407' : '$1,129,942', isSampleProject(project.name) ? '$293,030' : '$960,368', isSampleProject(project.name) ? '$582,437' : '$2,090,309', isSampleProject(project.name) ? '$22' : '$15', isSampleProject(project.name) ? '-$91,671' : '($235,172)'],
-      ['  08 Openings', isSampleProject(project.name) ? '$486,606' : '$1,393,966', isSampleProject(project.name) ? '$19' : '$8', isSampleProject(project.name) ? '$138,123' : '$440,895', isSampleProject(project.name) ? '$337,164' : '$792,909', isSampleProject(project.name) ? '$475,287' : '$1,233,804', isSampleProject(project.name) ? '$18' : '$9', isSampleProject(project.name) ? '$11,319' : '($160,163)'],
-      ['  09 Finishes', isSampleProject(project.name) ? '$1,492,321' : '$5,329,218', isSampleProject(project.name) ? '$57' : '$31', isSampleProject(project.name) ? '$24,237' : '$59,288', isSampleProject(project.name) ? '$1,354,001' : '$2,906,204', isSampleProject(project.name) ? '$1,378,238' : '$2,965,492', isSampleProject(project.name) ? '$52' : '$21', isSampleProject(project.name) ? '$114,083' : '($2,363,726)'],
+      ['Rooms', project.isSample ? '$4,452,553' : '$17,692,497', project.isSample ? '$171' : '$102', project.isSample ? '$465,938' : '$1,671,442', project.isSample ? '$4,121,807' : '$11,037,874', project.isSample ? '$4,587,745' : '$12,709,316', project.isSample ? '$174' : '$88', project.isSample ? '-$135,192' : '($4,983,181)'],
+      ['  06 Wood & Plastics', project.isSample ? '$1,982,860' : '$8,643,831', project.isSample ? '$76' : '$50', project.isSample ? '$14,171' : '$41,318', project.isSample ? '$2,137,612' : '$6,378,393', project.isSample ? '$2,151,783' : '$6,419,712', project.isSample ? '$82' : '$45', project.isSample ? '-$168,923' : '($2,224,120)'],
+      ['  07 Thermal & Moisture Protection', project.isSample ? '$490,766' : '$2,325,482', project.isSample ? '$19' : '$13', project.isSample ? '$289,407' : '$1,129,942', project.isSample ? '$293,030' : '$960,368', project.isSample ? '$582,437' : '$2,090,309', project.isSample ? '$22' : '$15', project.isSample ? '-$91,671' : '($235,172)'],
+      ['  08 Openings', project.isSample ? '$486,606' : '$1,393,966', project.isSample ? '$19' : '$8', project.isSample ? '$138,123' : '$440,895', project.isSample ? '$337,164' : '$792,909', project.isSample ? '$475,287' : '$1,233,804', project.isSample ? '$18' : '$9', project.isSample ? '$11,319' : '($160,163)'],
+      ['  09 Finishes', project.isSample ? '$1,492,321' : '$5,329,218', project.isSample ? '$57' : '$31', project.isSample ? '$24,237' : '$59,288', project.isSample ? '$1,354,001' : '$2,906,204', project.isSample ? '$1,378,238' : '$2,965,492', project.isSample ? '$52' : '$21', project.isSample ? '$114,083' : '($2,363,726)'],
       
       // Equipment & Special Construction Section
-      ['Equipment & Special Construction', isSampleProject(project.name) ? '$221,062' : '$656,351', isSampleProject(project.name) ? '$9' : '$4', isSampleProject(project.name) ? '$68,827' : '$99,544', isSampleProject(project.name) ? '$139,859' : '$486,539', isSampleProject(project.name) ? '$208,686' : '$586,082', isSampleProject(project.name) ? '$8' : '$4', isSampleProject(project.name) ? '$12,376' : '($70,269)'],
-      ['  10 Specialties', isSampleProject(project.name) ? '$55,363' : '$200,836', isSampleProject(project.name) ? '$2' : '$1', isSampleProject(project.name) ? '-' : '0', isSampleProject(project.name) ? '$47,078' : '$161,890', isSampleProject(project.name) ? '$47,078' : '$161,890', isSampleProject(project.name) ? '$2' : '$1', isSampleProject(project.name) ? '$8,285' : '($38,946)'],
-      ['  11 Equipment', isSampleProject(project.name) ? '$16,837' : '$29,531', isSampleProject(project.name) ? '$1' : '$0', isSampleProject(project.name) ? '$16,837' : '$29,531', isSampleProject(project.name) ? '-' : '0', isSampleProject(project.name) ? '$16,837' : '$29,531', isSampleProject(project.name) ? '$1' : '$0', isSampleProject(project.name) ? '$0' : '$0'],
-      ['  12 Furnishing', isSampleProject(project.name) ? '$99,730' : '$374,255', isSampleProject(project.name) ? '$4' : '$2', isSampleProject(project.name) ? '$2,858' : '$18,284', isSampleProject(project.name) ? '$92,781' : '$324,648', isSampleProject(project.name) ? '$95,639' : '$342,932', isSampleProject(project.name) ? '$4' : '$2', isSampleProject(project.name) ? '$4,091' : '($31,322)'],
-      ['  13 Special Construction', isSampleProject(project.name) ? '$49,132' : '$51,729', isSampleProject(project.name) ? '$2' : '$0', isSampleProject(project.name) ? '$49,132' : '$51,729', isSampleProject(project.name) ? '-' : '0', isSampleProject(project.name) ? '$49,132' : '$51,729', isSampleProject(project.name) ? '$2' : '$0', isSampleProject(project.name) ? '$0' : '$0'],
+      ['Equipment & Special Construction', project.isSample ? '$221,062' : '$656,351', project.isSample ? '$9' : '$4', project.isSample ? '$68,827' : '$99,544', project.isSample ? '$139,859' : '$486,539', project.isSample ? '$208,686' : '$586,082', project.isSample ? '$8' : '$4', project.isSample ? '$12,376' : '($70,269)'],
+      ['  10 Specialties', project.isSample ? '$55,363' : '$200,836', project.isSample ? '$2' : '$1', project.isSample ? '-' : '0', project.isSample ? '$47,078' : '$161,890', project.isSample ? '$47,078' : '$161,890', project.isSample ? '$2' : '$1', project.isSample ? '$8,285' : '($38,946)'],
+      ['  11 Equipment', project.isSample ? '$16,837' : '$29,531', project.isSample ? '$1' : '$0', project.isSample ? '$16,837' : '$29,531', project.isSample ? '-' : '0', project.isSample ? '$16,837' : '$29,531', project.isSample ? '$1' : '$0', project.isSample ? '$0' : '$0'],
+      ['  12 Furnishing', project.isSample ? '$99,730' : '$374,255', project.isSample ? '$4' : '$2', project.isSample ? '$2,858' : '$18,284', project.isSample ? '$92,781' : '$324,648', project.isSample ? '$95,639' : '$342,932', project.isSample ? '$4' : '$2', project.isSample ? '$4,091' : '($31,322)'],
+      ['  13 Special Construction', project.isSample ? '$49,132' : '$51,729', project.isSample ? '$2' : '$0', project.isSample ? '$49,132' : '$51,729', project.isSample ? '-' : '0', project.isSample ? '$49,132' : '$51,729', project.isSample ? '$2' : '$0', project.isSample ? '$0' : '$0'],
       
       // MEPs Section
-      ['MEPs', isSampleProject(project.name) ? '$1,938,147' : '$9,852,336', isSampleProject(project.name) ? '$74' : '$57', isSampleProject(project.name) ? '$1,026,490' : '$4,466,118', isSampleProject(project.name) ? '$1,323,688' : '$3,548,625', isSampleProject(project.name) ? '$2,350,178' : '$8,014,743', isSampleProject(project.name) ? '$90' : '$56', isSampleProject(project.name) ? '-$412,031' : '($1,837,593)'],
-      ['  21 Fire Suppression', isSampleProject(project.name) ? '$234,567' : '$982,245', isSampleProject(project.name) ? '$9' : '$6', isSampleProject(project.name) ? '$156,789' : '$346,948', isSampleProject(project.name) ? '$123,456' : '$351,524', isSampleProject(project.name) ? '$280,245' : '$698,472', isSampleProject(project.name) ? '$11' : '$5', isSampleProject(project.name) ? '-$45,678' : '($283,774)'],
-      ['  22 Plumbing', isSampleProject(project.name) ? '$456,789' : '$2,403,740', isSampleProject(project.name) ? '$18' : '$14', isSampleProject(project.name) ? '$234,567' : '$1,124,362', isSampleProject(project.name) ? '$345,678' : '$1,023,475', isSampleProject(project.name) ? '$580,245' : '$2,147,838', isSampleProject(project.name) ? '$22' : '$15', isSampleProject(project.name) ? '-$123,456' : '($255,902)'],
-      ['  23 HVAC', isSampleProject(project.name) ? '$678,901' : '$2,505,408', isSampleProject(project.name) ? '$26' : '$14', isSampleProject(project.name) ? '$345,678' : '$183,153', isSampleProject(project.name) ? '$456,789' : '$1,297,260', isSampleProject(project.name) ? '$802,467' : '$1,480,413', isSampleProject(project.name) ? '$31' : '$10', isSampleProject(project.name) ? '-$123,566' : '($1,024,994)'],
-      ['  26 Electrical', isSampleProject(project.name) ? '$567,890' : '$3,960,944', isSampleProject(project.name) ? '$22' : '$23', isSampleProject(project.name) ? '$289,456' : '$2,811,655', isSampleProject(project.name) ? '$398,765' : '$876,365', isSampleProject(project.name) ? '$688,221' : '$3,688,021', isSampleProject(project.name) ? '$26' : '$26', isSampleProject(project.name) ? '-$120,331' : '($272,923)'],
+      ['MEPs', project.isSample ? '$1,938,147' : '$9,852,336', project.isSample ? '$74' : '$57', project.isSample ? '$1,026,490' : '$4,466,118', project.isSample ? '$1,323,688' : '$3,548,625', project.isSample ? '$2,350,178' : '$8,014,743', project.isSample ? '$90' : '$56', project.isSample ? '-$412,031' : '($1,837,593)'],
+      ['  21 Fire Suppression', project.isSample ? '$234,567' : '$982,245', project.isSample ? '$9' : '$6', project.isSample ? '$156,789' : '$346,948', project.isSample ? '$123,456' : '$351,524', project.isSample ? '$280,245' : '$698,472', project.isSample ? '$11' : '$5', project.isSample ? '-$45,678' : '($283,774)'],
+      ['  22 Plumbing', project.isSample ? '$456,789' : '$2,403,740', project.isSample ? '$18' : '$14', project.isSample ? '$234,567' : '$1,124,362', project.isSample ? '$345,678' : '$1,023,475', project.isSample ? '$580,245' : '$2,147,838', project.isSample ? '$22' : '$15', project.isSample ? '-$123,456' : '($255,902)'],
+      ['  23 HVAC', project.isSample ? '$678,901' : '$2,505,408', project.isSample ? '$26' : '$14', project.isSample ? '$345,678' : '$183,153', project.isSample ? '$456,789' : '$1,297,260', project.isSample ? '$802,467' : '$1,480,413', project.isSample ? '$31' : '$10', project.isSample ? '-$123,566' : '($1,024,994)'],
+      ['  26 Electrical', project.isSample ? '$567,890' : '$3,960,944', project.isSample ? '$22' : '$23', project.isSample ? '$289,456' : '$2,811,655', project.isSample ? '$398,765' : '$876,365', project.isSample ? '$688,221' : '$3,688,021', project.isSample ? '$26' : '$26', project.isSample ? '-$120,331' : '($272,923)'],
       
       // Site Work Section
-      ['Site Work', isSampleProject(project.name) ? '$1,247,892' : '$4,233,670', isSampleProject(project.name) ? '$48' : '$24', isSampleProject(project.name) ? '$1,247,892' : '$4,239,520', '$0', isSampleProject(project.name) ? '$1,247,892' : '$4,239,520', isSampleProject(project.name) ? '$48' : '$30', isSampleProject(project.name) ? '$0' : '$5,851'],
-      ['  02 Existing Conditions', isSampleProject(project.name) ? '$124,789' : '$0', isSampleProject(project.name) ? '$5' : '$0', isSampleProject(project.name) ? '$124,789' : '$0', '$0', isSampleProject(project.name) ? '$124,789' : '$0', isSampleProject(project.name) ? '$5' : '$0', '$0'],
-      ['  31 Earthwork', isSampleProject(project.name) ? '$456,123' : '$1,146,618', isSampleProject(project.name) ? '$17' : '$7', isSampleProject(project.name) ? '$456,123' : '$1,152,469', '$0', isSampleProject(project.name) ? '$456,123' : '$1,152,469', isSampleProject(project.name) ? '$17' : '$8', isSampleProject(project.name) ? '$0' : '$5,851'],
-      ['  32 Exterior Improvements', isSampleProject(project.name) ? '$332,456' : '$1,521,663', isSampleProject(project.name) ? '$13' : '$9', isSampleProject(project.name) ? '$332,456' : '$1,521,663', '$0', isSampleProject(project.name) ? '$332,456' : '$1,521,663', isSampleProject(project.name) ? '$13' : '$11', '$0'],
-      ['  33 Utilities', isSampleProject(project.name) ? '$334,524' : '$1,565,388', isSampleProject(project.name) ? '$13' : '$9', isSampleProject(project.name) ? '$334,524' : '$1,565,388', '$0', isSampleProject(project.name) ? '$334,524' : '$1,565,388', isSampleProject(project.name) ? '$13' : '$11', '$0'],
+      ['Site Work', project.isSample ? '$1,247,892' : '$4,233,670', project.isSample ? '$48' : '$24', project.isSample ? '$1,247,892' : '$4,239,520', '$0', project.isSample ? '$1,247,892' : '$4,239,520', project.isSample ? '$48' : '$30', project.isSample ? '$0' : '$5,851'],
+      ['  02 Existing Conditions', project.isSample ? '$124,789' : '$0', project.isSample ? '$5' : '$0', project.isSample ? '$124,789' : '$0', '$0', project.isSample ? '$124,789' : '$0', project.isSample ? '$5' : '$0', '$0'],
+      ['  31 Earthwork', project.isSample ? '$456,123' : '$1,146,618', project.isSample ? '$17' : '$7', project.isSample ? '$456,123' : '$1,152,469', '$0', project.isSample ? '$456,123' : '$1,152,469', project.isSample ? '$17' : '$8', project.isSample ? '$0' : '$5,851'],
+      ['  32 Exterior Improvements', project.isSample ? '$332,456' : '$1,521,663', project.isSample ? '$13' : '$9', project.isSample ? '$332,456' : '$1,521,663', '$0', project.isSample ? '$332,456' : '$1,521,663', project.isSample ? '$13' : '$11', '$0'],
+      ['  33 Utilities', project.isSample ? '$334,524' : '$1,565,388', project.isSample ? '$13' : '$9', project.isSample ? '$334,524' : '$1,565,388', '$0', project.isSample ? '$334,524' : '$1,565,388', project.isSample ? '$13' : '$11', '$0'],
       
       // GC Charges Section
-      ['GC Charges', isSampleProject(project.name) ? '$892,345' : '$7,232,941', isSampleProject(project.name) ? '$34' : '$42', isSampleProject(project.name) ? '$456,789' : '$2,824,374', isSampleProject(project.name) ? '$234,567' : '$1,652,873', isSampleProject(project.name) ? '$691,356' : '$4,477,246', isSampleProject(project.name) ? '$26' : '$31', isSampleProject(project.name) ? '$200,989' : '($2,755,695)'],
-      ['  01 General Requirements', isSampleProject(project.name) ? '$692,345' : '$2,443,868', isSampleProject(project.name) ? '$27' : '$14', isSampleProject(project.name) ? '$356,789' : '$959,509', isSampleProject(project.name) ? '$134,567' : '$1,012,388', isSampleProject(project.name) ? '$491,356' : '$1,971,897', isSampleProject(project.name) ? '$19' : '$14', isSampleProject(project.name) ? '$200,989' : '($471,972)'],
-      ['  00 Fees', isSampleProject(project.name) ? '$200,000' : '$4,789,073', isSampleProject(project.name) ? '$8' : '$28', isSampleProject(project.name) ? '$100,000' : '$1,864,865', isSampleProject(project.name) ? '$100,000' : '$640,485', isSampleProject(project.name) ? '$200,000' : '$2,505,350', isSampleProject(project.name) ? '$8' : '$17', isSampleProject(project.name) ? '$0' : '($2,283,723)'],
+      ['GC Charges', project.isSample ? '$892,345' : '$7,232,941', project.isSample ? '$34' : '$42', project.isSample ? '$456,789' : '$2,824,374', project.isSample ? '$234,567' : '$1,652,873', project.isSample ? '$691,356' : '$4,477,246', project.isSample ? '$26' : '$31', project.isSample ? '$200,989' : '($2,755,695)'],
+      ['  01 General Requirements', project.isSample ? '$692,345' : '$2,443,868', project.isSample ? '$27' : '$14', project.isSample ? '$356,789' : '$959,509', project.isSample ? '$134,567' : '$1,012,388', project.isSample ? '$491,356' : '$1,971,897', project.isSample ? '$19' : '$14', project.isSample ? '$200,989' : '($471,972)'],
+      ['  00 Fees', project.isSample ? '$200,000' : '$4,789,073', project.isSample ? '$8' : '$28', project.isSample ? '$100,000' : '$1,864,865', project.isSample ? '$100,000' : '$640,485', project.isSample ? '$200,000' : '$2,505,350', project.isSample ? '$8' : '$17', project.isSample ? '$0' : '($2,283,723)'],
       
       // Project Total
       ['', '', '', '', '', '', '', ''], // Empty row for spacing
-      ['PROJECT TOTAL', isSampleProject(project.name) ? '$10,060,303' : '$46,221,006', isSampleProject(project.name) ? '$387' : '$266', 
-       isSampleProject(project.name) ? '$4,777,945' : '$18,091,784', isSampleProject(project.name) ? '$6,462,156' : '$17,593,094', 
-       isSampleProject(project.name) ? '$11,240,101' : '$35,684,879', isSampleProject(project.name) ? '$432' : '$248', 
-       isSampleProject(project.name) ? '-$179,798' : '($10,536,128)']
+      ['PROJECT TOTAL', project.isSample ? '$10,060,303' : '$46,221,006', project.isSample ? '$387' : '$266', 
+       project.isSample ? '$4,777,945' : '$18,091,784', project.isSample ? '$6,462,156' : '$17,593,094', 
+       project.isSample ? '$11,240,101' : '$35,684,879', project.isSample ? '$432' : '$248', 
+       project.isSample ? '-$179,798' : '($10,536,128)']
     ];
     
     // Convert to CSV
@@ -840,7 +840,7 @@ export default function ModularFeasibility() {
                     <div className="bg-white rounded-lg p-4 border">
                       <h4 className="font-semibold text-gray-800 mb-2">Assessment Summary</h4>
                       <p className="text-sm text-gray-700">
-                        {isSampleProject(project.name) ? (
+                        {project.isSample ? (
                           '24 units of Affordable Housing, 6 X 1BR, 12 X 2BR, 6 X 3BR. Dimensions 146 (L) X 66 (W) X 36 (H). Construction Type: V-A. 24 Parking Spaces.'
                         ) : (
                           `103 units of ${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing, 14 X Studios, 67 X 1BR, 22 X 2BR. Dimensions 519 (L) X 67 (W) X 57 (H). Construction Type: III-A. 100 Parking Spaces.`
@@ -1027,7 +1027,7 @@ export default function ModularFeasibility() {
                       <h4 className="font-semibold text-raap-dark mb-3">Site Information</h4>
                       <div className="bg-white border rounded-lg p-4">
                         <div className="space-y-2">
-                          <p><strong>Address:</strong> {isSampleProject(project.name) ? '1234 Olivehurst Avenue' : project.address}</p>
+                          <p><strong>Address:</strong> {project.isSample ? '1234 Olivehurst Avenue' : project.address}</p>
                           <p><strong>APN:</strong> 014-240-005</p>
                           <p><strong>Lot Size:</strong> 1.0 acre (43,560 sf)</p>
                           <p><strong>Current Use:</strong> Vacant residential land</p>
@@ -1051,8 +1051,8 @@ export default function ModularFeasibility() {
                         <tbody className="divide-y divide-gray-200">
                           <tr>
                             <td className="px-4 py-3">Height Limit</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '40 ft max' : '65 ft max'}</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '36 ft' : '57 ft'}</td>
+                            <td className="px-4 py-3">{project.isSample ? '40 ft max' : '65 ft max'}</td>
+                            <td className="px-4 py-3">{project.isSample ? '36 ft' : '57 ft'}</td>
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
@@ -1081,8 +1081,8 @@ export default function ModularFeasibility() {
                           </tr>
                           <tr>
                             <td className="px-4 py-3">Parking</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '1.5 spaces/unit' : '1.0 spaces/unit'}</td>
-                            <td className="px-4 py-3">{isSampleProject(project.name) ? '1 space/unit' : '0.97 spaces/unit'}</td>
+                            <td className="px-4 py-3">{project.isSample ? '1.5 spaces/unit' : '1.0 spaces/unit'}</td>
+                            <td className="px-4 py-3">{project.isSample ? '1 space/unit' : '0.97 spaces/unit'}</td>
                             <td className="px-4 py-3"><span className="text-orange-600 font-semibold">⚠ Variance Required</span></td>
                           </tr>
                         </tbody>
@@ -1138,7 +1138,7 @@ export default function ModularFeasibility() {
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
                       <strong>Score of {scores.massing}/5:</strong> No additional constraints caused by modular structure. 
-                      {isSampleProject(project.name) ? 'Modular construction provides optimal efficiency for this unit configuration and site layout.' : 'We can achieve the goal of 103 units and unit mix (14 studios, 67 1BR, 22 2BR) as the traditional original design.'}
+                      {project.isSample ? 'Modular construction provides optimal efficiency for this unit configuration and site layout.' : 'We can achieve the goal of 103 units and unit mix (14 studios, 67 1BR, 22 2BR) as the traditional original design.'}
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 15% of overall feasibility score
@@ -1161,7 +1161,7 @@ export default function ModularFeasibility() {
                         {/* Unit Mix Summary matching the image */}
                         <div className="bg-white border rounded-lg p-6">
                           <h4 className="font-semibold text-gray-800 mb-6">Unit Mix Summary</h4>
-                          {isSampleProject(project.name) ? (
+                          {project.isSample ? (
                             // Sample projects: show original 1BR/2BR/3BR mix
                             <div className="grid grid-cols-3 gap-6">
                               <div className="text-center p-6 bg-gray-50 rounded-lg">
@@ -1209,15 +1209,15 @@ export default function ModularFeasibility() {
                               <div className="space-y-3">
                                 <div className="flex justify-between">
                                   <span>Total Units</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? '24 units' : '103 units'}</span>
+                                  <span className="font-semibold">{project.isSample ? '24 units' : '103 units'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Stories</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? '3 stories' : '5 stories'}</span>
+                                  <span className="font-semibold">{project.isSample ? '3 stories' : '5 stories'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Height</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? '32 feet' : '57 feet'}</span>
+                                  <span className="font-semibold">{project.isSample ? '32 feet' : '57 feet'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Total Building Area</span>
@@ -1229,7 +1229,7 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Parking Spaces</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? '24 spaces' : '100 spaces'}</span>
+                                  <span className="font-semibold">{project.isSample ? '24 spaces' : '100 spaces'}</span>
                                 </div>
                               </div>
                             </div>
@@ -1249,15 +1249,15 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Construction Type</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? 'V-A' : 'III-A'}</span>
+                                  <span className="font-semibold">{project.isSample ? 'V-A' : 'III-A'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Structural System</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? 'Light Frame' : 'Wood'}</span>
+                                  <span className="font-semibold">{project.isSample ? 'Light Frame' : 'Wood'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Base</span>
-                                  <span className="font-semibold">{isSampleProject(project.name) ? 'Concrete Slab' : 'Concrete Podium'}</span>
+                                  <span className="font-semibold">{project.isSample ? 'Concrete Slab' : 'Concrete Podium'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Shipping Weight</span>
@@ -1283,14 +1283,14 @@ export default function ModularFeasibility() {
                               <tbody className="divide-y divide-gray-200">
                                 <tr>
                                   <td className="px-4 py-3">Unit Count</td>
-                                  <td className="px-4 py-3">{isSampleProject(project.name) ? '24 units' : '103 units'}</td>
-                                  <td className="px-4 py-3">{isSampleProject(project.name) ? '24 units' : '103 units'}</td>
+                                  <td className="px-4 py-3">{project.isSample ? '24 units' : '103 units'}</td>
+                                  <td className="px-4 py-3">{project.isSample ? '24 units' : '103 units'}</td>
                                   <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
                                 </tr>
                                 <tr>
-                                  <td className="px-4 py-3">{isSampleProject(project.name) ? 'Building Footprint' : 'Gross Sq. Ft.'}</td>
-                                  <td className="px-4 py-3">{isSampleProject(project.name) ? '6,336 sf' : '142,924 sf'}</td>
-                                  <td className="px-4 py-3">{isSampleProject(project.name) ? '6,336 sf' : '143,648 sf'}</td>
+                                  <td className="px-4 py-3">{project.isSample ? 'Building Footprint' : 'Gross Sq. Ft.'}</td>
+                                  <td className="px-4 py-3">{project.isSample ? '6,336 sf' : '142,924 sf'}</td>
+                                  <td className="px-4 py-3">{project.isSample ? '6,336 sf' : '143,648 sf'}</td>
                                   <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
                                 </tr>
                                 <tr>
@@ -1379,7 +1379,7 @@ export default function ModularFeasibility() {
                         <div className="space-y-6">
                           <div className="text-center">
                             <img 
-                              src={isSampleProject(project.name) ? serenityFloorPlanImage : vallejoFloorPlanImage} 
+                              src={project.isSample ? serenityFloorPlanImage : vallejoFloorPlanImage} 
                               alt="Building floor plan showing unit layout and circulation"
                               className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
                               style={{ maxHeight: '70vh' }}
@@ -1420,7 +1420,7 @@ export default function ModularFeasibility() {
                         <h4 className="font-semibold text-raap-dark mb-4">3D Building Renderings</h4>
                         <div className="text-center">
                           <img 
-                            src={isSampleProject(project.name) ? serenityBuildingRenderingImage : vallejoBuildingRenderingImage} 
+                            src={project.isSample ? serenityBuildingRenderingImage : vallejoBuildingRenderingImage} 
                             alt="3D rendering of the modular apartment building"
                             className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
                             style={{ maxHeight: '70vh' }}
@@ -1462,7 +1462,7 @@ export default function ModularFeasibility() {
                         <h4 className="font-semibold text-raap-dark mb-4">Site Layout & Planning</h4>
                         <div className="text-center">
                           <img 
-                            src={isSampleProject(project.name) ? serenitySitePlanImage : vallejoSitePlanImage} 
+                            src={project.isSample ? serenitySitePlanImage : vallejoSitePlanImage} 
                             alt="Site plan showing building placement, parking, and landscaping"
                             className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
                             style={{ maxHeight: '70vh' }}
