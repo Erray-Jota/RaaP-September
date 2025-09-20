@@ -1341,8 +1341,32 @@ export default function ModularFeasibility() {
                       <div className="space-y-6">
                         {/* Unit Mix Summary matching the image */}
                         <div className="bg-white border rounded-lg p-6">
-                          <h4 className="font-semibold text-gray-800 mb-6">Unit Mix Summary</h4>
-                          {project.isSample ? (
+                          <h4 className="font-semibold text-gray-800 mb-6">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Mix Summary' : 'Unit Mix Summary'}</h4>
+                          {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                            // Hotel/Hostel projects: show Queen/King/One Bedroom/ADA mix
+                            <div className="grid grid-cols-4 gap-6">
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-purple-600 mb-2">{project.queenUnits || 0}</div>
+                                <div className="font-semibold text-gray-700">Queen Rooms</div>
+                                <div className="text-sm text-gray-500">320 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-blue-600 mb-2">{project.kingUnits || 0}</div>
+                                <div className="font-semibold text-gray-700">King Rooms</div>
+                                <div className="text-sm text-gray-500">350 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-green-600 mb-2">{project.oneBedUnits || 0}</div>
+                                <div className="font-semibold text-gray-700">One Bedroom</div>
+                                <div className="text-sm text-gray-500">520 SF Average</div>
+                              </div>
+                              <div className="text-center p-6 bg-gray-50 rounded-lg">
+                                <div className="text-4xl font-bold text-orange-600 mb-2">{project.adaPercent || 0}%</div>
+                                <div className="font-semibold text-gray-700">ADA Compliant</div>
+                                <div className="text-sm text-gray-500">Required Accessibility</div>
+                              </div>
+                            </div>
+                          ) : project.isSample ? (
                             // Sample projects: show original 1BR/2BR/3BR mix
                             <div className="grid grid-cols-3 gap-6">
                               <div className="text-center p-6 bg-gray-50 rounded-lg">
@@ -1389,8 +1413,8 @@ export default function ModularFeasibility() {
                             <div className="bg-white border rounded-lg p-4">
                               <div className="space-y-3">
                                 <div className="flex justify-between">
-                                  <span>Total Units</span>
-                                  <span className="font-semibold">{project.isSample ? '24 units' : '103 units'}</span>
+                                  <span>{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Total Rooms' : 'Total Units'}</span>
+                                  <span className="font-semibold">{project.projectType === 'hotel' || project.projectType === 'hostel' ? `${(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} rooms` : project.isSample ? '24 units' : '103 units'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Stories</span>
@@ -1463,9 +1487,9 @@ export default function ModularFeasibility() {
                               </thead>
                               <tbody className="divide-y divide-gray-200">
                                 <tr>
-                                  <td className="px-4 py-3">Unit Count</td>
-                                  <td className="px-4 py-3">{project.isSample ? '24 units' : '103 units'}</td>
-                                  <td className="px-4 py-3">{project.isSample ? '24 units' : '103 units'}</td>
+                                  <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Count' : 'Unit Count'}</td>
+                                  <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? `${(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} rooms` : project.isSample ? '24 units' : '103 units'}</td>
+                                  <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? `${(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} rooms` : project.isSample ? '24 units' : '103 units'}</td>
                                   <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
                                 </tr>
                                 <tr>
