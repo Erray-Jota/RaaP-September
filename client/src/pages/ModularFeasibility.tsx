@@ -67,9 +67,36 @@ function getCostBreakdownByCategory(costBreakdowns: CostBreakdown[] | undefined,
 }
 
 // Helper function to calculate per square foot cost  
-function calculateCostPerSf(totalCost: string | null | undefined, totalSqFt: number = 17360): string {
+// Helper function to calculate total square footage from project data
+function getProjectTotalSqFt(project: any): number {
+  // Try to parse building dimensions if available (e.g., "146' X 66'")
+  if (project.buildingDimensions) {
+    const match = project.buildingDimensions.match(/(\d+)'?\s*[xX×]\s*(\d+)'/);
+    if (match) {
+      const width = parseInt(match[1]);
+      const height = parseInt(match[2]);
+      return width * height;
+    }
+  }
+  
+  // Calculate total units
+  const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
+                    (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
+  
+  // Estimate total sq ft based on units (assuming ~720 sq ft average per unit)
+  // This is a reasonable default for multifamily residential
+  if (totalUnits > 0) {
+    return totalUnits * 720;
+  }
+  
+  // Final fallback
+  return 17360;
+}
+
+function calculateCostPerSf(totalCost: string | null | undefined, project: any): string {
   if (!totalCost) return '$0';
   const cost = parseFloat(totalCost);
+  const totalSqFt = getProjectTotalSqFt(project);
   if (isNaN(cost) || totalSqFt === 0) return '$0';
   return `$${Math.round(cost / totalSqFt)}`;
 }
@@ -283,57 +310,109 @@ export default function ModularFeasibility() {
       costBreakdownData.push([
         name,
         formatCurrency(siteBuilt),
-        calculateCostPerSf(siteBuilt.toString()),
+        calculateCostPerSf(siteBuilt.toString(), project),
         formatCurrency(raapGc),
         formatCurrency(raapFab),
         formatCurrency(raapTotal),
-        calculateCostPerSf(raapTotal.toString()),
+        calculateCostPerSf(raapTotal.toString(), project),
         savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`
       ]);
     };
 
-    // Define all divisions and their groupings
-    const divisions = [
-      // Concrete, Masonry & Metals
-      { category: '03 Concrete', section: 'Concrete, Masonry & Metals' },
-      { category: '04 Masonry', section: 'Concrete, Masonry & Metals' },
-      { category: '05 Metal', section: 'Concrete, Masonry & Metals' },
+    // Comprehensive list of all standard CSI MasterFormat divisions and their groupings
+    const standardDivisions = [
+      // General Requirements & Fees
+      { category: '00 Procurement and Contracting Requirements', section: 'General Requirements' },
+      { category: '01 General Requirements', section: 'General Requirements' },
       
-      // Rooms
-      { category: '06 Wood & Plastics', section: 'Rooms' },
-      { category: '07 Thermal & Moisture Protection', section: 'Rooms' },
-      { category: '08 Openings', section: 'Rooms' },
-      { category: '09 Finishes', section: 'Rooms' },
-      
-      // Equipment & Special Construction
-      { category: '10 Specialties', section: 'Equipment & Special Construction' },
-      { category: '11 Equipment', section: 'Equipment & Special Construction' },
-      { category: '12 Furnishing', section: 'Equipment & Special Construction' },
-      { category: '13 Special Construction', section: 'Equipment & Special Construction' },
-      
-      // MEPs
-      { category: '21 Fire Suppression', section: 'MEPs' },
-      { category: '22 Plumbing', section: 'MEPs' },
-      { category: '23 HVAC', section: 'MEPs' },
-      { category: '26 Electrical', section: 'MEPs' },
-      
-      // Site Work
+      // Existing Conditions & Site Work
       { category: '02 Existing Conditions', section: 'Site Work' },
-      { category: '31 Earthwork', section: 'Site Work' },
-      { category: '32 Exterior Improvements', section: 'Site Work' },
-      { category: '33 Utilities', section: 'Site Work' },
       
-      // GC Charges
-      { category: '01 General Requirements', section: 'GC Charges' },
-      { category: '00 Fees', section: 'GC Charges' }
+      // Concrete & Structure
+      { category: '03 Concrete', section: 'Concrete & Structure' },
+      { category: '04 Masonry', section: 'Concrete & Structure' },
+      { category: '05 Metals', section: 'Concrete & Structure' },
+      
+      // Enclosure
+      { category: '06 Wood, Plastics, and Composites', section: 'Enclosure' },
+      { category: '07 Thermal and Moisture Protection', section: 'Enclosure' },
+      { category: '08 Openings', section: 'Enclosure' },
+      { category: '09 Finishes', section: 'Enclosure' },
+      
+      // Specialties & Equipment
+      { category: '10 Specialties', section: 'Specialties & Equipment' },
+      { category: '11 Equipment', section: 'Specialties & Equipment' },
+      { category: '12 Furnishings', section: 'Specialties & Equipment' },
+      { category: '13 Special Construction', section: 'Specialties & Equipment' },
+      { category: '14 Conveying Equipment', section: 'Specialties & Equipment' },
+      
+      // Facility Services
+      { category: '21 Fire Suppression', section: 'Facility Services' },
+      { category: '22 Plumbing', section: 'Facility Services' },
+      { category: '23 HVAC', section: 'Facility Services' },
+      { category: '26 Electrical', section: 'Facility Services' },
+      { category: '27 Communications', section: 'Facility Services' },
+      { category: '28 Electronic Safety and Security', section: 'Facility Services' },
+      
+      // Site & Infrastructure
+      { category: '31 Earthwork', section: 'Site & Infrastructure' },
+      { category: '32 Exterior Improvements', section: 'Site & Infrastructure' },
+      { category: '33 Utilities', section: 'Site & Infrastructure' },
+      
+      // Process Equipment (if applicable)
+      { category: '40 Process Integration', section: 'Process Equipment' },
+      { category: '41 Material Processing and Handling Equipment', section: 'Process Equipment' },
+      { category: '42 Process Heating, Cooling, and Drying Equipment', section: 'Process Equipment' },
+      { category: '43 Process Gas and Liquid Handling, Purification, and Storage Equipment', section: 'Process Equipment' },
+      { category: '44 Pollution Control Equipment', section: 'Process Equipment' },
+      { category: '45 Industry-Specific Manufacturing Equipment', section: 'Process Equipment' },
+      { category: '46 Water and Wastewater Equipment', section: 'Process Equipment' },
+      { category: '48 Electrical Power Generation', section: 'Process Equipment' }
     ];
 
+    // Filter to only include divisions that exist in the cost breakdown data or use legacy mapping
+    const existingCategories = costBreakdowns.map(cb => cb.category);
+    
+    // Legacy category mappings for backwards compatibility
+    const legacyMappings = {
+      '05 Metal': '05 Metals',
+      '06 Wood & Plastics': '06 Wood, Plastics, and Composites',
+      '07 Thermal & Moisture Protection': '07 Thermal and Moisture Protection',
+      '12 Furnishing': '12 Furnishings',
+      '00 Fees': '00 Procurement and Contracting Requirements'
+    };
+
+    // Use existing data plus any additional standard divisions that have data
+    const divisionsToInclude = [];
+    
+    // Add divisions that exist in the cost breakdown data
+    existingCategories.forEach(category => {
+      // Check if this category has a standard equivalent
+      const standardCategory = Object.entries(legacyMappings).find(([legacy, standard]) => 
+        legacy === category
+      )?.[1] || category;
+      
+      const division = standardDivisions.find(d => d.category === standardCategory || d.category === category);
+      if (division && !divisionsToInclude.find(d => d.category === division.category)) {
+        divisionsToInclude.push({
+          category: category, // Use the actual category from data
+          section: division.section
+        });
+      } else if (!division) {
+        // Add unknown categories to a catch-all section
+        divisionsToInclude.push({
+          category: category,
+          section: 'Other'
+        });
+      }
+    });
+
     // Group divisions by section and calculate totals
-    const sections = ['Concrete, Masonry & Metals', 'Rooms', 'Equipment & Special Construction', 'MEPs', 'Site Work', 'GC Charges'];
+    const sections = [...new Set(divisionsToInclude.map(d => d.section))].sort();
     let projectSiteBuilt = 0, projectRaapGc = 0, projectRaapFab = 0;
 
     sections.forEach(sectionName => {
-      const sectionDivisions = divisions.filter(d => d.section === sectionName);
+      const sectionDivisions = divisionsToInclude.filter(d => d.section === sectionName);
       let sectionSiteBuilt = 0, sectionRaapGc = 0, sectionRaapFab = 0;
 
       // Add section header
@@ -1936,11 +2015,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-blue-50">
                                 <td className="px-3 py-2 font-semibold text-blue-800">Concrete, Masonry & Metals</td>
                                 <MobileCurrencyCell amount={siteBuiltTotal} className="font-semibold" />
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <MobileCurrencyCell amount={raapGcTotal} />
                                 <MobileCurrencyCell amount={raapFabTotal} />
                                 <MobileCurrencyCell amount={raapTotal} className="font-semibold" />
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600 font-semibold">
                                   <span className="sm:hidden">{savings >= 0 ? formatCostForMobile(formatCurrency(savings)) : `(${formatCostForMobile(formatCurrency(Math.abs(savings)))})`}</span>
                                   <span className="hidden sm:inline">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</span>
@@ -1960,11 +2039,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">03 Concrete</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -1981,11 +2060,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">04 Masonry</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2002,11 +2081,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">05 Metal</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2039,11 +2118,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-green-50">
                                 <td className="px-3 py-2 font-semibold text-green-800">Rooms</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2060,11 +2139,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">06 Wood & Plastics</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2081,11 +2160,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">07 Thermal & Moisture Protection</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2102,11 +2181,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">08 Openings</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2123,11 +2202,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">09 Finishes</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2160,11 +2239,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-orange-50">
                                 <td className="px-3 py-2 font-semibold text-orange-800">Equipment & Special Construction</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2181,11 +2260,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">10 Specialties</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{raapGc === 0 ? '$0' : formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2202,11 +2281,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">11 Equipment</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
                               </tr>
                             );
@@ -2223,11 +2302,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">12 Furnishing</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2244,11 +2323,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">13 Special Construction</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
                               </tr>
                             );
@@ -2281,11 +2360,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-purple-50">
                                 <td className="px-3 py-2 font-semibold text-purple-800">MEPs</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2302,11 +2381,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">21 Fire Suppression</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2323,11 +2402,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">22 Plumbing</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2344,11 +2423,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">23 HVAC</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2365,11 +2444,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">26 Electrical</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2401,11 +2480,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-brown-50 border-gray-300 border-t-2">
                                 <td className="px-3 py-2 font-semibold text-yellow-900">Site Work</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-green-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2432,11 +2511,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">31 Earthwork</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-green-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2453,11 +2532,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">32 Exterior Improvements</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
                               </tr>
                             );
@@ -2474,11 +2553,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">33 Utilities</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{raapFab === 0 ? '$0' : formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{savings === 0 ? '$0' : (savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`)}</td>
                               </tr>
                             );
@@ -2503,11 +2582,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-gray-100">
                                 <td className="px-3 py-2 font-semibold text-gray-800">GC Charges</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-2 text-right font-semibold">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600 font-semibold">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2524,11 +2603,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">01 General Requirements</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2545,11 +2624,11 @@ export default function ModularFeasibility() {
                               <tr>
                                 <td className="px-3 py-2 pl-6">00 Fees</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(siteBuilt)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(siteBuilt.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapGc)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapFab)}</td>
                                 <td className="px-3 py-2 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-2 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-2 text-right text-red-600">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
@@ -2570,11 +2649,11 @@ export default function ModularFeasibility() {
                               <tr className="bg-gray-700 text-white font-bold text-base">
                                 <td className="px-3 py-3">PROJECT TOTAL</td>
                                 <td className="px-3 py-3 text-right">{formatCurrency(siteBuiltTotal)}</td>
-                                <td className="px-3 py-3 text-right">{calculateCostPerSf(siteBuiltTotal.toString())}</td>
+                                <td className="px-3 py-3 text-right">{calculateCostPerSf(siteBuiltTotal.toString(), project)}</td>
                                 <td className="px-3 py-3 text-right">{formatCurrency(raapGcTotal)}</td>
                                 <td className="px-3 py-3 text-right">{formatCurrency(raapFabTotal)}</td>
                                 <td className="px-3 py-3 text-right">{formatCurrency(raapTotal)}</td>
-                                <td className="px-3 py-3 text-right">{calculateCostPerSf(raapTotal.toString())}</td>
+                                <td className="px-3 py-3 text-right">{calculateCostPerSf(raapTotal.toString(), project)}</td>
                                 <td className="px-3 py-3 text-right text-red-400">{savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`}</td>
                               </tr>
                             );
