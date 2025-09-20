@@ -30,57 +30,13 @@ import ProjectSiteMap from "@/components/ProjectSiteMap";
 import RouteMap from "@/components/RouteMap";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
-import { useCostTotals, formatCurrency } from "@/lib/useCostTotals";
+import { useCostTotals, formatCurrency, calculateCostPerSf } from "@/lib/useCostTotals";
 // Removed calculateProjectScores import - using database values directly
-
-// Helper function to format numbers
-function formatNumber(value: number | string | null | undefined): string {
-  if (!value) return '0';
-  const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  if (isNaN(numValue)) return '0';
-  return numValue.toLocaleString('en-US');
-}
-}
 
 // Helper function to get cost breakdown data by category
 function getCostBreakdownByCategory(costBreakdowns: CostBreakdown[] | undefined, category: string): CostBreakdown | null {
   if (!costBreakdowns) return null;
   return costBreakdowns.find(cb => cb.category === category) || null;
-}
-
-// Helper function to calculate per square foot cost  
-// Helper function to calculate total square footage from project data
-function getProjectTotalSqFt(project: any): number {
-  // Try to parse building dimensions if available (e.g., "146' X 66'")
-  if (project.buildingDimensions) {
-    const match = project.buildingDimensions.match(/(\d+)'?\s*[xX×]\s*(\d+)'/);
-    if (match) {
-      const width = parseInt(match[1]);
-      const height = parseInt(match[2]);
-      return width * height;
-    }
-  }
-  
-  // Calculate total units
-  const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
-                    (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
-  
-  // Estimate total sq ft based on units (assuming ~720 sq ft average per unit)
-  // This is a reasonable default for multifamily residential
-  if (totalUnits > 0) {
-    return totalUnits * 720;
-  }
-  
-  // Final fallback
-  return 17360;
-}
-
-function calculateCostPerSf(totalCost: string | null | undefined, project: any): string {
-  if (!totalCost) return '$0';
-  const cost = parseFloat(totalCost);
-  const totalSqFt = getProjectTotalSqFt(project);
-  if (isNaN(cost) || totalSqFt === 0) return '$0';
-  return `$${Math.round(cost / totalSqFt)}`;
 }
 
 // Helper function to format cost values for mobile display

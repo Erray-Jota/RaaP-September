@@ -15,6 +15,29 @@ export interface CostTotals {
 }
 
 /**
+ * Helper function to safely parse currency/number strings
+ * Handles commas, dollar signs, parentheses, and other formatting
+ */
+function safeParseNumber(value: string | null | undefined): number {
+  if (!value) return 0;
+  
+  const str = value.toString();
+  
+  // Check if parentheses indicate negative value (accounting format)
+  const isNegative = /\(.*\)/.test(str);
+  
+  // Remove common formatting: $, commas, spaces, parentheses
+  const cleaned = str
+    .replace(/[$,\s()]/g, '')
+    .replace(/[^\d.-]/g, '');
+    
+  const num = parseFloat(cleaned);
+  if (isNaN(num)) return 0;
+  
+  return isNegative ? -Math.abs(num) : num;
+}
+
+/**
  * SINGLE SOURCE OF TRUTH for cost calculations
  * Calculates all cost metrics from MasterFormat breakdown data
  * This ensures consistency across the entire application
@@ -65,13 +88,13 @@ export function useCostTotals(project: Project, costBreakdowns: CostBreakdown[])
       };
     }
 
-    // Calculate totals from MasterFormat breakdown data
+    // Calculate totals from MasterFormat breakdown data using safe parsing
     const siteBuiltTotal = costBreakdowns.reduce((sum, breakdown) => {
-      return sum + parseFloat(breakdown.siteBuiltCost || "0");
+      return sum + safeParseNumber(breakdown.siteBuiltCost);
     }, 0);
     
     const modularTotal = costBreakdowns.reduce((sum, breakdown) => {
-      return sum + parseFloat(breakdown.raapTotalCost || "0");
+      return sum + safeParseNumber(breakdown.raapTotalCost);
     }, 0);
     
     const savings = siteBuiltTotal - modularTotal;

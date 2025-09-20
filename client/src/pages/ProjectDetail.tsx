@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
+import { useCostTotals, formatCurrency } from "@/lib/useCostTotals";
 
 // Import generated images for Massing tab
 import floorPlanImage from "@assets/Vallejo Floor Plan 2_1757773129441.png";
@@ -56,6 +57,9 @@ function ProjectDetail() {
     queryKey: ["/api/projects", projectId, "cost-breakdowns"],
     enabled: !!projectId,
   });
+
+  // SINGLE SOURCE OF TRUTH: Use shared cost calculation utility
+  const costTotals = useCostTotals(project || {} as Project, costBreakdowns || []);
 
   // Handle authentication errors
   if (error && isUnauthorizedError(error)) {
@@ -283,7 +287,7 @@ function ProjectDetail() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <div className="text-3xl font-bold text-green-600">
-                        ${(project as Project).modularTotalCost ? (parseFloat((project as Project).modularTotalCost!) / 1000000).toFixed(1) : "0.0"}M
+                        ${(costTotals.modularTotal / 1000000).toFixed(1)}M
                       </div>
                       <div className="text-sm text-gray-500">Modular Cost</div>
                     </div>
@@ -293,10 +297,10 @@ function ProjectDetail() {
                       </div>
                       <div className="text-sm text-gray-500">Build Time</div>
                     </div>
-                    {((project as Project).costSavingsPercent && parseFloat((project as Project).costSavingsPercent!) > 0) && (
+                    {costTotals.costSavingsPercent > 0 && (
                       <div className="text-center p-4 bg-green-100 rounded-lg">
                         <div className="text-3xl font-bold text-green-600">
-                          {(project as Project).costSavingsPercent}%
+                          {costTotals.costSavingsPercent.toFixed(1)}%
                         </div>
                         <div className="text-sm text-gray-500">Cost Savings</div>
                       </div>
@@ -1233,8 +1237,8 @@ function ProjectDetail() {
                       <div className="text-3xl font-bold text-green-600">{(project as Project).costScore || "0.0"}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {(project as Project).costScore || "0.0"}/5:</strong> ${(parseFloat((project as Project).modularTotalCost || '0') / 1000000).toFixed(1)}M (${(project as Project).modularCostPerSf || '0'}/sf; ${(project as Project).modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
-                      {(project as Project).costSavingsPercent || '0'}% savings over site-built. Modular construction provides cost advantages.
+                      <strong>Score of {(project as Project).costScore || "0.0"}/5:</strong> ${(costTotals.modularTotal / 1000000).toFixed(1)}M (${Math.round(costTotals.modularCostPerSf)}/sf; {formatCurrency(costTotals.modularCostPerUnit)}/unit) with Prevailing Wage. 
+                      {costTotals.costSavingsPercent.toFixed(1)}% savings over site-built. Modular construction provides cost advantages.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 20% of overall feasibility score
@@ -1248,22 +1252,22 @@ function ProjectDetail() {
                         <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
-                            <div className="font-semibold text-blue-600">$10,821,565</div>
-                            <div className="text-sm text-gray-600">$411/sf • 9 Months</div>
+                            <div className="font-semibold text-blue-600">{formatCurrency(costTotals.modularTotal)}</div>
+                            <div className="text-sm text-gray-600">${Math.round(costTotals.modularCostPerSf)}/sf • {(project as Project).modularTimelineMonths || 9} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
-                            <div className="font-semibold">$10,960,303</div>
-                            <div className="text-sm text-gray-600">$422/sf • 13 Months</div>
+                            <div className="font-semibold">{formatCurrency(costTotals.siteBuiltTotal)}</div>
+                            <div className="text-sm text-gray-600">${Math.round(costTotals.siteBuiltCostPerSf)}/sf • {(project as Project).siteBuiltTimelineMonths || 13} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
                           <span>Cost Savings</span>
                           <div className="text-right">
-                            <div className="font-semibold text-green-600">$138,738</div>
-                            <div className="text-sm text-gray-600">1.2% savings</div>
+                            <div className="font-semibold text-green-600">{formatCurrency(costTotals.savings)}</div>
+                            <div className="text-sm text-gray-600">{costTotals.costSavingsPercent.toFixed(1)}% savings</div>
                           </div>
                         </div>
                       </div>
@@ -1275,7 +1279,7 @@ function ProjectDetail() {
                         <div className="space-y-2">
                           <div className="flex justify-between">
                             <span>Number of Units</span>
-                            <span className="font-semibold">24</span>
+                            <span className="font-semibold">{costTotals.totalUnits}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Average Unit Area</span>
@@ -1284,11 +1288,11 @@ function ProjectDetail() {
                           <hr className="my-2" />
                           <div className="flex justify-between">
                             <span>Cost per Unit (RaaP)</span>
-                            <span className="font-semibold text-blue-600">$450,899</span>
+                            <span className="font-semibold text-blue-600">{formatCurrency(costTotals.modularCostPerUnit)}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Cost per Sq Ft (RaaP)</span>
-                            <span className="font-semibold text-blue-600">$411</span>
+                            <span className="font-semibold text-blue-600">${Math.round(costTotals.modularCostPerSf)}</span>
                           </div>
                         </div>
                       </div>
