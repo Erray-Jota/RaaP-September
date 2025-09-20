@@ -90,6 +90,10 @@ import unitPlansImage from "@assets/generated_images/apartment_unit_floor_plans_
 import oneBedImage from "@assets/1 Bed_1754836945408.png";
 import twoBedImage from "@assets/2 Bed_1754837154542.png";
 import threeBedImage from "@assets/3 Bed_1754837154543.png";
+// Hotel room plan images
+import doubleQueenImage from "@assets/Double Queen_1758411451002.png";
+import kingStudioImage from "@assets/King Studio_1758411451003.png";
+import oneBedroomHotelImage from "@assets/One Bedroom_1758411451004.png";
 import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
 import zoningMapImage from "@assets/Serinity Zoning Map_1754839677898.png";
 import olivehurstMapImage from "@assets/Olivehurst Map_1754839713206.png";
@@ -1330,7 +1334,7 @@ export default function ModularFeasibility() {
                   <Tabs defaultValue="specifications" className="w-full">
                     <TabsList className="grid w-full grid-cols-5 bg-gray-100">
                       <TabsTrigger value="specifications" className="text-sm">Specifications</TabsTrigger>
-                      <TabsTrigger value="unitplans" className="text-sm">Unit Plans</TabsTrigger>
+                      <TabsTrigger value="unitplans" className="text-sm">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Plans' : 'Unit Plans'}</TabsTrigger>
                       <TabsTrigger value="floorplan" className="text-sm">Floor Plan</TabsTrigger>
                       <TabsTrigger value="3dview" className="text-sm">3D View</TabsTrigger>
                       <TabsTrigger value="siteplan" className="text-sm">Site Plan</TabsTrigger>
@@ -1526,54 +1530,106 @@ export default function ModularFeasibility() {
                     {/* Unit Plans Sub-Tab */}
                     <TabsContent value="unitplans" className="mt-6">
                       <div className="space-y-6">
-                        <h4 className="font-semibold text-raap-dark mb-4">Individual Unit Floor Plans</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          <div className="text-center">
-                            <img 
-                              src={oneBedImage} 
-                              alt="1 Bedroom Unit Floor Plan - 563 sf"
-                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
-                              style={{ maxHeight: '400px' }}
-                            />
-                            <h5 className="font-semibold text-green-600 mb-1">1 Bedroom Unit</h5>
-                            <p className="text-sm text-gray-600 mb-2">563 sf • 6 units</p>
-                            <div className="text-xs text-gray-500 space-y-1">
-                              <div>1 Bedroom, 1 Bathroom</div>
-                              <div>Kitchen, Living Room</div>
-                              <div>In-unit Washer/Dryer</div>
+                        <h4 className="font-semibold text-raap-dark mb-4">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Individual Room Floor Plans' : 'Individual Unit Floor Plans'}</h4>
+                        {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                          // Hotel/Hostel Room Plans
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="text-center">
+                              <img 
+                                src={doubleQueenImage} 
+                                alt="Double Queen Room Floor Plan - 320 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-purple-600 mb-1">Queen Room</h5>
+                              <p className="text-sm text-gray-600 mb-2">320 sf • {project.queenUnits || 0} rooms</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>Two Queen Beds</div>
+                                <div>Full Bathroom</div>
+                                <div>Work Desk & Chair</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <img 
+                                src={kingStudioImage} 
+                                alt="King Studio Room Floor Plan - 350 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-blue-600 mb-1">King Room</h5>
+                              <p className="text-sm text-gray-600 mb-2">350 sf • {project.kingUnits || 0} rooms</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>One King Bed</div>
+                                <div>Full Bathroom</div>
+                                <div>Sitting Area & Desk</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <img 
+                                src={oneBedroomHotelImage} 
+                                alt="One Bedroom Suite Floor Plan - 520 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-green-600 mb-1">One Bedroom Suite</h5>
+                              <p className="text-sm text-gray-600 mb-2">520 sf • {project.oneBedUnits || 0} rooms</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>Separate Bedroom & Living</div>
+                                <div>Full Bathroom</div>
+                                <div>Kitchenette & Work Area</div>
+                              </div>
                             </div>
                           </div>
-                          <div className="text-center">
-                            <img 
-                              src={twoBedImage} 
-                              alt="2 Bedroom Unit Floor Plan - 813 sf"
-                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
-                              style={{ maxHeight: '400px' }}
-                            />
-                            <h5 className="font-semibold text-blue-600 mb-1">2 Bedroom Unit</h5>
-                            <p className="text-sm text-gray-600 mb-2">813 sf • 12 units</p>
-                            <div className="text-xs text-gray-500 space-y-1">
-                              <div>2 Bedrooms, 2 Bathrooms</div>
-                              <div>Kitchen, Living/Dining</div>
-                              <div>In-unit Washer/Dryer</div>
+                        ) : (
+                          // Traditional Unit Plans
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="text-center">
+                              <img 
+                                src={oneBedImage} 
+                                alt="1 Bedroom Unit Floor Plan - 563 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-green-600 mb-1">1 Bedroom Unit</h5>
+                              <p className="text-sm text-gray-600 mb-2">563 sf • 6 units</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>1 Bedroom, 1 Bathroom</div>
+                                <div>Kitchen, Living Room</div>
+                                <div>In-unit Washer/Dryer</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <img 
+                                src={twoBedImage} 
+                                alt="2 Bedroom Unit Floor Plan - 813 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-blue-600 mb-1">2 Bedroom Unit</h5>
+                              <p className="text-sm text-gray-600 mb-2">813 sf • 12 units</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>2 Bedrooms, 2 Bathrooms</div>
+                                <div>Kitchen, Living/Dining</div>
+                                <div>In-unit Washer/Dryer</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <img 
+                                src={threeBedImage} 
+                                alt="3 Bedroom Unit Floor Plan - 980 sf"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '400px' }}
+                              />
+                              <h5 className="font-semibold text-orange-600 mb-1">3 Bedroom Unit</h5>
+                              <p className="text-sm text-gray-600 mb-2">980 sf • 6 units</p>
+                              <div className="text-xs text-gray-500 space-y-1">
+                                <div>3 Bedrooms, 2 Bathrooms</div>
+                                <div>Kitchen, Living/Dining</div>
+                                <div>In-unit Washer/Dryer</div>
+                              </div>
                             </div>
                           </div>
-                          <div className="text-center">
-                            <img 
-                              src={threeBedImage} 
-                              alt="3 Bedroom Unit Floor Plan - 980 sf"
-                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
-                              style={{ maxHeight: '400px' }}
-                            />
-                            <h5 className="font-semibold text-orange-600 mb-1">3 Bedroom Unit</h5>
-                            <p className="text-sm text-gray-600 mb-2">980 sf • 6 units</p>
-                            <div className="text-xs text-gray-500 space-y-1">
-                              <div>3 Bedrooms, 2 Bathrooms</div>
-                              <div>Kitchen, Living/Dining</div>
-                              <div>In-unit Washer/Dryer</div>
-                            </div>
-                          </div>
-                        </div>
+                        )}
                       </div>
                     </TabsContent>
 
