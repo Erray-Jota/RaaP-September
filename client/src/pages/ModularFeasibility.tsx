@@ -264,58 +264,116 @@ export default function ModularFeasibility() {
 
   // Use shared sample project detection
 
-  // Function to download cost breakdown as CSV
+  // Function to download cost breakdown as CSV using real API data
   const downloadCostBreakdown = () => {
+    if (!costBreakdowns || costBreakdowns.length === 0) {
+      toast({ title: "Error", description: "No cost breakdown data available for download", variant: "destructive" });
+      return;
+    }
+
     const costBreakdownData = [
       // Header
-      ['MasterFormat Division', 'Site Built Total', 'Site Built $/sf', 'RaaP GC', 'RaaP Fab', 'RaaP Total', 'RaaP $/sf', 'Savings'],
-      
-      // Concrete, Masonry & Metals Section
-      ['Concrete, Masonry & Metals', project.isSample ? '$1,311,770' : '$6,553,211', project.isSample ? '$50' : '$38', project.isSample ? '$1,147,404' : '$4,790,786', project.isSample ? '$281,220' : '$867,184', project.isSample ? '$1,428,623' : '$5,657,970', project.isSample ? '$54' : '$39', project.isSample ? '-$116,853' : '($895,241)'],
-      ['  03 Concrete', project.isSample ? '$407,021' : '$2,533,115', project.isSample ? '$16' : '$15', project.isSample ? '$285,136' : '$1,373,299', project.isSample ? '$164,393' : '$625,628', project.isSample ? '$449,528' : '$1,998,927', project.isSample ? '$17' : '$14', project.isSample ? '-$42,507' : '($534,188)'],
-      ['  04 Masonry', project.isSample ? '$233,482' : '$916,443', project.isSample ? '$9' : '$5', project.isSample ? '$260,237' : '$845,392', project.isSample ? '-' : '0', project.isSample ? '$260,237' : '$845,392', project.isSample ? '$10' : '$6', project.isSample ? '-$26,755' : '($71,051)'],
-      ['  05 Metal', project.isSample ? '$671,267' : '$3,103,653', project.isSample ? '$26' : '$18', project.isSample ? '$602,031' : '$2,572,095', project.isSample ? '$116,827' : '$241,556', project.isSample ? '$718,859' : '$2,813,651', project.isSample ? '$27' : '$20', project.isSample ? '-$47,592' : '($290,003)'],
-      
-      // Rooms Section
-      ['Rooms', project.isSample ? '$4,452,553' : '$17,692,497', project.isSample ? '$171' : '$102', project.isSample ? '$465,938' : '$1,671,442', project.isSample ? '$4,121,807' : '$11,037,874', project.isSample ? '$4,587,745' : '$12,709,316', project.isSample ? '$174' : '$88', project.isSample ? '-$135,192' : '($4,983,181)'],
-      ['  06 Wood & Plastics', project.isSample ? '$1,982,860' : '$8,643,831', project.isSample ? '$76' : '$50', project.isSample ? '$14,171' : '$41,318', project.isSample ? '$2,137,612' : '$6,378,393', project.isSample ? '$2,151,783' : '$6,419,712', project.isSample ? '$82' : '$45', project.isSample ? '-$168,923' : '($2,224,120)'],
-      ['  07 Thermal & Moisture Protection', project.isSample ? '$490,766' : '$2,325,482', project.isSample ? '$19' : '$13', project.isSample ? '$289,407' : '$1,129,942', project.isSample ? '$293,030' : '$960,368', project.isSample ? '$582,437' : '$2,090,309', project.isSample ? '$22' : '$15', project.isSample ? '-$91,671' : '($235,172)'],
-      ['  08 Openings', project.isSample ? '$486,606' : '$1,393,966', project.isSample ? '$19' : '$8', project.isSample ? '$138,123' : '$440,895', project.isSample ? '$337,164' : '$792,909', project.isSample ? '$475,287' : '$1,233,804', project.isSample ? '$18' : '$9', project.isSample ? '$11,319' : '($160,163)'],
-      ['  09 Finishes', project.isSample ? '$1,492,321' : '$5,329,218', project.isSample ? '$57' : '$31', project.isSample ? '$24,237' : '$59,288', project.isSample ? '$1,354,001' : '$2,906,204', project.isSample ? '$1,378,238' : '$2,965,492', project.isSample ? '$52' : '$21', project.isSample ? '$114,083' : '($2,363,726)'],
-      
-      // Equipment & Special Construction Section
-      ['Equipment & Special Construction', project.isSample ? '$221,062' : '$656,351', project.isSample ? '$9' : '$4', project.isSample ? '$68,827' : '$99,544', project.isSample ? '$139,859' : '$486,539', project.isSample ? '$208,686' : '$586,082', project.isSample ? '$8' : '$4', project.isSample ? '$12,376' : '($70,269)'],
-      ['  10 Specialties', project.isSample ? '$55,363' : '$200,836', project.isSample ? '$2' : '$1', project.isSample ? '-' : '0', project.isSample ? '$47,078' : '$161,890', project.isSample ? '$47,078' : '$161,890', project.isSample ? '$2' : '$1', project.isSample ? '$8,285' : '($38,946)'],
-      ['  11 Equipment', project.isSample ? '$16,837' : '$29,531', project.isSample ? '$1' : '$0', project.isSample ? '$16,837' : '$29,531', project.isSample ? '-' : '0', project.isSample ? '$16,837' : '$29,531', project.isSample ? '$1' : '$0', project.isSample ? '$0' : '$0'],
-      ['  12 Furnishing', project.isSample ? '$99,730' : '$374,255', project.isSample ? '$4' : '$2', project.isSample ? '$2,858' : '$18,284', project.isSample ? '$92,781' : '$324,648', project.isSample ? '$95,639' : '$342,932', project.isSample ? '$4' : '$2', project.isSample ? '$4,091' : '($31,322)'],
-      ['  13 Special Construction', project.isSample ? '$49,132' : '$51,729', project.isSample ? '$2' : '$0', project.isSample ? '$49,132' : '$51,729', project.isSample ? '-' : '0', project.isSample ? '$49,132' : '$51,729', project.isSample ? '$2' : '$0', project.isSample ? '$0' : '$0'],
-      
-      // MEPs Section
-      ['MEPs', project.isSample ? '$1,938,147' : '$9,852,336', project.isSample ? '$74' : '$57', project.isSample ? '$1,026,490' : '$4,466,118', project.isSample ? '$1,323,688' : '$3,548,625', project.isSample ? '$2,350,178' : '$8,014,743', project.isSample ? '$90' : '$56', project.isSample ? '-$412,031' : '($1,837,593)'],
-      ['  21 Fire Suppression', project.isSample ? '$234,567' : '$982,245', project.isSample ? '$9' : '$6', project.isSample ? '$156,789' : '$346,948', project.isSample ? '$123,456' : '$351,524', project.isSample ? '$280,245' : '$698,472', project.isSample ? '$11' : '$5', project.isSample ? '-$45,678' : '($283,774)'],
-      ['  22 Plumbing', project.isSample ? '$456,789' : '$2,403,740', project.isSample ? '$18' : '$14', project.isSample ? '$234,567' : '$1,124,362', project.isSample ? '$345,678' : '$1,023,475', project.isSample ? '$580,245' : '$2,147,838', project.isSample ? '$22' : '$15', project.isSample ? '-$123,456' : '($255,902)'],
-      ['  23 HVAC', project.isSample ? '$678,901' : '$2,505,408', project.isSample ? '$26' : '$14', project.isSample ? '$345,678' : '$183,153', project.isSample ? '$456,789' : '$1,297,260', project.isSample ? '$802,467' : '$1,480,413', project.isSample ? '$31' : '$10', project.isSample ? '-$123,566' : '($1,024,994)'],
-      ['  26 Electrical', project.isSample ? '$567,890' : '$3,960,944', project.isSample ? '$22' : '$23', project.isSample ? '$289,456' : '$2,811,655', project.isSample ? '$398,765' : '$876,365', project.isSample ? '$688,221' : '$3,688,021', project.isSample ? '$26' : '$26', project.isSample ? '-$120,331' : '($272,923)'],
-      
-      // Site Work Section
-      ['Site Work', project.isSample ? '$1,247,892' : '$4,233,670', project.isSample ? '$48' : '$24', project.isSample ? '$1,247,892' : '$4,239,520', '$0', project.isSample ? '$1,247,892' : '$4,239,520', project.isSample ? '$48' : '$30', project.isSample ? '$0' : '$5,851'],
-      ['  02 Existing Conditions', project.isSample ? '$124,789' : '$0', project.isSample ? '$5' : '$0', project.isSample ? '$124,789' : '$0', '$0', project.isSample ? '$124,789' : '$0', project.isSample ? '$5' : '$0', '$0'],
-      ['  31 Earthwork', project.isSample ? '$456,123' : '$1,146,618', project.isSample ? '$17' : '$7', project.isSample ? '$456,123' : '$1,152,469', '$0', project.isSample ? '$456,123' : '$1,152,469', project.isSample ? '$17' : '$8', project.isSample ? '$0' : '$5,851'],
-      ['  32 Exterior Improvements', project.isSample ? '$332,456' : '$1,521,663', project.isSample ? '$13' : '$9', project.isSample ? '$332,456' : '$1,521,663', '$0', project.isSample ? '$332,456' : '$1,521,663', project.isSample ? '$13' : '$11', '$0'],
-      ['  33 Utilities', project.isSample ? '$334,524' : '$1,565,388', project.isSample ? '$13' : '$9', project.isSample ? '$334,524' : '$1,565,388', '$0', project.isSample ? '$334,524' : '$1,565,388', project.isSample ? '$13' : '$11', '$0'],
-      
-      // GC Charges Section
-      ['GC Charges', project.isSample ? '$892,345' : '$7,232,941', project.isSample ? '$34' : '$42', project.isSample ? '$456,789' : '$2,824,374', project.isSample ? '$234,567' : '$1,652,873', project.isSample ? '$691,356' : '$4,477,246', project.isSample ? '$26' : '$31', project.isSample ? '$200,989' : '($2,755,695)'],
-      ['  01 General Requirements', project.isSample ? '$692,345' : '$2,443,868', project.isSample ? '$27' : '$14', project.isSample ? '$356,789' : '$959,509', project.isSample ? '$134,567' : '$1,012,388', project.isSample ? '$491,356' : '$1,971,897', project.isSample ? '$19' : '$14', project.isSample ? '$200,989' : '($471,972)'],
-      ['  00 Fees', project.isSample ? '$200,000' : '$4,789,073', project.isSample ? '$8' : '$28', project.isSample ? '$100,000' : '$1,864,865', project.isSample ? '$100,000' : '$640,485', project.isSample ? '$200,000' : '$2,505,350', project.isSample ? '$8' : '$17', project.isSample ? '$0' : '($2,283,723)'],
-      
-      // Project Total
-      ['', '', '', '', '', '', '', ''], // Empty row for spacing
-      ['PROJECT TOTAL', project.isSample ? '$10,060,303' : '$46,221,006', project.isSample ? '$387' : '$266', 
-       project.isSample ? '$4,777,945' : '$18,091,784', project.isSample ? '$6,462,156' : '$17,593,094', 
-       project.isSample ? '$11,240,101' : '$35,684,879', project.isSample ? '$432' : '$248', 
-       project.isSample ? '-$179,798' : '($10,536,128)']
+      ['MasterFormat Division', 'Site Built Total', 'Site Built $/sf', 'RaaP GC', 'RaaP Fab', 'RaaP Total', 'RaaP $/sf', 'Savings']
     ];
+
+    // Helper function to add a row with calculated values
+    const addRow = (name: string, siteBuilt: number, raapGc: number, raapFab: number, isSection: boolean = false) => {
+      const raapTotal = raapGc + raapFab;
+      const savings = siteBuilt - raapTotal;
+      costBreakdownData.push([
+        name,
+        formatCurrency(siteBuilt),
+        calculateCostPerSf(siteBuilt.toString()),
+        formatCurrency(raapGc),
+        formatCurrency(raapFab),
+        formatCurrency(raapTotal),
+        calculateCostPerSf(raapTotal.toString()),
+        savings >= 0 ? formatCurrency(savings) : `(${formatCurrency(Math.abs(savings))})`
+      ]);
+    };
+
+    // Define all divisions and their groupings
+    const divisions = [
+      // Concrete, Masonry & Metals
+      { category: '03 Concrete', section: 'Concrete, Masonry & Metals' },
+      { category: '04 Masonry', section: 'Concrete, Masonry & Metals' },
+      { category: '05 Metal', section: 'Concrete, Masonry & Metals' },
+      
+      // Rooms
+      { category: '06 Wood & Plastics', section: 'Rooms' },
+      { category: '07 Thermal & Moisture Protection', section: 'Rooms' },
+      { category: '08 Openings', section: 'Rooms' },
+      { category: '09 Finishes', section: 'Rooms' },
+      
+      // Equipment & Special Construction
+      { category: '10 Specialties', section: 'Equipment & Special Construction' },
+      { category: '11 Equipment', section: 'Equipment & Special Construction' },
+      { category: '12 Furnishing', section: 'Equipment & Special Construction' },
+      { category: '13 Special Construction', section: 'Equipment & Special Construction' },
+      
+      // MEPs
+      { category: '21 Fire Suppression', section: 'MEPs' },
+      { category: '22 Plumbing', section: 'MEPs' },
+      { category: '23 HVAC', section: 'MEPs' },
+      { category: '26 Electrical', section: 'MEPs' },
+      
+      // Site Work
+      { category: '02 Existing Conditions', section: 'Site Work' },
+      { category: '31 Earthwork', section: 'Site Work' },
+      { category: '32 Exterior Improvements', section: 'Site Work' },
+      { category: '33 Utilities', section: 'Site Work' },
+      
+      // GC Charges
+      { category: '01 General Requirements', section: 'GC Charges' },
+      { category: '00 Fees', section: 'GC Charges' }
+    ];
+
+    // Group divisions by section and calculate totals
+    const sections = ['Concrete, Masonry & Metals', 'Rooms', 'Equipment & Special Construction', 'MEPs', 'Site Work', 'GC Charges'];
+    let projectSiteBuilt = 0, projectRaapGc = 0, projectRaapFab = 0;
+
+    sections.forEach(sectionName => {
+      const sectionDivisions = divisions.filter(d => d.section === sectionName);
+      let sectionSiteBuilt = 0, sectionRaapGc = 0, sectionRaapFab = 0;
+
+      // Add section header
+      sectionDivisions.forEach(division => {
+        const data = getCostBreakdownByCategory(costBreakdowns, division.category);
+        if (data) {
+          const siteBuilt = parseFloat(data.siteBuiltCost || '0');
+          const raapGc = parseFloat(data.raapGcCost || '0');
+          const raapFab = parseFloat(data.raapFabCost || '0');
+          
+          sectionSiteBuilt += siteBuilt;
+          sectionRaapGc += raapGc;
+          sectionRaapFab += raapFab;
+        }
+      });
+
+      // Add section total
+      addRow(sectionName, sectionSiteBuilt, sectionRaapGc, sectionRaapFab, true);
+
+      // Add individual divisions
+      sectionDivisions.forEach(division => {
+        const data = getCostBreakdownByCategory(costBreakdowns, division.category);
+        if (data) {
+          const siteBuilt = parseFloat(data.siteBuiltCost || '0');
+          const raapGc = parseFloat(data.raapGcCost || '0');
+          const raapFab = parseFloat(data.raapFabCost || '0');
+          
+          addRow(`  ${division.category}`, siteBuilt, raapGc, raapFab);
+        }
+      });
+
+      // Add to project totals
+      projectSiteBuilt += sectionSiteBuilt;
+      projectRaapGc += sectionRaapGc;
+      projectRaapFab += sectionRaapFab;
+    });
+
+    // Add empty row and project total
+    costBreakdownData.push(['', '', '', '', '', '', '', '']);
+    addRow('PROJECT TOTAL', projectSiteBuilt, projectRaapGc, projectRaapFab, true);
     
     // Convert to CSV
     const csvContent = costBreakdownData.map(row => 
