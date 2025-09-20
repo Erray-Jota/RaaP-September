@@ -33,6 +33,14 @@ import type { Project, CostBreakdown } from "@shared/schema";
 import { useCostTotals, formatCurrency, calculateCostPerSf } from "@/lib/useCostTotals";
 // Removed calculateProjectScores import - using database values directly
 
+// Helper function to format numbers
+function formatNumber(value: number | string | null | undefined): string {
+  if (!value) return '0';
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(numValue)) return '0';
+  return numValue.toLocaleString('en-US');
+}
+
 // Helper function to get cost breakdown data by category
 function getCostBreakdownByCategory(costBreakdowns: CostBreakdown[] | undefined, category: string): CostBreakdown | null {
   if (!costBreakdowns) return null;
