@@ -2644,14 +2644,14 @@ export default function ModularFeasibility() {
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
                             <div className="font-semibold text-blue-600">{formatCurrency(calculatedCosts.modularTotal.toString())}</div>
-                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.modularCostPerSf)}/sf • {formatNumber(project.modularTimelineMonths)} Months</div>
+                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.modularCostPerSf)}/sf • {formatNumber(project.modularTimelineMonths || 0)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
                             <div className="font-semibold">{formatCurrency(calculatedCosts.siteBuiltTotal.toString())}</div>
-                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.siteBuiltCostPerSf)}/sf • {formatNumber(project.siteBuiltTimelineMonths)} Months</div>
+                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.siteBuiltCostPerSf)}/sf • {formatNumber(project.siteBuiltTimelineMonths || 0)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
@@ -2665,25 +2665,25 @@ export default function ModularFeasibility() {
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-raap-dark mb-3">Per Unit Analysis</h4>
+                      <h4 className="font-semibold text-raap-dark mb-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Per Room Analysis' : 'Per Unit Analysis'}</h4>
                       <div className="bg-white border rounded-lg p-4">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span>Number of Units</span>
-                            <span className="font-semibold">{(project.studioUnits || 0) + (project.oneBedUnits || 0) + (project.twoBedUnits || 0) + (project.threeBedUnits || 0)}</span>
+                            <span>{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Number of Rooms' : 'Number of Units'}</span>
+                            <span className="font-semibold">{project.projectType === 'hotel' || project.projectType === 'hostel' ? (project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0) : (project.studioUnits || 0) + (project.oneBedUnits || 0) + (project.twoBedUnits || 0) + (project.threeBedUnits || 0)}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Average Unit Area</span>
+                            <span>{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Average Room Area' : 'Average Unit Area'}</span>
                             <span className="font-semibold">792 sf</span>
                           </div>
                           <hr className="my-2" />
                           <div className="flex justify-between">
-                            <span>Cost per Unit (RaaP)</span>
-                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerUnit)}</span>
+                            <span>{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Cost per Room (RaaP)' : 'Cost per Unit (RaaP)'}</span>
+                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerUnit || 0)}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>Cost per Sq Ft (RaaP)</span>
-                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerSf)}</span>
+                            <span className="font-semibold text-blue-600">{formatCurrency(project.modularCostPerSf || 0)}</span>
                           </div>
                         </div>
                       </div>
