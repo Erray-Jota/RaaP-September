@@ -48,6 +48,10 @@ export const projects = pgTable("projects", {
   oneBedUnits: integer("one_bed_units").default(0),
   twoBedUnits: integer("two_bed_units").default(0),
   threeBedUnits: integer("three_bed_units").default(0),
+  // Hotel/Hostel specific unit types
+  queenUnits: integer("queen_units").default(0),
+  kingUnits: integer("king_units").default(0),
+  adaPercent: decimal("ada_percent", { precision: 5, scale: 2 }).default('0'),
   targetParkingSpaces: integer("target_parking_spaces").notNull(),
   buildingDimensions: varchar("building_dimensions"),
   constructionType: varchar("construction_type"),

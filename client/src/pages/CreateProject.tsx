@@ -25,6 +25,10 @@ const createProjectSchema = insertProjectSchema.extend({
   projectType: z.string().min(1, "Project type is required"),
   targetFloors: z.number().min(1, "Number of floors is required"),
   targetParkingSpaces: z.number().min(0, "Parking spaces must be 0 or greater"),
+  // Hotel/Hostel specific fields
+  queenUnits: z.number().min(0, "Queen units must be 0 or greater"),
+  kingUnits: z.number().min(0, "King units must be 0 or greater"),
+  adaPercent: z.number().min(0, "ADA percentage must be 0 or greater").max(100, "ADA percentage cannot exceed 100"),
 });
 
 type CreateProjectForm = z.infer<typeof createProjectSchema>;
@@ -45,6 +49,9 @@ export default function CreateProject() {
       oneBedUnits: 0,
       twoBedUnits: 0,
       threeBedUnits: 0,
+      queenUnits: 0,
+      kingUnits: 0,
+      adaPercent: 0,
       targetParkingSpaces: 0,
     },
   });
@@ -297,87 +304,174 @@ export default function CreateProject() {
                 {/* Unit Mix */}
                 <div>
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">Target Unit Mix</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="studioUnits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Studio Units</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              {...field}
-                              value={field.value || 0}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  {form.watch("projectType") === "hostel" || form.watch("projectType") === "hotel" ? (
+                    // Hotel/Hostel Unit Mix
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="queenUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Queen Rooms</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="oneBedUnits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>1 Bedroom Units</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              {...field}
-                              value={field.value || 0}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="kingUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>King Rooms</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="twoBedUnits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>2 Bedroom Units</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              {...field}
-                              value={field.value || 0}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="oneBedUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>One Bedroom</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="threeBedUnits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>3 Bedroom Units</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="0"
-                              {...field}
-                              value={field.value || 0}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                      <FormField
+                        control={form.control}
+                        name="adaPercent"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>% ADA</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                max="100"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  ) : (
+                    // Traditional Multifamily Unit Mix
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="studioUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Studio Units</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="oneBedUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>1 Bedroom Units</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="twoBedUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>2 Bedroom Units</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="threeBedUnits"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>3 Bedroom Units</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                {...field}
+                                value={field.value || 0}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex justify-end space-x-4 pt-6">
