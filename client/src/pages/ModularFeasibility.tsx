@@ -731,6 +731,69 @@ export default function ModularFeasibility() {
     reader.readAsText(file);
   };
 
+  // CSV upload function for Cost Breakdown tab - handles detailed cost breakdown data
+  const uploadCostBreakdown = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const text = e.target?.result as string;
+        const lines = text.split('\n').filter(line => line.trim());
+        
+        if (lines.length < 2) {
+          toast({ title: "Error", description: "CSV file must contain at least a header and one data row", variant: "destructive" });
+          return;
+        }
+        
+        // Parse the CSV header to understand the structure
+        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+        
+        // Expected headers: MasterFormat Division, Site Built Total, Site Built $/sf, RaaP GC, RaaP Fab, RaaP Total, RaaP $/sf, Savings
+        const costBreakdowns = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+          
+          // Handle CSV parsing with quoted values containing commas
+          const csvRegex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+          const parts = line.split(csvRegex).map(p => p.replace(/"/g, '').trim());
+          
+          if (parts.length >= 4) {
+            const division = parts[0];
+            const siteBuiltTotal = parts[1].replace(/[\$,()]/g, '');
+            const raapGc = parts[3] ? parts[3].replace(/[\$,()]/g, '') : '0';
+            const raapFab = parts[4] ? parts[4].replace(/[\$,()]/g, '') : '0';
+            
+            // Skip header rows and totals, process individual divisions
+            if (division && !division.toLowerCase().includes('total') && !division.toLowerCase().includes('masterformat')) {
+              costBreakdowns.push({
+                category: division,
+                siteBuiltCost: siteBuiltTotal || '0',
+                raapGcCost: raapGc || '0',
+                raapFabCost: raapFab || '0'
+              });
+            }
+          }
+        }
+        
+        if (costBreakdowns.length === 0) {
+          toast({ title: "Error", description: "No valid cost breakdown data found in CSV file", variant: "destructive" });
+          return;
+        }
+        
+        // Update cost breakdowns via API
+        await apiRequest("POST", `/api/projects/${projectId}/cost-breakdowns`, { costBreakdowns });
+        queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId] });
+        queryClient.invalidateQueries({ queryKey: ["/api/projects", projectId, "cost-breakdowns"] });
+        toast({ title: "Success", description: "Cost breakdown data uploaded successfully" });
+      } catch (error) {
+        console.error('Cost breakdown upload error:', error);
+        toast({ title: "Error", description: "Failed to upload cost breakdown data", variant: "destructive" });
+      }
+    };
+    reader.readAsText(file);
+  };
+
   // Use deterministic scores that match ProjectCard exactly
   const scores = {
     overall: projectScores.overall,
@@ -1749,16 +1812,33 @@ export default function ModularFeasibility() {
                   <div>
                     <div className="flex justify-between items-center mb-4">
                       <h4 className="font-semibold text-raap-dark">Detailed MasterFormat Cost Breakdown</h4>
-                      <button
-                        onClick={downloadCostBreakdown}
-                        className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        data-testid="button-download-cost-breakdown"
-                      >
-                        <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Download CSV
-                      </button>
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={downloadCostBreakdown}
+                          className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          data-testid="button-download-cost-breakdown"
+                        >
+                          <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Download CSV
+                        </button>
+                        <label className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">
+                          <input
+                            type="file"
+                            accept=".csv"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) uploadCostBreakdown(file);
+                            }}
+                          />
+                          <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                          </svg>
+                          Upload CSV
+                        </label>
+                      </div>
                     </div>
                     <div className="bg-white border rounded-lg overflow-hidden">
                       <table className="w-full text-sm">
