@@ -94,6 +94,10 @@ import threeBedImage from "@assets/3 Bed_1754837154543.png";
 import doubleQueenImage from "@assets/Double Queen_1758411451002.png";
 import kingStudioImage from "@assets/King Studio_1758411451003.png";
 import oneBedroomHotelImage from "@assets/One Bedroom_1758411451004.png";
+// Hotel building plans
+import hotelGroundFloorImage from "@assets/25-GF_1758411614655.png";
+import hotelTypicalFloorImage from "@assets/25-TF_1758411614655.png";
+import hotel3DViewImage from "@assets/4-25_1758411716844.png";
 import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
 import zoningMapImage from "@assets/Serinity Zoning Map_1754839677898.png";
 import olivehurstMapImage from "@assets/Olivehurst Map_1754839713206.png";
@@ -1637,41 +1641,97 @@ export default function ModularFeasibility() {
                     <TabsContent value="floorplan" className="mt-6">
                       <div className="space-y-6">
                         <h4 className="font-semibold text-raap-dark mb-4">Building Floor Plans</h4>
-                        <div className="space-y-6">
-                          <div className="text-center">
-                            <img 
-                              src={project.isSample ? serenityFloorPlanImage : vallejoFloorPlanImage} 
-                              alt="Building floor plan showing unit layout and circulation"
-                              className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
-                              style={{ maxHeight: '70vh' }}
-                            />
-                            <h5 className="font-semibold text-gray-800 mb-2">Typical Floor Plan</h5>
-                            <p className="text-sm text-gray-600">Shows unit layout, circulation, and common areas</p>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                            <div className="bg-white border rounded-lg p-4">
-                              <h6 className="font-semibold text-raap-dark mb-3">Floor Plan Features</h6>
-                              <ul className="text-sm text-gray-700 space-y-2">
-                                <li>• Double-loaded corridor for efficiency</li>
-                                <li>• Central stairwell with elevator access</li>
-                                <li>• Natural light in all units</li>
-                                <li>• Compliant with accessibility requirements</li>
-                                <li>• Optimized for modular construction grid</li>
-                              </ul>
+                        {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                          // Hotel Floor Plans
+                          <div className="space-y-8">
+                            <div className="text-center">
+                              <img 
+                                src={hotelGroundFloorImage} 
+                                alt="Ground Floor Plan - Hotel lobby, common areas, and guest rooms"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '60vh' }}
+                              />
+                              <h5 className="font-semibold text-gray-800 mb-2">Ground Floor Plan (25-GF)</h5>
+                              <p className="text-sm text-gray-600 mb-4">
+                                Ground floor featuring hotel lobby, front desk, common areas, and guest rooms with efficient circulation.
+                              </p>
                             </div>
-                            <div className="bg-white border rounded-lg p-4">
-                              <h6 className="font-semibold text-raap-dark mb-3">Circulation & Access</h6>
-                              <ul className="text-sm text-gray-700 space-y-2">
-                                <li>• Two means of egress per code</li>
-                                <li>• ADA compliant unit distribution</li>
-                                <li>• Efficient corridor width (6 feet)</li>
-                                <li>• Direct exterior access from ground floor</li>
-                                <li>• Covered parking beneath building</li>
-                              </ul>
+
+                            <div className="text-center">
+                              <img 
+                                src={hotelTypicalFloorImage} 
+                                alt="Typical Floor Plan - Hotel guest rooms layout"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '60vh' }}
+                              />
+                              <h5 className="font-semibold text-gray-800 mb-2">Typical Floor Plan (25-TF)</h5>
+                              <p className="text-sm text-gray-600 mb-4">
+                                Typical guest floor showing Queen rooms, King rooms, and One Bedroom suites with central corridor access.
+                              </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                              <div className="bg-white border rounded-lg p-4">
+                                <h6 className="font-semibold text-gray-800 mb-3">Hotel Layout Features</h6>
+                                <ul className="text-sm text-gray-600 space-y-1">
+                                  <li>• Central corridor guest room access</li>
+                                  <li>• Lobby and front desk on ground floor</li>
+                                  <li>• {(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} total guest rooms</li>
+                                  <li>• Mix of Queen, King, and Suite layouts</li>
+                                  <li>• Guest amenity areas</li>
+                                </ul>
+                              </div>
+                              <div className="bg-white border rounded-lg p-4">
+                                <h6 className="font-semibold text-gray-800 mb-3">Accessibility & Code</h6>
+                                <ul className="text-sm text-gray-600 space-y-1">
+                                  <li>• {project.adaPercent}% ADA compliant rooms</li>
+                                  <li>• Fire-rated corridor separation</li>
+                                  <li>• Emergency egress compliance</li>
+                                  <li>• Wide corridors for guest access</li>
+                                  <li>• Elevator access to all floors</li>
+                                  <li>• Commercial building code compliance</li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ) : (
+                          // Traditional Building Floor Plans
+                          <div className="space-y-6">
+                            <div className="text-center">
+                              <img 
+                                src={project.isSample ? serenityFloorPlanImage : vallejoFloorPlanImage} 
+                                alt="Building floor plan showing unit layout and circulation"
+                                className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-3"
+                                style={{ maxHeight: '70vh' }}
+                              />
+                              <h5 className="font-semibold text-gray-800 mb-2">Typical Floor Plan</h5>
+                              <p className="text-sm text-gray-600">Shows unit layout, circulation, and common areas</p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                              <div className="bg-white border rounded-lg p-4">
+                                <h6 className="font-semibold text-raap-dark mb-3">Floor Plan Features</h6>
+                                <ul className="text-sm text-gray-700 space-y-2">
+                                  <li>• Double-loaded corridor for efficiency</li>
+                                  <li>• Central stairwell with elevator access</li>
+                                  <li>• Natural light in all units</li>
+                                  <li>• Compliant with accessibility requirements</li>
+                                  <li>• Optimized for modular construction grid</li>
+                                </ul>
+                              </div>
+                              <div className="bg-white border rounded-lg p-4">
+                                <h6 className="font-semibold text-raap-dark mb-3">Circulation & Access</h6>
+                                <ul className="text-sm text-gray-700 space-y-2">
+                                  <li>• Two means of egress per code</li>
+                                  <li>• ADA compliant unit distribution</li>
+                                  <li>• Efficient corridor width (6 feet)</li>
+                                  <li>• Direct exterior access from ground floor</li>
+                                  <li>• Covered parking beneath building</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </TabsContent>
 
@@ -1681,13 +1741,13 @@ export default function ModularFeasibility() {
                         <h4 className="font-semibold text-raap-dark mb-4">3D Building Renderings</h4>
                         <div className="text-center">
                           <img 
-                            src={project.isSample ? serenityBuildingRenderingImage : vallejoBuildingRenderingImage} 
-                            alt="3D rendering of the modular apartment building"
+                            src={project.projectType === 'hotel' || project.projectType === 'hostel' ? hotel3DViewImage : project.isSample ? serenityBuildingRenderingImage : vallejoBuildingRenderingImage} 
+                            alt={project.projectType === 'hotel' || project.projectType === 'hostel' ? "3D rendering of the modular hotel building" : "3D rendering of the modular apartment building"}
                             className="w-full h-auto border rounded-lg shadow-lg object-contain bg-white mb-4"
                             style={{ maxHeight: '70vh' }}
                           />
                           <h5 className="font-semibold text-gray-800 mb-2">Exterior Building Rendering</h5>
-                          <p className="text-sm text-gray-600">Three-story modular apartment building with contemporary design</p>
+                          <p className="text-sm text-gray-600">{project.projectType === 'hotel' || project.projectType === 'hostel' ? "Multi-story modular hotel building with contemporary commercial design" : "Three-story modular apartment building with contemporary design"}</p>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
