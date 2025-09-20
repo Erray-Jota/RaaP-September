@@ -1426,23 +1426,23 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Stories</span>
-                                  <span className="font-semibold">{project.isSample ? '3 stories' : '5 stories'}</span>
+                                  <span className="font-semibold">{project.targetFloors} {project.targetFloors === 1 ? 'story' : 'stories'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Building Height</span>
-                                  <span className="font-semibold">{project.isSample ? '32 feet' : '57 feet'}</span>
+                                  <span className="font-semibold">{project.buildingHeight ? `${project.buildingHeight} feet` : project.isSample ? '32 feet' : '57 feet'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Total Building Area</span>
-                                  <span className="font-semibold">19,008 sf</span>
+                                  <span className="font-semibold">{project.totalBuildingArea ? `${project.totalBuildingArea.toLocaleString()} sf` : '19,008 sf'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Site Coverage</span>
-                                  <span className="font-semibold">14.5%</span>
+                                  <span className="font-semibold">{project.siteCoverage ? `${project.siteCoverage}%` : '14.5%'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Parking Spaces</span>
-                                  <span className="font-semibold">{project.isSample ? '24 spaces' : '100 spaces'}</span>
+                                  <span className="font-semibold">{project.targetParkingSpaces} spaces</span>
                                 </div>
                               </div>
                             </div>
@@ -1454,7 +1454,7 @@ export default function ModularFeasibility() {
                               <div className="space-y-3">
                                 <div className="flex justify-between">
                                   <span>Module Size</span>
-                                  <span className="font-semibold">14' x 60'</span>
+                                  <span className="font-semibold">{project.moduleSize || '14\' x 60\''}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Total Modules</span>
@@ -1462,7 +1462,7 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Construction Type</span>
-                                  <span className="font-semibold">{project.isSample ? 'V-A' : 'III-A'}</span>
+                                  <span className="font-semibold">{project.constructionType || (project.isSample ? 'V-A' : 'III-A')}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Structural System</span>
@@ -1470,7 +1470,7 @@ export default function ModularFeasibility() {
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Base</span>
-                                  <span className="font-semibold">{project.isSample ? 'Concrete Slab' : 'Concrete Podium'}</span>
+                                  <span className="font-semibold">{project.baseType || (project.isSample ? 'Concrete Slab' : 'Concrete Podium')}</span>
                                 </div>
                                 <div className="flex justify-between">
                                   <span>Shipping Weight</span>
@@ -1502,8 +1502,8 @@ export default function ModularFeasibility() {
                                 </tr>
                                 <tr>
                                   <td className="px-4 py-3">{project.isSample ? 'Building Footprint' : 'Gross Sq. Ft.'}</td>
-                                  <td className="px-4 py-3">{project.isSample ? '6,336 sf' : '142,924 sf'}</td>
-                                  <td className="px-4 py-3">{project.isSample ? '6,336 sf' : '143,648 sf'}</td>
+                                  <td className="px-4 py-3">{project.totalBuildingArea ? `${Math.round(project.totalBuildingArea * 0.98).toLocaleString()} sf` : project.isSample ? '6,336 sf' : '142,924 sf'}</td>
+                                  <td className="px-4 py-3">{project.totalBuildingArea ? `${project.totalBuildingArea.toLocaleString()} sf` : project.isSample ? '6,336 sf' : '143,648 sf'}</td>
                                   <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ No Change</span></td>
                                 </tr>
                                 <tr>

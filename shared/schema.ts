@@ -55,6 +55,12 @@ export const projects = pgTable("projects", {
   targetParkingSpaces: integer("target_parking_spaces").notNull(),
   buildingDimensions: varchar("building_dimensions"),
   constructionType: varchar("construction_type"),
+  // Building specifications
+  buildingHeight: integer("building_height"), // in feet
+  totalBuildingArea: integer("total_building_area"), // in square feet
+  siteCoverage: decimal("site_coverage", { precision: 5, scale: 2 }), // percentage
+  moduleSize: varchar("module_size"), // e.g., "14' X 70'"
+  baseType: varchar("base_type"), // e.g., "Concrete Slab"
   isSample: boolean("is_sample").default(false),
   
   // Feasibility scoring (keep existing for compatibility)
