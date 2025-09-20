@@ -30,20 +30,8 @@ import ProjectSiteMap from "@/components/ProjectSiteMap";
 import RouteMap from "@/components/RouteMap";
 import { generateProjectPDF } from "@/lib/pdfGenerator";
 import type { Project, CostBreakdown } from "@shared/schema";
+import { useCostTotals, formatCurrency } from "@/lib/useCostTotals";
 // Removed calculateProjectScores import - using database values directly
-
-// Helper function to format currency values
-function formatCurrency(value: number | string | null | undefined): string {
-  if (!value) return '$0';
-  const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  if (isNaN(numValue)) return '$0';
-  return numValue.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  });
-}
 
 // Helper function to format numbers
 function formatNumber(value: number | string | null | undefined): string {
@@ -52,12 +40,6 @@ function formatNumber(value: number | string | null | undefined): string {
   if (isNaN(numValue)) return '0';
   return numValue.toLocaleString('en-US');
 }
-
-// Helper function to calculate cost savings amount
-function calculateCostSavings(siteBuilt: number | string | null | undefined, modular: number | string | null | undefined): number {
-  const siteBuiltNum = typeof siteBuilt === 'string' ? parseFloat(siteBuilt) : (siteBuilt || 0);
-  const modularNum = typeof modular === 'string' ? parseFloat(modular) : (modular || 0);
-  return Math.max(0, siteBuiltNum - modularNum);
 }
 
 // Helper function to get cost breakdown data by category
@@ -289,6 +271,9 @@ export default function ModularFeasibility() {
     return "text-red-600";
   };
 
+  // SINGLE SOURCE OF TRUTH: Use shared cost calculation utility
+  const calculatedCosts = useCostTotals(project, costBreakdowns || []);
+
   // Use shared sample project detection
 
   // Function to download cost breakdown as CSV using real API data
@@ -383,7 +368,7 @@ export default function ModularFeasibility() {
     };
 
     // Use existing data plus any additional standard divisions that have data
-    const divisionsToInclude = [];
+    const divisionsToInclude: { category: string; section: string }[] = [];
     
     // Add divisions that exist in the cost breakdown data
     existingCategories.forEach(category => {
@@ -408,7 +393,7 @@ export default function ModularFeasibility() {
     });
 
     // Group divisions by section and calculate totals
-    const sections = [...new Set(divisionsToInclude.map(d => d.section))].sort();
+    const sections = Array.from(new Set(divisionsToInclude.map(d => d.section))).sort();
     let projectSiteBuilt = 0, projectRaapGc = 0, projectRaapFab = 0;
 
     sections.forEach(sectionName => {
@@ -1131,7 +1116,7 @@ export default function ModularFeasibility() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <div className="text-3xl font-bold text-green-600">
-                        ${project.modularTotalCost ? (parseFloat(project.modularTotalCost) / 1000000).toFixed(1) : "0.0"}M
+                        ${(calculatedCosts.modularTotal / 1000000).toFixed(1)}M
                       </div>
                       <div className="text-sm text-gray-500">Modular Cost</div>
                     </div>
@@ -1144,7 +1129,7 @@ export default function ModularFeasibility() {
                     {((project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0)) && (
                       <div className="text-center p-4 bg-green-100 rounded-lg">
                         <div className="text-3xl font-bold text-green-600">
-                          {project.costSavingsPercent}%
+                          {calculatedCosts.costSavingsPercent.toFixed(1)}%
                         </div>
                         <div className="text-sm text-gray-500">Cost Savings</div>
                       </div>
@@ -1937,8 +1922,8 @@ export default function ModularFeasibility() {
                       <div className="text-3xl font-bold text-green-600">{scores.cost}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {scores.cost}/5:</strong> ${(parseFloat(project.modularTotalCost || '0') / 1000000).toFixed(1)}M (${project.modularCostPerSf || '0'}/sf; ${project.modularCostPerUnit || '0'}/unit) with Prevailing Wage. 
-                      {project.costSavingsPercent || '0'}% savings over site-built. Modular construction provides cost advantages.
+                      <strong>Score of {scores.cost}/5:</strong> ${(calculatedCosts.modularTotal / 1000000).toFixed(1)}M (${Math.round(calculatedCosts.modularCostPerSf)}/sf; ${Math.round(calculatedCosts.modularCostPerUnit).toLocaleString()}/unit) with Prevailing Wage. 
+                      {calculatedCosts.costSavingsPercent.toFixed(1)}% savings over site-built. Modular construction provides cost advantages.
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 20% of overall feasibility score
@@ -2670,22 +2655,22 @@ export default function ModularFeasibility() {
                         <div className="flex justify-between p-3 bg-blue-50 rounded border border-blue-200">
                           <span>RaaP Modular Cost</span>
                           <div className="text-right">
-                            <div className="font-semibold text-blue-600">{formatCurrency(project.modularTotalCost)}</div>
-                            <div className="text-sm text-gray-600">{formatCurrency(project.modularCostPerSf)}/sf • {formatNumber(project.modularTimelineMonths)} Months</div>
+                            <div className="font-semibold text-blue-600">{formatCurrency(calculatedCosts.modularTotal.toString())}</div>
+                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.modularCostPerSf)}/sf • {formatNumber(project.modularTimelineMonths)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-gray-50 rounded">
                           <span>Traditional Site-Built</span>
                           <div className="text-right">
-                            <div className="font-semibold">{formatCurrency(project.siteBuiltTotalCost)}</div>
-                            <div className="text-sm text-gray-600">{formatCurrency(project.siteBuiltCostPerSf)}/sf • {formatNumber(project.siteBuiltTimelineMonths)} Months</div>
+                            <div className="font-semibold">{formatCurrency(calculatedCosts.siteBuiltTotal.toString())}</div>
+                            <div className="text-sm text-gray-600">${Math.round(calculatedCosts.siteBuiltCostPerSf)}/sf • {formatNumber(project.siteBuiltTimelineMonths)} Months</div>
                           </div>
                         </div>
                         <div className="flex justify-between p-3 bg-green-50 rounded border border-green-200">
                           <span>Cost Savings</span>
                           <div className="text-right">
-                            <div className="font-semibold text-green-600">{formatCurrency(calculateCostSavings(project.siteBuiltTotalCost, project.modularTotalCost))}</div>
-                            <div className="text-sm text-gray-600">{formatNumber(project.costSavingsPercent)}% savings</div>
+                            <div className="font-semibold text-green-600">{formatCurrency(calculatedCosts.savings.toString())}</div>
+                            <div className="text-sm text-gray-600">{calculatedCosts.costSavingsPercent.toFixed(1)}% savings</div>
                           </div>
                         </div>
                       </div>

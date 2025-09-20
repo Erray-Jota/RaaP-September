@@ -15,6 +15,9 @@ Project images: Serenity Village uses custom generated building rendering instea
 
 ## System Architecture
 
+### Data Integrity & Single Source of Truth
+**CRITICAL ARCHITECTURAL REQUIREMENT**: All cost calculations must derive from MasterFormat breakdown data to ensure consistency across the application. The `useCostTotals` hook in `/client/src/lib/useCostTotals.ts` serves as the single source of truth for cost calculations, computing totals, savings, per-unit costs, and per-square-foot costs from the detailed cost breakdown data. Never use hardcoded cost fields like `project.modularTotalCost` or `project.siteBuiltTotalCost` directly in UI components - always calculate from the MasterFormat breakdown data to maintain data integrity.
+
 ### Frontend Architecture
 The application uses a modern React-based architecture with TypeScript for type safety. The client is built with Vite for fast development and optimized builds. The UI framework leverages shadcn/ui components built on Radix UI primitives for accessibility and consistent design patterns. State management is handled through TanStack Query for server state and React Hook Form for form management with Zod validation schemas. The styling system uses Tailwind CSS with custom CSS variables for theming, following a design system with predefined color schemes for the RaaP brand.
 
