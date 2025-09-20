@@ -18,9 +18,38 @@ export default function CostAnalysis({ project, costBreakdowns }: CostAnalysisPr
     }).format(num);
   };
 
-  const modularTotal = parseFloat(project.modularTotalCost || "0");
-  const siteBuiltTotal = parseFloat(project.siteBuiltTotalCost || "0");
+  // SINGLE SOURCE OF TRUTH: Calculate totals from MasterFormat breakdown data
+  const siteBuiltTotal = costBreakdowns.reduce((sum, breakdown) => {
+    return sum + parseFloat(breakdown.siteBuiltCost || "0");
+  }, 0);
+  
+  const modularTotal = costBreakdowns.reduce((sum, breakdown) => {
+    return sum + parseFloat(breakdown.raapTotalCost || "0");
+  }, 0);
+  
   const savings = siteBuiltTotal - modularTotal;
+
+  // Calculate per-unit and per-sf from actual breakdown totals
+  const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
+                    (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
+  
+  // Calculate total square footage from project data
+  const getProjectTotalSqFt = (): number => {
+    if (project.buildingDimensions) {
+      const match = project.buildingDimensions.match(/(\d+)'?\s*[xX×]\s*(\d+)'/);
+      if (match) {
+        return parseInt(match[1]) * parseInt(match[2]);
+      }
+    }
+    return totalUnits > 0 ? totalUnits * 720 : 17360; // fallback
+  };
+  
+  const totalSqFt = getProjectTotalSqFt();
+  const modularCostPerSf = totalSqFt > 0 ? modularTotal / totalSqFt : 0;
+  const siteBuiltCostPerSf = totalSqFt > 0 ? siteBuiltTotal / totalSqFt : 0;
+  const modularCostPerUnit = totalUnits > 0 ? modularTotal / totalUnits : 0;
+  const siteBuiltCostPerUnit = totalUnits > 0 ? siteBuiltTotal / totalUnits : 0;
+  const costSavingsPercent = siteBuiltTotal > 0 ? ((savings / siteBuiltTotal) * 100) : 0;
 
   return (
     <Card>
@@ -33,15 +62,15 @@ export default function CostAnalysis({ project, costBreakdowns }: CostAnalysisPr
             <h4 className="font-semibold text-raap-dark mb-4">RaaP Modular Construction</h4>
             <div className="bg-green-50 p-4 rounded-lg">
               <div className="text-3xl font-bold text-green-600">
-                {formatCurrency(project.modularTotalCost)}
+                {formatCurrency(modularTotal.toString())}
               </div>
               <div className="text-sm text-gray-600">
-                {project.modularCostPerSf ? `${formatCurrency(project.modularCostPerSf)}/sf` : ""} • 
-                {project.modularCostPerUnit ? ` ${formatCurrency(project.modularCostPerUnit)}/unit` : ""}
+                ${Math.round(modularCostPerSf)}/sf • 
+                ${Math.round(modularCostPerUnit).toLocaleString()}/unit
               </div>
-              {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
+              {costSavingsPercent > 0 && (
                 <div className="text-sm text-green-600 font-medium mt-1">
-                  {project.costSavingsPercent}% savings over site-built
+                  {costSavingsPercent.toFixed(1)}% savings over site-built
                 </div>
               )}
             </div>
@@ -51,11 +80,11 @@ export default function CostAnalysis({ project, costBreakdowns }: CostAnalysisPr
             <h4 className="font-semibold text-raap-dark mb-4">Traditional Site-Built</h4>
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="text-3xl font-bold text-gray-700">
-                {formatCurrency(project.siteBuiltTotalCost)}
+                {formatCurrency(siteBuiltTotal.toString())}
               </div>
               <div className="text-sm text-gray-600">
-                {project.siteBuiltCostPerSf ? `${formatCurrency(project.siteBuiltCostPerSf)}/sf` : ""} • 
-                {project.siteBuiltCostPerUnit ? ` ${formatCurrency(project.siteBuiltCostPerUnit)}/unit` : ""}
+                ${Math.round(siteBuiltCostPerSf)}/sf • 
+                ${Math.round(siteBuiltCostPerUnit).toLocaleString()}/unit
               </div>
               <div className="text-sm text-gray-500 mt-1">
                 {project.siteBuiltTimelineMonths || 13} month timeline
@@ -109,7 +138,7 @@ export default function CostAnalysis({ project, costBreakdowns }: CostAnalysisPr
                 {formatCurrency(savings.toString())} Total Savings
               </div>
               <div className="text-sm text-gray-600">
-                {project.costSavingsPercent}% cost reduction with modular construction
+                {costSavingsPercent.toFixed(1)}% cost reduction with modular construction
               </div>
             </div>
           </div>
