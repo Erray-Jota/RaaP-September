@@ -19,21 +19,26 @@ import { ArrowLeft, MapPin } from "lucide-react";
 import { insertProjectSchema } from "@shared/schema";
 import ProjectSiteMap from "@/components/ProjectSiteMap";
 
+// Schema with proper numeric coercion
+const numOpt = z.preprocess(v => v === '' || v == null ? undefined : Number(v), z.number().min(0)).optional();
+const numRequired = z.preprocess(v => v === '' || v == null ? 0 : Number(v), z.number().min(1));
+const adaPercent = z.preprocess(v => v === '' || v == null ? undefined : Number(v), z.number().min(0).max(100)).optional();
+
 const createProjectSchema = insertProjectSchema.extend({
   name: z.string().min(1, "Project name is required"),
   address: z.string().min(1, "Site address is required"),
   projectType: z.string().min(1, "Project type is required"),
-  targetFloors: z.number().min(1, "Number of floors is required"),
-  targetParkingSpaces: z.number().min(0, "Parking spaces must be 0 or greater"),
+  targetFloors: numRequired,
+  targetParkingSpaces: numOpt,
   // Hotel/Hostel specific fields
-  queenUnits: z.number().min(0, "Queen units must be 0 or greater").optional(),
-  kingUnits: z.number().min(0, "King units must be 0 or greater").optional(),
-  oneBedUnits: z.number().min(0, "One bedroom units must be 0 or greater").optional(),
-  adaPercent: z.number().min(0, "ADA percentage must be 0 or greater").max(100, "ADA percentage cannot exceed 100").optional(),
+  queenUnits: numOpt,
+  kingUnits: numOpt,
+  oneBedUnits: numOpt,
+  adaPercent: adaPercent,
   // Standard unit fields
-  studioUnits: z.number().min(0, "Studio units must be 0 or greater").optional(),
-  twoBedUnits: z.number().min(0, "Two bedroom units must be 0 or greater").optional(),
-  threeBedUnits: z.number().min(0, "Three bedroom units must be 0 or greater").optional(),
+  studioUnits: numOpt,
+  twoBedUnits: numOpt,
+  threeBedUnits: numOpt,
 });
 
 type CreateProjectForm = z.infer<typeof createProjectSchema>;
@@ -42,25 +47,27 @@ export default function CreateProject() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [mapTrigger, setMapTrigger] = useState(0); // Used to trigger map lookup
-  const [selectedProjectType, setSelectedProjectType] = useState("");
 
   const form = useForm<CreateProjectForm>({
     resolver: zodResolver(createProjectSchema),
+    shouldUnregister: false,
     defaultValues: {
       name: "",
       address: "",
       projectType: "",
       targetFloors: 3,
-      studioUnits: 0,
-      oneBedUnits: 0,
-      twoBedUnits: 0,
-      threeBedUnits: 0,
-      queenUnits: 0,
-      kingUnits: 0,
-      adaPercent: 0,
-      targetParkingSpaces: 0,
+      studioUnits: undefined,
+      oneBedUnits: undefined,
+      twoBedUnits: undefined,
+      threeBedUnits: undefined,
+      queenUnits: undefined,
+      kingUnits: undefined,
+      adaPercent: undefined,
+      targetParkingSpaces: undefined,
     },
   });
+
+  const projectType = form.watch("projectType");
 
   const createProject = useMutation({
     mutationFn: async (data: CreateProjectForm) => {
@@ -227,10 +234,7 @@ export default function CreateProject() {
                         <FormControl>
                           <RadioGroup 
                             value={field.value} 
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                              setSelectedProjectType(value);
-                            }}
+                            onValueChange={field.onChange}
                             className="grid grid-cols-2 md:grid-cols-3 gap-4"
                           >
                             {projectTypes.map((type) => (
@@ -299,8 +303,8 @@ export default function CreateProject() {
                             <Input
                               type="number"
                               placeholder="Number of parking spaces"
-                              {...field}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                              value={field.value ?? ""}
+                              onChange={(e) => field.onChange(e.target.value)}
                             />
                           </FormControl>
                           <FormMessage />
@@ -313,9 +317,9 @@ export default function CreateProject() {
                 {/* Unit Mix */}
                 <div>
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">
-                    {selectedProjectType === "hostel" || selectedProjectType === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
+                    {projectType === "hostel" || projectType === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
                   </h3>
-                  {selectedProjectType === "hostel" || selectedProjectType === "hotel" ? (
+                  {projectType === "hostel" || projectType === "hotel" ? (
                     // Hotel/Hostel Unit Mix
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       <FormField
@@ -329,11 +333,8 @@ export default function CreateProject() {
                                 type="number"
                                 min="0"
                                 placeholder="Number of Queen rooms"
-                                name={field.name}
-                                ref={field.ref}
-                                value={field.value || ""}
-                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
-                                onBlur={field.onBlur}
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -352,11 +353,8 @@ export default function CreateProject() {
                                 type="number"
                                 min="0"
                                 placeholder="Number of King rooms"
-                                name={field.name}
-                                ref={field.ref}
-                                value={field.value || ""}
-                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
-                                onBlur={field.onBlur}
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -375,11 +373,8 @@ export default function CreateProject() {
                                 type="number"
                                 min="0"
                                 placeholder="Number of One Bedroom suites"
-                                name={field.name}
-                                ref={field.ref}
-                                value={field.value || ""}
-                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
-                                onBlur={field.onBlur}
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -398,9 +393,10 @@ export default function CreateProject() {
                                 type="number"
                                 min="0"
                                 max="100"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                step="0.1"
+                                placeholder="ADA percentage"
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -421,9 +417,9 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of studio units"
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -441,9 +437,9 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of studio units"
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -461,9 +457,9 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of studio units"
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
@@ -481,9 +477,9 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of studio units"
+                                value={field.value ?? ""}
+                                onChange={(e) => field.onChange(e.target.value)}
                               />
                             </FormControl>
                             <FormMessage />
