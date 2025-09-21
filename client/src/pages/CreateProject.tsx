@@ -355,10 +355,6 @@ export default function CreateProject() {
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">
                     {projectType === "hostel" || projectType === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
                   </h3>
-                  {/* DEBUG: Remove this after testing */}
-                  <div className="text-xs text-gray-500 mb-2">
-                    DEBUG - Selected project type: "{projectType}"
-                  </div>
                   {projectType === "hostel" || projectType === "hotel" ? (
                     // Hotel/Hostel Unit Mix
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -372,7 +368,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of Queen rooms"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -392,7 +387,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of King rooms"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -412,7 +406,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of One Bedroom suites"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -434,7 +427,6 @@ export default function CreateProject() {
                                 min="0"
                                 max="100"
                                 step="0.1"
-                                placeholder="ADA percentage"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
