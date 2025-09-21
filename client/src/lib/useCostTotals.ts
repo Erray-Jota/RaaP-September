@@ -89,12 +89,16 @@ export function calculateCostTotals(project: Project, costBreakdowns: CostBreakd
       };
     }
 
+    // Filter to only leaf MasterFormat categories (those starting with two digits)
+    // to avoid double-counting rollup summary categories
+    const leafCategories = safeCostBreakdowns.filter(cb => /^\d{2}\s/.test(cb.category));
+    
     // Calculate totals from MasterFormat breakdown data using safe parsing
-    const siteBuiltTotal = safeCostBreakdowns.reduce((sum, breakdown) => {
+    const siteBuiltTotal = leafCategories.reduce((sum, breakdown) => {
       return sum + safeParseNumber(breakdown.siteBuiltCost);
     }, 0);
     
-    const modularTotal = safeCostBreakdowns.reduce((sum, breakdown) => {
+    const modularTotal = leafCategories.reduce((sum, breakdown) => {
       return sum + safeParseNumber(breakdown.raapTotalCost);
     }, 0);
     
