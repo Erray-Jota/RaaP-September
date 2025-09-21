@@ -324,9 +324,12 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of Queen rooms"
+                                name={field.name}
+                                ref={field.ref}
+                                value={field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
+                                onBlur={field.onBlur}
                               />
                             </FormControl>
                             <FormMessage />
@@ -344,9 +347,12 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of King rooms"
+                                name={field.name}
+                                ref={field.ref}
+                                value={field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
+                                onBlur={field.onBlur}
                               />
                             </FormControl>
                             <FormMessage />
@@ -364,9 +370,12 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                {...field}
-                                value={field.value || 0}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                placeholder="Number of One Bedroom suites"
+                                name={field.name}
+                                ref={field.ref}
+                                value={field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value === "" ? 0 : parseInt(e.target.value))}
+                                onBlur={field.onBlur}
                               />
                             </FormControl>
                             <FormMessage />
