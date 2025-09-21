@@ -133,9 +133,11 @@ export default function CreateProject() {
     if (result.success) {
       createProject.mutate(result.data);
     } else {
+      console.error("Validation errors:", result.error.errors);
+      const errorMessages = result.error.errors.map(err => `${err.path.join('.')}: ${err.message}`).join('; ');
       toast({
         title: "Validation Error",
-        description: "Please check your input values and try again.",
+        description: errorMessages || "Please check your input values and try again.",
         variant: "destructive",
       });
     }
@@ -338,7 +340,7 @@ export default function CreateProject() {
                           <FormControl>
                             <Input
                               type="number"
-                              placeholder="Number of parking spaces"
+                              min="0"
                               value={field.value ?? ""}
                               onChange={(e) => field.onChange(e.target.value)}
                             />
@@ -449,7 +451,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of studio units"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -469,7 +470,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of studio units"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -489,7 +489,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of studio units"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
@@ -509,7 +508,6 @@ export default function CreateProject() {
                               <Input
                                 type="number"
                                 min="0"
-                                placeholder="Number of studio units"
                                 value={field.value ?? ""}
                                 onChange={(e) => field.onChange(e.target.value)}
                               />
