@@ -270,7 +270,7 @@ export default function WorkflowOverview() {
                     }`}>
                       {isCompleted ? <CheckCircle className="h-6 w-6" /> : step.icon}
                     </div>
-                    <div className="text-xs font-medium mt-2 text-center max-w-16">
+                    <div className="text-xs font-medium mt-2 text-center max-w-20 sm:max-w-24 whitespace-normal break-all leading-tight">
                       {step.name}
                     </div>
                     {index < applicationSteps.length - 1 && (
