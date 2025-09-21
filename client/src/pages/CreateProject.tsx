@@ -20,9 +20,21 @@ import { insertProjectSchema } from "@shared/schema";
 import ProjectSiteMap from "@/components/ProjectSiteMap";
 
 // Schema with proper numeric coercion
-const numOpt = z.preprocess(v => v === '' || v == null ? undefined : Number(v), z.number().min(0)).optional();
-const numRequired = z.preprocess(v => v === '' || v == null ? 0 : Number(v), z.number().min(1));
-const adaPercent = z.preprocess(v => v === '' || v == null ? undefined : Number(v), z.number().min(0).max(100)).optional();
+const numOpt = z.preprocess(v => {
+  if (v === '' || v == null || v === undefined) return undefined;
+  const num = Number(v);
+  return isNaN(num) ? undefined : num;
+}, z.number().min(0)).optional();
+const numRequired = z.preprocess(v => {
+  if (v === '' || v == null || v === undefined) return 1;
+  const num = Number(v);
+  return isNaN(num) ? 1 : Math.max(1, num);
+}, z.number().min(1));
+const adaPercent = z.preprocess(v => {
+  if (v === '' || v == null || v === undefined) return undefined;
+  const num = Number(v);
+  return isNaN(num) ? undefined : Math.min(100, Math.max(0, num));
+}, z.number().min(0).max(100)).optional();
 
 const createProjectSchema = insertProjectSchema.extend({
   name: z.string().min(1, "Project name is required"),
@@ -43,12 +55,25 @@ const createProjectSchema = insertProjectSchema.extend({
 
 type CreateProjectForm = z.infer<typeof createProjectSchema>;
 
+// Form input type that accepts strings for numeric fields during input
+type CreateProjectFormInput = Omit<CreateProjectForm, 'targetFloors' | 'studioUnits' | 'oneBedUnits' | 'twoBedUnits' | 'threeBedUnits' | 'queenUnits' | 'kingUnits' | 'adaPercent' | 'targetParkingSpaces'> & {
+  targetFloors: number;
+  studioUnits?: string | number;
+  oneBedUnits?: string | number;
+  twoBedUnits?: string | number;
+  threeBedUnits?: string | number;
+  queenUnits?: string | number;
+  kingUnits?: string | number;
+  adaPercent?: string | number;
+  targetParkingSpaces?: string | number;
+};
+
 export default function CreateProject() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [mapTrigger, setMapTrigger] = useState(0); // Used to trigger map lookup
 
-  const form = useForm<CreateProjectForm>({
+  const form = useForm<CreateProjectFormInput>({
     resolver: zodResolver(createProjectSchema),
     shouldUnregister: false,
     defaultValues: {
@@ -56,14 +81,14 @@ export default function CreateProject() {
       address: "",
       projectType: "",
       targetFloors: 3,
-      studioUnits: undefined,
-      oneBedUnits: undefined,
-      twoBedUnits: undefined,
-      threeBedUnits: undefined,
-      queenUnits: undefined,
-      kingUnits: undefined,
-      adaPercent: undefined,
-      targetParkingSpaces: undefined,
+      studioUnits: "",
+      oneBedUnits: "",
+      twoBedUnits: "",
+      threeBedUnits: "",
+      queenUnits: "",
+      kingUnits: "",
+      adaPercent: "",
+      targetParkingSpaces: "",
     },
   });
 
@@ -102,8 +127,18 @@ export default function CreateProject() {
     },
   });
 
-  const onSubmit = (data: CreateProjectForm) => {
-    createProject.mutate(data);
+  const onSubmit = (data: CreateProjectFormInput) => {
+    // Transform the data through our schema for proper validation and type conversion
+    const result = createProjectSchema.safeParse(data);
+    if (result.success) {
+      createProject.mutate(result.data);
+    } else {
+      toast({
+        title: "Validation Error",
+        description: "Please check your input values and try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleMapLookup = () => {
