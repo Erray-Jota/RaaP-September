@@ -517,7 +517,7 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
     modularTimelineMonths: "30.5", // Fixed modular timeline
     siteBuiltTimelineMonths: "41.0", // Fixed site-built timeline  
     timeSavingsMonths: "10.5", // Fixed time savings (25% of 41 months)
-    factoryLocation: "Tracy, CA",
+    factoryLocation: projectData.factoryLocation || "Tracy, CA",
     zoningDistrict: "RM",
     densityBonusEligible: projectData.projectType === 'affordable',
   };
