@@ -1029,7 +1029,9 @@ export default function ModularFeasibility() {
                     <div className="bg-white rounded-lg p-4 border">
                       <h4 className="font-semibold text-gray-800 mb-2">Assessment Summary</h4>
                       <p className="text-sm text-gray-700">
-                        {project.isSample ? (
+                        {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                          `${(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} rooms of ${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} accommodation. ${project.queenUnits || 0} X Queen, ${project.kingUnits || 0} X King, ${project.oneBedUnits || 0} X One Bedroom. ${project.targetFloors} stories, ${project.buildingHeight} feet height, ${project.totalBuildingArea?.toLocaleString()} sf. Construction Type: ${project.constructionType}. ${project.targetParkingSpaces} Parking Spaces.`
+                        ) : project.isSample ? (
                           '24 units of Affordable Housing, 6 X 1BR, 12 X 2BR, 6 X 3BR. Dimensions 146 (L) X 66 (W) X 36 (H). Construction Type: V-A. 24 Parking Spaces.'
                         ) : (
                           `103 units of ${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing, 14 X Studios, 67 X 1BR, 22 X 2BR. Dimensions 519 (L) X 67 (W) X 57 (H). Construction Type: III-A. 100 Parking Spaces.`
@@ -1123,15 +1125,35 @@ export default function ModularFeasibility() {
                     <div className="bg-raap-green/10 border border-raap-green rounded-lg p-6">
                       <h4 className="font-semibold text-raap-green mb-4">Project Specifications</h4>
                       <div className="grid grid-cols-1 gap-2 text-sm text-gray-700">
-                        <div><strong>Total Units:</strong> {totalUnits}</div>
-                        {(project.studioUnits || 0) > 0 && <div><strong>Studio:</strong> {project.studioUnits} units</div>}
-                        {(project.oneBedUnits || 0) > 0 && <div><strong>1 Bedroom:</strong> {project.oneBedUnits} units</div>}
-                        {(project.twoBedUnits || 0) > 0 && <div><strong>2 Bedroom:</strong> {project.twoBedUnits} units</div>}
-                        {(project.threeBedUnits || 0) > 0 && <div><strong>3 Bedroom:</strong> {project.threeBedUnits} units</div>}
-                        <div><strong>Floors:</strong> {project.targetFloors}</div>
-                        {project.buildingDimensions && <div><strong>Dimensions:</strong> {project.buildingDimensions}</div>}
-                        {project.constructionType && <div><strong>Construction Type:</strong> {project.constructionType}</div>}
-                        <div><strong>Parking Spaces:</strong> {project.targetParkingSpaces}</div>
+                        {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                          <>
+                            <div><strong>Total Rooms:</strong> {(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)}</div>
+                            {(project.queenUnits || 0) > 0 && <div><strong>Queen Rooms:</strong> {project.queenUnits} rooms</div>}
+                            {(project.kingUnits || 0) > 0 && <div><strong>King Rooms:</strong> {project.kingUnits} rooms</div>}
+                            {(project.oneBedUnits || 0) > 0 && <div><strong>One Bedroom Suites:</strong> {project.oneBedUnits} rooms</div>}
+                            <div><strong>ADA Compliance:</strong> {project.adaPercent}% of rooms</div>
+                            <div><strong>Floors:</strong> {project.targetFloors} stories</div>
+                            <div><strong>Building Height:</strong> {project.buildingHeight} feet</div>
+                            <div><strong>Total Building Area:</strong> {project.totalBuildingArea?.toLocaleString()} sf</div>
+                            <div><strong>Site Coverage:</strong> {project.siteCoverage}%</div>
+                            {project.constructionType && <div><strong>Construction Type:</strong> {project.constructionType}</div>}
+                            {project.moduleSize && <div><strong>Module Size:</strong> {project.moduleSize}</div>}
+                            {project.baseType && <div><strong>Foundation:</strong> {project.baseType}</div>}
+                            <div><strong>Parking Spaces:</strong> {project.targetParkingSpaces}</div>
+                          </>
+                        ) : (
+                          <>
+                            <div><strong>Total Units:</strong> {totalUnits}</div>
+                            {(project.studioUnits || 0) > 0 && <div><strong>Studio:</strong> {project.studioUnits} units</div>}
+                            {(project.oneBedUnits || 0) > 0 && <div><strong>1 Bedroom:</strong> {project.oneBedUnits} units</div>}
+                            {(project.twoBedUnits || 0) > 0 && <div><strong>2 Bedroom:</strong> {project.twoBedUnits} units</div>}
+                            {(project.threeBedUnits || 0) > 0 && <div><strong>3 Bedroom:</strong> {project.threeBedUnits} units</div>}
+                            <div><strong>Floors:</strong> {project.targetFloors}</div>
+                            {project.buildingDimensions && <div><strong>Dimensions:</strong> {project.buildingDimensions}</div>}
+                            {project.constructionType && <div><strong>Construction Type:</strong> {project.constructionType}</div>}
+                            <div><strong>Parking Spaces:</strong> {project.targetParkingSpaces}</div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -3028,8 +3050,7 @@ export default function ModularFeasibility() {
                       <div className="text-3xl font-bold text-green-600">{scores.buildTime}/5</div>
                     </div>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Score of {scores.buildTime}/5:</strong> 30.5 months total project delivery using modular approach vs 41 months for site built. 
-                      Savings of 10.5 months (25% timeline reduction).
+                      <strong>Score of {scores.buildTime}/5:</strong> {project.projectType === 'hotel' || project.projectType === 'hostel' ? '24 months total project delivery using modular approach vs 32 months for site built. Savings of 8 months (25% timeline reduction) for hotel construction.' : '30.5 months total project delivery using modular approach vs 41 months for site built. Savings of 10.5 months (25% timeline reduction).'}
                     </p>
                     <div className="text-xs text-green-600 font-medium">
                       Weight: 10% of overall feasibility score
