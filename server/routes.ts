@@ -442,12 +442,12 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
   const totalUnits = (projectData.studioUnits || 0) + (projectData.oneBedUnits || 0) + 
                     (projectData.twoBedUnits || 0) + (projectData.threeBedUnits || 0);
   
-  // Base scores - mostly 5s with logistics as 4 for new projects
+  // Base scores - all 5s except cost which is 3
   const zoningScore = 5.0;
   const massingScore = 5.0;
-  const costScore = 5.0;
+  const costScore = 3.0; // Cost gets 3 as requested
   const sustainabilityScore = 5.0;
-  const logisticsScore = 4.0; // Logistics gets 4 as requested
+  const logisticsScore = 5.0;
   const buildTimeScore = 5.0;
 
   // Calculate weighted overall score
