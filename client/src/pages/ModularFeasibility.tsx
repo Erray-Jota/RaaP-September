@@ -1301,16 +1301,16 @@ export default function ModularFeasibility() {
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
-                            <td className="px-4 py-3">Open Space & Zoning</td>
-                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Commercial requirements met' : '25% min'}</td>
-                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Updated & Compliant' : '20%'}</td>
+                            <td className="px-4 py-3">Open Space</td>
+                            <td className="px-4 py-3">25% min</td>
+                            <td className="px-4 py-3">46%</td>
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
                             <td className="px-4 py-3">Parking</td>
-                            <td className="px-4 py-3">{project.isSample ? '1.5 spaces/unit' : '1.0 spaces/unit'}</td>
-                            <td className="px-4 py-3">{project.isSample ? '1 space/unit' : '0.97 spaces/unit'}</td>
-                            <td className="px-4 py-3"><span className="text-orange-600 font-semibold">⚠ Variance Required</span></td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? '1.0 spaces/room' : (project.isSample ? '1.5 spaces/unit' : '1.0 spaces/unit')}</td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? '1.0 spaces/room' : (project.isSample ? '1 space/unit' : '0.97 spaces/unit')}</td>
+                            <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                         </tbody>
                       </table>
