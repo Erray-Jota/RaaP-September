@@ -135,6 +135,7 @@ export default function WorkflowOverview() {
 
   const totalUnits = (project.studioUnits || 0) + (project.oneBedUnits || 0) + 
                     (project.twoBedUnits || 0) + (project.threeBedUnits || 0);
+  const totalRooms = (project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0);
 
   const getStepStatus = (step: ApplicationStep) => {
     // For sample projects, override FabAssure and EasyDesign status
@@ -216,7 +217,10 @@ export default function WorkflowOverview() {
                 {project.address}
               </div>
               <p className="text-gray-600">
-                {project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing • {totalUnits} Units • {project.targetFloors} Stories
+                {project.projectType === 'hotel' || project.projectType === 'hostel' ? 
+                  `${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} (Commercial Hospitality) • ${totalRooms} Rooms • ${project.targetFloors} Stories` :
+                  `${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing • ${totalUnits} Units • ${project.targetFloors} Stories`
+                }
               </p>
             </div>
             
