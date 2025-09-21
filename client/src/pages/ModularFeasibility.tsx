@@ -2137,34 +2137,36 @@ export default function ModularFeasibility() {
 
                   {/* Detailed MasterFormat Cost Breakdown */}
                   <div>
-                    <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-semibold text-raap-dark">Detailed MasterFormat Cost Breakdown</h4>
-                      <div className="flex space-x-3">
-                        <button
-                          onClick={downloadCostBreakdown}
-                          className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          data-testid="button-download-cost-breakdown"
-                        >
-                          <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                          Download CSV
-                        </button>
-                        <label className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">
-                          <input
-                            type="file"
-                            accept=".csv"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) uploadCostBreakdown(file);
-                            }}
-                          />
-                          <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                          </svg>
-                          Upload CSV
-                        </label>
+                    <div className="mb-4">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+                        <h4 className="font-semibold text-raap-dark">Detailed MasterFormat Cost Breakdown</h4>
+                        <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
+                          <button
+                            onClick={downloadCostBreakdown}
+                            className="inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-xs font-medium rounded text-gray-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-500"
+                            data-testid="button-download-cost-breakdown"
+                          >
+                            <svg className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download CSV
+                          </button>
+                          <label className="inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-xs font-medium rounded text-gray-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 cursor-pointer">
+                            <input
+                              type="file"
+                              accept=".csv"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) uploadCostBreakdown(file);
+                              }}
+                            />
+                            <svg className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            Upload CSV
+                          </label>
+                        </div>
                       </div>
                     </div>
                     <div className="-mx-4 sm:mx-0">
