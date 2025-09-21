@@ -2167,8 +2167,8 @@ export default function ModularFeasibility() {
                         </label>
                       </div>
                     </div>
-                    <div className="bg-white border rounded-lg overflow-hidden">
-                      <table className="w-full text-sm">
+                    <div className="bg-white border rounded-lg overflow-hidden w-full overflow-x-auto">
+                      <table className="w-full text-sm min-w-[800px]">
                         <thead className="bg-gray-700 text-white">
                           <tr>
                             <th className="px-3 py-3 text-left font-semibold">MasterFormat Division</th>
