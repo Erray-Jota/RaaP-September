@@ -101,7 +101,7 @@ import hotel3DViewImage from "@assets/4-25_1758411716844.png";
 import tracyRouteImage from "@assets/Tracy to Olivehurst_1754838644869.png";
 import zoningMapImage from "@assets/Serinity Zoning Map_1754839677898.png";
 import olivehurstMapImage from "@assets/Olivehurst Map_1754839713206.png";
-import timelineComparisonImage from "@assets/image_1756583015103.png";
+import timelineComparisonImage from "@assets/timeline-comparison-hotel.png";
 
 export default function ModularFeasibility() {
   const [, params] = useRoute("/projects/:id/modular-feasibility");
