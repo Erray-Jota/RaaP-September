@@ -303,7 +303,9 @@ export default function CreateProject() {
 
                 {/* Unit Mix */}
                 <div>
-                  <h3 className="text-lg font-semibold text-raap-dark mb-4">Target Unit Mix</h3>
+                  <h3 className="text-lg font-semibold text-raap-dark mb-4">
+                    {form.watch("projectType") === "hostel" || form.watch("projectType") === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
+                  </h3>
                   {form.watch("projectType") === "hostel" || form.watch("projectType") === "hotel" ? (
                     // Hotel/Hostel Unit Mix
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
