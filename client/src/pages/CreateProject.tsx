@@ -42,6 +42,7 @@ export default function CreateProject() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [mapTrigger, setMapTrigger] = useState(0); // Used to trigger map lookup
+  const [selectedProjectType, setSelectedProjectType] = useState("");
 
   const form = useForm<CreateProjectForm>({
     resolver: zodResolver(createProjectSchema),
@@ -226,7 +227,10 @@ export default function CreateProject() {
                         <FormControl>
                           <RadioGroup 
                             value={field.value} 
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => {
+                              field.onChange(value);
+                              setSelectedProjectType(value);
+                            }}
                             className="grid grid-cols-2 md:grid-cols-3 gap-4"
                           >
                             {projectTypes.map((type) => (
@@ -309,9 +313,9 @@ export default function CreateProject() {
                 {/* Unit Mix */}
                 <div>
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">
-                    {form.watch("projectType") === "hostel" || form.watch("projectType") === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
+                    {selectedProjectType === "hostel" || selectedProjectType === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
                   </h3>
-                  {form.watch("projectType") === "hostel" || form.watch("projectType") === "hotel" ? (
+                  {selectedProjectType === "hostel" || selectedProjectType === "hotel" ? (
                     // Hotel/Hostel Unit Mix
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       <FormField
