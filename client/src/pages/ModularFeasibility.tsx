@@ -902,7 +902,7 @@ export default function ModularFeasibility() {
   const overallScore = projectScores.overall;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -2167,8 +2167,9 @@ export default function ModularFeasibility() {
                         </label>
                       </div>
                     </div>
-                    <div className="bg-white border rounded-lg overflow-hidden w-full overflow-x-auto">
-                      <table className="w-full text-sm min-w-[800px]">
+                    <div className="-mx-4 sm:mx-0">
+                      <div className="bg-white border rounded-lg overflow-x-auto">
+                        <table className="min-w-[1000px] w-max text-sm whitespace-nowrap">
                         <thead className="bg-gray-700 text-white">
                           <tr>
                             <th className="px-3 py-3 text-left font-semibold">MasterFormat Division</th>
@@ -2849,7 +2850,8 @@ export default function ModularFeasibility() {
                             );
                           })()}
                         </tbody>
-                      </table>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
