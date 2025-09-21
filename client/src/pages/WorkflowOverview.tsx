@@ -161,6 +161,28 @@ export default function WorkflowOverview() {
   const completedSteps = getActualCompletedSteps();
   const progressPercentage = (completedSteps / applicationSteps.length) * 100;
 
+  // Helper function to format step names with line breaks at second capital letter
+  const formatStepName = (name: string) => {
+    const nameBreaks: Record<string, [string, string]> = {
+      'ModularFeasibility': ['Modular', 'Feasibility'],
+      'SmartStart': ['Smart', 'Start'], 
+      'FabAssure': ['Fab', 'Assure'],
+      'EasyDesign': ['Easy', 'Design']
+    };
+    
+    const breakParts = nameBreaks[name];
+    if (breakParts) {
+      return (
+        <>
+          {breakParts[0]}
+          <br />
+          {breakParts[1]}
+        </>
+      );
+    }
+    return name;
+  };
+
   const getStepColorClasses = (step: ApplicationStep, status: string) => {
     if (status === "completed") {
       return {
@@ -270,8 +292,8 @@ export default function WorkflowOverview() {
                     }`}>
                       {isCompleted ? <CheckCircle className="h-6 w-6" /> : step.icon}
                     </div>
-                    <div className="text-xs font-medium mt-2 text-center max-w-20 sm:max-w-24 whitespace-normal break-all leading-tight">
-                      {step.name}
+                    <div className="text-xs font-medium mt-2 text-center max-w-20 sm:max-w-24 leading-tight">
+                      {formatStepName(step.name)}
                     </div>
                     {index < applicationSteps.length - 1 && (
                       <div className={`absolute top-6 left-12 w-20 h-0.5 ${
