@@ -42,6 +42,7 @@ const createProjectSchema = insertProjectSchema.extend({
   projectType: z.string().min(1, "Project type is required"),
   targetFloors: numRequired,
   targetParkingSpaces: numOpt,
+  factoryLocation: z.string().min(1, "Factory location is required"),
   // Hotel/Hostel specific fields
   queenUnits: numOpt,
   kingUnits: numOpt,
@@ -58,6 +59,7 @@ type CreateProjectForm = z.infer<typeof createProjectSchema>;
 // Form input type that accepts strings for numeric fields during input
 type CreateProjectFormInput = Omit<CreateProjectForm, 'targetFloors' | 'studioUnits' | 'oneBedUnits' | 'twoBedUnits' | 'threeBedUnits' | 'queenUnits' | 'kingUnits' | 'adaPercent' | 'targetParkingSpaces'> & {
   targetFloors: number;
+  factoryLocation: string;
   studioUnits?: string | number;
   oneBedUnits?: string | number;
   twoBedUnits?: string | number;
@@ -81,6 +83,7 @@ export default function CreateProject() {
       address: "",
       projectType: "",
       targetFloors: 3,
+      factoryLocation: "",
       studioUnits: "",
       oneBedUnits: "",
       twoBedUnits: "",
@@ -302,7 +305,7 @@ export default function CreateProject() {
                 {/* Building Details */}
                 <div>
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">Building Details</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <FormField
                       control={form.control}
                       name="targetFloors"
@@ -344,6 +347,23 @@ export default function CreateProject() {
                               min="0"
                               value={field.value ?? ""}
                               onChange={(e) => field.onChange(e.target.value)}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="factoryLocation"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Factory Location</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g., Thomaston, GA"
+                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
