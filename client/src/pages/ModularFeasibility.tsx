@@ -953,38 +953,77 @@ export default function ModularFeasibility() {
           </div>
         </div>
 
-        {/* Seven Tab Interface */}
+        {/* Seven Tab Interface - Mobile: Vertical, Desktop: Horizontal */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid grid-cols-7 w-full mb-8">
-            <TabsTrigger value="summary" className="flex items-center space-x-1">
-              <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Summary</span>
-            </TabsTrigger>
-            <TabsTrigger value="zoning" className="flex items-center space-x-1">
-              <MapPin className="h-4 w-4" />
-              <span className="hidden sm:inline">Zoning</span>
-            </TabsTrigger>
-            <TabsTrigger value="massing" className="flex items-center space-x-1">
-              <Building className="h-4 w-4" />
-              <span className="hidden sm:inline">Massing</span>
-            </TabsTrigger>
-            <TabsTrigger value="sustainability" className="flex items-center space-x-1">
-              <Leaf className="h-4 w-4" />
-              <span className="hidden sm:inline">Sustainability</span>
-            </TabsTrigger>
-            <TabsTrigger value="pricing" className="flex items-center space-x-1">
-              <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Cost</span>
-            </TabsTrigger>
-            <TabsTrigger value="logistics" className="flex items-center space-x-1">
-              <Truck className="h-4 w-4" />
-              <span className="hidden sm:inline">Logistics</span>
-            </TabsTrigger>
-            <TabsTrigger value="buildtime" className="flex items-center space-x-1">
-              <Clock className="h-4 w-4" />
-              <span className="hidden sm:inline">Build Time</span>
-            </TabsTrigger>
-          </TabsList>
+          {/* Mobile Layout: Vertical Tabs */}
+          <div className="lg:hidden">
+            <div className="flex flex-col space-y-2 mb-6">
+              <TabsList className="grid grid-cols-1 w-full h-auto p-1 bg-gray-100">
+                <TabsTrigger value="summary" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <FileText className="h-5 w-5" />
+                  <span className="text-sm font-medium">Summary</span>
+                </TabsTrigger>
+                <TabsTrigger value="zoning" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <MapPin className="h-5 w-5" />
+                  <span className="text-sm font-medium">Zoning</span>
+                </TabsTrigger>
+                <TabsTrigger value="massing" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <Building className="h-5 w-5" />
+                  <span className="text-sm font-medium">Massing</span>
+                </TabsTrigger>
+                <TabsTrigger value="sustainability" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <Leaf className="h-5 w-5" />
+                  <span className="text-sm font-medium">Sustainability</span>
+                </TabsTrigger>
+                <TabsTrigger value="pricing" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <DollarSign className="h-5 w-5" />
+                  <span className="text-sm font-medium">Cost</span>
+                </TabsTrigger>
+                <TabsTrigger value="logistics" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <Truck className="h-5 w-5" />
+                  <span className="text-sm font-medium">Logistics</span>
+                </TabsTrigger>
+                <TabsTrigger value="buildtime" className="flex items-center justify-start space-x-3 px-4 py-3 text-left">
+                  <Clock className="h-5 w-5" />
+                  <span className="text-sm font-medium">Build Time</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
+          </div>
+
+          {/* Desktop Layout: Horizontal Tabs */}
+          <div className="hidden lg:block">
+            <TabsList className="grid grid-cols-7 w-full mb-8">
+              <TabsTrigger value="summary" className="flex items-center space-x-1">
+                <FileText className="h-4 w-4" />
+                <span className="hidden sm:inline">Summary</span>
+              </TabsTrigger>
+              <TabsTrigger value="zoning" className="flex items-center space-x-1">
+                <MapPin className="h-4 w-4" />
+                <span className="hidden sm:inline">Zoning</span>
+              </TabsTrigger>
+              <TabsTrigger value="massing" className="flex items-center space-x-1">
+                <Building className="h-4 w-4" />
+                <span className="hidden sm:inline">Massing</span>
+              </TabsTrigger>
+              <TabsTrigger value="sustainability" className="flex items-center space-x-1">
+                <Leaf className="h-4 w-4" />
+                <span className="hidden sm:inline">Sustainability</span>
+              </TabsTrigger>
+              <TabsTrigger value="pricing" className="flex items-center space-x-1">
+                <DollarSign className="h-4 w-4" />
+                <span className="hidden sm:inline">Cost</span>
+              </TabsTrigger>
+              <TabsTrigger value="logistics" className="flex items-center space-x-1">
+                <Truck className="h-4 w-4" />
+                <span className="hidden sm:inline">Logistics</span>
+              </TabsTrigger>
+              <TabsTrigger value="buildtime" className="flex items-center space-x-1">
+                <Clock className="h-4 w-4" />
+                <span className="hidden sm:inline">Build Time</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Summary Tab */}
           <TabsContent value="summary">
