@@ -33,8 +33,8 @@ const numRequired = z.preprocess(v => {
 const adaPercent = z.preprocess(v => {
   if (v === '' || v == null || v === undefined) return undefined;
   const num = Number(v);
-  return isNaN(num) ? undefined : Math.min(100, Math.max(0, num));
-}, z.number().min(0).max(100)).optional();
+  return isNaN(num) ? undefined : String(Math.min(100, Math.max(0, num)));
+}, z.string()).optional();
 
 const createProjectSchema = insertProjectSchema.extend({
   name: z.string().min(1, "Project name is required"),
@@ -128,14 +128,10 @@ export default function CreateProject() {
   });
 
   const onSubmit = (data: CreateProjectFormInput) => {
-    console.log("Raw form data:", data);
-    
     // Transform the data through our schema for proper validation and type conversion
     const result = createProjectSchema.safeParse(data);
-    console.log("Schema parse result:", result);
     
     if (result.success) {
-      console.log("Sending to server:", result.data);
       createProject.mutate(result.data);
     } else {
       console.error("Validation errors:", result.error.errors);
