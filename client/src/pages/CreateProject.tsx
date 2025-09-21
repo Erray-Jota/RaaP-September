@@ -359,10 +359,9 @@ export default function CreateProject() {
                       name="factoryLocation"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Factory Location</FormLabel>
+                          <FormLabel>Factory Location (City, ST)</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g., Thomaston, GA"
                               {...field}
                             />
                           </FormControl>
