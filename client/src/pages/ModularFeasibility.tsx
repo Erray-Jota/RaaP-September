@@ -1126,7 +1126,7 @@ export default function ModularFeasibility() {
                     </div>
                     
                     <div className="bg-raap-green/10 border border-raap-green rounded-lg p-6">
-                      <h4 className="font-semibold text-raap-green mb-4">Project Specifications</h4>
+                      <h4 className="font-semibold text-raap-green mb-4">Project Requirements</h4>
                       <div className="grid grid-cols-1 gap-2 text-sm text-gray-700">
                         {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
                           <>
