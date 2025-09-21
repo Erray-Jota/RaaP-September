@@ -442,12 +442,14 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
   const totalUnits = (projectData.studioUnits || 0) + (projectData.oneBedUnits || 0) + 
                     (projectData.twoBedUnits || 0) + (projectData.threeBedUnits || 0);
   
-  // Base scores - all 5s except logistics which is 4
+  // Base scores with different scoring for hotel/hostel vs other projects
+  const isHotelProject = projectData.projectType === 'hotel' || projectData.projectType === 'hostel';
+  
   const zoningScore = 5.0;
   const massingScore = 5.0;
-  const costScore = 5.0;
+  const costScore = isHotelProject ? 3.0 : 5.0; // Cost: 3 for hotel/hostel, 5 for others
   const sustainabilityScore = 5.0;
-  const logisticsScore = 4.0; // Logistics gets 4 as requested
+  const logisticsScore = isHotelProject ? 5.0 : 4.0; // Logistics: 5 for hotel/hostel, 4 for others
   const buildTimeScore = 5.0;
 
   // Calculate weighted overall score
