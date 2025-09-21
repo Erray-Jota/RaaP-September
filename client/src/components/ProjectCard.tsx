@@ -214,8 +214,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
         
-        <div className="grid grid-cols-4 gap-2 sm:gap-4 items-center">
-          <div className="text-center">
+        <div className="flex items-center justify-end space-x-8">
+          <div className="text-center min-w-[60px]">
             <div className={`text-lg sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
               <span className="sm:hidden">{Math.round(parseFloat(displayScore))}</span>
               <span className="hidden sm:inline">{displayScore}</span>
@@ -223,7 +223,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <div className="text-xs text-gray-500">Score</div>
           </div>
           
-          <div className="text-center">
+          <div className="text-center min-w-[120px]">
             {project.modularTotalCost ? (
               <>
                 <div className="text-sm sm:text-lg font-semibold text-raap-green">
@@ -247,7 +247,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             )}
           </div>
           
-          <div className="text-center">
+          <div className="text-center min-w-[80px]">
             {project.modularTimelineMonths ? (
               <>
                 <div className="text-sm sm:text-lg font-semibold text-blue-600">
