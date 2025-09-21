@@ -4,6 +4,7 @@ import googleMapsLoader from '@/utils/googleMapsLoader';
 interface RouteMapProps {
   destinationAddress: string;
   projectName: string;
+  factoryLocation?: string;
   height?: string;
   className?: string;
 }
@@ -11,6 +12,7 @@ interface RouteMapProps {
 export default function RouteMap({
   destinationAddress,
   projectName,
+  factoryLocation = "Tracy, CA",
   height = '400px',
   className = ''
 }: RouteMapProps) {
@@ -59,9 +61,9 @@ export default function RouteMap({
         
         directionsRenderer.setMap(map);
 
-        // Calculate route from Boise, Idaho to destination
+        // Calculate route from factory to destination
         const request = {
-          origin: 'Thomaston, GA, USA',
+          origin: `${factoryLocation}, USA`,
           destination: destinationAddress,
           travelMode: (window as any).google.maps.TravelMode.DRIVING,
           unitSystem: (window as any).google.maps.UnitSystem.IMPERIAL,
@@ -86,7 +88,7 @@ export default function RouteMap({
             const startMarker = new (window as any).google.maps.Marker({
               position: leg.start_location,
               map: map,
-              title: 'Thomaston, GA',
+              title: factoryLocation,
               icon: {
                 url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +133,7 @@ export default function RouteMap({
             startParagraph.style.margin = '0';
             startParagraph.style.color = '#4b5563';
             startParagraph.style.fontSize = '13px';
-            startParagraph.textContent = 'Thomaston, GA'; // Safe text content
+            startParagraph.textContent = factoryLocation; // Safe text content
             
             startInfoWindowDiv.appendChild(startHeading);
             startInfoWindowDiv.appendChild(startParagraph);
@@ -225,7 +227,7 @@ export default function RouteMap({
           <div className="bg-blue-50 rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{routeInfo.distance}</div>
             <div className="font-semibold text-blue-600">Distance</div>
-            <div className="text-gray-600 text-sm">from Thomaston, GA</div>
+            <div className="text-gray-600 text-sm">from {factoryLocation}</div>
           </div>
           <div className="bg-green-50 rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-green-600">{routeInfo.duration}</div>
