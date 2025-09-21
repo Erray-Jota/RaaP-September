@@ -1411,15 +1411,39 @@ export default function ModularFeasibility() {
                     </div>
                   </div>
 
-                  {/* Sub-Tabs */}
+                  {/* Sub-Tabs - Mobile: Vertical, Desktop: Horizontal */}
                   <Tabs defaultValue="specifications" className="w-full">
-                    <TabsList className="grid w-full grid-cols-5 bg-gray-100">
-                      <TabsTrigger value="specifications" className="text-sm">Specifications</TabsTrigger>
-                      <TabsTrigger value="unitplans" className="text-sm">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Plans' : 'Unit Plans'}</TabsTrigger>
-                      <TabsTrigger value="floorplan" className="text-sm">Floor Plan</TabsTrigger>
-                      <TabsTrigger value="3dview" className="text-sm">3D View</TabsTrigger>
-                      <TabsTrigger value="siteplan" className="text-sm">Site Plan</TabsTrigger>
-                    </TabsList>
+                    {/* Mobile Layout: Vertical Tabs */}
+                    <div className="lg:hidden">
+                      <TabsList className="grid grid-cols-1 w-full h-auto p-1 bg-gray-100">
+                        <TabsTrigger value="specifications" className="flex items-center justify-start px-4 py-3 text-left">
+                          <span className="text-sm font-medium">Specifications</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="unitplans" className="flex items-center justify-start px-4 py-3 text-left">
+                          <span className="text-sm font-medium">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Plans' : 'Unit Plans'}</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="floorplan" className="flex items-center justify-start px-4 py-3 text-left">
+                          <span className="text-sm font-medium">Floor Plan</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="3dview" className="flex items-center justify-start px-4 py-3 text-left">
+                          <span className="text-sm font-medium">3D View</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="siteplan" className="flex items-center justify-start px-4 py-3 text-left">
+                          <span className="text-sm font-medium">Site Plan</span>
+                        </TabsTrigger>
+                      </TabsList>
+                    </div>
+
+                    {/* Desktop Layout: Horizontal Tabs */}
+                    <div className="hidden lg:block">
+                      <TabsList className="grid w-full grid-cols-5 bg-gray-100">
+                        <TabsTrigger value="specifications" className="text-sm">Specifications</TabsTrigger>
+                        <TabsTrigger value="unitplans" className="text-sm">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Room Plans' : 'Unit Plans'}</TabsTrigger>
+                        <TabsTrigger value="floorplan" className="text-sm">Floor Plan</TabsTrigger>
+                        <TabsTrigger value="3dview" className="text-sm">3D View</TabsTrigger>
+                        <TabsTrigger value="siteplan" className="text-sm">Site Plan</TabsTrigger>
+                      </TabsList>
+                    </div>
 
                     {/* Specifications Sub-Tab */}
                     <TabsContent value="specifications" className="mt-6">
