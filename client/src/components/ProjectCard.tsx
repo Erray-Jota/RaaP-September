@@ -214,8 +214,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
         
-        <div className="flex items-center justify-between sm:space-x-4">
-          <div className="text-center flex-shrink-0">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 items-center">
+          <div className="text-center">
             <div className={`text-lg sm:text-2xl font-bold ${getScoreColor(displayScore)}`} data-testid={`score-${project.id}`}>
               <span className="sm:hidden">{Math.round(parseFloat(displayScore))}</span>
               <span className="hidden sm:inline">{displayScore}</span>
@@ -223,34 +223,52 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <div className="text-xs text-gray-500">Score</div>
           </div>
           
-          {project.modularTotalCost && (
-            <div className="text-center">
-              <div className="text-sm sm:text-lg font-semibold text-raap-green">
-                <span className="sm:hidden">{formatCostForMobile(project.modularTotalCost)}</span>
-                <span className="hidden sm:inline">${parseFloat(project.modularTotalCost).toLocaleString()}</span>
-              </div>
-              <div className="text-xs text-gray-500">RaaP Cost</div>
-              {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
-                <div className="text-xs text-green-600">
-                  ({Math.round(parseFloat(project.costSavingsPercent))}% savings)
+          <div className="text-center">
+            {project.modularTotalCost ? (
+              <>
+                <div className="text-sm sm:text-lg font-semibold text-raap-green">
+                  <span className="sm:hidden">{formatCostForMobile(project.modularTotalCost)}</span>
+                  <span className="hidden sm:inline">${parseFloat(project.modularTotalCost).toLocaleString()}</span>
                 </div>
-              )}
-            </div>
-          )}
+                <div className="text-xs text-gray-500">RaaP Cost</div>
+                {project.costSavingsPercent && parseFloat(project.costSavingsPercent) > 0 && (
+                  <div className="text-xs text-green-600">
+                    ({Math.round(parseFloat(project.costSavingsPercent))}% savings)
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="text-sm sm:text-lg font-semibold text-gray-400">
+                  N/A
+                </div>
+                <div className="text-xs text-gray-500">RaaP Cost</div>
+              </>
+            )}
+          </div>
           
-          {project.modularTimelineMonths && (
-            <div className="text-center">
-              <div className="text-sm sm:text-lg font-semibold text-blue-600">
-                {Math.round(parseFloat(project.modularTimelineMonths))} mo
-              </div>
-              <div className="text-xs text-gray-500">RaaP Build Time</div>
-              {project.timeSavingsMonths && (
-                <div className="text-xs text-blue-600">
-                  ({Math.round(parseFloat(project.timeSavingsMonths))} mo savings)
+          <div className="text-center">
+            {project.modularTimelineMonths ? (
+              <>
+                <div className="text-sm sm:text-lg font-semibold text-blue-600">
+                  {Math.round(parseFloat(project.modularTimelineMonths))} mo
                 </div>
-              )}
-            </div>
-          )}
+                <div className="text-xs text-gray-500">Build Time</div>
+                {project.siteBuiltTimelineMonths && (
+                  <div className="text-xs text-blue-600">
+                    ({Math.round(parseFloat(project.siteBuiltTimelineMonths) - parseFloat(project.modularTimelineMonths))} mo savings)
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="text-sm sm:text-lg font-semibold text-gray-400">
+                  N/A
+                </div>
+                <div className="text-xs text-gray-500">Build Time</div>
+              </>
+            )}
+          </div>
           
           <div className="flex items-center space-x-2">
             <AlertDialog>
