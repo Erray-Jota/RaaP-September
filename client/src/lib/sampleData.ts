@@ -215,41 +215,146 @@ export const sampleProjects: Omit<Project, 'id' | 'userId' | 'createdAt' | 'upda
 ];
 
 export const sampleCostBreakdowns = [
-  // Serenity Village cost breakdowns (from the document)
+  // Shadey Village cost breakdowns - updated with actual housing project data
   {
     category: "03 Concrete",
-    siteBuiltCost: "407021",
-    raapGcCost: "285136",
-    raapFabCost: "164393",
-    raapTotalCost: "449528"
+    siteBuiltCost: "2533115",
+    raapGcCost: "1373299",
+    raapFabCost: "625628",
+    raapTotalCost: "1998927"
+  },
+  {
+    category: "04 Masonry",
+    siteBuiltCost: "916443",
+    raapGcCost: "845392",
+    raapFabCost: "0",
+    raapTotalCost: "845392"
+  },
+  {
+    category: "05 Metal",
+    siteBuiltCost: "3103653",
+    raapGcCost: "2572095",
+    raapFabCost: "241556",
+    raapTotalCost: "2813651"
   },
   {
     category: "06 Wood & Plastics",
-    siteBuiltCost: "1982860",
-    raapGcCost: "14171",
-    raapFabCost: "2137612",
-    raapTotalCost: "2151783"
+    siteBuiltCost: "8643831",
+    raapGcCost: "41318",
+    raapFabCost: "6378393",
+    raapTotalCost: "6419712"
   },
   {
-    category: "07 Thermal & Moisture",
-    siteBuiltCost: "490766",
-    raapGcCost: "289407",
-    raapFabCost: "293030",
-    raapTotalCost: "582437"
+    category: "07 Thermal & Moisture Protection",
+    siteBuiltCost: "2325482",
+    raapGcCost: "1129942",
+    raapFabCost: "960368",
+    raapTotalCost: "2090309"
+  },
+  {
+    category: "08 Openings",
+    siteBuiltCost: "1393966",
+    raapGcCost: "440895",
+    raapFabCost: "792909",
+    raapTotalCost: "1233804"
+  },
+  {
+    category: "09 Finishes",
+    siteBuiltCost: "5329218",
+    raapGcCost: "59288",
+    raapFabCost: "2906204",
+    raapTotalCost: "2965492"
+  },
+  {
+    category: "10 Specialties",
+    siteBuiltCost: "200836",
+    raapGcCost: "0",
+    raapFabCost: "161890",
+    raapTotalCost: "161890"
+  },
+  {
+    category: "11 Equipment",
+    siteBuiltCost: "29531",
+    raapGcCost: "29531",
+    raapFabCost: "0",
+    raapTotalCost: "29531"
+  },
+  {
+    category: "12 Furnishing",
+    siteBuiltCost: "374255",
+    raapGcCost: "18284",
+    raapFabCost: "324648",
+    raapTotalCost: "342932"
+  },
+  {
+    category: "13 Special Construction",
+    siteBuiltCost: "51729",
+    raapGcCost: "51729",
+    raapFabCost: "0",
+    raapTotalCost: "51729"
+  },
+  {
+    category: "21 Fire Suppression",
+    siteBuiltCost: "982245",
+    raapGcCost: "346948",
+    raapFabCost: "351524",
+    raapTotalCost: "698472"
   },
   {
     category: "22 Plumbing",
-    siteBuiltCost: "767391",
-    raapGcCost: "431516",
-    raapFabCost: "306882",
-    raapTotalCost: "738398"
+    siteBuiltCost: "2403740",
+    raapGcCost: "1124362",
+    raapFabCost: "1023475",
+    raapTotalCost: "2147838"
+  },
+  {
+    category: "23 HVAC",
+    siteBuiltCost: "2505408",
+    raapGcCost: "183153",
+    raapFabCost: "1297260",
+    raapTotalCost: "1480413"
   },
   {
     category: "26 Electrical",
-    siteBuiltCost: "978984",
-    raapGcCost: "776008",
-    raapFabCost: "170998",
-    raapTotalCost: "947005"
+    siteBuiltCost: "3960944",
+    raapGcCost: "2811655",
+    raapFabCost: "876365",
+    raapTotalCost: "3688021"
+  },
+  {
+    category: "31 Earthwork",
+    siteBuiltCost: "1146618",
+    raapGcCost: "1152469",
+    raapFabCost: "0",
+    raapTotalCost: "1152469"
+  },
+  {
+    category: "32 Exterior Improvements",
+    siteBuiltCost: "1521663",
+    raapGcCost: "1521663",
+    raapFabCost: "0",
+    raapTotalCost: "1521663"
+  },
+  {
+    category: "33 Utilities",
+    siteBuiltCost: "1565388",
+    raapGcCost: "1565388",
+    raapFabCost: "0",
+    raapTotalCost: "1565388"
+  },
+  {
+    category: "01 General Requirements",
+    siteBuiltCost: "2443868",
+    raapGcCost: "959509",
+    raapFabCost: "1012388",
+    raapTotalCost: "1971897"
+  },
+  {
+    category: "00 Fees",
+    siteBuiltCost: "4789073",
+    raapGcCost: "1864865",
+    raapFabCost: "640485",
+    raapTotalCost: "2505350"
   }
 ];
 

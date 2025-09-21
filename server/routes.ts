@@ -467,12 +467,12 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
   const safeUnits = Math.max(totalUnits, 1);
   
   if (isNewProject) {
-    // NEW project specifications
-    modularTotalCost = 35700000; // $35.7M for new projects
+    // NEW project specifications using Shadey Village actual data
+    modularTotalCost = 35684879; // $35.68M from Shadey Village actual data
     costPerUnit = 346455; // $346,455 per unit for new projects
     costPerSf = 248; // $248 per sq ft for new projects
-    costSavingsPercent = 22.4; // 22.4% savings (math: (46M - 35.7M) / 46M)
-    siteBuiltTotalCost = 46000000; // $46M site-built cost
+    costSavingsPercent = 22.8; // 22.8% savings from actual data ((46.22M - 35.68M) / 46.22M)
+    siteBuiltTotalCost = 46221006; // $46.22M site-built cost from actual data
   } else {
     // Original logic for sample projects
     costPerUnit = projectData.projectType === 'affordable' ? 321621 : 
