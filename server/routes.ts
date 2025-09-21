@@ -63,7 +63,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const project = await storage.createProject(payload);
 
       // Create sample cost breakdowns for the project
-      const costBreakdowns = await createSampleCostBreakdowns(project.id);
+      const costBreakdowns = await createSampleCostBreakdowns(project.id, validatedData.projectType);
 
       res.status(201).json({ project, costBreakdowns });
     } catch (error) {
@@ -524,8 +524,174 @@ function calculateFeasibilityScores(projectData: any, isNewProject: boolean = tr
 }
 
 // Helper function to create sample cost breakdowns
-async function createSampleCostBreakdowns(projectId: string) {
-  const breakdowns = [
+async function createSampleCostBreakdowns(projectId: string, projectType?: string) {
+  // Use hotel template for hotel/hostel projects, standard template for others
+  const isHotelProject = projectType === 'hotel' || projectType === 'hostel';
+  
+  const breakdowns = isHotelProject ? [
+    // Hotel/Hostel cost breakdown template (based on Sample Hotel Project)
+    {
+      projectId,
+      category: "00 Fees",
+      siteBuiltCost: "1526305",
+      raapGcCost: "1004380",
+      raapFabCost: "0",
+      raapTotalCost: "1004380"
+    },
+    {
+      projectId,
+      category: "01 General Requirements",
+      siteBuiltCost: "778773",
+      raapGcCost: "567112",
+      raapFabCost: "0",
+      raapTotalCost: "567112"
+    },
+    {
+      projectId,
+      category: "03 Concrete",
+      siteBuiltCost: "468998",
+      raapGcCost: "165821",
+      raapFabCost: "304214",
+      raapTotalCost: "470035"
+    },
+    {
+      projectId,
+      category: "04 Masonry",
+      siteBuiltCost: "184155",
+      raapGcCost: "184155",
+      raapFabCost: "0",
+      raapTotalCost: "184155"
+    },
+    {
+      projectId,
+      category: "05 Metal",
+      siteBuiltCost: "1092023",
+      raapGcCost: "1092023",
+      raapFabCost: "0",
+      raapTotalCost: "1092023"
+    },
+    {
+      projectId,
+      category: "06 Wood & Plastics",
+      siteBuiltCost: "2129166",
+      raapGcCost: "434157",
+      raapFabCost: "2806564",
+      raapTotalCost: "3240721"
+    },
+    {
+      projectId,
+      category: "07 Thermal & Moisture Protection",
+      siteBuiltCost: "667676",
+      raapGcCost: "394625",
+      raapFabCost: "425067",
+      raapTotalCost: "819692"
+    },
+    {
+      projectId,
+      category: "08 Openings",
+      siteBuiltCost: "798129",
+      raapGcCost: "251261",
+      raapFabCost: "557806",
+      raapTotalCost: "809066"
+    },
+    {
+      projectId,
+      category: "09 Finishes",
+      siteBuiltCost: "1317631",
+      raapGcCost: "566835",
+      raapFabCost: "892950",
+      raapTotalCost: "1459785"
+    },
+    {
+      projectId,
+      category: "10 Specialties",
+      siteBuiltCost: "0",
+      raapGcCost: "0",
+      raapFabCost: "0",
+      raapTotalCost: "0"
+    },
+    {
+      projectId,
+      category: "11 Equipment",
+      siteBuiltCost: "341606",
+      raapGcCost: "341606",
+      raapFabCost: "0",
+      raapTotalCost: "341606"
+    },
+    {
+      projectId,
+      category: "12 Furnishing",
+      siteBuiltCost: "445131",
+      raapGcCost: "224401",
+      raapFabCost: "220092",
+      raapTotalCost: "444493"
+    },
+    {
+      projectId,
+      category: "13 Special Construction",
+      siteBuiltCost: "8525",
+      raapGcCost: "8525",
+      raapFabCost: "0",
+      raapTotalCost: "8525"
+    },
+    {
+      projectId,
+      category: "21 Fire Suppression",
+      siteBuiltCost: "240348",
+      raapGcCost: "180545",
+      raapFabCost: "92233",
+      raapTotalCost: "272778"
+    },
+    {
+      projectId,
+      category: "22 Plumbing",
+      siteBuiltCost: "1058519",
+      raapGcCost: "867075",
+      raapFabCost: "739771",
+      raapTotalCost: "1606846"
+    },
+    {
+      projectId,
+      category: "23 HVAC",
+      siteBuiltCost: "551436",
+      raapGcCost: "248009",
+      raapFabCost: "305048",
+      raapTotalCost: "553057"
+    },
+    {
+      projectId,
+      category: "26 Electrical",
+      siteBuiltCost: "1105240",
+      raapGcCost: "1347850",
+      raapFabCost: "553257",
+      raapTotalCost: "1901107"
+    },
+    {
+      projectId,
+      category: "31 Earthwork",
+      siteBuiltCost: "460315",
+      raapGcCost: "460315",
+      raapFabCost: "0",
+      raapTotalCost: "460315"
+    },
+    {
+      projectId,
+      category: "32 Exterior Improvements",
+      siteBuiltCost: "664814",
+      raapGcCost: "664814",
+      raapFabCost: "0",
+      raapTotalCost: "664814"
+    },
+    {
+      projectId,
+      category: "33 Utilities",
+      siteBuiltCost: "677957",
+      raapGcCost: "677957",
+      raapFabCost: "0",
+      raapTotalCost: "677957"
+    }
+  ] : [
+    // Standard multifamily cost breakdown template
     {
       projectId,
       category: "03 Concrete",
@@ -640,7 +806,7 @@ async function createSampleProjects(userId: string) {
     });
     
     // Create cost breakdowns for each project
-    await createSampleCostBreakdowns(project.id);
+    await createSampleCostBreakdowns(project.id, projectData.projectType);
     createdProjects.push(project);
   }
   
