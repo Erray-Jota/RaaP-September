@@ -2899,7 +2899,7 @@ export default function ModularFeasibility() {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-raap-dark mb-4">Delivery Route: Boise to Project Site</h4>
+                    <h4 className="font-semibold text-raap-dark mb-4">Delivery Route: Thomaston to Project Site</h4>
                     <RouteMap 
                       destinationAddress={project.address}
                       projectName={project.name}
