@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
@@ -75,7 +75,7 @@ export default function CreateProject() {
 
   const form = useForm<CreateProjectFormInput>({
     resolver: zodResolver(createProjectSchema),
-    shouldUnregister: false,
+    shouldUnregister: true,
     defaultValues: {
       name: "",
       address: "",
@@ -92,7 +92,7 @@ export default function CreateProject() {
     },
   });
 
-  const projectType = form.watch("projectType");
+  const projectType = useWatch({ control: form.control, name: "projectType" });
 
   const createProject = useMutation({
     mutationFn: async (data: CreateProjectForm) => {
@@ -268,8 +268,8 @@ export default function CreateProject() {
                       <FormItem>
                         <FormControl>
                           <RadioGroup 
-                            value={field.value} 
-                            onValueChange={field.onChange}
+                            defaultValue={form.getValues("projectType")}
+                            onValueChange={(value) => form.setValue("projectType", value, { shouldDirty: true, shouldTouch: true })}
                             className="grid grid-cols-2 md:grid-cols-3 gap-4"
                           >
                             {projectTypes.map((type) => (
@@ -282,6 +282,7 @@ export default function CreateProject() {
                                 <Label
                                   htmlFor={type.value}
                                   className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-raap-green transition-colors peer-data-[state=checked]:border-raap-green peer-data-[state=checked]:bg-raap-green peer-data-[state=checked]:text-white"
+                                  onClick={() => form.setValue("projectType", type.value, { shouldDirty: true, shouldTouch: true })}
                                 >
                                   <span className="text-sm font-medium">{type.label}</span>
                                 </Label>
@@ -350,10 +351,14 @@ export default function CreateProject() {
                 </div>
 
                 {/* Unit Mix */}
-                <div>
+                <div key={`mix-${projectType ?? 'none'}`}>
                   <h3 className="text-lg font-semibold text-raap-dark mb-4">
                     {projectType === "hostel" || projectType === "hotel" ? "Target Room Mix" : "Target Unit Mix"}
                   </h3>
+                  {/* DEBUG: Remove this after testing */}
+                  <div className="text-xs text-gray-500 mb-2">
+                    DEBUG - Selected project type: "{projectType}"
+                  </div>
                   {projectType === "hostel" || projectType === "hotel" ? (
                     // Hotel/Hostel Unit Mix
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
