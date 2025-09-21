@@ -923,7 +923,10 @@ export default function ModularFeasibility() {
               {project.address}
             </div>
             <p className="text-gray-600">
-              {project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing • {totalUnits} Units • {project.targetFloors} Stories
+              {project.projectType === 'hotel' || project.projectType === 'hostel' ? 
+                `${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} (Commercial Hospitality) • ${(project.queenUnits || 0) + (project.kingUnits || 0) + (project.oneBedUnits || 0)} Rooms • ${project.targetFloors} Stories` :
+                `${project.projectType.charAt(0).toUpperCase() + project.projectType.slice(1)} Housing • ${totalUnits} Units • ${project.targetFloors} Stories`
+              }
             </p>
           </div>
           <div className="text-right">
@@ -1225,12 +1228,25 @@ export default function ModularFeasibility() {
                     <div>
                       <h4 className="font-semibold text-raap-dark mb-3">Zoning District</h4>
                       <div className="bg-white border rounded-lg p-4">
-                        <p className="text-lg font-semibold text-raap-green">Residential Medium Density (RM)</p>
-                        <div className="mt-4 space-y-2">
-                          <p><strong>Base Density:</strong> 17 DU/Acre Max</p>
-                          <p><strong>With AB 1287:</strong> Additional 100% density increase (34 DU/Acre Max)</p>
-                          <p><strong>Proposed:</strong> 24 DU/Acre (71% of max allowed)</p>
-                        </div>
+                        {project.projectType === 'hotel' || project.projectType === 'hostel' ? (
+                          <>
+                            <p className="text-lg font-semibold text-raap-green">Commercial Medium Density (CM)</p>
+                            <div className="mt-4 space-y-2">
+                              <p><strong>Proposed Height:</strong> {project.buildingHeight} feet ({project.targetFloors} stories)</p>
+                              <p><strong>Site Coverage:</strong> {project.siteCoverage}% (within allowed limits)</p>
+                              <p><strong>Commercial Use:</strong> Hotel/Hospitality allowed</p>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-lg font-semibold text-raap-green">Residential Medium Density (RM)</p>
+                            <div className="mt-4 space-y-2">
+                              <p><strong>Base Density:</strong> 17 DU/Acre Max</p>
+                              <p><strong>With AB 1287:</strong> Additional 100% density increase (34 DU/Acre Max)</p>
+                              <p><strong>Proposed:</strong> 24 DU/Acre (71% of max allowed)</p>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -1241,7 +1257,7 @@ export default function ModularFeasibility() {
                           <p><strong>Address:</strong> {project.isSample ? '1234 Olivehurst Avenue' : project.address}</p>
                           <p><strong>APN:</strong> 014-240-005</p>
                           <p><strong>Lot Size:</strong> 1.0 acre (43,560 sf)</p>
-                          <p><strong>Current Use:</strong> Vacant residential land</p>
+                          <p><strong>Current Use:</strong> {project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Vacant' : 'Vacant residential land'}</p>
                         </div>
                       </div>
                     </div>
@@ -1285,10 +1301,10 @@ export default function ModularFeasibility() {
                             <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
-                            <td className="px-4 py-3">Open Space</td>
-                            <td className="px-4 py-3">25% min</td>
-                            <td className="px-4 py-3">20%</td>
-                            <td className="px-4 py-3"><span className="text-orange-600 font-semibold">⚠ Variance Required</span></td>
+                            <td className="px-4 py-3">Open Space & Zoning</td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Commercial requirements met' : '25% min'}</td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? 'Updated & Compliant' : '20%'}</td>
+                            <td className="px-4 py-3"><span className="text-green-600 font-semibold">✓ Compliant</span></td>
                           </tr>
                           <tr>
                             <td className="px-4 py-3">Parking</td>
@@ -3165,9 +3181,9 @@ export default function ModularFeasibility() {
                           </tr>
                           <tr className="bg-gray-50 font-semibold">
                             <td className="px-4 py-3">Total Duration</td>
-                            <td className="px-4 py-3">41 months</td>
-                            <td className="px-4 py-3">30.5 months</td>
-                            <td className="px-4 py-3 text-green-600">10.5 months</td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? '32 months' : '41 months'}</td>
+                            <td className="px-4 py-3">{project.projectType === 'hotel' || project.projectType === 'hostel' ? '24 months' : '30.5 months'}</td>
+                            <td className="px-4 py-3 text-green-600">{project.projectType === 'hotel' || project.projectType === 'hostel' ? '8 months' : '10.5 months'}</td>
                           </tr>
                         </tbody>
                       </table>
