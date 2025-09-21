@@ -26,9 +26,14 @@ const createProjectSchema = insertProjectSchema.extend({
   targetFloors: z.number().min(1, "Number of floors is required"),
   targetParkingSpaces: z.number().min(0, "Parking spaces must be 0 or greater"),
   // Hotel/Hostel specific fields
-  queenUnits: z.number().min(0, "Queen units must be 0 or greater"),
-  kingUnits: z.number().min(0, "King units must be 0 or greater"),
-  adaPercent: z.number().min(0, "ADA percentage must be 0 or greater").max(100, "ADA percentage cannot exceed 100"),
+  queenUnits: z.number().min(0, "Queen units must be 0 or greater").optional(),
+  kingUnits: z.number().min(0, "King units must be 0 or greater").optional(),
+  oneBedUnits: z.number().min(0, "One bedroom units must be 0 or greater").optional(),
+  adaPercent: z.number().min(0, "ADA percentage must be 0 or greater").max(100, "ADA percentage cannot exceed 100").optional(),
+  // Standard unit fields
+  studioUnits: z.number().min(0, "Studio units must be 0 or greater").optional(),
+  twoBedUnits: z.number().min(0, "Two bedroom units must be 0 or greater").optional(),
+  threeBedUnits: z.number().min(0, "Three bedroom units must be 0 or greater").optional(),
 });
 
 type CreateProjectForm = z.infer<typeof createProjectSchema>;
