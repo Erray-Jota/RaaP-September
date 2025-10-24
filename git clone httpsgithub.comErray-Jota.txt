@@ -1,0 +1,10 @@
+git clone https://github.com/Erray-Jota/react-lovable-boost.git
+cd react-lovable-boost
+
+git remote remove origin 2> NUL
+git remote add origin https://github.com/Erray-Jota/react-lovable-boost.git
+git branch -M main
+git push -u --force origin main
+
+
+https://github.com/Erray-Jota/react-lovable-boost
